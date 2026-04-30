@@ -1,0 +1,126 @@
+# Terraform Workspace — Claude Code Instructions
+
+This workspace contains Terraform / OpenTofu configuration. You are working with:
+
+- **HCL** (HashiCorp Configuration Language) `.tf` files for resources, data sources, variables, outputs, locals, modules, and provider config
+- **`.tfvars`** files for variable values (some gitignored — never commit secrets)
+- **`.tftest.hcl`** files for the native Terraform test framework (1.6+)
+- **`.terraform.lock.hcl`** for provider version locking — this file IS committed
+- **JSON plan files** produced by `terraform plan -out=tfplan` then `terraform show -json tfplan`
+
+## Before Making Any Edits
+
+Read `skills/terraform/SKILL.md` — it contains the complete reference for HCL syntax, provider configuration patterns, module structure, state management, the `moved`/`removed`/`import` refactor blocks, the test framework, and common DAX-equivalent recipes (locals patterns, dynamic blocks, for_each idioms). This is the single source of truth for this project.
+
+Use the official Terraform MCP server first when available (`hashicorp/terraform-mcp-server`). Prefer MCP for provider/module discovery, registry lookups, workspace context, and state-oriented Q&A. Use project scripts for guarded execution workflows (validate, plan, apply, destroy, import, tests).
+
+## Key Rules
+
+1. **HCL uses 2-space indentation** — never tabs in `.tf` files. `terraform fmt` is canonical.
+2. **Always pin provider versions** in a `required_providers` block: `version = "~> 5.0"` (pessimistic) or `version = ">= 5.10, < 6.0"` (range). Never leave a provider unpinned.
+3. **Always pin the Terraform version** with `required_version` in the root module.
+4. **Every `variable` block needs `description` and `type`.** Mark secrets with `sensitive = true`.
+5. **Every `output` block needs `description`.** Mark secret outputs with `sensitive = true`.
+6. **Save `.tf` files as UTF-8 without BOM**, LF line endings (terraform-ls expects LF).
+7. **NEVER edit `.terraform/`, `terraform.tfstate`, or `*.tfstate.backup` directly** — these are managed by the CLI. Use `terraform state` subcommands (wrapped in `Invoke-TerraformImport.ps1` / `Backup-TerraformState.ps1`).
+8. **`.terraform.lock.hcl` IS committed** — do not gitignore it. After provider changes run `Sync-ProviderLock.ps1` to regenerate hashes for all platforms (linux_amd64, darwin_amd64, darwin_arm64, windows_amd64).
+9. **NEVER run `terraform apply` without first running `Invoke-TerraformPlan.ps1` and getting explicit user approval of the plan.** This is the tf-pilot equivalent of pbi-pilot's "never open without refresh" rule. The two-step sequence is non-negotiable. Do NOT stop after step 1 (plan) and apply without confirmation. Do NOT pass `-auto-approve` unless the user has explicitly authorized it for this exact run.
+10. **NEVER run `terraform destroy` (or `Invoke-TerraformDestroy.ps1`) without an explicit destroy authorization in the conversation.** Destroy is irreversible.
+11. **After editing `.tf` files**, always run `Validate-Terraform.ps1` before producing a plan. This catches fmt, validate, tflint, and trivy issues in one shot.
+12. **Refactors use `moved {}` blocks**, not delete+recreate. Renames, module restructuring, and resource address changes go in a `moved {}` block; commit it; run plan; expect "0 to add, 0 to change, 0 to destroy".
+13. **Imports use `import {}` blocks** (Terraform 1.5+) committed to source, not the legacy `terraform import` CLI. Use `Invoke-TerraformImport.ps1` only for one-off cleanup of orphaned state.
+14. **Removals use `removed {}` blocks** (Terraform 1.7+) so resources can be removed from state without being destroyed.
+15. **Prefer `for_each` over `count`** when iterating over a known set with stable identity. `count` is acceptable only for boolean toggles (`count = var.create ? 1 : 0`).
+16. **Never reference `count.index` or `each.key` to compute resource names that change** — that triggers destroy/recreate cycles.
+17. **`depends_on` is a last resort.** Prefer implicit dependencies via attribute references. Use `depends_on` only for hidden dependencies (IAM propagation, side effects).
+18. **Sensitive data:** secrets must come from environment variables (`TF_VAR_*`), a secrets manager (AWS Secrets Manager, Azure Key Vault, Vault), or HCP Terraform variable sets. Never `*.tfvars` checked into git. Never hardcoded in `.tf`.
+19. **Backends:** never put credentials in the `backend {}` block. Use partial backend config + `-backend-config=` files passed to `Initialize-Workspace.ps1`.
+20. **Workspaces:** prefer one root module per environment (separate state files in separate backend keys) over `terraform workspace`. Workspaces are acceptable for ephemeral previews. Never assume `terraform.workspace == "default"`.
+21. **MCP-first behavior:** for read/discovery workflows, use official Terraform MCP tools before ad-hoc shell commands.
+22. **YAML-first composition check:** before authoring many repeated resources, first consider a YAML-driven module composition pattern (`yamldecode(file(...))` + `module` `for_each`) for composable infrastructure.
+23. **State Q&A support:** when asked state questions, answer from state-aware sources (MCP state/workspace context or wrapped `terraform state` workflows) and call out lock/consistency caveats.
+
+## File Locations
+
+- Root module HCL: `*.tf` (typically `main.tf`, `variables.tf`, `outputs.tf`, `versions.tf`, `providers.tf`, `locals.tf`, `data.tf`, `backend.tf`)
+- Child modules: `modules/<name>/*.tf` or vendor/registry references via `source`
+- Variable values: `*.tfvars`, `envs/<env>.tfvars`
+- Tests: `tests/*.tftest.hcl`
+- Provider lock: `.terraform.lock.hcl` (root of each Terraform-init'd directory)
+- Plan files (gitignored): `tfplan`, `tfplan.json`
+- State (remote, never local for production): configured in `backend {}` block
+
+## Automation Scripts — USE THESE, DON'T REINVENT THEM
+
+PowerShell scripts in `scripts/` are **required tools** for operational tasks. Always use the project scripts instead of typing `terraform` commands directly, building shell pipelines, or invoking `Start-Process terraform`.
+
+Use these scripts as the execution path after MCP-guided analysis.
+
+| Task | Script | Example |
+|------|--------|---------|
+| **Init / re-init** a working directory | `Initialize-Workspace.ps1` | `./scripts/Initialize-Workspace.ps1 -Path . -Upgrade` |
+| **Validate everything** (fmt, validate, lint, security) | `Validate-Terraform.ps1` | `./scripts/Validate-Terraform.ps1 -Path .` |
+| **Format** all HCL files | `Format-TerraformFiles.ps1` | `./scripts/Format-TerraformFiles.ps1 -Path . -Recursive` |
+| **Plan** changes (writes `tfplan` and `tfplan.json`) | `Invoke-TerraformPlan.ps1` | `./scripts/Invoke-TerraformPlan.ps1 -Path . -VarFile envs/dev.tfvars` |
+| **Apply** a saved plan | `Invoke-TerraformApply.ps1` | `./scripts/Invoke-TerraformApply.ps1 -PlanFile tfplan` |
+| **Destroy** (requires `-Confirm`) | `Invoke-TerraformDestroy.ps1` | `./scripts/Invoke-TerraformDestroy.ps1 -Path . -Confirm` |
+| **Run tests** | `Invoke-TerraformTest.ps1` | `./scripts/Invoke-TerraformTest.ps1 -Path .` |
+| **Import** existing infra | `Invoke-TerraformImport.ps1` | `./scripts/Invoke-TerraformImport.ps1 -Address 'aws_s3_bucket.foo' -Id 'my-bucket'` |
+| **Workspace switch** | `Set-TerraformWorkspace.ps1` | `./scripts/Set-TerraformWorkspace.ps1 -Name dev` |
+| **Backup state** | `Backup-TerraformState.ps1` | `./scripts/Backup-TerraformState.ps1 -Path .` |
+| **Sync provider lock** for all platforms | `Sync-ProviderLock.ps1` | `./scripts/Sync-ProviderLock.ps1 -Path .` |
+| **Render dependency graph** | `Show-TerraformGraph.ps1` | `./scripts/Show-TerraformGraph.ps1 -Path . -Output graph.png` |
+| **Print versions** of terraform + providers | `Get-TerraformVersion.ps1` | `./scripts/Get-TerraformVersion.ps1` |
+
+### MANDATORY — the plan-before-apply two-step sequence
+
+> **WARNING**: `terraform apply` without a saved plan file is **forbidden** in this harness. You MUST run BOTH steps every time. Do NOT stop after step 1. Do NOT call apply without showing the plan to the user and getting confirmation.
+
+1. **Plan** (always first):
+   ```
+   ./scripts/Invoke-TerraformPlan.ps1 -Path . -VarFile envs/<env>.tfvars -Out tfplan
+   ```
+   The script writes `tfplan` (binary) and `tfplan.json` (human-readable). Read `tfplan.json`, summarize the changes (resources added / changed / destroyed, sensitive value count), and present the summary to the user. Surface every `destroy` and every change to a stateful resource (databases, storage, IAM).
+
+2. **Apply** (only after user approval):
+   ```
+   ./scripts/Invoke-TerraformApply.ps1 -PlanFile tfplan
+   ```
+   The script refuses to run without `-PlanFile`. Never pass `-AutoApprove` unless the user said so in this turn.
+
+If 30+ minutes pass between plan and apply, **re-plan**. State drift can invalidate a stale plan.
+
+### When to use which script:
+- **First-time clone, missing `.terraform/`, missing provider lock, or after editing `versions.tf`/`required_providers`:** run `Initialize-Workspace.ps1` (with `-Upgrade` if you bumped a version constraint).
+- **After any `.tf` edit:** run `Validate-Terraform.ps1` first. Fix every error and re-run until clean before planning.
+- **After any provider change:** run `Sync-ProviderLock.ps1` so the lock file has hashes for all platforms (otherwise CI on Linux fails after a Mac/Windows-only lock).
+- **Before merging to main:** the CI workflow (`.github/workflows/validate.yml`) runs the same validator + Pester tests. Run them locally first to avoid red builds.
+- **Renaming or moving resources:** add a `moved {}` block, commit, then plan. Expect a no-op plan. If the plan shows destroy/recreate, the `from`/`to` addresses are wrong.
+
+## Validation
+
+Always run validation after making changes:
+
+```powershell
+./scripts/Validate-Terraform.ps1 -Path .
+```
+
+Exit code is non-zero if any of fmt, validate, tflint, or trivy report errors.
+
+## Working Example
+
+`examples/multi-env-stack/` contains a complete working Terraform project with a remote backend, two environments (`dev`, `prod`) via tfvars files, pinned provider versions, a `moved {}` refactor example, and a `.tftest.hcl` test. Use it as the reference shape when scaffolding a new project.
+
+## Provider knowledge boundaries
+
+You DO NOT have reliable knowledge of every provider's argument schema. When in doubt:
+
+1. Read existing `.tf` files in the workspace for working patterns.
+2. Use `terraform providers schema -json` (wrap in `Get-TerraformVersion.ps1 -Schema`) to dump the live schema.
+3. Cross-check against the provider's registry page.
+
+Never invent argument names. Common hallucination patterns to avoid:
+- `aws_s3_bucket` `acl =` (deprecated — use `aws_s3_bucket_acl` resource)
+- `azurerm_virtual_machine` (deprecated — use `azurerm_linux_virtual_machine` / `azurerm_windows_virtual_machine`)
+- `google_compute_instance` `metadata_startup_script` is fine but `startup_script` alone is not
+- Confusing `count`/`for_each` outputs — `count` produces a list, `for_each` produces a map; subscripting differs accordingly.
