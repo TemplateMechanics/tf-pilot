@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "hashicorp.terraform",
+    "ms-vscode.powershell",
+    "redhat.vscode-yaml",
+    "github.copilot",
+    "github.copilot-chat"
+  ]
+}
