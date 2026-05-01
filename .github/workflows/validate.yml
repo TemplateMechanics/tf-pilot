@@ -69,9 +69,14 @@ jobs:
           ./scripts/Initialize-Workspace.ps1 -Path ./examples/hello-world
           ./scripts/Initialize-Workspace.ps1 -Path ./examples/module-pattern
           ./scripts/Initialize-Workspace.ps1 -Path ./examples/multi-env-stack
+          ./scripts/Initialize-Workspace.ps1 -Path ./examples/providers/aws-stack
+          ./scripts/Initialize-Workspace.ps1 -Path ./examples/providers/multiprovider-stack
           ./scripts/Validate-Terraform.ps1 -Path ./examples/hello-world
           ./scripts/Validate-Terraform.ps1 -Path ./examples/module-pattern
           ./scripts/Validate-Terraform.ps1 -Path ./examples/multi-env-stack
+          ./scripts/Validate-Terraform.ps1 -Path ./examples/providers/aws-stack
+          ./scripts/Validate-Terraform.ps1 -Path ./examples/providers/multiprovider-stack
+          ./scripts/Validate-StackYaml.ps1 -Path ./examples
 
       - name: Run Pester tests
         shell: pwsh

@@ -34,6 +34,10 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Formatted `examples/providers/aws-stack/main.tf` to restore `terraform fmt -check` compliance.
 - Added `examples/providers/multiprovider-stack` to demonstrate YAML composition and token resolution across `time`, `random`, and `local` providers.
 - Added `docs/YAML-TOKEN-REFERENCES.md` and linked it from module design guidance as canonical token-reference documentation.
+- Unified stack composition behavior to require explicit `enabled: true` for service/module instantiation and documented the convention.
+- Added `scripts/Validate-StackYaml.ps1` for programmatic `*.stack.yaml` schema validation.
+- Added `scripts/Pre-Commit.ps1` for local init/validate/schema pre-push checks.
+- Expanded CI example validation to include provider stack examples and stack YAML schema validation.
 
 ## [0.2.0-dev] - 2026-05-01
 

@@ -25,6 +25,7 @@ It also includes an **official Terraform MCP server integration** so agents can 
 5. Configure MCP via `.vscode/mcp.json` (included). Terraform MCP now uses a script launcher that prefers a local executable and can fall back to Docker.
 	Optional cloud/documentation MCP servers are present but disabled by default; enable them explicitly if your workflow requires them.
 6. Sync provider-aware MCP server enablement with `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints` (also run automatically by `Invoke-ProviderCatalogRefresh.ps1`).
+7. Before pushing changes, run `./scripts/Pre-Commit.ps1` (or `./scripts/Pre-Commit.ps1 -RunTests -RunSecurity` for the full local gate).
 
 ## The mandatory plan/apply discipline
 
@@ -56,6 +57,8 @@ It also includes an **official Terraform MCP server integration** so agents can 
 | `docs/PROVIDER-MODULE-BUILDOUT.md` | Copilot-facing design for AWS, Azure, Google Cloud, Kubernetes, and Helm modules |
 | `docs/BRANCH-WORKFLOW.md` | Branch protection and required-check merge workflow guidance |
 | `scripts/` | PowerShell wrappers around terraform, tflint, trivy |
+| `scripts/Validate-StackYaml.ps1` | Programmatic schema validation for `*.stack.yaml` files |
+| `scripts/Pre-Commit.ps1` | Local pre-push gate for init, validate, and stack schema checks |
 | `tests/Harness.Tests.ps1` | Pester suite for the wrappers |
 | `examples/` | Working Terraform projects to copy from |
 | `.github/workflows/validate.yml` | CI: fmt + validate + lint + security + tests |

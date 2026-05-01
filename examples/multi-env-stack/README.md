@@ -15,6 +15,7 @@ Use the same module with different tfvars files:
 The root module writes a generated config file and each YAML service entry becomes one module instance under `modules/service`.
 
 Behavior notes:
+- `services.<name>.enabled: true` is required for service instantiation; omitted or false means disabled.
 - `services.<name>.enabled: false` excludes that service from module instantiation.
 - `metadata` is intentionally flexible; known keys such as `owner` and `cost_center` are consumed by the root output rendering.
 - Common tags are merged in root and passed into each module instance to model real-world tagging patterns.

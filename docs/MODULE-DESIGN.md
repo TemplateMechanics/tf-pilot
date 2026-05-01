@@ -47,6 +47,11 @@ Keep test inputs deterministic and avoid cloud dependencies where possible by us
 
 For YAML-driven designs, include fixture YAML files in tests and assert decoded schema assumptions before module execution.
 
+## Enabled flag convention
+Use explicit enablement in YAML-driven stacks: require `enabled: true` to instantiate a module or service. Missing `enabled` should behave as disabled.
+
+This keeps composition predictable across stack types and avoids accidental resource creation from omitted properties.
+
 ## YAML reference tokens for dependency wiring
 When YAML must point to values produced by resources in the same plan, use explicit reference-token conventions and resolve them in Terraform locals.
 

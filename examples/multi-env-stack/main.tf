@@ -13,7 +13,7 @@ locals {
 
   services = {
     for name, svc in local.stack.services : name => svc
-    if try(svc.enabled, true)
+    if try(svc.enabled, false)
   }
 
   service_token_regex = "^\\$\\{service\\.([A-Za-z0-9_-]+)\\.service_id\\}$"
