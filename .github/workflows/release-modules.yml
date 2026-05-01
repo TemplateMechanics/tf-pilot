@@ -24,6 +24,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Validate release inputs
+        shell: bash
+        env:
+          TAG_NAME: ${{ inputs.tag_name }}
+          TARGET_COMMITISH: ${{ inputs.target_commitish }}
+        run: |
+          set -euo pipefail
+
+          # Expected: modules-vMAJOR.MINOR.PATCH with optional prerelease suffix
+          if [[ ! "$TAG_NAME" =~ ^modules-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid tag_name '$TAG_NAME'. Expected format: modules-vMAJOR.MINOR.PATCH (optional prerelease suffix)." >&2
+            exit 1
+          fi
+
+          if [[ -z "${TARGET_COMMITISH:-}" ]]; then
+            echo "target_commitish must not be empty." >&2
+            exit 1
+          fi
+
       - name: Create GitHub release
         uses: actions/github-script@v7
         with:
@@ -32,6 +51,12 @@ jobs:
             const repo = context.repo.repo;
             const tag = core.getInput('tag_name', { required: true });
             const target = core.getInput('target_commitish') || 'main';
+
+            const tagPattern = /^modules-v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
+            if (!tagPattern.test(tag)) {
+              core.setFailed(`Invalid tag '${tag}'. Expected modules-vMAJOR.MINOR.PATCH with optional prerelease suffix.`);
+              return;
+            }
 
             const existing = await github.rest.repos.listReleases({ owner, repo, per_page: 100 });
             if (existing.data.some((r) => r.tag_name === tag)) {
