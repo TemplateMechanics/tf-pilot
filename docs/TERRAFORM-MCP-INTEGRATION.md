@@ -14,9 +14,30 @@ This keeps planning and apply controls in one place while improving answer quali
 This repository includes a sharable VS Code MCP configuration in `.vscode/mcp.json`.
 
 Key points:
-- Uses Docker image: `hashicorp/terraform-mcp-server:0.5.2`
-- Prompts for `TFE_TOKEN` and `TFE_ADDRESS`
-- Works with VS Code MCP support (workspace-scoped)
+- Uses script launcher: `scripts/Start-TerraformMcpServer.ps1`
+- Prefers local executable and auto-installs via `scripts/Install-TerraformMcpServer.ps1`
+- Falls back to Docker when requested/needed
+- No credentials are hardcoded in MCP configuration
+
+## Runtime model
+
+The Terraform MCP launcher supports secure runtime selection:
+
+1. `binary` (preferred): uses a workspace-local executable under `.tools/terraform-mcp-server/`
+2. `docker` (fallback): runs `hashicorp/terraform-mcp-server` container
+3. `auto` (default): chooses binary when available, otherwise Docker
+
+OS and architecture are detected automatically for binary installation.
+
+## Credential handling
+
+`TFE_TOKEN` and `TFE_ADDRESS` are optional and are read from environment variables.
+
+- If both are set, Terraform MCP can access HCP Terraform/TFE workspace context.
+- If neither is set, registry-only workflows still work.
+- If only one is set, the launcher exits with a validation error.
+
+This prevents partial/unsafe credential configuration and avoids storing secrets in `.vscode/mcp.json`.
 
 ## Operation model
 
@@ -37,6 +58,7 @@ Key points:
 
 ## Troubleshooting
 
-- If MCP server fails to start, verify Docker is installed and running.
-- If Terraform Enterprise/HCP queries fail, verify `TFE_ADDRESS` and `TFE_TOKEN`.
+- If MCP server fails to start in binary mode, verify Go is installed (`go version`) so the launcher can install/update the executable.
+- If using Docker fallback, verify Docker is installed and running.
+- If Terraform Enterprise/HCP queries fail, verify both `TFE_ADDRESS` and `TFE_TOKEN` are set.
 - If corporate TLS inspection is in place, use the server guidance for custom CA cert handling.

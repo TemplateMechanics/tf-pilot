@@ -25,7 +25,7 @@ Route based on provider/module usage from:
 
 ## Guardrails (Mandatory)
 
-1. Always use Terraform MCP first for provider/module/schema/state context.
+1. Always use Terraform MCP first for provider/module/schema/state context, then route to provider MCPs (`azure`, `awsDocumentation`, `context7`) based on active providers.
 2. Never apply without saved plan + explicit approval.
 3. Never destroy without explicit destroy authorization.
 4. Always run `./scripts/Validate-Terraform.ps1 -Path .` after edits.

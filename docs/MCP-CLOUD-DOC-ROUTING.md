@@ -7,13 +7,35 @@ This document defines how to route documentation and schema lookups based on act
 Always use Terraform MCP first for provider and module schema truth.
 Then supplement with cloud-native docs based on provider usage.
 
+## Configured MCP Servers
+
+- `terraform`: `hashicorp/terraform-mcp-server` (schema, module, state-aware context)
+- `azure`: `@azure/mcp` (Azure resource and guidance tools)
+- `awsDocumentation`: AWS Documentation MCP server (latest AWS docs and API references)
+- `context7`: provider/framework documentation retrieval for additional implementation knowledge
+
+## Automatic Enablement
+
+Provider-specific MCP servers are toggled through `disabled` flags in `.vscode/mcp.json`.
+
+- `terraform`: always enabled
+- `azure`: enabled when `azurerm` is active
+- `awsDocumentation`: enabled when `aws` is active
+- `context7`: enabled when `google`, `kubernetes`, or `helm` is active
+
+Enablement is synced automatically at the end of `scripts/Invoke-ProviderCatalogRefresh.ps1`.
+
+Manual sync command:
+
+`./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints`
+
 ## Provider-to-Docs Routing
 
-- `aws`: Terraform AWS provider docs + AWS Well-Architected and service docs
-- `azurerm`: Terraform AzureRM provider docs + Azure CAF and service docs
-- `google`: Terraform Google provider docs + Google Cloud Architecture Framework and service docs
-- `kubernetes`: Terraform Kubernetes provider docs + Kubernetes upstream docs
-- `helm`: Terraform Helm provider docs + Helm docs + chart documentation
+- `aws`: `terraform` + `awsDocumentation` + AWS Well-Architected and service docs
+- `azurerm`: `terraform` + `azure` + Azure CAF and service docs
+- `google`: `terraform` + `context7` + Google Cloud Architecture Framework and service docs
+- `kubernetes`: `terraform` + `context7` + Kubernetes upstream docs
+- `helm`: `terraform` + `context7` + Helm docs + chart documentation
 
 ## Mixed-Provider Routing Decision Table
 

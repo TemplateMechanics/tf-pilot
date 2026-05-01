@@ -556,3 +556,12 @@ Write-Host "`nProvider catalog refresh complete." -ForegroundColor Green
 Write-Host "Summary written to $summaryPath"
 Write-Host "Diff summary written to $diffSummaryPath"
 Write-Host "Diff markdown written to $diffMarkdownPath"
+
+$syncMcpScript = Join-Path $scriptRoot 'Sync-McpServerEnablement.ps1'
+if (Test-Path $syncMcpScript) {
+  Write-Host "Syncing MCP server enablement from active provider profile..." -ForegroundColor Cyan
+  & $syncMcpScript
+  if ($LASTEXITCODE -ne 0) {
+    Write-Warning "MCP server enablement sync reported exit code $LASTEXITCODE"
+  }
+}
