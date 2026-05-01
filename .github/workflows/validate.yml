@@ -109,6 +109,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results
+          path: test-results.xml
 
   mcp-sync-check:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
@@ -132,7 +133,6 @@ jobs:
         shell: pwsh
         run: |
           ./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints -Check
-          path: test-results.xml
 
   provider-catalog-drift-report:
     if: github.event_name == 'push' || github.event_name == 'pull_request'

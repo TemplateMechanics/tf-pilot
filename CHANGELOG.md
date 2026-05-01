@@ -6,6 +6,19 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Fixed
+- Restored missing artifact `path` input in `.github/workflows/validate.yml` and removed stray YAML content from MCP sync step.
+- Updated `.gitignore` to exclude `.state-backups/`, `tfdestroy.plan`, `provider-schema.json`, and archived plan artifacts.
+- Corrected `Show-TerraformGraph.ps1` graph type validation to supported Terraform values.
+- Made `Backup-TerraformState.ps1` write UTF-8 state backups without BOM.
+- Removed `$args` automatic-variable shadowing in multiple Terraform wrapper scripts.
+- Updated `Test-TerraformConfig.ps1` to validate all initialized Terraform subdirectories.
+
+### Changed
+- `Invoke-TerraformApply.ps1` now archives consumed plan files instead of deleting them.
+- Replaced first-person AI marketing copy in README with neutral technical documentation.
+- Set non-Terraform MCP servers to disabled-by-default in `.vscode/mcp.json`.
+
 ## [0.1.0] - 2026-04-30
 
 ### Added

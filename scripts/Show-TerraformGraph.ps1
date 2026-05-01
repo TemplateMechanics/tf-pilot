@@ -13,7 +13,7 @@ Terraform working directory.
 Output image path for PNG.
 
 .PARAMETER Type
-Graph type: plan, apply, or apply-refresh-only.
+Graph type: plan, plan-refresh-only, plan-destroy, or apply.
 #>
 [CmdletBinding()]
 param(
@@ -24,7 +24,7 @@ param(
   [string]$Output = "graph.png",
 
   [Parameter()]
-  [ValidateSet('plan', 'apply', 'apply-refresh-only')]
+  [ValidateSet('plan', 'plan-refresh-only', 'plan-destroy', 'apply')]
   [string]$Type = 'plan'
 )
 

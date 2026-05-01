@@ -2,6 +2,10 @@
 .SYNOPSIS
 Generate and synchronize provider modules from reflection settings.
 
+.NOTES
+This file is generated and intentionally verbose. Do not hand-edit unless you
+also update the generator/source that produces this script.
+
 .DESCRIPTION
 Creates and updates managed Terraform modules under modules/providers based on
 examples/providers/schema-catalog/catalog.settings.json.

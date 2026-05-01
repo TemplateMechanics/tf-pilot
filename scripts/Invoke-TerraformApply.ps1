@@ -4,7 +4,8 @@ Apply a saved Terraform plan file.
 
 .DESCRIPTION
 Requires a plan file, rejects stale plans unless forced, and applies the saved
-plan. Optionally allows auto-approve only for fresh plans.
+plan. Optionally allows auto-approve only for fresh plans. On success, archives
+the consumed plan file with a timestamp suffix.
 
 .PARAMETER PlanFile
 Path to saved Terraform plan file.
@@ -84,7 +85,27 @@ try {
     Write-Host "Applied saved plan successfully." -ForegroundColor Green
   }
 
-  Remove-Item -Path $planPath -Force -ErrorAction SilentlyContinue
+  $appliedTimestamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
+  $archivedPlanPath = "$planPath.applied-$appliedTimestamp"
+  try {
+    Move-Item -Path $planPath -Destination $archivedPlanPath -Force
+    Write-Host "Archived consumed plan to $archivedPlanPath" -ForegroundColor Green
+  }
+  catch {
+    Write-Warning "Applied successfully, but failed to archive plan file: $($_.Exception.Message)"
+  }
+
+  if (Test-Path $jsonPath) {
+    $archivedJsonPath = "$jsonPath.applied-$appliedTimestamp"
+    try {
+      Move-Item -Path $jsonPath -Destination $archivedJsonPath -Force
+      Write-Host "Archived plan JSON to $archivedJsonPath" -ForegroundColor Green
+    }
+    catch {
+      Write-Warning "Applied successfully, but failed to archive plan JSON: $($_.Exception.Message)"
+    }
+  }
+
   exit 0
 }
 finally {

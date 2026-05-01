@@ -14,6 +14,10 @@ crash.*.log
 *.tfplan.*
 tfplan
 tfplan.json
+tfdestroy.plan
+provider-schema.json
+*.tfplan.applied-*
+*.plan.applied-*
 
 # Variable files that may contain secrets
 *.auto.tfvars
@@ -34,6 +38,7 @@ terraform.rc
 
 # State backups
 *.backup
+**/.state-backups/
 
 # Terraform Cloud / HCP credentials
 .terraform.d/

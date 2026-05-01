@@ -54,13 +54,13 @@ if (-not $terraform) {
 }
 
 $resolvedPath = (Resolve-Path -Path $Path).Path
-$args = @('init')
-if ($Upgrade) { $args += '-upgrade' }
-if ($Reconfigure) { $args += '-reconfigure' }
-if ($MigrateState) { $args += '-migrate-state' }
+$tfArgs = @('init')
+if ($Upgrade) { $tfArgs += '-upgrade' }
+if ($Reconfigure) { $tfArgs += '-reconfigure' }
+if ($MigrateState) { $tfArgs += '-migrate-state' }
 if ($BackendConfig) {
   foreach ($cfg in $BackendConfig) {
-    $args += "-backend-config=$cfg"
+    $tfArgs += "-backend-config=$cfg"
   }
 }
 
@@ -77,7 +77,7 @@ try {
   $maxAttempts = 3
   for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
     Write-Host "`nTerraform Init (attempt $attempt/$maxAttempts)" -ForegroundColor Cyan
-    $output = & $terraform.Source @args 2>&1
+    $output = & $terraform.Source @tfArgs 2>&1
     if ($output) {
       $output | ForEach-Object { Write-Host $_ }
     }

@@ -37,14 +37,14 @@ if (-not $terraform) {
 }
 
 $resolvedPath = (Resolve-Path -Path $Path).Path
-$args = @('fmt')
-if ($Recursive) { $args += '-recursive' }
-if ($Check) { $args += '-check' }
+$tfArgs = @('fmt')
+if ($Recursive) { $tfArgs += '-recursive' }
+if ($Check) { $tfArgs += '-check' }
 
 Write-Host "`nTerraform Fmt" -ForegroundColor Cyan
 Push-Location $resolvedPath
 try {
-  $output = & $terraform.Source @args 2>&1
+  $output = & $terraform.Source @tfArgs 2>&1
   if ($output) {
     $output | ForEach-Object { Write-Host $_ }
   }

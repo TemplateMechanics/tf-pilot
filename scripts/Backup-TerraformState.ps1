@@ -40,11 +40,17 @@ $backupFile = Join-Path $backupDir "state-$timestamp.json"
 Push-Location $resolvedPath
 try {
   Write-Host "`nTerraform State Backup" -ForegroundColor Cyan
-  & $terraform.Source state pull | Out-File -FilePath $backupFile -Encoding utf8
+  $output = & $terraform.Source state pull 2>&1
   if ($LASTEXITCODE -ne 0) {
+    if ($output) {
+      $output | ForEach-Object { Write-Host $_ }
+    }
     Write-Error "Failed to backup Terraform state."
     exit $LASTEXITCODE
   }
+
+  $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+  [System.IO.File]::WriteAllText($backupFile, ($output -join [Environment]::NewLine), $utf8NoBom)
 
   Write-Host "State backup written to $backupFile" -ForegroundColor Green
   exit 0

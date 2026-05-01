@@ -36,14 +36,14 @@ if (-not $terraform) {
 }
 
 $resolvedPath = (Resolve-Path -Path $Path).Path
-$args = @('test')
-if ($Filter) { $args += @('-filter', $Filter) }
-if ($TerraformVerbose) { $args += '-verbose' }
+$tfArgs = @('test')
+if ($Filter) { $tfArgs += @('-filter', $Filter) }
+if ($TerraformVerbose) { $tfArgs += '-verbose' }
 
 Push-Location $resolvedPath
 try {
   Write-Host "`nTerraform Test" -ForegroundColor Cyan
-  & $terraform.Source @args
+  & $terraform.Source @tfArgs
   if ($LASTEXITCODE -ne 0) {
     Write-Error "terraform test failed with exit code $LASTEXITCODE"
     exit $LASTEXITCODE
