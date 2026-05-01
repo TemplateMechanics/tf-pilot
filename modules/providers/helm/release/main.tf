@@ -29,5 +29,5 @@ resource "helm_release" "this" {
   timeout          = var.timeout
   atomic           = var.atomic
   set              = [for k, v in var.set : { name = k, value = v }]
-  set_sensitive    = [for k, v in nonsensitive(var.set_sensitive) : { name = k, value = v }]
+  set_sensitive    = [for k, v in var.set_sensitive : { name = k, value = v }]
 }
