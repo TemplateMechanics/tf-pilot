@@ -9,6 +9,9 @@ on:
   schedule:
     - cron: "17 3 * * 1"
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
@@ -116,6 +119,9 @@ jobs:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     continue-on-error: true
+    permissions:
+      contents: read
+      issues: write
     steps:
       - uses: actions/checkout@v4
 
@@ -159,3 +165,205 @@ jobs:
             docs/providers/generated/refresh-diff-summary.json
             docs/providers/generated/refresh-diff-summary.md
             docs/providers/generated/module-scaffold-summary.json
+
+      - name: Open or update provider drift issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'docs/providers/generated/refresh-diff-summary.json';
+            if (!fs.existsSync(path)) {
+              core.info('No diff summary found. Skipping issue automation.');
+              return;
+            }
+
+            const diff = JSON.parse(fs.readFileSync(path, 'utf8'));
+            const entries = Array.isArray(diff) ? diff : [diff];
+            const changed = entries.filter((x) => x.status !== 'unchanged');
+            if (changed.length === 0) {
+              core.info('No provider schema drift detected.');
+              return;
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = 'Provider schema drift detected';
+            const label = 'provider-drift';
+
+            const bodyLines = [
+              'Automated provider schema drift was detected by scheduled CI.',
+              '',
+              '| Provider | Status | Resources (+/-/~) | Data Sources (+/-/~) |',
+              '|---|---|---:|---:|'
+            ];
+
+            for (const item of changed) {
+              bodyLines.push(`| ${item.provider} | ${item.status} | ${item.resourceAddedCount}/${item.resourceRemovedCount}/${item.resourceChangedCount} | ${item.dataSourceAddedCount}/${item.dataSourceRemovedCount}/${item.dataSourceChangedCount} |`);
+            }
+
+            const body = bodyLines.join('\n');
+
+            const labelsResp = await github.rest.issues.listLabelsForRepo({ owner, repo });
+            const hasLabel = labelsResp.data.some((l) => l.name === label);
+            if (!hasLabel) {
+              await github.rest.issues.createLabel({
+                owner,
+                repo,
+                name: label,
+                color: 'fbca04',
+                description: 'Automated provider schema drift detection'
+              });
+            }
+
+            const issuesResp = await github.rest.issues.listForRepo({
+              owner,
+              repo,
+              state: 'open',
+              labels: label,
+              per_page: 100
+            });
+
+            const existing = issuesResp.data.find((i) => i.title === title);
+            if (existing) {
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: existing.number,
+                body
+              });
+              core.info(`Updated issue #${existing.number}`);
+            } else {
+              const created = await github.rest.issues.create({
+                owner,
+                repo,
+                title,
+                body,
+                labels: [label]
+              });
+              core.info(`Created issue #${created.data.number}`);
+            }
+
+  terraform-policy-check:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.0"
+
+      - name: Install Conftest
+        shell: bash
+        run: |
+          set -euo pipefail
+          CONFT_VERSION="0.57.0"
+          curl -sSL -o conftest.tar.gz "https://github.com/open-policy-agent/conftest/releases/download/v${CONFT_VERSION}/conftest_${CONFT_VERSION}_Linux_x86_64.tar.gz"
+          tar -xzf conftest.tar.gz conftest
+          sudo mv conftest /usr/local/bin/conftest
+          conftest --version
+
+      - name: Create plan JSON for policy check
+        shell: pwsh
+        run: |
+          ./scripts/Initialize-Workspace.ps1 -Path ./examples/hello-world
+          ./scripts/Invoke-TerraformPlan.ps1 -Path ./examples/hello-world -Out tfplan -Force
+
+      - name: Evaluate plan policy
+        shell: bash
+        run: |
+          conftest test ./examples/hello-world/tfplan.json --policy ./policy/terraform
+
+      - name: Upload policy artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-policy-check
+          path: |
+            examples/hello-world/tfplan.json
+
+  module-contract-tests:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.0"
+
+      - name: Execute provider module contract tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r module_dir; do
+            if [ -f "$module_dir/tests/basic.tftest.hcl" ]; then
+              echo "Testing module: $module_dir"
+              pwsh -File ./scripts/Initialize-Workspace.ps1 -Path "$module_dir"
+              pwsh -File ./scripts/Invoke-TerraformTest.ps1 -Path "$module_dir"
+            fi
+          done < <(find ./modules/providers -mindepth 2 -maxdepth 2 -type d | sort)
+
+  cost-estimate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.0"
+
+      - name: Setup Infracost
+        shell: bash
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+          echo "$PWD/bin" >> "$GITHUB_PATH"
+
+      - name: Generate optional cost estimate
+        shell: bash
+        env:
+          INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${INFRACOST_API_KEY:-}" ]; then
+            echo "INFRACOST_API_KEY not set. Skipping cost estimate."
+            exit 0
+          fi
+          infracost breakdown --path ./examples/hello-world --format json --out-file ./infracost.json
+
+      - name: Upload cost artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: infracost-estimate
+          path: |
+            infracost.json
+
+  sbom:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: spdx-json
+          output-file: sbom.spdx.json
+
+      - name: Upload SBOM artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.spdx.json
