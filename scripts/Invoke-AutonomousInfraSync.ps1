@@ -77,10 +77,23 @@ function Invoke-Step {
   )
 
   Write-Host "`n=== $Name ===" -ForegroundColor Cyan
-  & $Action
-  if ($LASTEXITCODE -ne 0) {
-    Write-Error "$Name failed with exit code $LASTEXITCODE"
-    exit $LASTEXITCODE
+  $output = & $Action 2>&1
+  if ($output) {
+    $output | ForEach-Object { Write-Host $_ }
+  }
+
+  $exitCode = $LASTEXITCODE
+  if (-not $?) {
+    if ($null -eq $exitCode -or $exitCode -eq 0) {
+      $exitCode = 1
+    }
+    Write-Error "$Name failed."
+    exit $exitCode
+  }
+
+  if ($null -ne $exitCode -and $exitCode -ne 0) {
+    Write-Error "$Name failed with exit code $exitCode"
+    exit $exitCode
   }
 }
 

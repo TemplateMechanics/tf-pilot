@@ -144,14 +144,51 @@ function Get-EnabledModuleNames {
     return @()
   }
 
+  $moduleNames = Get-JsonObjectPropertyNames -InputObject $ModulesNode
+
   $enabledModules = @()
-  foreach ($moduleProperty in $ModulesNode.PSObject.Properties) {
-    if ($moduleProperty.Value.enabled -eq $true) {
-      $enabledModules += $moduleProperty.Name
+  foreach ($moduleName in $moduleNames) {
+    $moduleConfig = $ModulesNode.$moduleName
+    if ($moduleConfig -and $moduleConfig.enabled -eq $true) {
+      $enabledModules += $moduleName
     }
   }
 
   return @($enabledModules)
+}
+
+function Get-JsonObjectPropertyNames {
+  param([Parameter()]$InputObject)
+
+  if ($null -eq $InputObject) {
+    return @()
+  }
+
+  if ($InputObject -is [System.Collections.IDictionary]) {
+    return @($InputObject.Keys | ForEach-Object { [string]$_ })
+  }
+
+  return @(
+    $InputObject.PSObject.Properties |
+      Where-Object { $_.MemberType -eq 'NoteProperty' } |
+      ForEach-Object { $_.Name }
+  )
+}
+
+function Write-Utf8NoBom {
+  param(
+    [Parameter(Mandatory)][string]$Path,
+    [Parameter(Mandatory)][string]$Content
+  )
+
+  $directory = Split-Path -Parent $Path
+  if (-not (Test-Path $directory)) {
+    New-Item -ItemType Directory -Path $directory -Force | Out-Null
+  }
+
+  $encoding = [System.Text.UTF8Encoding]::new($false)
+  $normalized = ($Content -replace "`r?`n", "`n").TrimEnd("`n") + "`n"
+  [System.IO.File]::WriteAllText($Path, $normalized, $encoding)
 }
 
 function Get-CombinedPrefixes {
@@ -300,7 +337,7 @@ if (-not $settings.providers) {
   exit 1
 }
 
-$configuredProviders = @($settings.providers.PSObject.Properties.Name)
+$configuredProviders = @(Get-JsonObjectPropertyNames -InputObject $settings.providers)
 $coreProfileProviders = @('aws', 'azurerm', 'google', 'kubernetes', 'helm')
 $ignoreProviderEnabled = $Profile -eq 'all-hashicorp'
 
@@ -319,9 +356,8 @@ else {
     }
     default {
       @(
-        $settings.providers.PSObject.Properties |
-          Where-Object { $_.Value.enabled -eq $true } |
-          ForEach-Object { $_.Name }
+        (Get-JsonObjectPropertyNames -InputObject $settings.providers) |
+          Where-Object { $settings.providers.$_.enabled -eq $true }
       )
       break
     }
@@ -517,10 +553,10 @@ if (-not (Test-Path $resolvedOutputDir)) {
 }
 
 $summaryPath = Join-Path $resolvedOutputDir 'refresh-summary.json'
-@($results) | ConvertTo-Json -Depth 16 | Out-File -FilePath $summaryPath -Encoding utf8
+Write-Utf8NoBom -Path $summaryPath -Content (@($results) | ConvertTo-Json -Depth 16)
 
 $diffSummaryPath = Join-Path $resolvedOutputDir 'refresh-diff-summary.json'
-@($diffResults) | ConvertTo-Json -Depth 16 | Out-File -FilePath $diffSummaryPath -Encoding utf8
+Write-Utf8NoBom -Path $diffSummaryPath -Content (@($diffResults) | ConvertTo-Json -Depth 16)
 
 $diffMarkdownPath = Join-Path $resolvedOutputDir 'refresh-diff-summary.md'
 $lines = New-Object 'System.Collections.Generic.List[string]'
@@ -550,7 +586,7 @@ foreach ($item in @($diffResults | Where-Object { $_.status -ne 'unchanged' })) 
   Add-DiffSection -Lines $lines -Title 'Data source types changed' -Items @($item.dataSourceChanged)
 }
 
-$lines | Out-File -FilePath $diffMarkdownPath -Encoding utf8
+Write-Utf8NoBom -Path $diffMarkdownPath -Content ($lines -join "`n")
 
 Write-Host "`nProvider catalog refresh complete." -ForegroundColor Green
 Write-Host "Summary written to $summaryPath"

@@ -13,8 +13,8 @@ TFE_ADDRESS and TFE_TOKEN must be set.
 Runtime mode: auto, binary, docker.
 
 .PARAMETER Version
-Version for binary install or Docker tag. Defaults to latest for binary and
-v0.5.2-equivalent tag for Docker when not specified.
+Version for binary install or Docker tag. Defaults to v0.5.2 for both
+binary and Docker runtimes when not specified.
 
 .PARAMETER Toolsets
 Optional comma-separated toolset list.
@@ -29,7 +29,7 @@ param(
   [string]$Runtime = "auto",
 
   [Parameter()]
-  [string]$Version = "latest",
+  [string]$Version = "v0.5.2",
 
   [Parameter()]
   [string]$Toolsets,
@@ -142,7 +142,7 @@ if ($resolvedRuntime -eq "docker") {
     exit 1
   }
 
-  $dockerTag = if ($Version -eq "latest") { "0.5.2" } else { $Version.TrimStart("v") }
+  $dockerTag = $Version.TrimStart("v")
   $image = "hashicorp/terraform-mcp-server:$dockerTag"
 
   $args = @("run", "-i", "--rm")

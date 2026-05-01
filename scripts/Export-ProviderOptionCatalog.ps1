@@ -82,6 +82,22 @@ function Get-SortedPropertyNames {
   return @($InputObject.PSObject.Properties.Name | Sort-Object)
 }
 
+function Write-Utf8NoBom {
+  param(
+    [Parameter(Mandatory)][string]$Path,
+    [Parameter(Mandatory)][string]$Content
+  )
+
+  $directory = Split-Path -Parent $Path
+  if (-not (Test-Path $directory)) {
+    New-Item -ItemType Directory -Path $directory -Force | Out-Null
+  }
+
+  $encoding = [System.Text.UTF8Encoding]::new($false)
+  $normalized = ($Content -replace "`r?`n", "`n").TrimEnd("`n") + "`n"
+  [System.IO.File]::WriteAllText($Path, $normalized, $encoding)
+}
+
 function Test-TypeIncluded {
   param(
     [Parameter(Mandatory)]
@@ -236,7 +252,7 @@ try {
     }
 
     $jsonPath = Join-Path $resolvedOutputDir "$providerName-catalog.json"
-    $catalog | ConvertTo-Json -Depth 32 | Out-File -FilePath $jsonPath -Encoding utf8
+    Write-Utf8NoBom -Path $jsonPath -Content ($catalog | ConvertTo-Json -Depth 32)
 
     $mdPath = Join-Path $resolvedOutputDir "$providerName-summary.md"
     $summary = @(
@@ -253,7 +269,7 @@ try {
       "",
       "Top-level option metadata is available in $providerName-catalog.json."
     )
-    $summary | Out-File -FilePath $mdPath -Encoding utf8
+    Write-Utf8NoBom -Path $mdPath -Content ($summary -join "`n")
 
     Write-Host "Generated catalog for '$providerName' -> $jsonPath" -ForegroundColor Green
   }

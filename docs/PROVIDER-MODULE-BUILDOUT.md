@@ -16,7 +16,8 @@ Build reusable Terraform modules, examples, tests, and Copilot guidance for thes
 | 4 | Kubernetes | `hashicorp/kubernetes` | Workload platform layer shared by the three main clouds |
 | 5 | Helm | `hashicorp/helm` | Kubernetes application/package deployment layer |
 
-Do not add extra providers until these five have a consistent module shape, test approach, examples, and documentation.
+These five remain the core-priority providers and should maintain the strongest consistency for module shape, testing approach, examples, and documentation.
+Additional providers may exist in the repository for ecosystem coverage, but should follow the same generated contract and validation standards.
 
 ## Reflection Workflow for Low Upkeep
 

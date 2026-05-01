@@ -150,6 +150,24 @@ function Convert-HclStringArray {
   return '[{0}]' -f ($quoted -join ', ')
 }
 
+function Get-JsonObjectPropertyNames {
+  param([Parameter()]$InputObject)
+
+  if ($null -eq $InputObject) {
+    return @()
+  }
+
+  if ($InputObject -is [System.Collections.IDictionary]) {
+    return @($InputObject.Keys | ForEach-Object { [string]$_ })
+  }
+
+  return @(
+    $InputObject.PSObject.Properties |
+      Where-Object { $_.MemberType -eq 'NoteProperty' } |
+      ForEach-Object { $_.Name }
+  )
+}
+
 function Get-GeneratedHeader {
   param(
     [Parameter(Mandatory)][string]$ProviderName,
@@ -4379,9 +4397,8 @@ if (-not $settings.providers) {
 $results = @()
 $hasDrift = $false
 
-foreach ($providerProperty in $settings.providers.PSObject.Properties) {
-  $providerName = $providerProperty.Name
-  $providerConfig = $providerProperty.Value
+foreach ($providerName in (Get-JsonObjectPropertyNames -InputObject $settings.providers)) {
+  $providerConfig = $settings.providers.$providerName
 
   $providerDir = Join-Path $effectiveModulesRoot $providerName
   if (-not (Test-Path $providerDir)) {
@@ -4397,9 +4414,8 @@ Manual edits inside generated files will be overwritten by scripts/Sync-Provider
 "@
   $providerReadmeStatus = Sync-ManagedFile -Path (Join-Path $providerDir 'README.md') -Content $providerReadme -CheckOnly:$false
 
-  foreach ($moduleProperty in $providerConfig.modules.PSObject.Properties) {
-    $moduleName = $moduleProperty.Name
-    $moduleConfig = $moduleProperty.Value
+  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $providerConfig.modules)) {
+    $moduleConfig = $providerConfig.modules.$moduleName
 
     if (-not $IncludeDisabledModules -and $moduleConfig.enabled -ne $true) {
       continue

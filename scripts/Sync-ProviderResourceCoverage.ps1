@@ -36,6 +36,24 @@ function Resolve-RepoPath {
   return [System.IO.Path]::GetFullPath((Join-Path $repoRoot $Path))
 }
 
+function Get-JsonObjectPropertyNames {
+  param([Parameter()]$InputObject)
+
+  if ($null -eq $InputObject) {
+    return @()
+  }
+
+  if ($InputObject -is [System.Collections.IDictionary]) {
+    return @($InputObject.Keys | ForEach-Object { [string]$_ })
+  }
+
+  return @(
+    $InputObject.PSObject.Properties |
+      Where-Object { $_.MemberType -eq 'NoteProperty' } |
+      ForEach-Object { $_.Name }
+  )
+}
+
 function Write-Utf8NoBom {
   param(
     [Parameter(Mandatory)][string]$Path,
@@ -353,7 +371,7 @@ if (-not $settings.providers) {
   exit 1
 }
 
-$targetProviders = if ($Providers -and $Providers.Count -gt 0) { @($Providers) } else { @($settings.providers.PSObject.Properties.Name) }
+$targetProviders = if ($Providers -and $Providers.Count -gt 0) { @($Providers) } else { @(Get-JsonObjectPropertyNames -InputObject $settings.providers) }
 
 $summary = @()
 foreach ($providerName in $targetProviders) {
@@ -380,9 +398,8 @@ foreach ($providerName in $targetProviders) {
   $providerResourceCount = 0
   $providerDataCount = 0
 
-  foreach ($moduleProp in $providerCfg.modules.PSObject.Properties) {
-    $moduleName = $moduleProp.Name
-    $moduleCfg = $moduleProp.Value
+  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $providerCfg.modules)) {
+    $moduleCfg = $providerCfg.modules.$moduleName
 
     if (-not $IncludeDisabledModules -and $moduleCfg.enabled -ne $true) {
       continue

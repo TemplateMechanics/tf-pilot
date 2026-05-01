@@ -92,6 +92,40 @@ $providerVersionMap = @{
   archive    = '~> 2.0'
 }
 
+function Get-JsonObjectPropertyNames {
+  param([Parameter()]$InputObject)
+
+  if ($null -eq $InputObject) {
+    return @()
+  }
+
+  if ($InputObject -is [System.Collections.IDictionary]) {
+    return @($InputObject.Keys | ForEach-Object { [string]$_ })
+  }
+
+  return @(
+    $InputObject.PSObject.Properties |
+      Where-Object { $_.MemberType -eq 'NoteProperty' } |
+      ForEach-Object { $_.Name }
+  )
+}
+
+function Write-Utf8NoBom {
+  param(
+    [Parameter(Mandatory)][string]$Path,
+    [Parameter(Mandatory)][string]$Content
+  )
+
+  $dir = Split-Path -Parent $Path
+  if (-not (Test-Path $dir)) {
+    New-Item -ItemType Directory -Path $dir -Force | Out-Null
+  }
+
+  $encoding = [System.Text.UTF8Encoding]::new($false)
+  $normalized = ($Content -replace "`r?`n", "`n").TrimEnd("`n") + "`n"
+  [System.IO.File]::WriteAllText($Path, $normalized, $encoding)
+}
+
 function Write-FileIfMissing {
   param(
     [Parameter(Mandatory)][string]$Path,
@@ -99,11 +133,7 @@ function Write-FileIfMissing {
   )
 
   if (-not (Test-Path $Path)) {
-    $dir = Split-Path -Parent $Path
-    if (-not (Test-Path $dir)) {
-      New-Item -ItemType Directory -Path $dir -Force | Out-Null
-    }
-    $Content | Out-File -FilePath $Path -Encoding utf8
+    Write-Utf8NoBom -Path $Path -Content $Content
     return $true
   }
 
@@ -248,9 +278,8 @@ run "plan_without_credentials" {
 }
 
 $results = @()
-foreach ($providerProperty in $settings.providers.PSObject.Properties) {
-  $providerName = $providerProperty.Name
-  $providerConfig = $providerProperty.Value
+foreach ($providerName in (Get-JsonObjectPropertyNames -InputObject $settings.providers)) {
+  $providerConfig = $settings.providers.$providerName
 
   $providerDir = Join-Path $resolvedModulesRoot $providerName
   if (-not (Test-Path $providerDir)) {
@@ -259,16 +288,15 @@ foreach ($providerProperty in $settings.providers.PSObject.Properties) {
 
   $providerReadme = Join-Path $providerDir 'README.md'
   if (-not (Test-Path $providerReadme)) {
-    @"
+    Write-Utf8NoBom -Path $providerReadme -Content @"
 # $providerName modules
 
 Provider module families for $providerName generated from reflection settings.
-"@ | Out-File -FilePath $providerReadme -Encoding utf8
+"@
   }
 
-  foreach ($moduleProperty in $providerConfig.modules.PSObject.Properties) {
-    $moduleName = $moduleProperty.Name
-    $moduleConfig = $moduleProperty.Value
+  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $providerConfig.modules)) {
+    $moduleConfig = $providerConfig.modules.$moduleName
 
     if (-not $IncludeDisabledModules -and $moduleConfig.enabled -ne $true) {
       continue
@@ -283,5 +311,5 @@ if (-not (Test-Path (Split-Path -Parent $summaryPath))) {
   New-Item -ItemType Directory -Path (Split-Path -Parent $summaryPath) -Force | Out-Null
 }
 
-@($results) | ConvertTo-Json -Depth 12 | Out-File -FilePath $summaryPath -Encoding utf8
+Write-Utf8NoBom -Path $summaryPath -Content (@($results) | ConvertTo-Json -Depth 12)
 Write-Host "Module scaffold sync complete. Summary written to $summaryPath" -ForegroundColor Green

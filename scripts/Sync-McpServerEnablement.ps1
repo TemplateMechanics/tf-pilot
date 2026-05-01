@@ -7,7 +7,7 @@ Reads provider enablement from schema-catalog settings (and optionally
 module directory hints) and updates `.vscode/mcp.json` server `disabled`
 flags so provider-specific MCP servers are only enabled when relevant.
 
-.PARAMETER MpcFile
+.PARAMETER McpFile
 Path to workspace MCP configuration file.
 
 .PARAMETER SettingsFile
@@ -66,10 +66,22 @@ function Get-ActiveProvidersFromSettings {
     return @()
   }
 
+  $providerNames = if ($settings.providers -is [System.Collections.IDictionary]) {
+    @($settings.providers.Keys | ForEach-Object { [string]$_ })
+  }
+  else {
+    @(
+      $settings.providers.PSObject.Properties |
+        Where-Object { $_.MemberType -eq 'NoteProperty' } |
+        ForEach-Object { $_.Name }
+    )
+  }
+
   $enabled = @()
-  foreach ($provider in $settings.providers.PSObject.Properties) {
-    if ($provider.Value.enabled -eq $true) {
-      $enabled += $provider.Name.ToLowerInvariant()
+  foreach ($providerName in $providerNames) {
+    $providerConfig = $settings.providers.$providerName
+    if ($providerConfig -and $providerConfig.enabled -eq $true) {
+      $enabled += $providerName.ToLowerInvariant()
     }
   }
 
@@ -194,5 +206,7 @@ if ($WhatIf) {
   exit 0
 }
 
-$mcpConfig | ConvertTo-Json -Depth 64 | Out-File -FilePath $mcpPath -Encoding utf8
+$utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+$jsonContent = ($mcpConfig | ConvertTo-Json -Depth 64)
+[System.IO.File]::WriteAllText($mcpPath, (($jsonContent -replace "`r?`n", "`n").TrimEnd("`n") + "`n"), $utf8NoBom)
 Write-Host "Updated MCP enablement in $mcpPath" -ForegroundColor Green
