@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 concurrency:
   group: provider-diff-matrix-${{ github.ref }}
@@ -29,7 +30,7 @@ jobs:
           - tls
           - time
           - local
-          - null
+          - "null"
           - external
           - http
           - cloudinit
@@ -59,3 +60,110 @@ jobs:
             docs/providers/generated/refresh-summary.json
             docs/providers/generated/refresh-diff-summary.json
             docs/providers/generated/refresh-diff-summary.md
+
+      - name: Open/update per-provider drift notice
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            const provider = '${{ matrix.provider }}';
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = `Provider drift: ${provider}`;
+            const label = 'provider-drift';
+            const summaryPath = 'docs/providers/generated/refresh-diff-summary.json';
+
+            if (!fs.existsSync(summaryPath)) {
+              core.info(`No diff summary found for ${provider}. Skipping provider notice.`);
+              return;
+            }
+
+            const parsed = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
+            const entries = Array.isArray(parsed) ? parsed : [parsed];
+            const entry = entries.find((x) => x.provider === provider);
+            if (!entry) {
+              core.info(`No diff entry found for ${provider}. Skipping provider notice.`);
+              return;
+            }
+
+            const labelsResp = await github.rest.issues.listLabelsForRepo({ owner, repo, per_page: 100 });
+            const hasLabel = labelsResp.data.some((l) => l.name === label);
+            if (!hasLabel) {
+              await github.rest.issues.createLabel({
+                owner,
+                repo,
+                name: label,
+                color: 'fbca04',
+                description: 'Automated provider schema drift detection'
+              });
+            }
+
+            const issuesResp = await github.rest.issues.listForRepo({
+              owner,
+              repo,
+              state: 'open',
+              labels: label,
+              per_page: 100
+            });
+
+            const existing = issuesResp.data.find((i) => i.title === title);
+
+            if (entry.status === 'unchanged') {
+              if (existing) {
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: existing.number,
+                  body: `Drift cleared for provider \\`${provider}\\`. Auto-closing this notice.`
+                });
+                await github.rest.issues.update({
+                  owner,
+                  repo,
+                  issue_number: existing.number,
+                  state: 'closed'
+                });
+                core.info(`Closed issue #${existing.number} for provider ${provider}.`);
+              } else {
+                core.info(`No open issue for provider ${provider}; drift is unchanged.`);
+              }
+              return;
+            }
+
+            const bodyLines = [
+              `Automated provider schema drift was detected for \\`${provider}\\`.`,
+              '',
+              '| Metric | Value |',
+              '|---|---:|',
+              `| Resource Added | ${entry.resourceAddedCount} |`,
+              `| Resource Removed | ${entry.resourceRemovedCount} |`,
+              `| Resource Changed | ${entry.resourceChangedCount} |`,
+              `| Data Source Added | ${entry.dataSourceAddedCount} |`,
+              `| Data Source Removed | ${entry.dataSourceRemovedCount} |`,
+              `| Data Source Changed | ${entry.dataSourceChangedCount} |`,
+              '',
+              'See workflow artifact `provider-diff-' + provider + '` for full catalog outputs.'
+            ];
+
+            const body = bodyLines.join('\n');
+
+            if (existing) {
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: existing.number,
+                body,
+                state: 'open'
+              });
+              core.info(`Updated issue #${existing.number} for provider ${provider}.`);
+            } else {
+              const created = await github.rest.issues.create({
+                owner,
+                repo,
+                title,
+                body,
+                labels: [label]
+              });
+              core.info(`Created issue #${created.data.number} for provider ${provider}.`);
+            }
