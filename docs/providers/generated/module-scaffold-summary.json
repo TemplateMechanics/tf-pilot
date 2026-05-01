@@ -11,12 +11,7 @@
         "provider":  "aws",
         "module":  "network",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\aws\\network"
     },
@@ -24,12 +19,7 @@
         "provider":  "aws",
         "module":  "storage",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\aws\\storage"
     },
@@ -37,12 +27,7 @@
         "provider":  "aws",
         "module":  "identity",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\aws\\identity"
     },
@@ -50,12 +35,7 @@
         "provider":  "aws",
         "module":  "compute",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\aws\\compute"
     },
@@ -63,12 +43,7 @@
         "provider":  "aws",
         "module":  "observability",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\aws\\observability"
     },
@@ -76,12 +51,7 @@
         "provider":  "azurerm",
         "module":  "foundation",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\foundation"
     },
@@ -89,12 +59,7 @@
         "provider":  "azurerm",
         "module":  "network",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\network"
     },
@@ -102,12 +67,7 @@
         "provider":  "azurerm",
         "module":  "storage",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\storage"
     },
@@ -115,12 +75,7 @@
         "provider":  "azurerm",
         "module":  "identity",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\identity"
     },
@@ -128,12 +83,7 @@
         "provider":  "azurerm",
         "module":  "compute",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\compute"
     },
@@ -141,12 +91,7 @@
         "provider":  "azurerm",
         "module":  "observability",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\observability"
     },
@@ -154,12 +99,7 @@
         "provider":  "google",
         "module":  "foundation",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\google\\foundation"
     },
@@ -167,12 +107,7 @@
         "provider":  "google",
         "module":  "network",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\google\\network"
     },
@@ -180,12 +115,7 @@
         "provider":  "google",
         "module":  "storage",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\google\\storage"
     },
@@ -193,12 +123,7 @@
         "provider":  "google",
         "module":  "identity",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\google\\identity"
     },
@@ -206,12 +131,7 @@
         "provider":  "google",
         "module":  "compute",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\google\\compute"
     },
@@ -219,12 +139,7 @@
         "provider":  "google",
         "module":  "observability",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\google\\observability"
     },
@@ -232,18 +147,53 @@
         "provider":  "kubernetes",
         "module":  "namespace",
         "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
+
                     ],
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\namespace"
     },
     {
         "provider":  "kubernetes",
         "module":  "service_account",
+        "created":  [
+
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\service_account"
+    },
+    {
+        "provider":  "kubernetes",
+        "module":  "config",
+        "created":  [
+
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\config"
+    },
+    {
+        "provider":  "kubernetes",
+        "module":  "workload",
+        "created":  [
+
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\workload"
+    },
+    {
+        "provider":  "helm",
+        "module":  "repository",
+        "created":  [
+
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\helm\\repository"
+    },
+    {
+        "provider":  "helm",
+        "module":  "release",
+        "created":  [
+
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\helm\\release"
+    },
+    {
+        "provider":  "random",
+        "module":  "entropy",
         "created":  [
                         "versions.tf",
                         "variables.tf",
@@ -252,10 +202,166 @@
                         "README.md",
                         "tests/basic.tftest.hcl"
                     ],
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\service_account"
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\random\\entropy"
     },
     {
-        "provider":  "kubernetes",
+        "provider":  "random",
+        "module":  "passwords",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\random\\passwords"
+    },
+    {
+        "provider":  "random",
+        "module":  "selection",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\random\\selection"
+    },
+    {
+        "provider":  "tls",
+        "module":  "private_key",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\tls\\private_key"
+    },
+    {
+        "provider":  "tls",
+        "module":  "cert_request",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\tls\\cert_request"
+    },
+    {
+        "provider":  "tls",
+        "module":  "self_signed",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\tls\\self_signed"
+    },
+    {
+        "provider":  "time",
+        "module":  "static",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\time\\static"
+    },
+    {
+        "provider":  "time",
+        "module":  "rotating",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\time\\rotating"
+    },
+    {
+        "provider":  "time",
+        "module":  "offset",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\time\\offset"
+    },
+    {
+        "provider":  "local",
+        "module":  "file",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\local\\file"
+    },
+    {
+        "provider":  "null",
+        "module":  "lifecycle",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\null\\lifecycle"
+    },
+    {
+        "provider":  "external",
+        "module":  "data",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\external\\data"
+    },
+    {
+        "provider":  "http",
+        "module":  "request",
+        "created":  [
+                        "versions.tf",
+                        "variables.tf",
+                        "main.tf",
+                        "outputs.tf",
+                        "README.md",
+                        "tests/basic.tftest.hcl"
+                    ],
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\http\\request"
+    },
+    {
+        "provider":  "cloudinit",
         "module":  "config",
         "created":  [
                         "versions.tf",
@@ -265,11 +371,11 @@
                         "README.md",
                         "tests/basic.tftest.hcl"
                     ],
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\config"
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\cloudinit\\config"
     },
     {
-        "provider":  "kubernetes",
-        "module":  "workload",
+        "provider":  "archive",
+        "module":  "package",
         "created":  [
                         "versions.tf",
                         "variables.tf",
@@ -278,32 +384,6 @@
                         "README.md",
                         "tests/basic.tftest.hcl"
                     ],
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\workload"
-    },
-    {
-        "provider":  "helm",
-        "module":  "repository",
-        "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
-                    ],
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\helm\\repository"
-    },
-    {
-        "provider":  "helm",
-        "module":  "release",
-        "created":  [
-                        "versions.tf",
-                        "variables.tf",
-                        "main.tf",
-                        "outputs.tf",
-                        "README.md",
-                        "tests/basic.tftest.hcl"
-                    ],
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\helm\\release"
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\archive\\package"
     }
 ]

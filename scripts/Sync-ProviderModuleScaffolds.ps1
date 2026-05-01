@@ -64,6 +64,15 @@ $providerSourceMap = @{
   google     = 'hashicorp/google'
   kubernetes = 'hashicorp/kubernetes'
   helm       = 'hashicorp/helm'
+  random     = 'hashicorp/random'
+  tls        = 'hashicorp/tls'
+  time       = 'hashicorp/time'
+  local      = 'hashicorp/local'
+  null       = 'hashicorp/null'
+  external   = 'hashicorp/external'
+  http       = 'hashicorp/http'
+  cloudinit  = 'hashicorp/cloudinit'
+  archive    = 'hashicorp/archive'
 }
 
 $providerVersionMap = @{
@@ -72,6 +81,15 @@ $providerVersionMap = @{
   google     = '~> 6.0'
   kubernetes = '~> 2.0'
   helm       = '~> 3.0'
+  random     = '~> 3.0'
+  tls        = '~> 4.0'
+  time       = '~> 0.11'
+  local      = '~> 2.0'
+  null       = '~> 3.0'
+  external   = '~> 2.0'
+  http       = '~> 3.0'
+  cloudinit  = '~> 2.0'
+  archive    = '~> 2.0'
 }
 
 function Write-FileIfMissing {

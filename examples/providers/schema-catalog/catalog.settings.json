@@ -285,6 +285,180 @@
           "dataSourceTypePrefixes": []
         }
       }
+    },
+    "random": {
+      "enabled": false,
+      "workspace": "random",
+      "modules": {
+        "entropy": {
+          "enabled": true,
+          "resourceTypePrefixes": [
+            "random_id",
+            "random_pet",
+            "random_string",
+            "random_uuid"
+          ],
+          "dataSourceTypePrefixes": []
+        },
+        "passwords": {
+          "enabled": false,
+          "resourceTypePrefixes": [
+            "random_password"
+          ],
+          "dataSourceTypePrefixes": []
+        },
+        "selection": {
+          "enabled": false,
+          "resourceTypePrefixes": [
+            "random_shuffle",
+            "random_integer"
+          ],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    },
+    "tls": {
+      "enabled": false,
+      "workspace": "tls",
+      "modules": {
+        "private_key": {
+          "enabled": true,
+          "resourceTypePrefixes": [
+            "tls_private_key"
+          ],
+          "dataSourceTypePrefixes": []
+        },
+        "cert_request": {
+          "enabled": false,
+          "resourceTypePrefixes": [
+            "tls_cert_request"
+          ],
+          "dataSourceTypePrefixes": [
+            "tls_certificate"
+          ]
+        },
+        "self_signed": {
+          "enabled": false,
+          "resourceTypePrefixes": [
+            "tls_self_signed_cert",
+            "tls_locally_signed_cert"
+          ],
+          "dataSourceTypePrefixes": [
+            "tls_public_key"
+          ]
+        }
+      }
+    },
+    "time": {
+      "enabled": false,
+      "workspace": "time",
+      "modules": {
+        "static": {
+          "enabled": true,
+          "resourceTypePrefixes": [
+            "time_static"
+          ],
+          "dataSourceTypePrefixes": []
+        },
+        "rotating": {
+          "enabled": false,
+          "resourceTypePrefixes": [
+            "time_rotating"
+          ],
+          "dataSourceTypePrefixes": []
+        },
+        "offset": {
+          "enabled": false,
+          "resourceTypePrefixes": [
+            "time_offset",
+            "time_sleep"
+          ],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    },
+    "local": {
+      "enabled": false,
+      "workspace": "local",
+      "modules": {
+        "file": {
+          "enabled": true,
+          "resourceTypePrefixes": [
+            "local_file",
+            "local_sensitive_file"
+          ],
+          "dataSourceTypePrefixes": [
+            "local_file"
+          ]
+        }
+      }
+    },
+    "null": {
+      "enabled": false,
+      "workspace": "null",
+      "modules": {
+        "lifecycle": {
+          "enabled": true,
+          "resourceTypePrefixes": [
+            "null_resource"
+          ],
+          "dataSourceTypePrefixes": [
+            "null_data_source"
+          ]
+        }
+      }
+    },
+    "external": {
+      "enabled": false,
+      "workspace": "external",
+      "modules": {
+        "data": {
+          "enabled": true,
+          "resourceTypePrefixes": [],
+          "dataSourceTypePrefixes": [
+            "external"
+          ]
+        }
+      }
+    },
+    "http": {
+      "enabled": false,
+      "workspace": "http",
+      "modules": {
+        "request": {
+          "enabled": true,
+          "resourceTypePrefixes": [],
+          "dataSourceTypePrefixes": [
+            "http"
+          ]
+        }
+      }
+    },
+    "cloudinit": {
+      "enabled": false,
+      "workspace": "cloudinit",
+      "modules": {
+        "config": {
+          "enabled": true,
+          "resourceTypePrefixes": [],
+          "dataSourceTypePrefixes": [
+            "cloudinit_config"
+          ]
+        }
+      }
+    },
+    "archive": {
+      "enabled": false,
+      "workspace": "archive",
+      "modules": {
+        "package": {
+          "enabled": true,
+          "resourceTypePrefixes": [],
+          "dataSourceTypePrefixes": [
+            "archive_file"
+          ]
+        }
+      }
     }
   }
 }
