@@ -13,11 +13,17 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Made `Backup-TerraformState.ps1` write UTF-8 state backups without BOM.
 - Removed `$args` automatic-variable shadowing in multiple Terraform wrapper scripts.
 - Updated `Test-TerraformConfig.ps1` to validate all initialized Terraform subdirectories.
+- Fixed provider/module JSON enumeration paths to avoid PSCustomObject member-name pollution in generated module trees.
+- Removed invalid pseudo-provider directories accidentally generated under `modules/providers/`.
+- Updated provider catalog and MCP sync writers to emit UTF-8 (no BOM) outputs for JSON/Markdown artifacts.
 
 ### Changed
 - `Invoke-TerraformApply.ps1` now archives consumed plan files instead of deleting them.
 - Replaced first-person AI marketing copy in README with neutral technical documentation.
 - Set non-Terraform MCP servers to disabled-by-default in `.vscode/mcp.json`.
+- Documented commit-and-gate policy for generated provider modules and catalogs.
+- Added release workflow validation for `tag_name` format and non-empty `target_commitish`.
+- Expanded Terraform policy warnings for sensitive updates across IAM, security boundary, and database resource families.
 
 ## [0.2.0-dev] - 2026-05-01
 
