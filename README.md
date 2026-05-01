@@ -47,27 +47,27 @@ User request
 ## What's innovative here
 
 1. **YAML token references with enforced checks**
-	YAML stack composition supports references like `${service.api.service_id}` and `${module.foundation.region}` with validation and check-block enforcement. See `docs/YAML-TOKEN-REFERENCES.md`.
+   YAML stack composition supports references like `${service.api.service_id}` and `${module.foundation.region}` with validation and check-block enforcement. See `docs/YAML-TOKEN-REFERENCES.md`.
 2. **Plan-as-artifact discipline**
-	`Invoke-TerraformPlan.ps1` emits `tfplan` plus `tfplan.json`; `Invoke-TerraformApply.ps1` requires `-PlanFile`. This makes change review explicit and repeatable.
+   `Invoke-TerraformPlan.ps1` emits `tfplan` plus `tfplan.json`; `Invoke-TerraformApply.ps1` requires `-PlanFile`. This makes change review explicit and repeatable.
 3. **Provider schema reflection to idempotent module generation**
-	Catalog + sync scripts regenerate provider modules reproducibly, and CI enforces sync state (`-Check`). See `docs/PROVIDER-MODULE-BUILDOUT.md` and `scripts/Sync-ProviderGeneratedModules.ps1`.
+   Catalog + sync scripts regenerate provider modules reproducibly, and CI enforces sync state (`-Check`). See `docs/PROVIDER-MODULE-BUILDOUT.md` and `scripts/Sync-ProviderGeneratedModules.ps1`.
 4. **Negative-fixture testing pattern**
-	Expected-failure fixtures verify guardrails fail loudly for malformed references or invalid composition paths.
+   Expected-failure fixtures verify guardrails fail loudly for malformed references or invalid composition paths.
 5. **MCP-first reads, scripts-only writes**
-	Agent workflows use MCP for context and wrappers for mutations to avoid direct, unsafe CLI behavior.
+   Agent workflows use MCP for context and wrappers for mutations to avoid direct, unsafe CLI behavior.
 6. **OPA policy gate on plan JSON**
-	Policy checks run against `tfplan.json` in CI to catch risky changes early. See `policy/terraform/plan.rego`.
+   Policy checks run against `tfplan.json` in CI to catch risky changes early. See `policy/terraform/plan.rego`.
 
 ## Quick start
 
 1. Fork this repository (recommended) or copy the harness into your Terraform project root.
-	If you only want selected components, start with instructions + scripts + docs first, then bring in generated provider modules as needed.
+   If you only want selected components, start with instructions + scripts + docs first, then bring in generated provider modules as needed.
 2. Open the project in VS Code with the [HashiCorp Terraform extension](https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform) installed.
 3. Install the supporting CLIs (PowerShell 7+, Terraform, [tflint](https://github.com/terraform-linters/tflint), [trivy](https://github.com/aquasecurity/trivy)).
 4. Talk to your AI assistant in natural language. It will read `CLAUDE.md` (or `.github/copilot-instructions.md`) and follow the operational sequence.
 5. Configure MCP via `.vscode/mcp.json` (included). Terraform MCP now uses a script launcher that prefers a local executable and can fall back to Docker.
-	Optional cloud/documentation MCP servers are present but disabled by default; enable them explicitly if your workflow requires them.
+   Optional cloud/documentation MCP servers are present but disabled by default; enable them explicitly if your workflow requires them.
 6. Sync provider-aware MCP server enablement with `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints` (also run automatically by `Invoke-ProviderCatalogRefresh.ps1`).
 7. Before pushing changes, run `./scripts/Pre-Commit.ps1` (or `./scripts/Pre-Commit.ps1 -RunTests -RunSecurity` for the full local gate).
 
@@ -78,8 +78,8 @@ User request
 ## Requirements
 
 - Terraform minimums:
-	- `>= 1.10.0` to use this repository as-is, including checked-in modules/examples and the current CI baseline
-	- `>= 1.7.0` only for `removed {}` workflows when you copy just the harness patterns into a separate project
+  - `>= 1.10.0` to use this repository as-is, including checked-in modules/examples and the current CI baseline
+  - `>= 1.7.0` only for `removed {}` workflows when you copy just the harness patterns into a separate project
 - PowerShell `7.0+` (cross-platform; `pwsh`)
 - [tflint](https://github.com/terraform-linters/tflint) `>= 0.50`
 - [trivy](https://github.com/aquasecurity/trivy) `>= 0.50` (replaces deprecated `tfsec`)
