@@ -1,14 +1,23 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: azurerm
+# Module: observability
+# File: tests/basic.tftest.hcl
+mock_provider "azurerm" {}
+
 variables {
-  name        = "observability"
-  environment = "test"
-  enabled     = false
+  name                = "obs"
+  environment         = "test"
+  enabled             = true
+  resource_group_name = "rg-test"
+  location            = "eastus"
 }
 
-run "plan_without_credentials" {
+run "plan_observability" {
   command = plan
 
   assert {
     condition     = output.module == "azurerm-observability"
-    error_message = "Expected azurerm-observability module identifier"
+    error_message = "Expected generated module identifier"
   }
 }

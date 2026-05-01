@@ -1,14 +1,19 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: helm
+# Module: repository
+# File: tests/basic.tftest.hcl
 variables {
-  name        = "repository"
-  environment = "test"
-  enabled     = false
+  name           = "bitnami"
+  environment    = "test"
+  repository_url = "https://charts.bitnami.com/bitnami"
 }
 
-run "plan_without_credentials" {
+run "plan_repository_contract" {
   command = plan
 
   assert {
-    condition     = output.module == "helm-repository"
-    error_message = "Expected helm-repository module identifier"
+    condition     = output.repository_url == "https://charts.bitnami.com/bitnami"
+    error_message = "Expected repository_url output to match input"
   }
 }

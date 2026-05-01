@@ -1,14 +1,18 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: external
+# Module: data
+# File: tests/basic.tftest.hcl
 variables {
   name        = "data"
   environment = "test"
-  enabled     = false
 }
 
-run "plan_without_credentials" {
+run "plan_generated_contract" {
   command = plan
 
   assert {
     condition     = output.module == "external-data"
-    error_message = "Expected external-data module identifier"
+    error_message = "Expected generated module identifier"
   }
 }

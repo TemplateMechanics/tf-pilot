@@ -1,31 +1,37 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: kubernetes
+# Module: namespace
+# File: variables.tf
 variable "name" {
   description = "Name of the Kubernetes namespace to create."
   type        = string
   nullable    = false
 }
-
 variable "environment" {
-  description = "Deployment environment name (applied as a label value)."
+  description = "Deployment environment name."
   type        = string
   nullable    = false
 }
-
+variable "enabled" {
+  description = "When true, creates the namespace."
+  type        = bool
+  default     = true
+}
 variable "labels" {
-  description = "Additional labels to merge onto the namespace metadata."
+  description = "Additional namespace labels."
   type        = map(string)
   default     = {}
   nullable    = false
 }
-
 variable "annotations" {
-  description = "Annotations to apply to the namespace metadata."
+  description = "Namespace annotations."
   type        = map(string)
   default     = {}
   nullable    = false
 }
-
 variable "tags" {
-  description = "Alias for labels — merged into effective_labels for harness consistency."
+  description = "Alias for labels for harness consistency."
   type        = map(string)
   default     = {}
   nullable    = false

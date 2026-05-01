@@ -1,3 +1,5 @@
-﻿# http modules
+# http modules
 
-Provider module families for http generated from reflection settings.
+Generated provider module families for http.
+
+Manual edits inside generated files will be overwritten by scripts/Sync-ProviderGeneratedModules.ps1.

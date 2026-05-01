@@ -1,35 +1,39 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: azurerm
+# Module: foundation
+# File: variables.tf
 variable "name" {
-  description = "Short name for this deployment (used in resource naming)."
+  description = "Short name for this deployment."
   type        = string
   nullable    = false
 }
-
 variable "environment" {
-  description = "Deployment environment name (e.g. dev, prod)."
+  description = "Deployment environment name."
   type        = string
   nullable    = false
 }
-
+variable "enabled" {
+  description = "When true, allows the optional resource group to be created."
+  type        = bool
+  default     = true
+}
 variable "location" {
-  description = "Azure region where the resource group is created."
+  description = "Azure region for the resource group."
   type        = string
   default     = "eastus"
-  nullable    = false
 }
-
 variable "tags" {
-  description = "Tags to merge onto all supported resources."
+  description = "Tags to merge onto all resources."
   type        = map(string)
   default     = {}
   nullable    = false
 }
-
 variable "create_resource_group" {
-  description = "When true, creates an Azure resource group. Set false to read context only."
+  description = "Create an Azure resource group."
   type        = bool
   default     = true
 }
-
 variable "resource_group_name" {
   description = "Override the resource group name. Defaults to '<name>-<environment>-rg'."
   type        = string

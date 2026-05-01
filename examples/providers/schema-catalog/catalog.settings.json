@@ -1,464 +1,418 @@
 {
-  "providers": {
-    "aws": {
-      "enabled": true,
-      "workspace": "aws",
-      "modules": {
-        "foundation": {
-          "enabled": true,
-          "resourceTypePrefixes": [],
-          "dataSourceTypePrefixes": [
-            "aws_caller_identity",
-            "aws_partition",
-            "aws_region"
-          ]
-        },
-        "network": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "aws_vpc",
-            "aws_subnet",
-            "aws_route",
-            "aws_route_table",
-            "aws_internet_gateway",
-            "aws_nat_gateway",
-            "aws_eip"
-          ],
-          "dataSourceTypePrefixes": [
-            "aws_vpc",
-            "aws_subnets",
-            "aws_route_table"
-          ]
-        },
-        "storage": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "aws_s3_"
-          ],
-          "dataSourceTypePrefixes": [
-            "aws_s3_"
-          ]
-        },
-        "identity": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "aws_iam_"
-          ],
-          "dataSourceTypePrefixes": [
-            "aws_iam_"
-          ]
-        },
-        "compute": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "aws_instance",
-            "aws_launch_template",
-            "aws_ecs_",
-            "aws_autoscaling_"
-          ],
-          "dataSourceTypePrefixes": [
-            "aws_ami",
-            "aws_ecs_",
-            "aws_launch_template"
-          ]
-        },
-        "observability": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "aws_cloudwatch_",
-            "aws_logs_"
-          ],
-          "dataSourceTypePrefixes": [
-            "aws_cloudwatch_",
-            "aws_logs_"
-          ]
-        }
-      }
-    },
-    "azurerm": {
-      "enabled": true,
-      "workspace": "azurerm",
-      "modules": {
-        "foundation": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "azurerm_resource_group"
-          ],
-          "dataSourceTypePrefixes": [
-            "azurerm_client_config",
-            "azurerm_subscription"
-          ]
-        },
-        "network": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "azurerm_virtual_network",
-            "azurerm_subnet",
-            "azurerm_network_security_group",
-            "azurerm_route_table"
-          ],
-          "dataSourceTypePrefixes": [
-            "azurerm_virtual_network",
-            "azurerm_subnet"
-          ]
-        },
-        "storage": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "azurerm_storage_"
-          ],
-          "dataSourceTypePrefixes": [
-            "azurerm_storage_"
-          ]
-        },
-        "identity": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "azurerm_user_assigned_identity",
-            "azurerm_role_assignment"
-          ],
-          "dataSourceTypePrefixes": [
-            "azurerm_client_config",
-            "azurerm_role_definition"
-          ]
-        },
-        "compute": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "azurerm_linux_virtual_machine",
-            "azurerm_windows_virtual_machine",
-            "azurerm_container_app"
-          ],
-          "dataSourceTypePrefixes": [
-            "azurerm_image",
-            "azurerm_virtual_machine"
-          ]
-        },
-        "observability": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "azurerm_monitor_",
-            "azurerm_log_analytics_"
-          ],
-          "dataSourceTypePrefixes": [
-            "azurerm_monitor_",
-            "azurerm_log_analytics_"
-          ]
-        }
-      }
-    },
-    "google": {
-      "enabled": true,
-      "workspace": "google",
-      "modules": {
-        "foundation": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "google_project_service"
-          ],
-          "dataSourceTypePrefixes": [
-            "google_project",
-            "google_client_config"
-          ]
-        },
-        "network": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "google_compute_network",
-            "google_compute_subnetwork",
-            "google_compute_router",
-            "google_compute_firewall"
-          ],
-          "dataSourceTypePrefixes": [
-            "google_compute_network",
-            "google_compute_subnetwork"
-          ]
-        },
-        "storage": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "google_storage_bucket"
-          ],
-          "dataSourceTypePrefixes": [
-            "google_storage_bucket"
-          ]
-        },
-        "identity": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "google_service_account",
-            "google_project_iam_"
-          ],
-          "dataSourceTypePrefixes": [
-            "google_service_account",
-            "google_iam_policy"
-          ]
-        },
-        "compute": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "google_compute_instance",
-            "google_cloud_run_"
-          ],
-          "dataSourceTypePrefixes": [
-            "google_compute_image",
-            "google_compute_instance"
-          ]
-        },
-        "observability": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "google_logging_",
-            "google_monitoring_"
-          ],
-          "dataSourceTypePrefixes": [
-            "google_logging_",
-            "google_monitoring_"
-          ]
-        }
-      }
-    },
-    "kubernetes": {
-      "enabled": true,
-      "workspace": "kubernetes",
-      "modules": {
-        "namespace": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "kubernetes_namespace"
-          ],
-          "dataSourceTypePrefixes": [
-            "kubernetes_namespace"
-          ]
-        },
-        "service_account": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "kubernetes_service_account",
-            "kubernetes_role",
-            "kubernetes_role_binding"
-          ],
-          "dataSourceTypePrefixes": [
-            "kubernetes_service_account",
-            "kubernetes_role"
-          ]
-        },
-        "config": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "kubernetes_config_map",
-            "kubernetes_secret"
-          ],
-          "dataSourceTypePrefixes": [
-            "kubernetes_config_map",
-            "kubernetes_secret"
-          ]
-        },
-        "workload": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "kubernetes_deployment",
-            "kubernetes_service",
-            "kubernetes_ingress"
-          ],
-          "dataSourceTypePrefixes": [
-            "kubernetes_service",
-            "kubernetes_ingress"
-          ]
-        }
-      }
-    },
-    "helm": {
-      "enabled": true,
-      "workspace": "helm",
-      "modules": {
-        "repository": {
-          "enabled": true,
-          "resourceTypePrefixes": [],
-          "dataSourceTypePrefixes": []
-        },
-        "release": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "helm_release"
-          ],
-          "dataSourceTypePrefixes": []
-        }
-      }
-    },
-    "random": {
-      "enabled": false,
-      "workspace": "random",
-      "modules": {
-        "entropy": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "random_id",
-            "random_pet",
-            "random_string",
-            "random_uuid"
-          ],
-          "dataSourceTypePrefixes": []
-        },
-        "passwords": {
-          "enabled": false,
-          "resourceTypePrefixes": [
-            "random_password"
-          ],
-          "dataSourceTypePrefixes": []
-        },
-        "selection": {
-          "enabled": false,
-          "resourceTypePrefixes": [
-            "random_shuffle",
-            "random_integer"
-          ],
-          "dataSourceTypePrefixes": []
-        }
-      }
-    },
-    "tls": {
-      "enabled": false,
-      "workspace": "tls",
-      "modules": {
-        "private_key": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "tls_private_key"
-          ],
-          "dataSourceTypePrefixes": []
-        },
-        "cert_request": {
-          "enabled": false,
-          "resourceTypePrefixes": [
-            "tls_cert_request"
-          ],
-          "dataSourceTypePrefixes": [
-            "tls_certificate"
-          ]
-        },
-        "self_signed": {
-          "enabled": false,
-          "resourceTypePrefixes": [
-            "tls_self_signed_cert",
-            "tls_locally_signed_cert"
-          ],
-          "dataSourceTypePrefixes": [
-            "tls_public_key"
-          ]
-        }
-      }
-    },
-    "time": {
-      "enabled": false,
-      "workspace": "time",
-      "modules": {
-        "static": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "time_static"
-          ],
-          "dataSourceTypePrefixes": []
-        },
-        "rotating": {
-          "enabled": false,
-          "resourceTypePrefixes": [
-            "time_rotating"
-          ],
-          "dataSourceTypePrefixes": []
-        },
-        "offset": {
-          "enabled": false,
-          "resourceTypePrefixes": [
-            "time_offset",
-            "time_sleep"
-          ],
-          "dataSourceTypePrefixes": []
-        }
-      }
-    },
-    "local": {
-      "enabled": false,
-      "workspace": "local",
-      "modules": {
-        "file": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "local_file",
-            "local_sensitive_file"
-          ],
-          "dataSourceTypePrefixes": [
-            "local_file"
-          ]
-        }
-      }
-    },
-    "null": {
-      "enabled": false,
-      "workspace": "null",
-      "modules": {
-        "lifecycle": {
-          "enabled": true,
-          "resourceTypePrefixes": [
-            "null_resource"
-          ],
-          "dataSourceTypePrefixes": [
-            "null_data_source"
-          ]
-        }
-      }
-    },
-    "external": {
-      "enabled": false,
-      "workspace": "external",
-      "modules": {
-        "data": {
-          "enabled": true,
-          "resourceTypePrefixes": [],
-          "dataSourceTypePrefixes": [
-            "external"
-          ]
-        }
-      }
-    },
-    "http": {
-      "enabled": false,
-      "workspace": "http",
-      "modules": {
-        "request": {
-          "enabled": true,
-          "resourceTypePrefixes": [],
-          "dataSourceTypePrefixes": [
-            "http"
-          ]
-        }
-      }
-    },
-    "cloudinit": {
-      "enabled": false,
-      "workspace": "cloudinit",
-      "modules": {
-        "config": {
-          "enabled": true,
-          "resourceTypePrefixes": [],
-          "dataSourceTypePrefixes": [
-            "cloudinit_config"
-          ]
-        }
-      }
-    },
-    "archive": {
-      "enabled": false,
-      "workspace": "archive",
-      "modules": {
-        "package": {
-          "enabled": true,
-          "resourceTypePrefixes": [],
-          "dataSourceTypePrefixes": [
-            "archive_file"
-          ]
-        }
-      }
-    }
-  }
+    "providers":  {
+                      "aws":  {
+                                  "enabled":  true,
+                                  "workspace":  "aws",
+                                  "modules":  {
+                                                  "foundation":  {
+                                                                     "enabled":  true,
+                                                                     "resourceTypePrefixes":  [
+
+                                                                                              ],
+                                                                     "dataSourceTypePrefixes":  [
+                                                                                                    "aws_caller_identity",
+                                                                                                    "aws_partition",
+                                                                                                    "aws_region"
+                                                                                                ]
+                                                                 },
+                                                  "network":  {
+                                                                  "enabled":  true,
+                                                                  "resourceTypePrefixes":  [
+                                                                                               "aws_vpc",
+                                                                                               "aws_subnet",
+                                                                                               "aws_route",
+                                                                                               "aws_route_table",
+                                                                                               "aws_internet_gateway",
+                                                                                               "aws_nat_gateway",
+                                                                                               "aws_eip"
+                                                                                           ],
+                                                                  "dataSourceTypePrefixes":  [
+                                                                                                 "aws_vpc",
+                                                                                                 "aws_subnets",
+                                                                                                 "aws_route_table"
+                                                                                             ]
+                                                              },
+                                                  "storage":  {
+                                                                  "enabled":  true,
+                                                                  "resourceTypePrefixes":  [
+                                                                                               "aws_s3_"
+                                                                                           ],
+                                                                  "dataSourceTypePrefixes":  [
+                                                                                                 "aws_s3_"
+                                                                                             ]
+                                                              },
+                                                  "identity":  {
+                                                                   "enabled":  true,
+                                                                   "resourceTypePrefixes":  [
+                                                                                                "aws_iam_"
+                                                                                            ],
+                                                                   "dataSourceTypePrefixes":  [
+                                                                                                  "aws_iam_"
+                                                                                              ]
+                                                               },
+                                                  "compute":  {
+                                                                  "enabled":  true,
+                                                                  "resourceTypePrefixes":  [
+                                                                                               "aws_instance",
+                                                                                               "aws_launch_template",
+                                                                                               "aws_ecs_",
+                                                                                               "aws_autoscaling_"
+                                                                                           ],
+                                                                  "dataSourceTypePrefixes":  [
+                                                                                                 "aws_ami",
+                                                                                                 "aws_ecs_",
+                                                                                                 "aws_launch_template"
+                                                                                             ]
+                                                              },
+                                                  "observability":  {
+                                                                        "enabled":  true,
+                                                                        "resourceTypePrefixes":  [
+                                                                                                     "aws_cloudwatch_",
+                                                                                                     "aws_logs_"
+                                                                                                 ],
+                                                                        "dataSourceTypePrefixes":  [
+                                                                                                       "aws_cloudwatch_",
+                                                                                                       "aws_logs_"
+                                                                                                   ]
+                                                                    }
+                                              }
+                              },
+                      "azurerm":  {
+                                      "enabled":  true,
+                                      "workspace":  "azurerm",
+                                      "modules":  {
+                                                      "foundation":  {
+                                                                         "enabled":  true,
+                                                                         "resourceTypePrefixes":  [
+                                                                                                      "azurerm_resource_group"
+                                                                                                  ],
+                                                                         "dataSourceTypePrefixes":  [
+                                                                                                        "azurerm_client_config",
+                                                                                                        "azurerm_subscription"
+                                                                                                    ]
+                                                                     },
+                                                      "network":  {
+                                                                      "enabled":  true,
+                                                                      "resourceTypePrefixes":  [
+                                                                                                   "azurerm_virtual_network",
+                                                                                                   "azurerm_subnet",
+                                                                                                   "azurerm_network_security_group",
+                                                                                                   "azurerm_route_table"
+                                                                                               ],
+                                                                      "dataSourceTypePrefixes":  [
+                                                                                                     "azurerm_virtual_network",
+                                                                                                     "azurerm_subnet"
+                                                                                                 ]
+                                                                  },
+                                                      "storage":  {
+                                                                      "enabled":  true,
+                                                                      "resourceTypePrefixes":  [
+                                                                                                   "azurerm_storage_"
+                                                                                               ],
+                                                                      "dataSourceTypePrefixes":  [
+                                                                                                     "azurerm_storage_"
+                                                                                                 ]
+                                                                  },
+                                                      "identity":  {
+                                                                       "enabled":  true,
+                                                                       "resourceTypePrefixes":  [
+                                                                                                    "azurerm_user_assigned_identity",
+                                                                                                    "azurerm_role_assignment"
+                                                                                                ],
+                                                                       "dataSourceTypePrefixes":  [
+                                                                                                      "azurerm_client_config",
+                                                                                                      "azurerm_role_definition"
+                                                                                                  ]
+                                                                   },
+                                                      "compute":  {
+                                                                      "enabled":  true,
+                                                                      "resourceTypePrefixes":  [
+                                                                                                   "azurerm_linux_virtual_machine",
+                                                                                                   "azurerm_windows_virtual_machine",
+                                                                                                   "azurerm_container_app"
+                                                                                               ],
+                                                                      "dataSourceTypePrefixes":  [
+                                                                                                     "azurerm_image",
+                                                                                                     "azurerm_virtual_machine"
+                                                                                                 ]
+                                                                  },
+                                                      "observability":  {
+                                                                            "enabled":  true,
+                                                                            "resourceTypePrefixes":  [
+                                                                                                         "azurerm_monitor_",
+                                                                                                         "azurerm_log_analytics_"
+                                                                                                     ],
+                                                                            "dataSourceTypePrefixes":  [
+                                                                                                           "azurerm_monitor_",
+                                                                                                           "azurerm_log_analytics_"
+                                                                                                       ]
+                                                                        }
+                                                  }
+                                  },
+                      "google":  {
+                                     "enabled":  true,
+                                     "workspace":  "google",
+                                     "modules":  {
+                                                     "foundation":  {
+                                                                        "enabled":  true,
+                                                                        "resourceTypePrefixes":  [
+                                                                                                     "google_project_service"
+                                                                                                 ],
+                                                                        "dataSourceTypePrefixes":  [
+                                                                                                       "google_project",
+                                                                                                       "google_client_config"
+                                                                                                   ]
+                                                                    },
+                                                     "network":  {
+                                                                     "enabled":  true,
+                                                                     "resourceTypePrefixes":  [
+                                                                                                  "google_compute_network",
+                                                                                                  "google_compute_subnetwork",
+                                                                                                  "google_compute_router",
+                                                                                                  "google_compute_firewall"
+                                                                                              ],
+                                                                     "dataSourceTypePrefixes":  [
+                                                                                                    "google_compute_network",
+                                                                                                    "google_compute_subnetwork"
+                                                                                                ]
+                                                                 },
+                                                     "storage":  {
+                                                                     "enabled":  true,
+                                                                     "resourceTypePrefixes":  [
+                                                                                                  "google_storage_bucket"
+                                                                                              ],
+                                                                     "dataSourceTypePrefixes":  [
+                                                                                                    "google_storage_bucket"
+                                                                                                ]
+                                                                 },
+                                                     "identity":  {
+                                                                      "enabled":  true,
+                                                                      "resourceTypePrefixes":  [
+                                                                                                   "google_service_account",
+                                                                                                   "google_project_iam_"
+                                                                                               ],
+                                                                      "dataSourceTypePrefixes":  [
+                                                                                                     "google_service_account",
+                                                                                                     "google_iam_policy"
+                                                                                                 ]
+                                                                  },
+                                                     "compute":  {
+                                                                     "enabled":  true,
+                                                                     "resourceTypePrefixes":  [
+                                                                                                  "google_compute_instance",
+                                                                                                  "google_cloud_run_"
+                                                                                              ],
+                                                                     "dataSourceTypePrefixes":  [
+                                                                                                    "google_compute_image",
+                                                                                                    "google_compute_instance"
+                                                                                                ]
+                                                                 },
+                                                     "observability":  {
+                                                                           "enabled":  true,
+                                                                           "resourceTypePrefixes":  [
+                                                                                                        "google_logging_",
+                                                                                                        "google_monitoring_"
+                                                                                                    ],
+                                                                           "dataSourceTypePrefixes":  [
+                                                                                                          "google_logging_",
+                                                                                                          "google_monitoring_"
+                                                                                                      ]
+                                                                       }
+                                                 }
+                                 },
+                      "kubernetes":  {
+                                         "enabled":  true,
+                                         "workspace":  "kubernetes",
+                                         "modules":  {
+                                                         "namespace":  {
+                                                                           "enabled":  true,
+                                                                           "resourceTypePrefixes":  [
+                                                                                                        "kubernetes_namespace"
+                                                                                                    ],
+                                                                           "dataSourceTypePrefixes":  [
+                                                                                                          "kubernetes_namespace"
+                                                                                                      ]
+                                                                       },
+                                                         "service_account":  {
+                                                                                 "enabled":  true,
+                                                                                 "resourceTypePrefixes":  [
+                                                                                                              "kubernetes_service_account",
+                                                                                                              "kubernetes_role",
+                                                                                                              "kubernetes_role_binding"
+                                                                                                          ],
+                                                                                 "dataSourceTypePrefixes":  [
+                                                                                                                "kubernetes_service_account",
+                                                                                                                "kubernetes_role"
+                                                                                                            ]
+                                                                             },
+                                                         "config":  {
+                                                                        "enabled":  true,
+                                                                        "resourceTypePrefixes":  [
+                                                                                                     "kubernetes_config_map",
+                                                                                                     "kubernetes_secret"
+                                                                                                 ],
+                                                                        "dataSourceTypePrefixes":  [
+                                                                                                       "kubernetes_config_map",
+                                                                                                       "kubernetes_secret"
+                                                                                                   ]
+                                                                    },
+                                                         "workload":  {
+                                                                          "enabled":  true,
+                                                                          "resourceTypePrefixes":  [
+                                                                                                       "kubernetes_deployment",
+                                                                                                       "kubernetes_service",
+                                                                                                       "kubernetes_ingress"
+                                                                                                   ],
+                                                                          "dataSourceTypePrefixes":  [
+                                                                                                         "kubernetes_service",
+                                                                                                         "kubernetes_ingress"
+                                                                                                     ]
+                                                                      }
+                                                     }
+                                     },
+                      "helm":  {
+                                   "enabled":  true,
+                                   "workspace":  "helm",
+                                   "modules":  {
+                                                   "repository":  {
+                                                                      "enabled":  true,
+                                                                      "resourceTypePrefixes":  [
+
+                                                                                               ],
+                                                                      "dataSourceTypePrefixes":  [
+
+                                                                                                 ]
+                                                                  },
+                                                   "release":  {
+                                                                   "enabled":  true,
+                                                                   "resourceTypePrefixes":  [
+                                                                                                "helm_release"
+                                                                                            ],
+                                                                   "dataSourceTypePrefixes":  [
+
+                                                                                              ]
+                                                               }
+                                               }
+                               },
+                      "github":  {
+                                     "enabled":  true,
+                                     "workspace":  "github",
+                                     "modules":  {
+                                                     "foundation":  {
+                                                                        "enabled":  true,
+                                                                        "resourceTypePrefixes":  [
+                                                                                                     "github_organization",
+                                                                                                     "github_team"
+                                                                                                 ],
+                                                                        "dataSourceTypePrefixes":  [
+                                                                                                       "github_organization",
+                                                                                                       "github_team"
+                                                                                                   ]
+                                                                    },
+                                                     "repository":  {
+                                                                        "enabled":  true,
+                                                                        "resourceTypePrefixes":  [
+                                                                                                     "github_repository",
+                                                                                                     "github_branch_protection",
+                                                                                                     "github_repository_collaborator"
+                                                                                                 ],
+                                                                        "dataSourceTypePrefixes":  [
+                                                                                                       "github_repository",
+                                                                                                       "github_repositories"
+                                                                                                   ]
+                                                                    },
+                                                     "automation":  {
+                                                                        "enabled":  true,
+                                                                        "resourceTypePrefixes":  [
+                                                                                                     "github_actions_",
+                                                                                                     "github_repository_ruleset"
+                                                                                                 ],
+                                                                        "dataSourceTypePrefixes":  [
+                                                                                                       "github_actions_"
+                                                                                                   ]
+                                                                    }
+                                                 }
+                                 },
+                      "azuredevops":  {
+                                          "enabled":  true,
+                                          "workspace":  "azuredevops",
+                                          "modules":  {
+                                                          "foundation":  {
+                                                                             "enabled":  true,
+                                                                             "resourceTypePrefixes":  [
+                                                                                                          "azuredevops_project",
+                                                                                                          "azuredevops_team"
+                                                                                                      ],
+                                                                             "dataSourceTypePrefixes":  [
+                                                                                                            "azuredevops_project",
+                                                                                                            "azuredevops_projects"
+                                                                                                        ]
+                                                                         },
+                                                          "repository":  {
+                                                                             "enabled":  true,
+                                                                             "resourceTypePrefixes":  [
+                                                                                                          "azuredevops_git_repository",
+                                                                                                          "azuredevops_git_repository_branch_policy"
+                                                                                                      ],
+                                                                             "dataSourceTypePrefixes":  [
+                                                                                                            "azuredevops_git_repositories",
+                                                                                                            "azuredevops_git_repository"
+                                                                                                        ]
+                                                                         },
+                                                          "pipeline":  {
+                                                                           "enabled":  true,
+                                                                           "resourceTypePrefixes":  [
+                                                                                                        "azuredevops_build_definition",
+                                                                                                        "azuredevops_variable_group",
+                                                                                                        "azuredevops_serviceendpoint_"
+                                                                                                    ],
+                                                                           "dataSourceTypePrefixes":  [
+                                                                                                          "azuredevops_build_definition",
+                                                                                                          "azuredevops_variable_group"
+                                                                                                      ]
+                                                                       }
+                                                      }
+                                      },
+                      "gitlab":  {
+                                     "enabled":  true,
+                                     "workspace":  "gitlab",
+                                     "modules":  {
+                                                     "foundation":  {
+                                                                        "enabled":  true,
+                                                                        "resourceTypePrefixes":  [
+                                                                                                     "gitlab_group",
+                                                                                                     "gitlab_user"
+                                                                                                 ],
+                                                                        "dataSourceTypePrefixes":  [
+                                                                                                       "gitlab_group",
+                                                                                                       "gitlab_users"
+                                                                                                   ]
+                                                                    },
+                                                     "repository":  {
+                                                                        "enabled":  true,
+                                                                        "resourceTypePrefixes":  [
+                                                                                                     "gitlab_project",
+                                                                                                     "gitlab_branch_protection",
+                                                                                                     "gitlab_project_member"
+                                                                                                 ],
+                                                                        "dataSourceTypePrefixes":  [
+                                                                                                       "gitlab_project",
+                                                                                                       "gitlab_projects"
+                                                                                                   ]
+                                                                    },
+                                                     "automation":  {
+                                                                        "enabled":  true,
+                                                                        "resourceTypePrefixes":  [
+                                                                                                     "gitlab_pipeline_schedule",
+                                                                                                     "gitlab_project_hook",
+                                                                                                     "gitlab_deploy_token"
+                                                                                                 ],
+                                                                        "dataSourceTypePrefixes":  [
+                                                                                                       "gitlab_pipeline_schedule",
+                                                                                                       "gitlab_project_hooks"
+                                                                                                   ]
+                                                                    }
+                                                 }
+                                 }
+                  }
 }

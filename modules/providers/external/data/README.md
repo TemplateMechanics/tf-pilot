@@ -1,9 +1,9 @@
-﻿# external/data module
+# external/data module
 
-Reflection-scaffolded module contract for the external data capability family.
+Generated module contract for the external data capability family.
 
 Mapped reflection prefixes:
-- Resource types: (none)
+- Resource types: 
 - Data source types: external
 
-This scaffold is intentionally safe by default and intended for incremental expansion.
+This module is generated automatically. Manual edits will be overwritten.

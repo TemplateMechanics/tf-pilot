@@ -1,0 +1,16 @@
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "arn" {
+  description = "Required attribute 'arn' for type 'aws_iam_saml_provider'."
+  type        = any
+}
+
+variable "tags" {
+  description = "Optional attribute 'tags' for type 'aws_iam_saml_provider'."
+  type        = any
+  default     = null
+}

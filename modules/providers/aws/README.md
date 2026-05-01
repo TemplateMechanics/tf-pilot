@@ -1,15 +1,5 @@
-# AWS Provider Modules
+# aws modules
 
-AWS modules are delivered as small capabilities under this folder.
+Generated provider module families for aws.
 
-Current module:
-- `foundation` for normalized tags and optional live account/region discovery.
-
-Planned next modules:
-- `network`
-- `storage`
-- `identity`
-- `compute`
-- `observability`
-
-Root examples should consume these modules from YAML-driven composition stacks.
+Manual edits inside generated files will be overwritten by scripts/Sync-ProviderGeneratedModules.ps1.

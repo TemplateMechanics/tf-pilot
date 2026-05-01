@@ -1,14 +1,18 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: time
+# Module: offset
+# File: tests/basic.tftest.hcl
 variables {
   name        = "offset"
   environment = "test"
-  enabled     = false
 }
 
-run "plan_without_credentials" {
+run "plan_generated_contract" {
   command = plan
 
   assert {
     condition     = output.module == "time-offset"
-    error_message = "Expected time-offset module identifier"
+    error_message = "Expected generated module identifier"
   }
 }

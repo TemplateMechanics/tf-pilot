@@ -1,3 +1,5 @@
-﻿# azurerm modules
+# azurerm modules
 
-Provider module families for azurerm generated from reflection settings.
+Generated provider module families for azurerm.
+
+Manual edits inside generated files will be overwritten by scripts/Sync-ProviderGeneratedModules.ps1.

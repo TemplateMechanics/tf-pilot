@@ -1,3 +1,8 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: time
+# Module: static
+# File: variables.tf
 variable "name" {
   description = "Short name for the resource or capability."
   type        = string

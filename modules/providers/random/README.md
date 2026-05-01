@@ -1,3 +1,5 @@
-﻿# random modules
+# random modules
 
-Provider module families for random generated from reflection settings.
+Generated provider module families for random.
+
+Manual edits inside generated files will be overwritten by scripts/Sync-ProviderGeneratedModules.ps1.

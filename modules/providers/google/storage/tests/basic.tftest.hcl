@@ -1,14 +1,22 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: google
+# Module: storage
+# File: tests/basic.tftest.hcl
+mock_provider "google" {}
+
 variables {
   name        = "storage"
   environment = "test"
-  enabled     = false
+  enabled     = true
+  project_id  = "test-project"
 }
 
-run "plan_without_credentials" {
+run "plan_storage" {
   command = plan
 
   assert {
-    condition     = output.module == "google-storage"
-    error_message = "Expected google-storage module identifier"
+    condition     = output.bucket_name == "storage-test"
+    error_message = "Expected generated bucket name"
   }
 }

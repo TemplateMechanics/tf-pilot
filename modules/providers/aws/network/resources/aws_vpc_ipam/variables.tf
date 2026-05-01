@@ -1,0 +1,53 @@
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "cascade" {
+  description = "Optional attribute 'cascade' for type 'aws_vpc_ipam'."
+  type        = any
+  default     = null
+}
+
+variable "description" {
+  description = "Optional attribute 'description' for type 'aws_vpc_ipam'."
+  type        = any
+  default     = null
+}
+
+variable "enable_private_gua" {
+  description = "Optional attribute 'enable_private_gua' for type 'aws_vpc_ipam'."
+  type        = any
+  default     = null
+}
+
+variable "tags" {
+  description = "Optional attribute 'tags' for type 'aws_vpc_ipam'."
+  type        = any
+  default     = null
+}
+
+variable "tags_all" {
+  description = "Optional attribute 'tags_all' for type 'aws_vpc_ipam'."
+  type        = any
+  default     = null
+}
+
+variable "tier" {
+  description = "Optional attribute 'tier' for type 'aws_vpc_ipam'."
+  type        = any
+  default     = null
+}
+
+variable "block_operating_regions" {
+  description = "Optional nested block 'operating_regions' for type 'aws_vpc_ipam'."
+  type        = any
+  default     = null
+}
+
+variable "block_timeouts" {
+  description = "Optional nested block 'timeouts' for type 'aws_vpc_ipam'."
+  type        = any
+  default     = null
+}

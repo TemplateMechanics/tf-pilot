@@ -1,0 +1,74 @@
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "firehose_arn" {
+  description = "Required attribute 'firehose_arn' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+}
+
+variable "output_format" {
+  description = "Required attribute 'output_format' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+}
+
+variable "role_arn" {
+  description = "Required attribute 'role_arn' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+}
+
+variable "include_linked_accounts_metrics" {
+  description = "Optional attribute 'include_linked_accounts_metrics' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}
+
+variable "name" {
+  description = "Optional attribute 'name' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}
+
+variable "name_prefix" {
+  description = "Optional attribute 'name_prefix' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}
+
+variable "tags" {
+  description = "Optional attribute 'tags' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}
+
+variable "tags_all" {
+  description = "Optional attribute 'tags_all' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}
+
+variable "block_exclude_filter" {
+  description = "Optional nested block 'exclude_filter' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}
+
+variable "block_include_filter" {
+  description = "Optional nested block 'include_filter' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}
+
+variable "block_statistics_configuration" {
+  description = "Optional nested block 'statistics_configuration' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}
+
+variable "block_timeouts" {
+  description = "Optional nested block 'timeouts' for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}

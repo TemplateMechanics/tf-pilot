@@ -1,0 +1,5 @@
+{
+    "provider":  "azurerm",
+    "resourcesGenerated":  100,
+    "dataSourcesGenerated":  39
+}

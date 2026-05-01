@@ -3,14 +3,19 @@
 Run end-to-end reflection-based provider coverage buildout.
 
 .DESCRIPTION
-1. Refresh provider catalogs with diff tracking.
-2. Scaffold missing module contracts from settings.
-3. Regenerate coverage markdown.
+1. Sync settings/workspaces from a single YAML file.
+2. Refresh provider catalogs with diff tracking.
+3. Regenerate managed module implementations from settings.
+4. Generate per-resource/data-source module stubs from reflected schema.
+5. Regenerate coverage markdown.
 
 Designed to minimize manual upkeep.
 #>
 [CmdletBinding()]
 param(
+  [Parameter()]
+  [string]$YamlFile = 'examples/providers/schema-catalog/provider-coverage.yaml',
+
   [Parameter()]
   [switch]$IncludeDisabledModules,
 
@@ -30,8 +35,15 @@ $global:LASTEXITCODE = 0
 
 $scriptRoot = Split-Path -Parent $PSCommandPath
 $repoRoot = (Resolve-Path -Path (Join-Path $scriptRoot '..')).Path
+$syncSettingsFromYamlScript = Join-Path $scriptRoot 'Sync-ProviderSettingsFromYaml.ps1'
 $refreshScript = Join-Path $scriptRoot 'Invoke-ProviderCatalogRefresh.ps1'
-$syncScaffoldScript = Join-Path $scriptRoot 'Sync-ProviderModuleScaffolds.ps1'
+$syncGeneratedModulesScript = Join-Path $scriptRoot 'Sync-ProviderGeneratedModules.ps1'
+$syncResourceCoverageScript = Join-Path $scriptRoot 'Sync-ProviderResourceCoverage.ps1'
+
+& $syncSettingsFromYamlScript -YamlFile $YamlFile
+if ($LASTEXITCODE -ne 0) {
+  exit $LASTEXITCODE
+}
 
 $refreshParams = @{}
 if (-not $ProvidersAll -and $Providers -and $Providers.Count -gt 0) {
@@ -46,7 +58,20 @@ if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
-& $syncScaffoldScript -IncludeDisabledModules:$IncludeDisabledModules
+& $syncGeneratedModulesScript -IncludeDisabledModules:$IncludeDisabledModules
+if ($LASTEXITCODE -ne 0) {
+  exit $LASTEXITCODE
+}
+
+$resourceCoverageParams = @{
+  IncludeDisabledModules = $IncludeDisabledModules
+}
+
+if (-not $ProvidersAll -and $Providers -and $Providers.Count -gt 0) {
+  $resourceCoverageParams['Providers'] = @($Providers)
+}
+
+& $syncResourceCoverageScript @resourceCoverageParams
 if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
@@ -58,69 +83,62 @@ $modulesRoot = Join-Path $repoRoot 'modules/providers'
 $lines = New-Object 'System.Collections.Generic.List[string]'
 $lines.Add('# Provider Buildout Docs') | Out-Null
 $lines.Add('') | Out-Null
-$lines.Add('This directory tracks provider-specific implementation guidance for the module-factory expansion of tf-pilot.') | Out-Null
+$lines.Add('This directory tracks provider-specific generated module coverage for tf-pilot.') | Out-Null
 $lines.Add('') | Out-Null
-$lines.Add('Coverage targets:') | Out-Null
-$lines.Add('- AWS (hashicorp/aws)') | Out-Null
-$lines.Add('- Azure (hashicorp/azurerm)') | Out-Null
-$lines.Add('- Google Cloud (hashicorp/google)') | Out-Null
-$lines.Add('- Kubernetes (hashicorp/kubernetes)') | Out-Null
-$lines.Add('- Helm (hashicorp/helm)') | Out-Null
+$lines.Add('Coverage targets are sourced from examples/providers/schema-catalog/provider-coverage.yaml.') | Out-Null
 $lines.Add('') | Out-Null
 $lines.Add('## Coverage Matrix') | Out-Null
 $lines.Add('') | Out-Null
-$lines.Add('| Provider | Foundation | Network | Storage | Identity | Compute | Observability |') | Out-Null
-$lines.Add('|---|---|---|---|---|---|---|') | Out-Null
-
-$cloudProviders = @(
-  @{ Name = 'aws'; Label = 'AWS' },
-  @{ Name = 'azurerm'; Label = 'Azure' },
-  @{ Name = 'google'; Label = 'Google Cloud' }
-)
-
-foreach ($p in $cloudProviders) {
-  $providerDir = Join-Path $modulesRoot $p.Name
-  $cells = @()
-  foreach ($moduleName in @('foundation', 'network', 'storage', 'identity', 'compute', 'observability')) {
-    $moduleDir = Join-Path $providerDir $moduleName
-    $cells += if (Test-Path $moduleDir) { 'done' } else { 'planned' }
-  }
-  $lines.Add("| $($p.Label) | $($cells[0]) | $($cells[1]) | $($cells[2]) | $($cells[3]) | $($cells[4]) | $($cells[5]) |") | Out-Null
-}
-
-$lines.Add('') | Out-Null
-$lines.Add('Additional provider families:') | Out-Null
-$lines.Add('') | Out-Null
-$lines.Add('| Provider | Module 1 | Module 2 | Module 3 | Module 4 |') | Out-Null
+$lines.Add('| Provider | Module | Family Module | Reflected Resources | Reflected Data Sources |') | Out-Null
 $lines.Add('|---|---|---|---|---|') | Out-Null
 
-$k8sDir = Join-Path $modulesRoot 'kubernetes'
-$k8sCells = @()
-foreach ($name in @('namespace','service_account','config','workload')) {
-  $k8sCells += if (Test-Path (Join-Path $k8sDir $name)) { "$name (done)" } else { "$name (planned)" }
-}
-$lines.Add("| Kubernetes | $($k8sCells[0]) | $($k8sCells[1]) | $($k8sCells[2]) | $($k8sCells[3]) |") | Out-Null
+foreach ($providerProp in $settings.providers.PSObject.Properties) {
+  $providerName = $providerProp.Name
+  $providerCfg = $providerProp.Value
 
-$helmDir = Join-Path $modulesRoot 'helm'
-$helmCell1 = if (Test-Path (Join-Path $helmDir 'repository')) { 'repository (done)' } else { 'repository (planned)' }
-$helmCell2 = if (Test-Path (Join-Path $helmDir 'release')) { 'release (done)' } else { 'release (planned)' }
-$lines.Add("| Helm | $helmCell1 | $helmCell2 | n/a | n/a |") | Out-Null
+  if (-not $IncludeDisabledModules -and $providerCfg.enabled -ne $true) {
+    continue
+  }
+
+  foreach ($moduleProp in $providerCfg.modules.PSObject.Properties) {
+    $moduleName = $moduleProp.Name
+    $moduleCfg = $moduleProp.Value
+
+    if (-not $IncludeDisabledModules -and $moduleCfg.enabled -ne $true) {
+      continue
+    }
+
+    $familyModuleDir = Join-Path (Join-Path $modulesRoot $providerName) $moduleName
+    $resourceDir = Join-Path $familyModuleDir 'resources'
+    $dataDir = Join-Path $familyModuleDir 'data-sources'
+
+    $resourceCount = if (Test-Path $resourceDir) { (Get-ChildItem -Path $resourceDir -Directory | Measure-Object).Count } else { 0 }
+    $dataCount = if (Test-Path $dataDir) { (Get-ChildItem -Path $dataDir -Directory | Measure-Object).Count } else { 0 }
+    $familyStatus = if (Test-Path $familyModuleDir) { 'done' } else { 'planned' }
+
+    $lines.Add("| $providerName | $moduleName | $familyStatus | $resourceCount | $dataCount |") | Out-Null
+  }
+}
 
 $lines.Add('') | Out-Null
 $lines.Add('## Reflection-Driven Upkeep') | Out-Null
 $lines.Add('') | Out-Null
 $lines.Add('Use these commands for near-zero upkeep:') | Out-Null
-$lines.Add('1. ./scripts/Invoke-ProviderCatalogRefresh.ps1') | Out-Null
+$lines.Add('1. ./scripts/Sync-ProviderSettingsFromYaml.ps1 -YamlFile examples/providers/schema-catalog/provider-coverage.yaml') | Out-Null
+$lines.Add('2. ./scripts/Invoke-ProviderCatalogRefresh.ps1') | Out-Null
 $lines.Add('   - Opt-in profiles: core | extended | all-hashicorp') | Out-Null
 $lines.Add('   - Example: ./scripts/Invoke-ProviderCatalogRefresh.ps1 -Profile core') | Out-Null
-$lines.Add('2. ./scripts/Sync-ProviderModuleScaffolds.ps1 -IncludeDisabledModules') | Out-Null
-$lines.Add('3. ./scripts/Invoke-ProviderCoverageBuildout.ps1 -IncludeDisabledModules -Profile extended') | Out-Null
+$lines.Add('3. ./scripts/Sync-ProviderGeneratedModules.ps1 -IncludeDisabledModules') | Out-Null
+$lines.Add('4. ./scripts/Sync-ProviderResourceCoverage.ps1 -IncludeDisabledModules') | Out-Null
+$lines.Add('5. ./scripts/Invoke-ProviderCoverageBuildout.ps1 -IncludeDisabledModules -Profile extended') | Out-Null
 $lines.Add('') | Out-Null
 $lines.Add('Generated artifacts:') | Out-Null
 $lines.Add('- docs/providers/generated/refresh-summary.json') | Out-Null
 $lines.Add('- docs/providers/generated/refresh-diff-summary.json') | Out-Null
 $lines.Add('- docs/providers/generated/refresh-diff-summary.md') | Out-Null
-$lines.Add('- docs/providers/generated/module-scaffold-summary.json') | Out-Null
+$lines.Add('- docs/providers/generated/module-generation-summary.json') | Out-Null
+$lines.Add('- docs/providers/generated/module-scaffold-summary.json (compatibility alias)') | Out-Null
+$lines.Add('- docs/providers/generated/resource-coverage-summary.json') | Out-Null
 
 $providersReadmePath = Join-Path $repoRoot 'docs/providers/README.md'
 $lines | Out-File -FilePath $providersReadmePath -Encoding utf8

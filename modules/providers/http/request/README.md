@@ -1,9 +1,9 @@
-﻿# http/request module
+# http/request module
 
-Reflection-scaffolded module contract for the http request capability family.
+Generated module contract for the http request capability family.
 
 Mapped reflection prefixes:
-- Resource types: (none)
+- Resource types: 
 - Data source types: http
 
-This scaffold is intentionally safe by default and intended for incremental expansion.
+This module is generated automatically. Manual edits will be overwritten.

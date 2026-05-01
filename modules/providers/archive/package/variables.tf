@@ -1,3 +1,8 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: archive
+# Module: package
+# File: variables.tf
 variable "name" {
   description = "Short name for the resource or capability."
   type        = string

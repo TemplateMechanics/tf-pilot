@@ -1,24 +1,41 @@
-output "name" {
-  description = "Name of the Helm release."
-  value       = helm_release.this.name
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: helm
+# Module: release
+# File: outputs.tf
+output "module" {
+  description = "Module identifier."
+  value       = "helm-release"
 }
 
-output "namespace" {
-  description = "Kubernetes namespace the release was deployed into."
-  value       = helm_release.this.namespace
-}
-
-output "chart_version" {
-  description = "Resolved chart version deployed."
-  value       = helm_release.this.version
-}
-
-output "status" {
-  description = "Status of the Helm release (e.g. deployed)."
-  value       = helm_release.this.status
+output "effective_tags" {
+  description = "Normalized and merged metadata map for downstream usage."
+  value       = local.effective_tags
 }
 
 output "effective_labels" {
-  description = "Labels for downstream harness usage."
-  value       = local.effective_labels
+  description = "Alias of effective_tags for label-based providers."
+  value       = local.effective_tags
+}
+
+output "reflected_resource_prefixes" {
+  description = "Resource prefixes mapped from reflection settings for this module family."
+  value       = local.reflected_resource_prefixes
+}
+
+output "reflected_data_source_prefixes" {
+  description = "Data source prefixes mapped from reflection settings for this module family."
+  value       = local.reflected_data_source_prefixes
+}
+output "name" {
+  description = "Helm release name."
+  value       = var.enabled ? helm_release.this[0].name : null
+}
+output "namespace" {
+  description = "Helm release namespace."
+  value       = var.enabled ? helm_release.this[0].namespace : var.namespace
+}
+output "status" {
+  description = "Helm release status when created."
+  value       = try(helm_release.this[0].status, null)
 }

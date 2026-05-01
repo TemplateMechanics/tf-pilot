@@ -1,0 +1,2411 @@
+﻿{
+    "generatedAt":  "2026-05-01T05:05:56.0222811Z",
+    "generatedFromPath":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\github",
+    "provider":  "github",
+    "providerSchemaKey":  "registry.terraform.io/integrations/github",
+    "modules":  [
+                    "foundation",
+                    "repository",
+                    "automation"
+                ],
+    "resourcePrefixes":  [
+                             "github_actions_",
+                             "github_branch_protection",
+                             "github_organization",
+                             "github_repository",
+                             "github_repository_collaborator",
+                             "github_repository_ruleset",
+                             "github_team"
+                         ],
+    "dataSourcePrefixes":  [
+                               "github_actions_",
+                               "github_organization",
+                               "github_repositories",
+                               "github_repository",
+                               "github_team"
+                           ],
+    "resourceCount":  58,
+    "dataSourceCount":  46,
+    "resources":  [
+                      {
+                          "type":  "github_actions_environment_secret",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "environment",
+                                                                     "repository",
+                                                                     "secret_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "encrypted_value",
+                                                                     "id",
+                                                                     "key_id",
+                                                                     "plaintext_value",
+                                                                     "value",
+                                                                     "value_encrypted"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "created_at",
+                                                                     "remote_updated_at",
+                                                                     "repository_id",
+                                                                     "updated_at"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_environment_variable",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "environment",
+                                                                     "repository",
+                                                                     "value",
+                                                                     "variable_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "created_at",
+                                                                     "repository_id",
+                                                                     "updated_at"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_hosted_runner",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "runner_group_id",
+                                                                     "size"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "image_gen",
+                                                                     "image_version",
+                                                                     "maximum_runners",
+                                                                     "public_ip_enabled"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id",
+                                                                     "last_active_on",
+                                                                     "machine_size_details",
+                                                                     "platform",
+                                                                     "public_ips",
+                                                                     "status"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "image",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_organization_oidc_subject_claim_customization_template",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "include_claim_keys"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_organization_permissions",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "enabled_repositories"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allowed_actions",
+                                                                     "id",
+                                                                     "sha_pinning_required"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "allowed_actions_config",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "enabled_repositories_config",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_organization_secret",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "secret_name",
+                                                                     "visibility"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "destroy_on_drift",
+                                                                     "encrypted_value",
+                                                                     "id",
+                                                                     "key_id",
+                                                                     "plaintext_value",
+                                                                     "selected_repository_ids",
+                                                                     "value",
+                                                                     "value_encrypted"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "created_at",
+                                                                     "remote_updated_at",
+                                                                     "updated_at"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_organization_secret_repositories",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "secret_name",
+                                                                     "selected_repository_ids"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_organization_secret_repository",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository_id",
+                                                                     "secret_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_organization_variable",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "value",
+                                                                     "variable_name",
+                                                                     "visibility"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "selected_repository_ids"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "created_at",
+                                                                     "updated_at"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_organization_variable_repositories",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "selected_repository_ids",
+                                                                     "variable_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_organization_variable_repository",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository_id",
+                                                                     "variable_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_organization_workflow_permissions",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "organization_slug"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "can_approve_pull_request_reviews",
+                                                                     "default_workflow_permissions",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_repository_access_level",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "access_level",
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_repository_oidc_subject_claim_customization_template",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository",
+                                                                     "use_default"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "include_claim_keys"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_repository_permissions",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allowed_actions",
+                                                                     "enabled",
+                                                                     "id",
+                                                                     "sha_pinning_required"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "allowed_actions_config",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_runner_group",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "visibility"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allows_public_repositories",
+                                                                     "restricted_to_workflows",
+                                                                     "selected_repository_ids",
+                                                                     "selected_workflows"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "default",
+                                                                     "etag",
+                                                                     "id",
+                                                                     "inherited",
+                                                                     "runners_url",
+                                                                     "selected_repositories_url"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_secret",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository",
+                                                                     "secret_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "destroy_on_drift",
+                                                                     "encrypted_value",
+                                                                     "id",
+                                                                     "key_id",
+                                                                     "plaintext_value",
+                                                                     "value",
+                                                                     "value_encrypted"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "created_at",
+                                                                     "remote_updated_at",
+                                                                     "repository_id",
+                                                                     "updated_at"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_actions_variable",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository",
+                                                                     "value",
+                                                                     "variable_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "created_at",
+                                                                     "repository_id",
+                                                                     "updated_at"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_branch_protection",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "pattern",
+                                                                     "repository_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allows_deletions",
+                                                                     "allows_force_pushes",
+                                                                     "enforce_admins",
+                                                                     "force_push_bypassers",
+                                                                     "id",
+                                                                     "lock_branch",
+                                                                     "require_conversation_resolution",
+                                                                     "require_signed_commits",
+                                                                     "required_linear_history"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "required_pull_request_reviews",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "required_status_checks",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "restrict_pushes",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_branch_protection_v3",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "branch",
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "enforce_admins",
+                                                                     "id",
+                                                                     "require_conversation_resolution",
+                                                                     "require_signed_commits"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "required_pull_request_reviews",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "required_status_checks",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "restrictions",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_block",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "username"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_custom_properties",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "property_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allowed_values",
+                                                                     "default_value",
+                                                                     "description",
+                                                                     "id",
+                                                                     "required",
+                                                                     "value_type",
+                                                                     "values_editable_by"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_custom_role",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "base_role",
+                                                                     "name",
+                                                                     "permissions"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_project",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "body",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag",
+                                                                     "url"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_repository_role",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "base_role",
+                                                                     "name",
+                                                                     "permissions"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "role_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_role",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "permissions"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "base_role",
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "role_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_role_team",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "role_id",
+                                                                     "team_slug"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_role_team_assignment",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "role_id",
+                                                                     "team_slug"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_role_user",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "login",
+                                                                     "role_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_ruleset",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "enforcement",
+                                                                     "name",
+                                                                     "target"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag",
+                                                                     "node_id",
+                                                                     "ruleset_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "bypass_actors",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "conditions",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "rules",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_security_manager",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "team_slug"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_settings",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "billing_email"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "advanced_security_enabled_for_new_repositories",
+                                                                     "blog",
+                                                                     "company",
+                                                                     "default_repository_permission",
+                                                                     "dependabot_alerts_enabled_for_new_repositories",
+                                                                     "dependabot_security_updates_enabled_for_new_repositories",
+                                                                     "dependency_graph_enabled_for_new_repositories",
+                                                                     "description",
+                                                                     "email",
+                                                                     "has_organization_projects",
+                                                                     "has_repository_projects",
+                                                                     "id",
+                                                                     "location",
+                                                                     "members_can_create_internal_repositories",
+                                                                     "members_can_create_pages",
+                                                                     "members_can_create_private_pages",
+                                                                     "members_can_create_private_repositories",
+                                                                     "members_can_create_public_pages",
+                                                                     "members_can_create_public_repositories",
+                                                                     "members_can_create_repositories",
+                                                                     "members_can_fork_private_repositories",
+                                                                     "name",
+                                                                     "secret_scanning_enabled_for_new_repositories",
+                                                                     "secret_scanning_push_protection_enabled_for_new_repositories",
+                                                                     "twitter_username",
+                                                                     "web_commit_signoff_required"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_organization_webhook",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "events"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "active",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag",
+                                                                     "url"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "configuration",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allow_auto_merge",
+                                                                     "allow_forking",
+                                                                     "allow_merge_commit",
+                                                                     "allow_rebase_merge",
+                                                                     "allow_squash_merge",
+                                                                     "allow_update_branch",
+                                                                     "archive_on_destroy",
+                                                                     "archived",
+                                                                     "auto_init",
+                                                                     "default_branch",
+                                                                     "delete_branch_on_merge",
+                                                                     "description",
+                                                                     "etag",
+                                                                     "fork",
+                                                                     "gitignore_template",
+                                                                     "has_discussions",
+                                                                     "has_downloads",
+                                                                     "has_issues",
+                                                                     "has_projects",
+                                                                     "has_wiki",
+                                                                     "homepage_url",
+                                                                     "id",
+                                                                     "ignore_vulnerability_alerts_during_read",
+                                                                     "is_template",
+                                                                     "license_template",
+                                                                     "merge_commit_message",
+                                                                     "merge_commit_title",
+                                                                     "private",
+                                                                     "source_owner",
+                                                                     "source_repo",
+                                                                     "squash_merge_commit_message",
+                                                                     "squash_merge_commit_title",
+                                                                     "topics",
+                                                                     "visibility",
+                                                                     "vulnerability_alerts",
+                                                                     "web_commit_signoff_required"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "full_name",
+                                                                     "git_clone_url",
+                                                                     "html_url",
+                                                                     "http_clone_url",
+                                                                     "node_id",
+                                                                     "primary_language",
+                                                                     "repo_id",
+                                                                     "ssh_clone_url",
+                                                                     "svn_url"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "pages",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "security_and_analysis",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "template",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_autolink_reference",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "key_prefix",
+                                                                     "repository",
+                                                                     "target_url_template"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "is_alphanumeric"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_collaborator",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository",
+                                                                     "username"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "permission",
+                                                                     "permission_diff_suppression"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "invitation_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_collaborators",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "invitation_ids",
+                                                                     "repository_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "ignore_team",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "team",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "user",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_custom_property",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "property_name",
+                                                                     "property_type",
+                                                                     "property_value",
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_dependabot_security_updates",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "enabled",
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_deploy_key",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "key",
+                                                                     "repository",
+                                                                     "title"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "read_only"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_deployment_branch_policy",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "environment_name",
+                                                                     "name",
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "etag",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_environment",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "environment",
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "can_admins_bypass",
+                                                                     "id",
+                                                                     "prevent_self_review",
+                                                                     "wait_timer"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "repository_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "deployment_branch_policy",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "reviewers",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_environment_deployment_policy",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "environment",
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "branch_pattern",
+                                                                     "id",
+                                                                     "tag_pattern"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "policy_id",
+                                                                     "repository_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_file",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "content",
+                                                                     "file",
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "autocreate_branch",
+                                                                     "autocreate_branch_source_branch",
+                                                                     "autocreate_branch_source_sha",
+                                                                     "branch",
+                                                                     "commit_author",
+                                                                     "commit_email",
+                                                                     "commit_message",
+                                                                     "id",
+                                                                     "overwrite_on_create"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "commit_sha",
+                                                                     "ref",
+                                                                     "repository_id",
+                                                                     "sha"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_milestone",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "owner",
+                                                                     "repository",
+                                                                     "title"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "due_date",
+                                                                     "id",
+                                                                     "state"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "number"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_pages",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "build_type",
+                                                                     "cname",
+                                                                     "https_enforced",
+                                                                     "id",
+                                                                     "public"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "api_url",
+                                                                     "build_status",
+                                                                     "custom_404",
+                                                                     "html_url",
+                                                                     "repository_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "source",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_project",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "body",
+                                                                     "etag",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "url"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_pull_request",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "base_ref",
+                                                                     "base_repository",
+                                                                     "head_ref",
+                                                                     "title"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "body",
+                                                                     "id",
+                                                                     "maintainer_can_modify",
+                                                                     "owner"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "base_sha",
+                                                                     "draft",
+                                                                     "head_sha",
+                                                                     "labels",
+                                                                     "number",
+                                                                     "opened_at",
+                                                                     "opened_by",
+                                                                     "state",
+                                                                     "updated_at"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_ruleset",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "enforcement",
+                                                                     "name",
+                                                                     "repository",
+                                                                     "target"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag",
+                                                                     "node_id",
+                                                                     "ruleset_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "bypass_actors",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "conditions",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "rules",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_topics",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository",
+                                                                     "topics"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_vulnerability_alerts",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "enabled",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "repository_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_repository_webhook",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "events",
+                                                                     "repository"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "active",
+                                                                     "etag",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "url"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "configuration",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_team",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "create_default_maintainer",
+                                                                     "description",
+                                                                     "id",
+                                                                     "ldap_dn",
+                                                                     "notification_setting",
+                                                                     "parent_team_id",
+                                                                     "parent_team_read_id",
+                                                                     "parent_team_read_slug",
+                                                                     "privacy"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag",
+                                                                     "members_count",
+                                                                     "node_id",
+                                                                     "slug"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_team_members",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "team_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "members",
+                                                                   "nesting":  "set",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_team_membership",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "team_id",
+                                                                     "username"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "role"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_team_repository",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "repository",
+                                                                     "team_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "permission"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_team_settings",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "team_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "notify"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "team_slug",
+                                                                     "team_uid"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "review_request_delegation",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "github_team_sync_group_mapping",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "team_slug"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "etag"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "group",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      }
+                  ],
+    "dataSources":  [
+                        {
+                            "type":  "github_actions_environment_public_key",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "environment",
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "key",
+                                                                       "key_id"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_environment_secrets",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "environment"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "full_name",
+                                                                       "id",
+                                                                       "name"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "secrets"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_environment_variables",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "environment"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "full_name",
+                                                                       "id",
+                                                                       "name"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "variables"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_organization_oidc_subject_claim_customization_template",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "include_claim_keys"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_organization_public_key",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "key",
+                                                                       "key_id"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_organization_registration_token",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "expires_at",
+                                                                       "token"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_organization_secrets",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "secrets"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_organization_variables",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "variables"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_public_key",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "key",
+                                                                       "key_id"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_registration_token",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "expires_at",
+                                                                       "token"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_repository_oidc_subject_claim_customization_template",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "name"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "include_claim_keys",
+                                                                       "use_default"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_secrets",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "full_name",
+                                                                       "id",
+                                                                       "name"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "secrets"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_actions_variables",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "full_name",
+                                                                       "id",
+                                                                       "name"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "variables"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "name"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "ignore_archived_repos",
+                                                                       "summary_only"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "advanced_security_enabled_for_new_repositories",
+                                                                       "default_repository_permission",
+                                                                       "dependabot_alerts_enabled_for_new_repositories",
+                                                                       "dependabot_security_updates_enabled_for_new_repositories",
+                                                                       "dependency_graph_enabled_for_new_repositories",
+                                                                       "description",
+                                                                       "login",
+                                                                       "members",
+                                                                       "members_allowed_repository_creation_type",
+                                                                       "members_can_create_internal_repositories",
+                                                                       "members_can_create_pages",
+                                                                       "members_can_create_private_pages",
+                                                                       "members_can_create_private_repositories",
+                                                                       "members_can_create_public_pages",
+                                                                       "members_can_create_public_repositories",
+                                                                       "members_can_create_repositories",
+                                                                       "members_can_fork_private_repositories",
+                                                                       "node_id",
+                                                                       "orgname",
+                                                                       "plan",
+                                                                       "repositories",
+                                                                       "secret_scanning_enabled_for_new_repositories",
+                                                                       "secret_scanning_push_protection_enabled_for_new_repositories",
+                                                                       "two_factor_requirement_enabled",
+                                                                       "users",
+                                                                       "web_commit_signoff_required"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_app_installations",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "installations"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_custom_properties",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "property_name"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "allowed_values",
+                                                                       "default_value",
+                                                                       "description",
+                                                                       "id",
+                                                                       "required",
+                                                                       "value_type",
+                                                                       "values_editable_by"
+                                                                   ],
+                                            "computedAttributes":  [
+
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_custom_role",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "name"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "base_role",
+                                                                       "description",
+                                                                       "permissions"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_external_identities",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "identities"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_ip_allow_list",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "ip_allow_list"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_repository_role",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "role_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "base_role",
+                                                                       "description",
+                                                                       "name",
+                                                                       "permissions"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_repository_roles",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "roles"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_role",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "role_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "base_role",
+                                                                       "description",
+                                                                       "name",
+                                                                       "permissions",
+                                                                       "source"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_role_teams",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "role_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "teams"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_role_users",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "role_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "users"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_roles",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "roles"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_security_managers",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "teams"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_team_sync_groups",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "groups"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_teams",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "results_per_page",
+                                                                       "root_teams_only",
+                                                                       "summary_only"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "teams"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_organization_webhooks",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "webhooks"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repositories",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "query"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "include_repo_id",
+                                                                       "results_per_page",
+                                                                       "sort"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "full_names",
+                                                                       "names",
+                                                                       "repo_ids"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "description",
+                                                                       "full_name",
+                                                                       "homepage_url",
+                                                                       "id",
+                                                                       "name"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "allow_auto_merge",
+                                                                       "allow_forking",
+                                                                       "allow_merge_commit",
+                                                                       "allow_rebase_merge",
+                                                                       "allow_squash_merge",
+                                                                       "allow_update_branch",
+                                                                       "archived",
+                                                                       "default_branch",
+                                                                       "delete_branch_on_merge",
+                                                                       "fork",
+                                                                       "git_clone_url",
+                                                                       "has_discussions",
+                                                                       "has_downloads",
+                                                                       "has_issues",
+                                                                       "has_projects",
+                                                                       "has_wiki",
+                                                                       "html_url",
+                                                                       "http_clone_url",
+                                                                       "is_template",
+                                                                       "merge_commit_message",
+                                                                       "merge_commit_title",
+                                                                       "node_id",
+                                                                       "pages",
+                                                                       "primary_language",
+                                                                       "private",
+                                                                       "repo_id",
+                                                                       "repository_license",
+                                                                       "squash_merge_commit_message",
+                                                                       "squash_merge_commit_title",
+                                                                       "ssh_clone_url",
+                                                                       "svn_url",
+                                                                       "template",
+                                                                       "topics",
+                                                                       "visibility"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_autolink_references",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "autolink_references"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_branches",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "only_non_protected_branches",
+                                                                       "only_protected_branches"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "branches"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_custom_properties",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "property"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_deploy_keys",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "keys"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_deployment_branch_policies",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "environment_name",
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "deployment_branch_policies"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_environment_deployment_policies",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "environment",
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "policies"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_environments",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "environments"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_file",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "file",
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "branch",
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "commit_author",
+                                                                       "commit_email",
+                                                                       "commit_message",
+                                                                       "commit_sha",
+                                                                       "content",
+                                                                       "ref",
+                                                                       "sha"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_milestone",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "number",
+                                                                       "owner",
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "description",
+                                                                       "due_date",
+                                                                       "state",
+                                                                       "title"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_pages",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "api_url",
+                                                                       "build_status",
+                                                                       "build_type",
+                                                                       "cname",
+                                                                       "custom_404",
+                                                                       "html_url",
+                                                                       "https_enforced",
+                                                                       "public",
+                                                                       "source"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_pull_request",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "base_repository",
+                                                                       "number"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "owner"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "base_ref",
+                                                                       "base_sha",
+                                                                       "body",
+                                                                       "draft",
+                                                                       "head_owner",
+                                                                       "head_ref",
+                                                                       "head_repository",
+                                                                       "head_sha",
+                                                                       "labels",
+                                                                       "maintainer_can_modify",
+                                                                       "opened_at",
+                                                                       "opened_by",
+                                                                       "state",
+                                                                       "title",
+                                                                       "updated_at"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_pull_requests",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "base_repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "base_ref",
+                                                                       "head_ref",
+                                                                       "id",
+                                                                       "owner",
+                                                                       "sort_by",
+                                                                       "sort_direction",
+                                                                       "state"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "results"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_teams",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "full_name",
+                                                                       "id",
+                                                                       "name"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "teams"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_repository_webhooks",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "repository"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "webhooks"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "github_team",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "slug"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "membership_type",
+                                                                       "results_per_page",
+                                                                       "summary_only"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "description",
+                                                                       "members",
+                                                                       "name",
+                                                                       "node_id",
+                                                                       "notification_setting",
+                                                                       "permission",
+                                                                       "privacy",
+                                                                       "repositories",
+                                                                       "repositories_detailed"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        }
+                    ]
+}

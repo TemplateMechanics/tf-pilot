@@ -1,0 +1,2092 @@
+﻿{
+    "generatedAt":  "2026-05-01T05:06:01.1350027Z",
+    "generatedFromPath":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\azuredevops",
+    "provider":  "azuredevops",
+    "providerSchemaKey":  "registry.terraform.io/microsoft/azuredevops",
+    "modules":  [
+                    "foundation",
+                    "repository",
+                    "pipeline"
+                ],
+    "resourcePrefixes":  [
+                             "azuredevops_build_definition",
+                             "azuredevops_git_repository",
+                             "azuredevops_git_repository_branch_policy",
+                             "azuredevops_project",
+                             "azuredevops_serviceendpoint_",
+                             "azuredevops_team",
+                             "azuredevops_variable_group"
+                         ],
+    "dataSourcePrefixes":  [
+                               "azuredevops_build_definition",
+                               "azuredevops_git_repositories",
+                               "azuredevops_git_repository",
+                               "azuredevops_project",
+                               "azuredevops_projects",
+                               "azuredevops_variable_group"
+                           ],
+    "resourceCount":  59,
+    "dataSourceCount":  7,
+    "resources":  [
+                      {
+                          "type":  "azuredevops_build_definition",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "project_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "agent_pool_name",
+                                                                     "agent_specification",
+                                                                     "id",
+                                                                     "job_authorization_scope",
+                                                                     "path",
+                                                                     "queue_status",
+                                                                     "variable_groups"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "revision"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "build_completion_trigger",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "ci_trigger",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "features",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "jobs",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "pull_request_trigger",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "repository",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "schedules",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "variable",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_build_definition_permissions",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "build_definition_id",
+                                                                     "permissions",
+                                                                     "principal",
+                                                                     "project_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "replace"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_git_repository",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "project_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "default_branch",
+                                                                     "disabled",
+                                                                     "id",
+                                                                     "parent_repository_id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "is_fork",
+                                                                     "remote_url",
+                                                                     "size",
+                                                                     "ssh_url",
+                                                                     "url",
+                                                                     "web_url"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "initialization",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_git_repository_branch",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "repository_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "ref_branch",
+                                                                     "ref_commit_id",
+                                                                     "ref_tag"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "last_commit_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_git_repository_file",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "content",
+                                                                     "file",
+                                                                     "repository_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "author_email",
+                                                                     "author_name",
+                                                                     "branch",
+                                                                     "commit_message",
+                                                                     "committer_email",
+                                                                     "committer_name",
+                                                                     "id",
+                                                                     "overwrite_on_create"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_project",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "features",
+                                                                     "id",
+                                                                     "version_control",
+                                                                     "visibility",
+                                                                     "work_item_template"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "process_template_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_project_features",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "features",
+                                                                     "project_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_project_permissions",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "permissions",
+                                                                     "principal",
+                                                                     "project_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "replace"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_project_pipeline_settings",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "enforce_job_scope",
+                                                                     "enforce_job_scope_for_release",
+                                                                     "enforce_referenced_repo_scoped_token",
+                                                                     "enforce_settable_var",
+                                                                     "id",
+                                                                     "publish_pipeline_metadata",
+                                                                     "status_badges_are_private"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_project_tags",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "tags"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_argocd",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "authentication_basic",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "authentication_token",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_artifactory",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "authentication_basic",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "authentication_token",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_aws",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "access_key_id",
+                                                                     "description",
+                                                                     "external_id",
+                                                                     "id",
+                                                                     "role_session_name",
+                                                                     "role_to_assume",
+                                                                     "secret_access_key",
+                                                                     "session_token",
+                                                                     "use_oidc"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_azure_service_bus",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "connection_string",
+                                                                     "project_id",
+                                                                     "queue_name",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_azurecr",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "azurecr_name",
+                                                                     "azurecr_spn_tenantid",
+                                                                     "azurecr_subscription_id",
+                                                                     "azurecr_subscription_name",
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id",
+                                                                     "resource_group",
+                                                                     "service_endpoint_authentication_scheme"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "app_object_id",
+                                                                     "authorization",
+                                                                     "az_spn_role_assignment_id",
+                                                                     "az_spn_role_permissions",
+                                                                     "service_principal_id",
+                                                                     "spn_object_id",
+                                                                     "workload_identity_federation_issuer",
+                                                                     "workload_identity_federation_subject"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "credentials",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_azuredevops",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "personal_access_token",
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id",
+                                                                     "org_url",
+                                                                     "release_api_url"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_azurerm",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "azurerm_spn_tenantid",
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "azurerm_management_group_id",
+                                                                     "azurerm_management_group_name",
+                                                                     "azurerm_subscription_id",
+                                                                     "azurerm_subscription_name",
+                                                                     "description",
+                                                                     "environment",
+                                                                     "id",
+                                                                     "resource_group",
+                                                                     "server_url",
+                                                                     "service_endpoint_authentication_scheme"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization",
+                                                                     "service_principal_id",
+                                                                     "workload_identity_federation_issuer",
+                                                                     "workload_identity_federation_subject"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "credentials",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "features",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_bitbucket",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "password",
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "username"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_black_duck",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "api_token",
+                                                                     "project_id",
+                                                                     "server_url",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_checkmarx_one",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "server_url",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "api_key",
+                                                                     "authorization_url",
+                                                                     "client_id",
+                                                                     "client_secret",
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_checkmarx_sast",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "password",
+                                                                     "project_id",
+                                                                     "server_url",
+                                                                     "service_endpoint_name",
+                                                                     "username"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id",
+                                                                     "preset",
+                                                                     "team"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_checkmarx_sca",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "access_control_url",
+                                                                     "account",
+                                                                     "password",
+                                                                     "project_id",
+                                                                     "server_url",
+                                                                     "service_endpoint_name",
+                                                                     "username",
+                                                                     "web_app_url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id",
+                                                                     "team"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_dockerregistry",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "docker_email",
+                                                                     "docker_password",
+                                                                     "docker_registry",
+                                                                     "docker_username",
+                                                                     "id",
+                                                                     "registry_type"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_dynamics_lifecycle_services",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "authorization_endpoint",
+                                                                     "client_id",
+                                                                     "lifecycle_services_api_endpoint",
+                                                                     "password",
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "username"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_externaltfs",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "connection_url",
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "auth_personal",
+                                                                   "nesting":  "set",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_gcp_terraform",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "gcp_project_id",
+                                                                     "private_key",
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "token_uri"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "client_email",
+                                                                     "description",
+                                                                     "id",
+                                                                     "scope"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_generic",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "server_url",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id",
+                                                                     "password",
+                                                                     "username"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_generic_git",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "repository_url",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "enable_pipelines_access",
+                                                                     "id",
+                                                                     "password",
+                                                                     "username"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_generic_v2",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "authorization_scheme",
+                                                                     "name",
+                                                                     "project_id",
+                                                                     "server_url",
+                                                                     "type"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "authorization_parameters",
+                                                                     "description",
+                                                                     "id",
+                                                                     "parameters",
+                                                                     "shared_project_ids"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_github",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "auth_oauth",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "auth_personal",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_github_enterprise",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id",
+                                                                     "url"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "auth_oauth",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "auth_personal",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_gitlab",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "api_token",
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url",
+                                                                     "username"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_incomingwebhook",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "webhook_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "http_header",
+                                                                     "id",
+                                                                     "secret"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_jenkins",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "password",
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url",
+                                                                     "username"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "accept_untrusted_certs",
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_jfrog_artifactory_v2",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "authentication_basic",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "authentication_token",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_jfrog_distribution_v2",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "authentication_basic",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "authentication_token",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_jfrog_platform_v2",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "authentication_basic",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "authentication_token",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_jfrog_xray_v2",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "authentication_basic",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "authentication_token",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_kubernetes",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "apiserver_url",
+                                                                     "authorization_type",
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "azure_subscription",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "kubeconfig",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "service_account",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_maven",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "repository_id",
+                                                                     "service_endpoint_name",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "authentication_basic",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "authentication_token",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_nexus",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "password",
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url",
+                                                                     "username"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_npm",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "access_token",
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_nuget",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "feed_url",
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "api_key",
+                                                                     "description",
+                                                                     "id",
+                                                                     "password",
+                                                                     "personal_access_token",
+                                                                     "username"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_octopusdeploy",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "api_key",
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id",
+                                                                     "ignore_ssl_error"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_openshift",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "accept_untrusted_certs",
+                                                                     "certificate_authority_file",
+                                                                     "description",
+                                                                     "id",
+                                                                     "server_url"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "auth_basic",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "auth_none",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "auth_token",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_permissions",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "permissions",
+                                                                     "principal",
+                                                                     "project_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "replace",
+                                                                     "serviceendpoint_id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_runpipeline",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "organization_name",
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "auth_personal",
+                                                                   "nesting":  "set",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_servicefabric",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "cluster_endpoint",
+                                                                     "project_id",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "azure_active_directory",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "certificate",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "none",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_snyk",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "api_token",
+                                                                     "project_id",
+                                                                     "server_url",
+                                                                     "service_endpoint_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_sonarcloud",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "token"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_sonarqube",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "token",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_ssh",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "host",
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "username"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id",
+                                                                     "password",
+                                                                     "port",
+                                                                     "private_key"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_serviceendpoint_visualstudiomarketplace",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project_id",
+                                                                     "service_endpoint_name",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "authorization"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "authentication_basic",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "authentication_token",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_team",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "project_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "administrators",
+                                                                     "description",
+                                                                     "id",
+                                                                     "members"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "descriptor"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_team_administrators",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "administrators",
+                                                                     "project_id",
+                                                                     "team_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "mode"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_team_members",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "members",
+                                                                     "project_id",
+                                                                     "team_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "mode"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_variable_group",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "project_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allow_access",
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "key_vault",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "variable",
+                                                                   "nesting":  "set",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_variable_group_permissions",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "permissions",
+                                                                     "principal",
+                                                                     "project_id",
+                                                                     "variable_group_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "replace"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "azuredevops_variable_group_variable",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "project_id",
+                                                                     "variable_group_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "secret_value",
+                                                                     "value"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      }
+                  ],
+    "dataSources":  [
+                        {
+                            "type":  "azuredevops_build_definition",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "name",
+                                                                       "project_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "path"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "agent_pool_name",
+                                                                       "agent_specification",
+                                                                       "ci_trigger",
+                                                                       "job_authorization_scope",
+                                                                       "jobs",
+                                                                       "pull_request_trigger",
+                                                                       "queue_status",
+                                                                       "repository",
+                                                                       "revision",
+                                                                       "schedules",
+                                                                       "variable",
+                                                                       "variable_groups"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "timeouts",
+                                                                     "nesting":  "single",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "azuredevops_git_repositories",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "include_hidden",
+                                                                       "name",
+                                                                       "project_id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "repositories"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "timeouts",
+                                                                     "nesting":  "single",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "azuredevops_git_repository",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "name",
+                                                                       "project_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "default_branch",
+                                                                       "disabled",
+                                                                       "is_fork",
+                                                                       "remote_url",
+                                                                       "size",
+                                                                       "ssh_url",
+                                                                       "url",
+                                                                       "web_url"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "timeouts",
+                                                                     "nesting":  "single",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "azuredevops_git_repository_file",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "file",
+                                                                       "repository_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "branch",
+                                                                       "id",
+                                                                       "tag"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "content",
+                                                                       "last_commit_message"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "timeouts",
+                                                                     "nesting":  "single",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "azuredevops_project",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "name",
+                                                                       "project_id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "description",
+                                                                       "features",
+                                                                       "process_template_id",
+                                                                       "version_control",
+                                                                       "visibility",
+                                                                       "work_item_template"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "timeouts",
+                                                                     "nesting":  "single",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "azuredevops_projects",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "name",
+                                                                       "state"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "projects"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "timeouts",
+                                                                     "nesting":  "single",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "azuredevops_variable_group",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "name",
+                                                                       "project_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "allow_access",
+                                                                       "description",
+                                                                       "key_vault",
+                                                                       "variable"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "timeouts",
+                                                                     "nesting":  "single",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        }
+                    ]
+}

@@ -1,0 +1,15 @@
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "group" {
+  description = "Required attribute 'group' for type 'gitlab_group_security_policy_attachment'."
+  type        = any
+}
+
+variable "policy_project" {
+  description = "Required attribute 'policy_project' for type 'gitlab_group_security_policy_attachment'."
+  type        = any
+}

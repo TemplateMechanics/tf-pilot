@@ -1,142 +1,28 @@
-﻿[
-    {
-        "provider":  "aws",
-        "status":  "unchanged",
-        "resourceAddedCount":  0,
-        "resourceRemovedCount":  0,
-        "resourceChangedCount":  0,
-        "resourceAdded":  [
+﻿{
+    "provider":  "azurerm",
+    "status":  "unchanged",
+    "resourceAddedCount":  0,
+    "resourceRemovedCount":  0,
+    "resourceChangedCount":  0,
+    "resourceAdded":  [
+
+                      ],
+    "resourceRemoved":  [
+
+                        ],
+    "resourceChanged":  [
+
+                        ],
+    "dataSourceAddedCount":  0,
+    "dataSourceRemovedCount":  0,
+    "dataSourceChangedCount":  0,
+    "dataSourceAdded":  [
+
+                        ],
+    "dataSourceRemoved":  [
 
                           ],
-        "resourceRemoved":  [
+    "dataSourceChanged":  [
 
-                            ],
-        "resourceChanged":  [
-
-                            ],
-        "dataSourceAddedCount":  0,
-        "dataSourceRemovedCount":  0,
-        "dataSourceChangedCount":  0,
-        "dataSourceAdded":  [
-
-                            ],
-        "dataSourceRemoved":  [
-
-                              ],
-        "dataSourceChanged":  [
-
-                              ]
-    },
-    {
-        "provider":  "azurerm",
-        "status":  "unchanged",
-        "resourceAddedCount":  0,
-        "resourceRemovedCount":  0,
-        "resourceChangedCount":  0,
-        "resourceAdded":  [
-
-                          ],
-        "resourceRemoved":  [
-
-                            ],
-        "resourceChanged":  [
-
-                            ],
-        "dataSourceAddedCount":  0,
-        "dataSourceRemovedCount":  0,
-        "dataSourceChangedCount":  0,
-        "dataSourceAdded":  [
-
-                            ],
-        "dataSourceRemoved":  [
-
-                              ],
-        "dataSourceChanged":  [
-
-                              ]
-    },
-    {
-        "provider":  "google",
-        "status":  "unchanged",
-        "resourceAddedCount":  0,
-        "resourceRemovedCount":  0,
-        "resourceChangedCount":  0,
-        "resourceAdded":  [
-
-                          ],
-        "resourceRemoved":  [
-
-                            ],
-        "resourceChanged":  [
-
-                            ],
-        "dataSourceAddedCount":  0,
-        "dataSourceRemovedCount":  0,
-        "dataSourceChangedCount":  0,
-        "dataSourceAdded":  [
-
-                            ],
-        "dataSourceRemoved":  [
-
-                              ],
-        "dataSourceChanged":  [
-
-                              ]
-    },
-    {
-        "provider":  "kubernetes",
-        "status":  "unchanged",
-        "resourceAddedCount":  0,
-        "resourceRemovedCount":  0,
-        "resourceChangedCount":  0,
-        "resourceAdded":  [
-
-                          ],
-        "resourceRemoved":  [
-
-                            ],
-        "resourceChanged":  [
-
-                            ],
-        "dataSourceAddedCount":  0,
-        "dataSourceRemovedCount":  0,
-        "dataSourceChangedCount":  0,
-        "dataSourceAdded":  [
-
-                            ],
-        "dataSourceRemoved":  [
-
-                              ],
-        "dataSourceChanged":  [
-
-                              ]
-    },
-    {
-        "provider":  "helm",
-        "status":  "unchanged",
-        "resourceAddedCount":  0,
-        "resourceRemovedCount":  0,
-        "resourceChangedCount":  0,
-        "resourceAdded":  [
-
-                          ],
-        "resourceRemoved":  [
-
-                            ],
-        "resourceChanged":  [
-
-                            ],
-        "dataSourceAddedCount":  0,
-        "dataSourceRemovedCount":  0,
-        "dataSourceChangedCount":  0,
-        "dataSourceAdded":  [
-
-                            ],
-        "dataSourceRemoved":  [
-
-                              ],
-        "dataSourceChanged":  [
-
-                              ]
-    }
-]
+                          ]
+}

@@ -1,0 +1,4 @@
+output "id" {
+  description = "ID of the managed google_cloud_run_v2_worker_pool_iam_policy resource."
+  value       = try(google_cloud_run_v2_worker_pool_iam_policy.this[0].id, null)
+}

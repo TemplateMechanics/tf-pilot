@@ -1,10 +1,20 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: kubernetes
+# Module: config
+# File: outputs.tf
 output "module" {
   description = "Module identifier."
   value       = "kubernetes-config"
 }
 
 output "effective_tags" {
-  description = "Normalized and merged tags for downstream usage."
+  description = "Normalized and merged metadata map for downstream usage."
+  value       = local.effective_tags
+}
+
+output "effective_labels" {
+  description = "Alias of effective_tags for label-based providers."
   value       = local.effective_tags
 }
 
@@ -16,4 +26,12 @@ output "reflected_resource_prefixes" {
 output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
+}
+output "config_map_name" {
+  description = "Generated ConfigMap name."
+  value       = try(kubernetes_config_map.this[0].metadata[0].name, null)
+}
+output "secret_name" {
+  description = "Generated Secret name."
+  value       = try(kubernetes_secret.this[0].metadata[0].name, null)
 }

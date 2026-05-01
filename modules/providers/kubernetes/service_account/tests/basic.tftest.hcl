@@ -1,14 +1,22 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: kubernetes
+# Module: service_account
+# File: tests/basic.tftest.hcl
+mock_provider "kubernetes" {}
+
 variables {
-  name        = "service_account"
+  name        = "app"
   environment = "test"
-  enabled     = false
+  enabled     = true
+  namespace   = "default"
 }
 
-run "plan_without_credentials" {
+run "plan_service_account" {
   command = plan
 
   assert {
     condition     = output.module == "kubernetes-service_account"
-    error_message = "Expected kubernetes-service_account module identifier"
+    error_message = "Expected generated module identifier"
   }
 }

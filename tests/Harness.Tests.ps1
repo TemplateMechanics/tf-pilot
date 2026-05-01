@@ -2,26 +2,31 @@
 # Pester 5 tests for tf-pilot scripts.
 
 BeforeAll {
-  $script:scriptsDir = Join-Path $PSScriptRoot '..' 'scripts' | Resolve-Path
+  $script:repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+  $script:scriptsDir = (Resolve-Path (Join-Path $script:repoRoot 'scripts')).Path
+  $script:hasTerraform = $null -ne (Get-Command terraform -ErrorAction SilentlyContinue)
+  $script:hasTflint = $null -ne (Get-Command tflint -ErrorAction SilentlyContinue)
+  $script:hasTrivy = $null -ne (Get-Command trivy -ErrorAction SilentlyContinue)
+  $script:hasValidateToolchain = $script:hasTerraform -and $script:hasTflint -and $script:hasTrivy
 }
 
 Describe 'Validate-Terraform.ps1' {
-  It 'passes on the hello-world example' {
-    $exampleDir = Join-Path $PSScriptRoot '..' 'examples' 'hello-world' | Resolve-Path
+  It 'passes on the hello-world example' -Skip:(-not $script:hasValidateToolchain) {
+    $exampleDir = Resolve-Path (Join-Path (Join-Path $script:repoRoot 'examples') 'hello-world')
     & "$script:scriptsDir/Initialize-Workspace.ps1" -Path $exampleDir.Path
     $LASTEXITCODE | Should -Be 0
     & "$script:scriptsDir/Validate-Terraform.ps1" -Path $exampleDir.Path
     $LASTEXITCODE | Should -Be 0
   }
 
-  It 'fails on a directory with malformed HCL' {
+  It 'fails on a directory with malformed HCL' -Skip:(-not $script:hasValidateToolchain) {
     $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'bad')
     Set-Content (Join-Path $tmp 'bad.tf') 'resource "aws_s3_bucket" "x" { not closed'
     & "$script:scriptsDir/Validate-Terraform.ps1" -Path $tmp.FullName
     $LASTEXITCODE | Should -Not -Be 0
   }
 
-  It 'fails on unformatted HCL when -Check passes through fmt' {
+  It 'fails on unformatted HCL when -Check passes through fmt' -Skip:(-not $script:hasValidateToolchain) {
     $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'unfmt')
     Set-Content (Join-Path $tmp 'main.tf') @"
 resource "null_resource" "x" {
@@ -32,10 +37,9 @@ triggers = {  k = "v" }
     $LASTEXITCODE | Should -Not -Be 0
   }
 
-  It 'handles an empty directory' {
+  It 'handles an empty directory' -Skip:(-not $script:hasValidateToolchain) {
     $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'empty')
     & "$script:scriptsDir/Validate-Terraform.ps1" -Path $tmp.FullName
-    # Empty directory: no .tf files. Define what "pass" means in your script: we choose 0.
     $LASTEXITCODE | Should -Be 0
   }
 }
@@ -43,13 +47,12 @@ triggers = {  k = "v" }
 Describe 'Invoke-TerraformPlan.ps1' {
   It 'refuses to plan on an invalid config' {
     $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'plan-bad')
-    Set-Content (Join-Path $tmp 'bad.tf') 'resource "x" {' # malformed
-    & "$script:scriptsDir/Invoke-TerraformPlan.ps1" -Path $tmp.FullName -Out (Join-Path $tmp 'tfplan')
-    $LASTEXITCODE | Should -Not -Be 0
+    Set-Content (Join-Path $tmp 'bad.tf') 'resource "x" {'
+    { & "$script:scriptsDir/Invoke-TerraformPlan.ps1" -Path $tmp.FullName -Out (Join-Path $tmp 'tfplan') -Force } | Should -Throw
   }
 
   It 'produces tfplan and tfplan.json on the hello-world example' {
-    $exampleDir = Join-Path $PSScriptRoot '..' 'examples' 'hello-world' | Resolve-Path
+    $exampleDir = Resolve-Path (Join-Path (Join-Path $script:repoRoot 'examples') 'hello-world')
     & "$script:scriptsDir/Initialize-Workspace.ps1" -Path $exampleDir.Path
     $out = Join-Path $exampleDir.Path 'tfplan'
     & "$script:scriptsDir/Invoke-TerraformPlan.ps1" -Path $exampleDir.Path -Out $out -Force
@@ -61,15 +64,85 @@ Describe 'Invoke-TerraformPlan.ps1' {
 
 Describe 'Invoke-TerraformApply.ps1' {
   It 'refuses to apply when plan file is missing' {
-    & "$script:scriptsDir/Invoke-TerraformApply.ps1" -PlanFile 'does-not-exist.tfplan' -ErrorAction SilentlyContinue
-    $LASTEXITCODE | Should -Not -Be 0
+    { & "$script:scriptsDir/Invoke-TerraformApply.ps1" -PlanFile 'does-not-exist.tfplan' } | Should -Throw
   }
 }
 
 Describe 'Invoke-TerraformDestroy.ps1' {
   It 'refuses without -Confirm' {
-    & "$script:scriptsDir/Invoke-TerraformDestroy.ps1" -Path . -ErrorAction SilentlyContinue
-    $LASTEXITCODE | Should -Not -Be 0
+    { & "$script:scriptsDir/Invoke-TerraformDestroy.ps1" -Path . -Confirm:$false } | Should -Throw
+  }
+}
+
+Describe 'Sync-ProviderGeneratedModules.ps1' {
+  It 'generates managed module files from settings into a temporary modules root' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $modulesRoot = Join-Path $TestDrive 'modules'
+    @'
+{
+  "providers": {
+    "helm": {
+      "enabled": true,
+      "workspace": "helm",
+      "modules": {
+        "repository": {
+          "enabled": true,
+          "resourceTypePrefixes": [],
+          "dataSourceTypePrefixes": []
+        },
+        "release": {
+          "enabled": true,
+          "resourceTypePrefixes": ["helm_release"],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -IncludeDisabledModules
+    $LASTEXITCODE | Should -Be 0
+
+    $generatedMain = Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'release') 'main.tf'
+    $generatedTest = Join-Path (Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'release') 'tests') 'basic.tftest.hcl'
+    Test-Path $generatedMain | Should -BeTrue
+    Test-Path $generatedTest | Should -BeTrue
+
+    $content = Get-Content -Path $generatedMain -Raw
+    $content | Should -Match '# GENERATED FILE - DO NOT EDIT\.'
+    $content | Should -Match 'resource "helm_release" "this"'
+  }
+
+  It 'returns a non-zero exit code in check mode when generated content is stale' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $modulesRoot = Join-Path $TestDrive 'modules'
+    @'
+{
+  "providers": {
+    "helm": {
+      "enabled": true,
+      "workspace": "helm",
+      "modules": {
+        "repository": {
+          "enabled": true,
+          "resourceTypePrefixes": [],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -IncludeDisabledModules
+    $LASTEXITCODE | Should -Be 0
+
+    $driftFile = Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'repository') 'outputs.tf'
+    Add-Content -Path $driftFile -Value '# drift'
+
+    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -IncludeDisabledModules -Check
+    $LASTEXITCODE | Should -Be 1
   }
 }
 

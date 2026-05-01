@@ -1,3 +1,5 @@
-﻿# external modules
+# external modules
 
-Provider module families for external generated from reflection settings.
+Generated provider module families for external.
+
+Manual edits inside generated files will be overwritten by scripts/Sync-ProviderGeneratedModules.ps1.

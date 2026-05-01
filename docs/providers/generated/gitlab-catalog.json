@@ -1,0 +1,2659 @@
+﻿{
+    "generatedAt":  "2026-05-01T05:06:08.7639560Z",
+    "generatedFromPath":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\gitlab",
+    "provider":  "gitlab",
+    "providerSchemaKey":  "registry.terraform.io/gitlabhq/gitlab",
+    "modules":  [
+                    "foundation",
+                    "repository",
+                    "automation"
+                ],
+    "resourcePrefixes":  [
+                             "gitlab_branch_protection",
+                             "gitlab_deploy_token",
+                             "gitlab_group",
+                             "gitlab_pipeline_schedule",
+                             "gitlab_project",
+                             "gitlab_project_hook",
+                             "gitlab_project_member",
+                             "gitlab_user"
+                         ],
+    "dataSourcePrefixes":  [
+                               "gitlab_group",
+                               "gitlab_pipeline_schedule",
+                               "gitlab_project",
+                               "gitlab_project_hooks",
+                               "gitlab_projects",
+                               "gitlab_users"
+                           ],
+    "resourceCount":  61,
+    "dataSourceCount":  38,
+    "resources":  [
+                      {
+                          "type":  "gitlab_branch_protection",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "branch",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allow_force_push",
+                                                                     "code_owner_approval_required",
+                                                                     "merge_access_level",
+                                                                     "push_access_level",
+                                                                     "unprotect_access_level"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "branch_protection_id",
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "allowed_to_merge",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "allowed_to_push",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "allowed_to_unprotect",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_deploy_token",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "scopes"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "expires_at",
+                                                                     "group",
+                                                                     "id",
+                                                                     "project",
+                                                                     "username"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "deploy_token_id",
+                                                                     "token"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "path"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allowed_email_domains_list",
+                                                                     "auto_devops_enabled",
+                                                                     "avatar",
+                                                                     "avatar_hash",
+                                                                     "default_branch",
+                                                                     "default_branch_protection",
+                                                                     "description",
+                                                                     "emails_enabled",
+                                                                     "extra_shared_runners_minutes_limit",
+                                                                     "id",
+                                                                     "ip_restriction_ranges",
+                                                                     "lfs_enabled",
+                                                                     "membership_lock",
+                                                                     "mentions_disabled",
+                                                                     "parent_id",
+                                                                     "permanently_remove_on_delete",
+                                                                     "prevent_forking_outside_group",
+                                                                     "project_creation_level",
+                                                                     "request_access_enabled",
+                                                                     "require_two_factor_authentication",
+                                                                     "share_with_group_lock",
+                                                                     "shared_runners_minutes_limit",
+                                                                     "shared_runners_setting",
+                                                                     "subgroup_creation_level",
+                                                                     "two_factor_grace_period",
+                                                                     "visibility_level",
+                                                                     "wiki_access_level"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "avatar_url",
+                                                                     "full_name",
+                                                                     "full_path",
+                                                                     "runners_token",
+                                                                     "web_url"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "default_branch_protection_defaults",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "push_rules",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_access_token",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group",
+                                                                     "name",
+                                                                     "scopes"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "access_level",
+                                                                     "description",
+                                                                     "expires_at",
+                                                                     "rotation_configuration"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "active",
+                                                                     "created_at",
+                                                                     "id",
+                                                                     "revoked",
+                                                                     "token",
+                                                                     "user_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_badge",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group",
+                                                                     "image_url",
+                                                                     "link_url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "name"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id",
+                                                                     "rendered_image_url",
+                                                                     "rendered_link_url"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_cluster",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group",
+                                                                     "kubernetes_api_url",
+                                                                     "kubernetes_token",
+                                                                     "name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "domain",
+                                                                     "enabled",
+                                                                     "environment_scope",
+                                                                     "id",
+                                                                     "kubernetes_authorization_type",
+                                                                     "kubernetes_ca_cert",
+                                                                     "managed",
+                                                                     "management_project_id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "cluster_type",
+                                                                     "created_at",
+                                                                     "platform_type",
+                                                                     "provider_type"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_custom_attribute",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group",
+                                                                     "key",
+                                                                     "value"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_dependency_proxy",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "enabled",
+                                                                     "identity",
+                                                                     "secret"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_epic_board",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group",
+                                                                     "name"
+                                                                 ],
+                                          "optionalAttributes":  [
+
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "lists",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_hook",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "branch_filter_strategy",
+                                                                     "confidential_issues_events",
+                                                                     "confidential_note_events",
+                                                                     "custom_headers",
+                                                                     "custom_webhook_template",
+                                                                     "deployment_events",
+                                                                     "description",
+                                                                     "enable_ssl_verification",
+                                                                     "feature_flag_events",
+                                                                     "issues_events",
+                                                                     "job_events",
+                                                                     "merge_requests_events",
+                                                                     "name",
+                                                                     "note_events",
+                                                                     "pipeline_events",
+                                                                     "push_events",
+                                                                     "push_events_branch_filter",
+                                                                     "releases_events",
+                                                                     "subgroup_events",
+                                                                     "tag_push_events",
+                                                                     "token",
+                                                                     "wiki_page_events"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "group_id",
+                                                                     "hook_id",
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_issue_board",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group",
+                                                                     "name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "labels",
+                                                                     "milestone_id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "lists",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_label",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "color",
+                                                                     "group",
+                                                                     "name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id",
+                                                                     "label_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_ldap_link",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group",
+                                                                     "ldap_provider"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "access_level",
+                                                                     "cn",
+                                                                     "filter",
+                                                                     "force",
+                                                                     "group_access",
+                                                                     "id",
+                                                                     "member_role_id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_membership",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "access_level",
+                                                                     "group_id",
+                                                                     "user_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "expires_at",
+                                                                     "member_role_id",
+                                                                     "skip_subresources_on_destroy",
+                                                                     "unassign_issuables_on_destroy"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_project_file_template",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "file_template_project_id",
+                                                                     "group_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_protected_environment",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "deploy_access_levels",
+                                                                     "environment",
+                                                                     "group"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "approval_rules"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_saml_link",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "access_level",
+                                                                     "group",
+                                                                     "saml_group_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "member_role_id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_security_policy_attachment",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group",
+                                                                     "policy_project"
+                                                                 ],
+                                          "optionalAttributes":  [
+
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "group_graphql_id",
+                                                                     "id",
+                                                                     "policy_project_graphql_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_service_account",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "name",
+                                                                     "username"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id",
+                                                                     "service_account_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_service_account_access_token",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group",
+                                                                     "name",
+                                                                     "scopes",
+                                                                     "user_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "expires_at",
+                                                                     "rotation_configuration"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "active",
+                                                                     "created_at",
+                                                                     "id",
+                                                                     "revoked",
+                                                                     "token"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_share_group",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group_access",
+                                                                     "group_id",
+                                                                     "share_group_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "expires_at",
+                                                                     "member_role_id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_group_variable",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group",
+                                                                     "key",
+                                                                     "value"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "environment_scope",
+                                                                     "hidden",
+                                                                     "masked",
+                                                                     "protected",
+                                                                     "raw",
+                                                                     "variable_type"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_pipeline_schedule",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "cron",
+                                                                     "description",
+                                                                     "project",
+                                                                     "ref"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "active",
+                                                                     "cron_timezone",
+                                                                     "take_ownership"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id",
+                                                                     "owner",
+                                                                     "pipeline_schedule_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_pipeline_schedule_variable",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "key",
+                                                                     "pipeline_schedule_id",
+                                                                     "project",
+                                                                     "value"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "variable_type"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allow_merge_on_skipped_pipeline",
+                                                                     "allow_pipeline_trigger_approve_deployment",
+                                                                     "analytics_access_level",
+                                                                     "approvals_before_merge",
+                                                                     "archive_on_destroy",
+                                                                     "archived",
+                                                                     "auto_cancel_pending_pipelines",
+                                                                     "auto_devops_deploy_strategy",
+                                                                     "auto_devops_enabled",
+                                                                     "autoclose_referenced_issues",
+                                                                     "avatar",
+                                                                     "avatar_hash",
+                                                                     "build_coverage_regex",
+                                                                     "build_git_strategy",
+                                                                     "build_timeout",
+                                                                     "builds_access_level",
+                                                                     "ci_config_path",
+                                                                     "ci_default_git_depth",
+                                                                     "ci_delete_pipelines_in_seconds",
+                                                                     "ci_forward_deployment_enabled",
+                                                                     "ci_id_token_sub_claim_components",
+                                                                     "ci_pipeline_variables_minimum_override_role",
+                                                                     "ci_restrict_pipeline_cancellation_role",
+                                                                     "ci_separated_caches",
+                                                                     "container_registry_access_level",
+                                                                     "container_registry_enabled",
+                                                                     "default_branch",
+                                                                     "description",
+                                                                     "emails_enabled",
+                                                                     "environments_access_level",
+                                                                     "external_authorization_classification_label",
+                                                                     "feature_flags_access_level",
+                                                                     "forked_from_project_id",
+                                                                     "forking_access_level",
+                                                                     "group_runners_enabled",
+                                                                     "group_with_project_templates_id",
+                                                                     "id",
+                                                                     "import_url",
+                                                                     "import_url_password",
+                                                                     "import_url_username",
+                                                                     "infrastructure_access_level",
+                                                                     "initialize_with_readme",
+                                                                     "issues_access_level",
+                                                                     "issues_enabled",
+                                                                     "issues_template",
+                                                                     "keep_latest_artifact",
+                                                                     "lfs_enabled",
+                                                                     "merge_commit_template",
+                                                                     "merge_method",
+                                                                     "merge_pipelines_enabled",
+                                                                     "merge_requests_access_level",
+                                                                     "merge_requests_enabled",
+                                                                     "merge_requests_template",
+                                                                     "merge_trains_enabled",
+                                                                     "mirror",
+                                                                     "mirror_overwrites_diverged_branches",
+                                                                     "mirror_trigger_builds",
+                                                                     "model_experiments_access_level",
+                                                                     "model_registry_access_level",
+                                                                     "monitor_access_level",
+                                                                     "mr_default_target_self",
+                                                                     "namespace_id",
+                                                                     "only_allow_merge_if_all_discussions_are_resolved",
+                                                                     "only_allow_merge_if_pipeline_succeeds",
+                                                                     "only_mirror_protected_branches",
+                                                                     "packages_enabled",
+                                                                     "pages_access_level",
+                                                                     "path",
+                                                                     "permanently_delete_on_destroy",
+                                                                     "pipelines_enabled",
+                                                                     "pre_receive_secret_detection_enabled",
+                                                                     "prevent_merge_without_jira_issue",
+                                                                     "printing_merge_request_link_enabled",
+                                                                     "public_builds",
+                                                                     "public_jobs",
+                                                                     "releases_access_level",
+                                                                     "remove_source_branch_after_merge",
+                                                                     "repository_access_level",
+                                                                     "repository_storage",
+                                                                     "request_access_enabled",
+                                                                     "requirements_access_level",
+                                                                     "resolve_outdated_diff_discussions",
+                                                                     "restrict_user_defined_variables",
+                                                                     "security_and_compliance_access_level",
+                                                                     "shared_runners_enabled",
+                                                                     "skip_wait_for_default_branch_protection",
+                                                                     "snippets_access_level",
+                                                                     "snippets_enabled",
+                                                                     "squash_commit_template",
+                                                                     "squash_option",
+                                                                     "suggestion_commit_message",
+                                                                     "tags",
+                                                                     "template_name",
+                                                                     "template_project_id",
+                                                                     "topics",
+                                                                     "use_custom_template",
+                                                                     "visibility_level",
+                                                                     "wiki_access_level",
+                                                                     "wiki_enabled"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "avatar_url",
+                                                                     "empty_repo",
+                                                                     "http_url_to_repo",
+                                                                     "path_with_namespace",
+                                                                     "runners_token",
+                                                                     "ssh_url_to_repo",
+                                                                     "web_url"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "container_expiration_policy",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "push_rules",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_access_token",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "project",
+                                                                     "scopes"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "access_level",
+                                                                     "description",
+                                                                     "expires_at",
+                                                                     "rotation_configuration"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "active",
+                                                                     "created_at",
+                                                                     "id",
+                                                                     "revoked",
+                                                                     "token",
+                                                                     "user_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_approval_rule",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "approvals_required",
+                                                                     "name",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "applies_to_all_protected_branches",
+                                                                     "disable_importing_default_any_approver_rule_on_create",
+                                                                     "group_ids",
+                                                                     "id",
+                                                                     "protected_branch_ids",
+                                                                     "report_type",
+                                                                     "rule_type",
+                                                                     "user_ids"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_badge",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "image_url",
+                                                                     "link_url",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "name"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "rendered_image_url",
+                                                                     "rendered_link_url"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_cluster",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "kubernetes_api_url",
+                                                                     "kubernetes_token",
+                                                                     "name",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "domain",
+                                                                     "enabled",
+                                                                     "environment_scope",
+                                                                     "id",
+                                                                     "kubernetes_authorization_type",
+                                                                     "kubernetes_ca_cert",
+                                                                     "kubernetes_namespace",
+                                                                     "managed",
+                                                                     "management_project_id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "cluster_type",
+                                                                     "created_at",
+                                                                     "platform_type",
+                                                                     "provider_type"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_compliance_framework",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "compliance_framework_id",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_compliance_frameworks",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "compliance_framework_ids",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_custom_attribute",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "key",
+                                                                     "project",
+                                                                     "value"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_environment",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "auto_stop_setting",
+                                                                     "cluster_agent_id",
+                                                                     "description",
+                                                                     "external_url",
+                                                                     "flux_resource_path",
+                                                                     "id",
+                                                                     "kubernetes_namespace",
+                                                                     "stop_before_destroy",
+                                                                     "tier"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "auto_stop_at",
+                                                                     "created_at",
+                                                                     "slug",
+                                                                     "state",
+                                                                     "updated_at"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_freeze_period",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "freeze_end",
+                                                                     "freeze_start",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "cron_timezone",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_hook",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "confidential_issues_events",
+                                                                     "confidential_note_events",
+                                                                     "custom_headers",
+                                                                     "custom_webhook_template",
+                                                                     "deployment_events",
+                                                                     "description",
+                                                                     "enable_ssl_verification",
+                                                                     "issues_events",
+                                                                     "job_events",
+                                                                     "merge_requests_events",
+                                                                     "name",
+                                                                     "note_events",
+                                                                     "pipeline_events",
+                                                                     "push_events",
+                                                                     "push_events_branch_filter",
+                                                                     "releases_events",
+                                                                     "resource_access_token_events",
+                                                                     "tag_push_events",
+                                                                     "token",
+                                                                     "wiki_page_events"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "hook_id",
+                                                                     "id",
+                                                                     "project_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_issue",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project",
+                                                                     "title"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "assignee_ids",
+                                                                     "confidential",
+                                                                     "created_at",
+                                                                     "delete_on_destroy",
+                                                                     "description",
+                                                                     "discussion_locked",
+                                                                     "discussion_to_resolve",
+                                                                     "due_date",
+                                                                     "epic_issue_id",
+                                                                     "id",
+                                                                     "iid",
+                                                                     "issue_type",
+                                                                     "labels",
+                                                                     "merge_request_to_resolve_discussions_of",
+                                                                     "milestone_id",
+                                                                     "state",
+                                                                     "updated_at",
+                                                                     "weight"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "author_id",
+                                                                     "closed_at",
+                                                                     "closed_by_user_id",
+                                                                     "downvotes",
+                                                                     "epic_id",
+                                                                     "external_id",
+                                                                     "human_time_estimate",
+                                                                     "human_total_time_spent",
+                                                                     "issue_id",
+                                                                     "issue_link_id",
+                                                                     "links",
+                                                                     "merge_requests_count",
+                                                                     "moved_to_id",
+                                                                     "references",
+                                                                     "subscribed",
+                                                                     "task_completion_status",
+                                                                     "time_estimate",
+                                                                     "total_time_spent",
+                                                                     "upvotes",
+                                                                     "user_notes_count",
+                                                                     "web_url"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_issue_board",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "assignee_id",
+                                                                     "id",
+                                                                     "labels",
+                                                                     "milestone_id",
+                                                                     "weight"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "lists",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_job_token_scope",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "target_group_id",
+                                                                     "target_project_id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_job_token_scopes",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "enabled",
+                                                                     "project",
+                                                                     "project_id",
+                                                                     "target_group_ids",
+                                                                     "target_project_ids"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_label",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "color",
+                                                                     "name",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "label_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_level_mr_approvals",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "disable_overriding_approvers_per_merge_request",
+                                                                     "merge_requests_author_approval",
+                                                                     "merge_requests_disable_committers_approval",
+                                                                     "require_password_to_approve",
+                                                                     "reset_approvals_on_push",
+                                                                     "selective_code_owner_removals"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_level_notifications",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "close_issue",
+                                                                     "close_merge_request",
+                                                                     "failed_pipeline",
+                                                                     "fixed_pipeline",
+                                                                     "issue_due",
+                                                                     "level",
+                                                                     "merge_merge_request",
+                                                                     "merge_when_pipeline_succeeds",
+                                                                     "moved_project",
+                                                                     "new_issue",
+                                                                     "new_merge_request",
+                                                                     "new_note",
+                                                                     "push_to_merge_request",
+                                                                     "reassign_issue",
+                                                                     "reassign_merge_request",
+                                                                     "reopen_issue",
+                                                                     "reopen_merge_request",
+                                                                     "success_pipeline"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_membership",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "access_level",
+                                                                     "project",
+                                                                     "user_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "expires_at",
+                                                                     "id",
+                                                                     "member_role_id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_milestone",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project",
+                                                                     "title"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "due_date",
+                                                                     "id",
+                                                                     "start_date",
+                                                                     "state"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "created_at",
+                                                                     "expired",
+                                                                     "iid",
+                                                                     "milestone_id",
+                                                                     "project_id",
+                                                                     "updated_at",
+                                                                     "web_url"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_mirror",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project",
+                                                                     "url"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "auth_method",
+                                                                     "enabled",
+                                                                     "keep_divergent_refs",
+                                                                     "mirror_branch_regex",
+                                                                     "only_protected_branches"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id",
+                                                                     "mirror_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_protected_environment",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "environment",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "approval_rules"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "deploy_access_levels",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_push_rules",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "author_email_regex",
+                                                                     "branch_name_regex",
+                                                                     "commit_committer_check",
+                                                                     "commit_committer_name_check",
+                                                                     "commit_message_negative_regex",
+                                                                     "commit_message_regex",
+                                                                     "deny_delete_tag",
+                                                                     "file_name_regex",
+                                                                     "max_file_size",
+                                                                     "member_check",
+                                                                     "prevent_secrets",
+                                                                     "reject_non_dco_commits",
+                                                                     "reject_unsigned_commits"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_runner_enablement",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project",
+                                                                     "runner_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_security_policy_attachment",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "policy_project",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id",
+                                                                     "policy_project_graphql_id",
+                                                                     "project_graphql_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_share_group",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "group_id",
+                                                                     "project"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "access_level",
+                                                                     "group_access",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_tag",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "name",
+                                                                     "project",
+                                                                     "ref"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "message"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "commit",
+                                                                     "protected",
+                                                                     "release",
+                                                                     "target"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_target_branch_rule",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "project",
+                                                                     "source_branch_pattern",
+                                                                     "target_branch_name"
+                                                                 ],
+                                          "optionalAttributes":  [
+
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_variable",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "key",
+                                                                     "project",
+                                                                     "value"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "environment_scope",
+                                                                     "hidden",
+                                                                     "masked",
+                                                                     "protected",
+                                                                     "raw",
+                                                                     "variable_type"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_project_wiki_page",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "content",
+                                                                     "project",
+                                                                     "title"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "format"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "encoding",
+                                                                     "id",
+                                                                     "slug"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_user",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "email",
+                                                                     "name",
+                                                                     "username"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "can_create_group",
+                                                                     "extern_uid",
+                                                                     "external_provider",
+                                                                     "force_random_password",
+                                                                     "id",
+                                                                     "is_admin",
+                                                                     "is_external",
+                                                                     "namespace_id",
+                                                                     "note",
+                                                                     "password",
+                                                                     "projects_limit",
+                                                                     "reset_password",
+                                                                     "skip_confirmation",
+                                                                     "state"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_user_custom_attribute",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "key",
+                                                                     "user",
+                                                                     "value"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_user_gpgkey",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "key"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "user_id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "created_at",
+                                                                     "key_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_user_identity",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "external_provider",
+                                                                     "external_uid",
+                                                                     "user_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_user_impersonation_token",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "expires_at",
+                                                                     "name",
+                                                                     "scopes",
+                                                                     "user_id"
+                                                                 ],
+                                          "optionalAttributes":  [
+
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "active",
+                                                                     "created_at",
+                                                                     "id",
+                                                                     "impersonation",
+                                                                     "revoked",
+                                                                     "token",
+                                                                     "token_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_user_runner",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "runner_type"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "access_level",
+                                                                     "description",
+                                                                     "group_id",
+                                                                     "locked",
+                                                                     "maintenance_note",
+                                                                     "maximum_timeout",
+                                                                     "paused",
+                                                                     "project_id",
+                                                                     "tag_list",
+                                                                     "untagged"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id",
+                                                                     "token"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "gitlab_user_sshkey",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "key",
+                                                                     "title"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "expires_at",
+                                                                     "id",
+                                                                     "user_id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "created_at",
+                                                                     "key_id"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      }
+                  ],
+    "dataSources":  [
+                        {
+                            "type":  "gitlab_group",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "full_path",
+                                                                       "group_id",
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "default_branch",
+                                                                       "default_branch_protection",
+                                                                       "description",
+                                                                       "extra_shared_runners_minutes_limit",
+                                                                       "full_name",
+                                                                       "lfs_enabled",
+                                                                       "membership_lock",
+                                                                       "name",
+                                                                       "parent_id",
+                                                                       "path",
+                                                                       "prevent_forking_outside_group",
+                                                                       "request_access_enabled",
+                                                                       "runners_token",
+                                                                       "shared_runners_minutes_limit",
+                                                                       "shared_runners_setting",
+                                                                       "shared_with_groups",
+                                                                       "visibility_level",
+                                                                       "web_url",
+                                                                       "wiki_access_level"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_group_access_tokens",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "group"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "access_tokens",
+                                                                       "id"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_group_billable_member_memberships",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "group_id",
+                                                                       "user_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "id",
+                                                                       "memberships"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_group_hook",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "group",
+                                                                       "hook_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "confidential_issues_events",
+                                                                       "confidential_note_events",
+                                                                       "custom_webhook_template",
+                                                                       "deployment_events",
+                                                                       "enable_ssl_verification",
+                                                                       "group_id",
+                                                                       "issues_events",
+                                                                       "job_events",
+                                                                       "merge_requests_events",
+                                                                       "note_events",
+                                                                       "pipeline_events",
+                                                                       "push_events",
+                                                                       "push_events_branch_filter",
+                                                                       "releases_events",
+                                                                       "subgroup_events",
+                                                                       "tag_push_events",
+                                                                       "token",
+                                                                       "url",
+                                                                       "wiki_page_events"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_group_hooks",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "group"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "hooks"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_group_ids",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "group"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "group_full_path",
+                                                                       "group_graphql_id",
+                                                                       "group_id",
+                                                                       "id"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_group_membership",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "access_level",
+                                                                       "full_path",
+                                                                       "group_id",
+                                                                       "inherited"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "id",
+                                                                       "members"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_group_provisioned_users",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "active",
+                                                                       "blocked",
+                                                                       "created_after",
+                                                                       "created_before",
+                                                                       "search",
+                                                                       "username"
+                                                                   ],
+                                            "computedAttributes":  [
+
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "provisioned_users",
+                                                                     "nesting":  "list",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_group_service_account",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "group",
+                                                                       "service_account_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "id",
+                                                                       "name",
+                                                                       "username"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_group_subgroups",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "group_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "all_available",
+                                                                       "id",
+                                                                       "min_access_level",
+                                                                       "order_by",
+                                                                       "owned",
+                                                                       "search",
+                                                                       "skip_groups",
+                                                                       "sort",
+                                                                       "statistics",
+                                                                       "with_custom_attributes"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "subgroups"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_group_variable",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "group",
+                                                                       "key"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "environment_scope"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "description",
+                                                                       "id",
+                                                                       "masked",
+                                                                       "protected",
+                                                                       "raw",
+                                                                       "value",
+                                                                       "variable_type"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_group_variables",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "group"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "environment_scope"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "id",
+                                                                       "variables"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_groups",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "order_by",
+                                                                       "search",
+                                                                       "sort",
+                                                                       "top_level_only"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "groups"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_pipeline_schedule",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "pipeline_schedule_id",
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "cron_timezone"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "active",
+                                                                       "created_at",
+                                                                       "cron",
+                                                                       "description",
+                                                                       "id",
+                                                                       "last_pipeline",
+                                                                       "next_run_at",
+                                                                       "owner",
+                                                                       "ref",
+                                                                       "updated_at",
+                                                                       "variables"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_pipeline_schedules",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "id",
+                                                                       "pipeline_schedules"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "ci_default_git_depth",
+                                                                       "ci_id_token_sub_claim_components",
+                                                                       "id",
+                                                                       "path_with_namespace",
+                                                                       "public_builds"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "allow_pipeline_trigger_approve_deployment",
+                                                                       "analytics_access_level",
+                                                                       "archived",
+                                                                       "auto_cancel_pending_pipelines",
+                                                                       "auto_devops_deploy_strategy",
+                                                                       "auto_devops_enabled",
+                                                                       "autoclose_referenced_issues",
+                                                                       "build_git_strategy",
+                                                                       "build_timeout",
+                                                                       "builds_access_level",
+                                                                       "ci_config_path",
+                                                                       "ci_delete_pipelines_in_seconds",
+                                                                       "ci_pipeline_variables_minimum_override_role",
+                                                                       "ci_restrict_pipeline_cancellation_role",
+                                                                       "ci_separated_caches",
+                                                                       "container_expiration_policy",
+                                                                       "container_registry_access_level",
+                                                                       "default_branch",
+                                                                       "description",
+                                                                       "emails_enabled",
+                                                                       "empty_repo",
+                                                                       "environments_access_level",
+                                                                       "external_authorization_classification_label",
+                                                                       "feature_flags_access_level",
+                                                                       "forking_access_level",
+                                                                       "http_url_to_repo",
+                                                                       "import_url",
+                                                                       "infrastructure_access_level",
+                                                                       "issues_access_level",
+                                                                       "issues_enabled",
+                                                                       "keep_latest_artifact",
+                                                                       "lfs_enabled",
+                                                                       "merge_commit_template",
+                                                                       "merge_pipelines_enabled",
+                                                                       "merge_requests_access_level",
+                                                                       "merge_requests_enabled",
+                                                                       "merge_trains_enabled",
+                                                                       "model_experiments_access_level",
+                                                                       "model_registry_access_level",
+                                                                       "monitor_access_level",
+                                                                       "name",
+                                                                       "namespace_id",
+                                                                       "path",
+                                                                       "pipelines_enabled",
+                                                                       "prevent_merge_without_jira_issue",
+                                                                       "printing_merge_request_link_enabled",
+                                                                       "push_rules",
+                                                                       "releases_access_level",
+                                                                       "remove_source_branch_after_merge",
+                                                                       "repository_access_level",
+                                                                       "repository_storage",
+                                                                       "request_access_enabled",
+                                                                       "requirements_access_level",
+                                                                       "resolve_outdated_diff_discussions",
+                                                                       "restrict_user_defined_variables",
+                                                                       "runners_token",
+                                                                       "security_and_compliance_access_level",
+                                                                       "shared_with_groups",
+                                                                       "snippets_access_level",
+                                                                       "snippets_enabled",
+                                                                       "squash_commit_template",
+                                                                       "ssh_url_to_repo",
+                                                                       "suggestion_commit_message",
+                                                                       "topics",
+                                                                       "visibility_level",
+                                                                       "web_url",
+                                                                       "wiki_access_level",
+                                                                       "wiki_enabled"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_branches",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "branches"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_environments",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "name",
+                                                                       "search",
+                                                                       "states"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "environments",
+                                                                       "id"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_hook",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "hook_id",
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "confidential_issues_events",
+                                                                       "confidential_note_events",
+                                                                       "custom_webhook_template",
+                                                                       "deployment_events",
+                                                                       "enable_ssl_verification",
+                                                                       "issues_events",
+                                                                       "job_events",
+                                                                       "merge_requests_events",
+                                                                       "note_events",
+                                                                       "pipeline_events",
+                                                                       "project_id",
+                                                                       "push_events",
+                                                                       "push_events_branch_filter",
+                                                                       "releases_events",
+                                                                       "tag_push_events",
+                                                                       "token",
+                                                                       "url",
+                                                                       "wiki_page_events"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_hooks",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "hooks"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_ids",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "id",
+                                                                       "project_full_path",
+                                                                       "project_graphql_id",
+                                                                       "project_id"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_issue",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "iid",
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "assignee_ids",
+                                                                       "author_id",
+                                                                       "closed_at",
+                                                                       "closed_by_user_id",
+                                                                       "confidential",
+                                                                       "created_at",
+                                                                       "description",
+                                                                       "discussion_locked",
+                                                                       "discussion_to_resolve",
+                                                                       "downvotes",
+                                                                       "due_date",
+                                                                       "epic_id",
+                                                                       "epic_issue_id",
+                                                                       "external_id",
+                                                                       "human_time_estimate",
+                                                                       "human_total_time_spent",
+                                                                       "issue_id",
+                                                                       "issue_link_id",
+                                                                       "issue_type",
+                                                                       "labels",
+                                                                       "links",
+                                                                       "merge_request_to_resolve_discussions_of",
+                                                                       "merge_requests_count",
+                                                                       "milestone_id",
+                                                                       "moved_to_id",
+                                                                       "references",
+                                                                       "state",
+                                                                       "subscribed",
+                                                                       "task_completion_status",
+                                                                       "time_estimate",
+                                                                       "title",
+                                                                       "total_time_spent",
+                                                                       "updated_at",
+                                                                       "upvotes",
+                                                                       "user_notes_count",
+                                                                       "web_url",
+                                                                       "weight"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_issues",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "assignee_id",
+                                                                       "assignee_username",
+                                                                       "author_id",
+                                                                       "confidential",
+                                                                       "created_after",
+                                                                       "created_before",
+                                                                       "due_date",
+                                                                       "id",
+                                                                       "iids",
+                                                                       "issue_type",
+                                                                       "labels",
+                                                                       "milestone",
+                                                                       "my_reaction_emoji",
+                                                                       "not_assignee_id",
+                                                                       "not_author_id",
+                                                                       "not_labels",
+                                                                       "not_milestone",
+                                                                       "not_my_reaction_emoji",
+                                                                       "order_by",
+                                                                       "scope",
+                                                                       "search",
+                                                                       "sort",
+                                                                       "updated_after",
+                                                                       "updated_before",
+                                                                       "weight",
+                                                                       "with_labels_details"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "issues"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_membership",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "full_path",
+                                                                       "id",
+                                                                       "inherited",
+                                                                       "project_id",
+                                                                       "query",
+                                                                       "user_ids"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "members"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_merge_request",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "iid",
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "assignee",
+                                                                       "assignees",
+                                                                       "author",
+                                                                       "blocking_discussions_resolved",
+                                                                       "changes_count",
+                                                                       "closed_at",
+                                                                       "closed_by",
+                                                                       "created_at",
+                                                                       "id"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_milestone",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "milestone_id",
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "created_at",
+                                                                       "description",
+                                                                       "due_date",
+                                                                       "expired",
+                                                                       "iid",
+                                                                       "project_id",
+                                                                       "start_date",
+                                                                       "state",
+                                                                       "title",
+                                                                       "updated_at",
+                                                                       "web_url"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_milestones",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "iids",
+                                                                       "include_parent_milestones",
+                                                                       "search",
+                                                                       "state",
+                                                                       "title"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "milestones"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_mirror_public_key",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "mirror_id",
+                                                                       "project_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "id",
+                                                                       "public_key"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_protected_branch",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "name",
+                                                                       "project_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "allow_force_push",
+                                                                       "code_owner_approval_required",
+                                                                       "id"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "merge_access_levels",
+                                                                     "nesting":  "set",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 },
+                                                                 {
+                                                                     "name":  "push_access_levels",
+                                                                     "nesting":  "set",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_protected_branches",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project_id"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "protected_branches",
+                                                                     "nesting":  "list",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_protected_tag",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project",
+                                                                       "tag"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "create_access_levels",
+                                                                       "id"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_protected_tags",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "id",
+                                                                       "protected_tags"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_tag",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "name",
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "commit",
+                                                                       "message",
+                                                                       "protected",
+                                                                       "release",
+                                                                       "target"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_tags",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id",
+                                                                       "order_by",
+                                                                       "search",
+                                                                       "sort"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "tags"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_variable",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "key",
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "environment_scope",
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "description",
+                                                                       "masked",
+                                                                       "protected",
+                                                                       "raw",
+                                                                       "value",
+                                                                       "variable_type"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_project_variables",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "project"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "environment_scope",
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "variables"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_projects",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "archived",
+                                                                       "group_id",
+                                                                       "id",
+                                                                       "include_subgroups",
+                                                                       "max_queryable_pages",
+                                                                       "membership",
+                                                                       "min_access_level",
+                                                                       "order_by",
+                                                                       "owned",
+                                                                       "page",
+                                                                       "per_page",
+                                                                       "search",
+                                                                       "simple",
+                                                                       "sort",
+                                                                       "starred",
+                                                                       "statistics",
+                                                                       "topic",
+                                                                       "visibility",
+                                                                       "with_custom_attributes",
+                                                                       "with_issues_enabled",
+                                                                       "with_merge_requests_enabled",
+                                                                       "with_programming_language",
+                                                                       "with_shared"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "projects"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "gitlab_users",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "active",
+                                                                       "blocked",
+                                                                       "created_after",
+                                                                       "created_before",
+                                                                       "exclude_external",
+                                                                       "exclude_internal",
+                                                                       "extern_provider",
+                                                                       "extern_uid",
+                                                                       "external",
+                                                                       "id",
+                                                                       "order_by",
+                                                                       "search",
+                                                                       "sort",
+                                                                       "username",
+                                                                       "without_project_bots"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "users"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        }
+                    ]
+}

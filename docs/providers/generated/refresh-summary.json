@@ -1,176 +1,41 @@
-﻿[
-    {
-        "provider":  "aws",
-        "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\aws",
-        "modules":  [
-                        "foundation",
-                        "network",
-                        "storage",
-                        "identity",
-                        "compute",
-                        "observability"
-                    ],
-        "resourcePrefixes":  [
-                                 "aws_autoscaling_",
-                                 "aws_cloudwatch_",
-                                 "aws_ecs_",
-                                 "aws_eip",
-                                 "aws_iam_",
-                                 "aws_instance",
-                                 "aws_internet_gateway",
-                                 "aws_launch_template",
-                                 "aws_logs_",
-                                 "aws_nat_gateway",
-                                 "aws_route",
-                                 "aws_route_table",
-                                 "aws_s3_",
-                                 "aws_subnet",
-                                 "aws_vpc"
-                             ],
-        "dataSourcePrefixes":  [
-                                   "aws_ami",
-                                   "aws_caller_identity",
-                                   "aws_cloudwatch_",
-                                   "aws_ecs_",
-                                   "aws_iam_",
-                                   "aws_launch_template",
-                                   "aws_logs_",
-                                   "aws_partition",
-                                   "aws_region",
-                                   "aws_route_table",
-                                   "aws_s3_",
-                                   "aws_subnets",
-                                   "aws_vpc"
-                               ],
-        "lockMode":  "host-only:windows_amd64",
-        "writeMode":  "changed-only"
-    },
-    {
-        "provider":  "azurerm",
-        "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\azurerm",
-        "modules":  [
-                        "foundation",
-                        "network",
-                        "storage",
-                        "identity",
-                        "compute",
-                        "observability"
-                    ],
-        "resourcePrefixes":  [
-                                 "azurerm_container_app",
-                                 "azurerm_linux_virtual_machine",
-                                 "azurerm_log_analytics_",
-                                 "azurerm_monitor_",
-                                 "azurerm_network_security_group",
-                                 "azurerm_resource_group",
-                                 "azurerm_role_assignment",
-                                 "azurerm_route_table",
-                                 "azurerm_storage_",
-                                 "azurerm_subnet",
-                                 "azurerm_user_assigned_identity",
-                                 "azurerm_virtual_network",
-                                 "azurerm_windows_virtual_machine"
-                             ],
-        "dataSourcePrefixes":  [
-                                   "azurerm_client_config",
-                                   "azurerm_image",
-                                   "azurerm_log_analytics_",
-                                   "azurerm_monitor_",
-                                   "azurerm_role_definition",
-                                   "azurerm_storage_",
-                                   "azurerm_subnet",
-                                   "azurerm_subscription",
-                                   "azurerm_virtual_machine",
-                                   "azurerm_virtual_network"
-                               ],
-        "lockMode":  "host-only:windows_amd64",
-        "writeMode":  "changed-only"
-    },
-    {
-        "provider":  "google",
-        "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\google",
-        "modules":  [
-                        "foundation",
-                        "network",
-                        "storage",
-                        "identity",
-                        "compute",
-                        "observability"
-                    ],
-        "resourcePrefixes":  [
-                                 "google_cloud_run_",
-                                 "google_compute_firewall",
-                                 "google_compute_instance",
-                                 "google_compute_network",
-                                 "google_compute_router",
-                                 "google_compute_subnetwork",
-                                 "google_logging_",
-                                 "google_monitoring_",
-                                 "google_project_iam_",
-                                 "google_project_service",
-                                 "google_service_account",
-                                 "google_storage_bucket"
-                             ],
-        "dataSourcePrefixes":  [
-                                   "google_client_config",
-                                   "google_compute_image",
-                                   "google_compute_instance",
-                                   "google_compute_network",
-                                   "google_compute_subnetwork",
-                                   "google_iam_policy",
-                                   "google_logging_",
-                                   "google_monitoring_",
-                                   "google_project",
-                                   "google_service_account",
-                                   "google_storage_bucket"
-                               ],
-        "lockMode":  "host-only:windows_amd64",
-        "writeMode":  "changed-only"
-    },
-    {
-        "provider":  "kubernetes",
-        "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\kubernetes",
-        "modules":  [
-                        "namespace",
-                        "service_account",
-                        "config",
-                        "workload"
-                    ],
-        "resourcePrefixes":  [
-                                 "kubernetes_config_map",
-                                 "kubernetes_deployment",
-                                 "kubernetes_ingress",
-                                 "kubernetes_namespace",
-                                 "kubernetes_role",
-                                 "kubernetes_role_binding",
-                                 "kubernetes_secret",
-                                 "kubernetes_service",
-                                 "kubernetes_service_account"
-                             ],
-        "dataSourcePrefixes":  [
-                                   "kubernetes_config_map",
-                                   "kubernetes_ingress",
-                                   "kubernetes_namespace",
-                                   "kubernetes_role",
-                                   "kubernetes_secret",
-                                   "kubernetes_service",
-                                   "kubernetes_service_account"
-                               ],
-        "lockMode":  "host-only:windows_amd64",
-        "writeMode":  "changed-only"
-    },
-    {
-        "provider":  "helm",
-        "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\helm",
-        "modules":  [
-                        "repository",
-                        "release"
-                    ],
-        "resourcePrefixes":  "helm_release",
-        "dataSourcePrefixes":  [
-                                   "__none__"
-                               ],
-        "lockMode":  "host-only:windows_amd64",
-        "writeMode":  "changed-only"
-    }
-]
+﻿{
+    "provider":  "azurerm",
+    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\azurerm",
+    "modules":  [
+                    "foundation",
+                    "network",
+                    "storage",
+                    "identity",
+                    "compute",
+                    "observability"
+                ],
+    "resourcePrefixes":  [
+                             "azurerm_container_app",
+                             "azurerm_linux_virtual_machine",
+                             "azurerm_log_analytics_",
+                             "azurerm_monitor_",
+                             "azurerm_network_security_group",
+                             "azurerm_resource_group",
+                             "azurerm_role_assignment",
+                             "azurerm_route_table",
+                             "azurerm_storage_",
+                             "azurerm_subnet",
+                             "azurerm_user_assigned_identity",
+                             "azurerm_virtual_network",
+                             "azurerm_windows_virtual_machine"
+                         ],
+    "dataSourcePrefixes":  [
+                               "azurerm_client_config",
+                               "azurerm_image",
+                               "azurerm_log_analytics_",
+                               "azurerm_monitor_",
+                               "azurerm_role_definition",
+                               "azurerm_storage_",
+                               "azurerm_subnet",
+                               "azurerm_subscription",
+                               "azurerm_virtual_machine",
+                               "azurerm_virtual_network"
+                           ],
+    "lockMode":  "host-only:windows_amd64",
+    "writeMode":  "changed-only"
+}

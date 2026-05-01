@@ -1,0 +1,33 @@
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "instance" {
+  description = "Required attribute 'instance' for type 'google_compute_instance_group_membership'."
+  type        = any
+}
+
+variable "instance_group" {
+  description = "Required attribute 'instance_group' for type 'google_compute_instance_group_membership'."
+  type        = any
+}
+
+variable "project" {
+  description = "Optional attribute 'project' for type 'google_compute_instance_group_membership'."
+  type        = any
+  default     = null
+}
+
+variable "zone" {
+  description = "Optional attribute 'zone' for type 'google_compute_instance_group_membership'."
+  type        = any
+  default     = null
+}
+
+variable "block_timeouts" {
+  description = "Optional nested block 'timeouts' for type 'google_compute_instance_group_membership'."
+  type        = any
+  default     = null
+}

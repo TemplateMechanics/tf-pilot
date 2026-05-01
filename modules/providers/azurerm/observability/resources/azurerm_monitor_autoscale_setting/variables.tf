@@ -1,0 +1,61 @@
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "location" {
+  description = "Required attribute 'location' for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+}
+
+variable "name" {
+  description = "Required attribute 'name' for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+}
+
+variable "resource_group_name" {
+  description = "Required attribute 'resource_group_name' for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+}
+
+variable "target_resource_id" {
+  description = "Required attribute 'target_resource_id' for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+}
+
+variable "enabled" {
+  description = "Optional attribute 'enabled' for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+  default     = null
+}
+
+variable "tags" {
+  description = "Optional attribute 'tags' for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+  default     = null
+}
+
+variable "block_notification" {
+  description = "Optional nested block 'notification' for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+  default     = null
+}
+
+variable "block_predictive" {
+  description = "Optional nested block 'predictive' for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+  default     = null
+}
+
+variable "block_profile" {
+  description = "Optional nested block 'profile' for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+  default     = null
+}
+
+variable "block_timeouts" {
+  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+  default     = null
+}

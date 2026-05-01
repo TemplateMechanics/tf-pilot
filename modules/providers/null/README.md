@@ -1,3 +1,5 @@
-﻿# null modules
+# null modules
 
-Provider module families for null generated from reflection settings.
+Generated provider module families for null.
+
+Manual edits inside generated files will be overwritten by scripts/Sync-ProviderGeneratedModules.ps1.

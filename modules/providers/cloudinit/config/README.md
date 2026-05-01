@@ -1,9 +1,9 @@
-﻿# cloudinit/config module
+# cloudinit/config module
 
-Reflection-scaffolded module contract for the cloudinit config capability family.
+Generated module contract for the cloudinit config capability family.
 
 Mapped reflection prefixes:
-- Resource types: (none)
+- Resource types: 
 - Data source types: cloudinit_config
 
-This scaffold is intentionally safe by default and intended for incremental expansion.
+This module is generated automatically. Manual edits will be overwritten.

@@ -1,0 +1,41 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: github
+# Module: repository
+# File: outputs.tf
+output "module" {
+  description = "Module identifier."
+  value       = "github-repository"
+}
+
+output "effective_tags" {
+  description = "Normalized and merged metadata map for downstream usage."
+  value       = local.effective_tags
+}
+
+output "effective_labels" {
+  description = "Alias of effective_tags for label-based providers."
+  value       = local.effective_tags
+}
+
+output "reflected_resource_prefixes" {
+  description = "Resource prefixes mapped from reflection settings for this module family."
+  value       = local.reflected_resource_prefixes
+}
+
+output "reflected_data_source_prefixes" {
+  description = "Data source prefixes mapped from reflection settings for this module family."
+  value       = local.reflected_data_source_prefixes
+}
+output "repository_name" {
+  description = "Resolved repository name."
+  value       = local.resolved_repository_name
+}
+output "repository_id" {
+  description = "Repository node ID when created."
+  value       = try(github_repository.this[0].node_id, null)
+}
+output "repository_html_url" {
+  description = "Repository HTML URL when created."
+  value       = try(github_repository.this[0].html_url, null)
+}

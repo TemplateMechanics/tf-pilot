@@ -1,88 +1,84 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: helm
+# Module: release
+# File: variables.tf
 variable "name" {
-  description = "Name of the Helm release."
+  description = "Helm release name."
   type        = string
   nullable    = false
 }
-
 variable "environment" {
   description = "Deployment environment name."
   type        = string
   nullable    = false
 }
-
+variable "enabled" {
+  description = "When true, creates the Helm release."
+  type        = bool
+  default     = true
+}
 variable "chart" {
-  description = "Name of the chart to install."
+  description = "Helm chart name."
   type        = string
   nullable    = false
 }
-
 variable "repository" {
-  description = "Helm chart repository URL. Omit for charts in local path or default repo."
+  description = "Helm repository URL."
   type        = string
   default     = null
 }
-
 variable "chart_version" {
-  description = "Pinned chart version. Omit to use the latest published version."
+  description = "Pinned chart version."
   type        = string
   default     = null
 }
-
 variable "namespace" {
-  description = "Kubernetes namespace to install the release into."
+  description = "Kubernetes namespace for the release."
   type        = string
   default     = "default"
-  nullable    = false
 }
-
 variable "create_namespace" {
   description = "Create the namespace if it does not exist."
   type        = bool
   default     = false
 }
-
 variable "values" {
-  description = "List of raw YAML values file contents to pass to Helm."
+  description = "Raw YAML values documents for the release."
   type        = list(string)
   default     = []
   nullable    = false
 }
-
 variable "set" {
-  description = "Map of individual chart values (equivalent to --set key=value)."
+  description = "Plaintext set values for the release."
   type        = map(string)
   default     = {}
   nullable    = false
 }
-
 variable "set_sensitive" {
-  description = "Map of sensitive chart values kept out of plan output."
+  description = "Sensitive set values for the release."
   type        = map(string)
   default     = {}
   nullable    = false
   sensitive   = true
 }
-
 variable "wait" {
-  description = "Wait for all release resources to be ready before marking the release successful."
+  description = "Wait for all resources to be ready before marking the release successful."
   type        = bool
   default     = true
 }
-
 variable "timeout" {
   description = "Timeout in seconds for Helm operations."
   type        = number
   default     = 300
 }
-
 variable "atomic" {
-  description = "Purge the chart on failure when true."
+  description = "Rollback the release on failure when true."
   type        = bool
   default     = false
 }
-
 variable "tags" {
-  description = "Metadata labels surfaced in outputs (Helm releases do not support native tags)."
+  description = "Metadata labels for downstream usage."
   type        = map(string)
   default     = {}
   nullable    = false

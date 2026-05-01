@@ -557,6 +557,15 @@ Write-Host "Summary written to $summaryPath"
 Write-Host "Diff summary written to $diffSummaryPath"
 Write-Host "Diff markdown written to $diffMarkdownPath"
 
+$syncGeneratedModulesScript = Join-Path $scriptRoot 'Sync-ProviderGeneratedModules.ps1'
+if (Test-Path $syncGeneratedModulesScript) {
+  Write-Host "Regenerating managed provider modules from refreshed settings..." -ForegroundColor Cyan
+  & $syncGeneratedModulesScript -IncludeDisabledModules
+  if ($LASTEXITCODE -ne 0) {
+    Write-Warning "Managed module generation reported exit code $LASTEXITCODE"
+  }
+}
+
 $syncMcpScript = Join-Path $scriptRoot 'Sync-McpServerEnablement.ps1'
 if (Test-Path $syncMcpScript) {
   Write-Host "Syncing MCP server enablement from active provider profile..." -ForegroundColor Cyan

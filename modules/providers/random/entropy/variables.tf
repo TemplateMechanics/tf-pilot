@@ -1,3 +1,8 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: random
+# Module: entropy
+# File: variables.tf
 variable "name" {
   description = "Short name for the resource or capability."
   type        = string

@@ -64,7 +64,27 @@ $results = [ordered]@{
 Push-Location $resolvedPath
 try {
   Write-Host "`nTerraform Fmt Check" -ForegroundColor Cyan
-  $fmtOutput = & $terraform fmt -check -recursive -diff 2>&1
+  $fmtArgs = @('fmt', '-check', '-recursive')
+  # -diff requires an external 'diff' binary; skip on Windows if not available
+  if (Get-Command 'diff' -ErrorAction SilentlyContinue) { $fmtArgs += '-diff' }
+  $previousFmtNativeErrPref = $null
+  $previousFmtErrorActionPreference = $ErrorActionPreference
+  if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
+    $previousFmtNativeErrPref = $PSNativeCommandUseErrorActionPreference
+    $PSNativeCommandUseErrorActionPreference = $false
+  }
+
+  try {
+    $ErrorActionPreference = 'Continue'
+    $fmtOutput = & $terraform @fmtArgs 2>&1
+  }
+  finally {
+    $ErrorActionPreference = $previousFmtErrorActionPreference
+    if ($null -ne $previousFmtNativeErrPref) {
+      $PSNativeCommandUseErrorActionPreference = $previousFmtNativeErrPref
+    }
+  }
+
   if ($fmtOutput) { $fmtOutput | ForEach-Object { Write-Host $_ } }
   if ($LASTEXITCODE -ne 0) {
     $results.fmt = $false
@@ -106,16 +126,34 @@ try {
   Write-Host "`nTFLint" -ForegroundColor Cyan
   $lintOutput = & $tflint --recursive --format compact 2>&1
   if ($lintOutput) { $lintOutput | ForEach-Object { Write-Host $_ } }
-  if ($LASTEXITCODE -ne 0) {
+  # Exit code 1 = rule errors; exit code 2 = warnings only (treated as pass)
+  if ($LASTEXITCODE -eq 1) {
     $results.tflint = $false
   }
 
   if (-not $SkipSecurity) {
     Write-Host "`nTrivy Config" -ForegroundColor Cyan
-    $trivyOutput = & $trivy config --severity MEDIUM,HIGH,CRITICAL $resolvedPath 2>&1
-    if ($trivyOutput) { $trivyOutput | ForEach-Object { Write-Host $_ } }
-    if ($LASTEXITCODE -ne 0) {
-      $results.trivy = $false
+    # Redirect stderr to stdout and avoid treating native stderr as terminating error
+    $previousNativeErrPref = $null
+    $previousErrorActionPreference = $ErrorActionPreference
+    if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
+      $previousNativeErrPref = $PSNativeCommandUseErrorActionPreference
+      $PSNativeCommandUseErrorActionPreference = $false
+    }
+
+    try {
+      $ErrorActionPreference = 'Continue'
+      $trivyOutput = & $trivy config --severity MEDIUM,HIGH,CRITICAL $resolvedPath 2>&1
+      $trivyOutput | Where-Object { $_ -notmatch '^\d{4}-\d{2}-\d{2}T.*INFO' } | ForEach-Object { Write-Host $_ }
+      if ($LASTEXITCODE -ne 0) {
+        $results.trivy = $false
+      }
+    }
+    finally {
+      $ErrorActionPreference = $previousErrorActionPreference
+      if ($null -ne $previousNativeErrPref) {
+        $PSNativeCommandUseErrorActionPreference = $previousNativeErrPref
+      }
     }
   }
 

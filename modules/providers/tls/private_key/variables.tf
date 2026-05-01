@@ -1,3 +1,8 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: tls
+# Module: private_key
+# File: variables.tf
 variable "name" {
   description = "Short name for the resource or capability."
   type        = string

@@ -1,9 +1,9 @@
-﻿# archive/package module
+# archive/package module
 
-Reflection-scaffolded module contract for the archive package capability family.
+Generated module contract for the archive package capability family.
 
 Mapped reflection prefixes:
-- Resource types: (none)
+- Resource types: 
 - Data source types: archive_file
 
-This scaffold is intentionally safe by default and intended for incremental expansion.
+This module is generated automatically. Manual edits will be overwritten.

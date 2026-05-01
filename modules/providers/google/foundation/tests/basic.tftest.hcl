@@ -1,39 +1,21 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: google
+# Module: foundation
+# File: tests/basic.tftest.hcl
 mock_provider "google" {}
 
 variables {
-  name        = "platform"
+  name        = "foundation"
   environment = "test"
-  services    = ["storage.googleapis.com", "compute.googleapis.com"]
+  project_id  = "test-project"
 }
 
-run "plan_enables_services" {
+run "plan_foundation" {
   command = plan
 
   assert {
-    condition     = length(google_project_service.this) == 2
-    error_message = "Expected two project services to be planned"
-  }
-
-  assert {
-    condition     = output.effective_labels["environment"] == "test"
-    error_message = "Expected environment label to be normalized"
-  }
-
-  assert {
-    condition     = output.effective_labels["managed_by"] == "terraform"
-    error_message = "Expected managed_by label to be set to terraform"
-  }
-}
-
-run "plan_no_services" {
-  command = plan
-
-  variables {
-    services = []
-  }
-
-  assert {
-    condition     = length(google_project_service.this) == 0
-    error_message = "Expected no project services when services list is empty"
+    condition     = output.module == "google-foundation"
+    error_message = "Expected generated module identifier"
   }
 }

@@ -1,0 +1,28 @@
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "group" {
+  description = "Required attribute 'group' for type 'gitlab_group_dependency_proxy'."
+  type        = any
+}
+
+variable "enabled" {
+  description = "Optional attribute 'enabled' for type 'gitlab_group_dependency_proxy'."
+  type        = any
+  default     = null
+}
+
+variable "identity" {
+  description = "Optional attribute 'identity' for type 'gitlab_group_dependency_proxy'."
+  type        = any
+  default     = null
+}
+
+variable "secret" {
+  description = "Optional attribute 'secret' for type 'gitlab_group_dependency_proxy'."
+  type        = any
+  default     = null
+}

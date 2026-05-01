@@ -1,0 +1,40 @@
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "name" {
+  description = "Required attribute 'name' for type 'aws_ecs_cluster'."
+  type        = any
+}
+
+variable "tags" {
+  description = "Optional attribute 'tags' for type 'aws_ecs_cluster'."
+  type        = any
+  default     = null
+}
+
+variable "tags_all" {
+  description = "Optional attribute 'tags_all' for type 'aws_ecs_cluster'."
+  type        = any
+  default     = null
+}
+
+variable "block_configuration" {
+  description = "Optional nested block 'configuration' for type 'aws_ecs_cluster'."
+  type        = any
+  default     = null
+}
+
+variable "block_service_connect_defaults" {
+  description = "Optional nested block 'service_connect_defaults' for type 'aws_ecs_cluster'."
+  type        = any
+  default     = null
+}
+
+variable "block_setting" {
+  description = "Optional nested block 'setting' for type 'aws_ecs_cluster'."
+  type        = any
+  default     = null
+}

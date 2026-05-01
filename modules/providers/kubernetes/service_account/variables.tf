@@ -1,24 +1,43 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderGeneratedModules.ps1
+# Provider: kubernetes
+# Module: service_account
+# File: variables.tf
 variable "name" {
-  description = "Short name for the resource or capability."
+  description = "Service account name prefix."
   type        = string
   nullable    = false
 }
-
 variable "environment" {
   description = "Deployment environment name."
   type        = string
   nullable    = false
 }
-
-variable "tags" {
-  description = "Tags to apply to supported resources and outputs."
+variable "enabled" {
+  description = "When true, creates service account and RBAC resources."
+  type        = bool
+  default     = false
+}
+variable "namespace" {
+  description = "Namespace for the service account and RBAC resources."
+  type        = string
+  nullable    = false
+}
+variable "annotations" {
+  description = "Annotations for the service account."
   type        = map(string)
   default     = {}
   nullable    = false
 }
-
-variable "enabled" {
-  description = "When true, module resources are enabled."
-  type        = bool
-  default     = false
+variable "rbac_rules" {
+  description = "RBAC rules for the generated namespaced Role."
+  type        = list(object({ api_groups = list(string), resources = list(string), verbs = list(string) }))
+  default     = []
+  nullable    = false
+}
+variable "tags" {
+  description = "Labels to merge onto the metadata output map."
+  type        = map(string)
+  default     = {}
+  nullable    = false
 }

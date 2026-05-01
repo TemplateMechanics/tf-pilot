@@ -58,6 +58,11 @@ jobs:
             sudo apt-get install -y powershell
           fi
 
+      - name: Check generated modules are in sync
+        shell: pwsh
+        run: |
+          ./scripts/Sync-ProviderGeneratedModules.ps1 -IncludeDisabledModules -Check
+
       - name: Validate examples
         shell: pwsh
         run: |
@@ -186,7 +191,7 @@ jobs:
       - name: Generate full provider coverage buildout report (non-blocking)
         shell: pwsh
         run: |
-          ./scripts/Invoke-ProviderCoverageBuildout.ps1 -IncludeDisabledModules -ProvidersAll
+          ./scripts/Invoke-AutonomousInfraSync.ps1 -IncludeDisabledModules -ProvidersAll
 
       - name: Add coverage and drift summary to workflow report
         if: always()
@@ -217,6 +222,7 @@ jobs:
             docs/providers/generated/refresh-summary.json
             docs/providers/generated/refresh-diff-summary.json
             docs/providers/generated/refresh-diff-summary.md
+            docs/providers/generated/module-generation-summary.json
             docs/providers/generated/module-scaffold-summary.json
 
       - name: Open or update provider drift issue

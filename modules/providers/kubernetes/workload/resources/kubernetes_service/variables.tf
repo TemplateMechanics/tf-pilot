@@ -1,0 +1,29 @@
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "wait_for_load_balancer" {
+  description = "Optional attribute 'wait_for_load_balancer' for type 'kubernetes_service'."
+  type        = any
+  default     = null
+}
+
+variable "block_metadata" {
+  description = "Optional nested block 'metadata' for type 'kubernetes_service'."
+  type        = any
+  default     = null
+}
+
+variable "block_spec" {
+  description = "Optional nested block 'spec' for type 'kubernetes_service'."
+  type        = any
+  default     = null
+}
+
+variable "block_timeouts" {
+  description = "Optional nested block 'timeouts' for type 'kubernetes_service'."
+  type        = any
+  default     = null
+}

@@ -1,0 +1,61 @@
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "add_action_group_ids" {
+  description = "Required attribute 'add_action_group_ids' for type 'azurerm_monitor_alert_processing_rule_action_group'."
+  type        = any
+}
+
+variable "name" {
+  description = "Required attribute 'name' for type 'azurerm_monitor_alert_processing_rule_action_group'."
+  type        = any
+}
+
+variable "resource_group_name" {
+  description = "Required attribute 'resource_group_name' for type 'azurerm_monitor_alert_processing_rule_action_group'."
+  type        = any
+}
+
+variable "scopes" {
+  description = "Required attribute 'scopes' for type 'azurerm_monitor_alert_processing_rule_action_group'."
+  type        = any
+}
+
+variable "description" {
+  description = "Optional attribute 'description' for type 'azurerm_monitor_alert_processing_rule_action_group'."
+  type        = any
+  default     = null
+}
+
+variable "enabled" {
+  description = "Optional attribute 'enabled' for type 'azurerm_monitor_alert_processing_rule_action_group'."
+  type        = any
+  default     = null
+}
+
+variable "tags" {
+  description = "Optional attribute 'tags' for type 'azurerm_monitor_alert_processing_rule_action_group'."
+  type        = any
+  default     = null
+}
+
+variable "block_condition" {
+  description = "Optional nested block 'condition' for type 'azurerm_monitor_alert_processing_rule_action_group'."
+  type        = any
+  default     = null
+}
+
+variable "block_schedule" {
+  description = "Optional nested block 'schedule' for type 'azurerm_monitor_alert_processing_rule_action_group'."
+  type        = any
+  default     = null
+}
+
+variable "block_timeouts" {
+  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_alert_processing_rule_action_group'."
+  type        = any
+  default     = null
+}

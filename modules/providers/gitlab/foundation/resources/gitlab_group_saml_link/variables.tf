@@ -1,0 +1,26 @@
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "access_level" {
+  description = "Required attribute 'access_level' for type 'gitlab_group_saml_link'."
+  type        = any
+}
+
+variable "group" {
+  description = "Required attribute 'group' for type 'gitlab_group_saml_link'."
+  type        = any
+}
+
+variable "saml_group_name" {
+  description = "Required attribute 'saml_group_name' for type 'gitlab_group_saml_link'."
+  type        = any
+}
+
+variable "member_role_id" {
+  description = "Optional attribute 'member_role_id' for type 'gitlab_group_saml_link'."
+  type        = any
+  default     = null
+}
