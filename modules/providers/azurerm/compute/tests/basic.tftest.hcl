@@ -3,7 +3,13 @@
 # Provider: azurerm
 # Module: compute
 # File: tests/basic.tftest.hcl
-mock_provider "azurerm" {}
+mock_provider "azurerm" {
+  mock_resource "azurerm_linux_virtual_machine" {
+    defaults = {
+      id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.Compute/virtualMachines/compute-test"
+    }
+  }
+}
 
 variables {
   name                 = "compute"
