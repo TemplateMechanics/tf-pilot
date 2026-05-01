@@ -53,6 +53,11 @@
           "type": "string",
           "minLength": 1,
           "description": "Logical service tier such as frontend, backend, or batch."
+        },
+        "upstream_service_id": {
+          "type": "string",
+          "description": "Optional literal upstream id or Terraform reference token in the form ${service.<name>.service_id}.",
+          "pattern": "^(\\$\\{service\\.[A-Za-z0-9_-]+\\.service_id\\}|.+)$"
         }
       }
     }

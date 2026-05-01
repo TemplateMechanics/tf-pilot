@@ -19,3 +19,5 @@ Behavior notes:
 - `metadata` is intentionally flexible; known keys such as `owner` and `cost_center` are consumed by the root output rendering.
 - Common tags are merged in root and passed into each module instance to model real-world tagging patterns.
 - `*.stack.yaml` files are validated by a JSON Schema (`.vscode/schemas/stack.schema.json`) through `.vscode/settings.json`.
+- `services.<name>.upstream_service_id` supports output-reference tokens in the form `${service.<other>.service_id}`.
+- Reference tokens are resolved to Terraform expressions (`module.service[<other>].service_id`) so values can depend on resources created in the same apply.

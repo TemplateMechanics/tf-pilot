@@ -11,9 +11,10 @@ variable "environment" {
 variable "config" {
   description = "Service configuration loaded from YAML."
   type = object({
-    enabled = bool
-    port    = number
-    tier    = string
+    enabled             = bool
+    port                = number
+    tier                = string
+    upstream_service_id = optional(string)
   })
 }
 

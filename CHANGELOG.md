@@ -24,6 +24,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Documented commit-and-gate policy for generated provider modules and catalogs.
 - Added release workflow validation for `tag_name` format and non-empty `target_commitish`.
 - Expanded Terraform policy warnings for sensitive updates across IAM, security boundary, and database resource families.
+- Added YAML reference-token support in `examples/multi-env-stack` for `${service.<name>.service_id}` dependency wiring.
 
 ## [0.2.0-dev] - 2026-05-01
 

@@ -16,7 +16,32 @@ locals {
     if try(svc.enabled, true)
   }
 
+  # Supported YAML reference syntax: ${service.<service-name>.service_id}
+  service_upstream_names = {
+    for name, svc in local.services :
+    name =>
+    (
+      try(svc.upstream_service_id, null) != null &&
+      startswith(tostring(svc.upstream_service_id), "$${service.") &&
+      endswith(tostring(svc.upstream_service_id), ".service_id}")
+    ) ? split(".", replace(replace(tostring(svc.upstream_service_id), "$${", ""), "}", ""))[1] : null
+  }
+
+  resolved_service_upstream_ids = {
+    for name, svc in local.services :
+    name =>
+    (
+      local.service_upstream_names[name] != null
+    ) ? try(module.service[local.service_upstream_names[name]].service_id, null) : try(svc.upstream_service_id, null)
+  }
+
   service_lines = [for _, svc in module.service : svc.summary]
+
+  service_link_lines = [
+    for name, upstream_id in local.resolved_service_upstream_ids :
+    "${name}: upstream_service_id=${upstream_id}"
+    if upstream_id != null && trimspace(upstream_id) != ""
+  ]
 
   rendered_config = join("\n", concat(
     [
@@ -26,7 +51,9 @@ locals {
       "cost_center=${lookup(local.metadata, "cost_center", "unset")}",
       "--- services ---"
     ],
-    local.service_lines
+    local.service_lines,
+    ["--- links ---"],
+    local.service_link_lines
   ))
 }
 
@@ -42,6 +69,20 @@ module "service" {
   environment = var.environment
   config      = each.value
   tags        = local.merged_tags
+}
+
+resource "null_resource" "service_link" {
+  for_each = {
+    for name, upstream_id in local.resolved_service_upstream_ids :
+    name => upstream_id
+    if upstream_id != null && trimspace(upstream_id) != ""
+  }
+
+  triggers = {
+    service_name        = each.key
+    service_id          = module.service[each.key].service_id
+    upstream_service_id = each.value
+  }
 }
 
 resource "local_file" "config" {

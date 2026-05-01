@@ -47,6 +47,16 @@ Keep test inputs deterministic and avoid cloud dependencies where possible by us
 
 For YAML-driven designs, include fixture YAML files in tests and assert decoded schema assumptions before module execution.
 
+## YAML reference tokens for dependency wiring
+When YAML must point to values produced by resources in the same plan, use explicit reference-token conventions and resolve them in Terraform locals.
+
+Recommended pattern:
+1. Keep YAML values as strings (for example `${service.api.service_id}`).
+2. Parse tokens in locals and translate them to Terraform expressions (for example `module.service["api"].service_id`).
+3. Use the resolved values only in downstream resources/outputs, not in the same module block that produces them, to avoid self-reference cycles.
+
+This preserves Terraform's dependency graph while keeping end-user YAML ergonomic.
+
 ## Vendoring vs registry vs git
 Registry modules are easiest to consume and version. Git sources are flexible but require strict ref pinning, and vendoring is useful for locked-down environments or long-term reproducibility.
 
