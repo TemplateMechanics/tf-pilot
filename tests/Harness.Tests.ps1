@@ -8,6 +8,8 @@ BeforeAll {
 Describe 'Validate-Terraform.ps1' {
   It 'passes on the hello-world example' {
     $exampleDir = Join-Path $PSScriptRoot '..' 'examples' 'hello-world' | Resolve-Path
+    & "$script:scriptsDir/Initialize-Workspace.ps1" -Path $exampleDir.Path
+    $LASTEXITCODE | Should -Be 0
     & "$script:scriptsDir/Validate-Terraform.ps1" -Path $exampleDir.Path
     $LASTEXITCODE | Should -Be 0
   }
@@ -58,8 +60,8 @@ Describe 'Invoke-TerraformPlan.ps1' {
 }
 
 Describe 'Invoke-TerraformApply.ps1' {
-  It 'refuses to apply without -PlanFile' {
-    & "$script:scriptsDir/Invoke-TerraformApply.ps1" -ErrorAction SilentlyContinue
+  It 'refuses to apply when plan file is missing' {
+    & "$script:scriptsDir/Invoke-TerraformApply.ps1" -PlanFile 'does-not-exist.tfplan' -ErrorAction SilentlyContinue
     $LASTEXITCODE | Should -Not -Be 0
   }
 }
