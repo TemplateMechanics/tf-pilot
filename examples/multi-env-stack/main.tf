@@ -1,5 +1,5 @@
 locals {
-  stack = yamldecode(file(var.stack_file))
+  stack    = yamldecode(file(var.stack_file))
   metadata = try(tomap(local.stack.metadata), {})
 
   merged_tags = merge(
