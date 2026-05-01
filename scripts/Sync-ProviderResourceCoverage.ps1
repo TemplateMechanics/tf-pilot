@@ -27,6 +27,9 @@ param(
 $ErrorActionPreference = 'Stop'
 $global:LASTEXITCODE = 0
 
+# Locate terraform binary (optional; skip fmt if not found)
+$terraformBin = Get-Command 'terraform' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source -ErrorAction SilentlyContinue
+
 function Resolve-RepoPath {
   param([Parameter(Mandatory)][string]$Path)
   $repoRoot = (Resolve-Path -Path (Join-Path $PSScriptRoot '..')).Path
@@ -447,6 +450,14 @@ foreach ($providerName in $targetProviders) {
 
 $summaryPath = Join-Path $catalogPathRoot 'resource-coverage-summary.json'
 Write-Utf8NoBom -Path $summaryPath -Content ($summary | ConvertTo-Json -Depth 8)
+
+# Normalize generated HCL with terraform fmt so generator output is consistent on disk
+if ($terraformBin) {
+  & $terraformBin fmt -write -recursive $modulesPathRoot | Out-Null
+}
+else {
+  Write-Warning "terraform not found on PATH; skipping fmt normalization for generated modules."
+}
 
 Write-Host "Wrote coverage summary: $summaryPath" -ForegroundColor Green
 exit 0
