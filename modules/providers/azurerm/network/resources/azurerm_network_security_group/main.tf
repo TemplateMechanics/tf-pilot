@@ -1,8 +1,8 @@
 resource "azurerm_network_security_group" "this" {
-  count = var.enabled ? 1 : 0
-  location = var.location
-  name = var.name
+  count               = var.enabled ? 1 : 0
+  location            = var.location
+  name                = var.name
   resource_group_name = var.resource_group_name
-  security_rule = var.security_rule
-  tags = var.tags
+  security_rule       = var.security_rule
+  tags                = var.tags
 }

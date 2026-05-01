@@ -1,6 +1,6 @@
 resource "google_compute_network_firewall_policy" "this" {
-  count = var.enabled ? 1 : 0
-  name = var.name
+  count       = var.enabled ? 1 : 0
+  name        = var.name
   description = var.description
-  project = var.project
+  project     = var.project
 }

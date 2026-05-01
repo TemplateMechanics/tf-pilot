@@ -1,6 +1,6 @@
 resource "aws_autoscaling_notification" "this" {
-  count = var.enabled ? 1 : 0
-  group_names = var.group_names
+  count         = var.enabled ? 1 : 0
+  group_names   = var.group_names
   notifications = var.notifications
-  topic_arn = var.topic_arn
+  topic_arn     = var.topic_arn
 }

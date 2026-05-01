@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_log_stream" "this" {
-  count = var.enabled ? 1 : 0
+  count          = var.enabled ? 1 : 0
   log_group_name = var.log_group_name
-  name = var.name
+  name           = var.name
 }

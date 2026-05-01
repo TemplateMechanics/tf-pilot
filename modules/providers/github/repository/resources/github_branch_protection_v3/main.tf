@@ -1,8 +1,8 @@
 resource "github_branch_protection_v3" "this" {
-  count = var.enabled ? 1 : 0
-  branch = var.branch
-  repository = var.repository
-  enforce_admins = var.enforce_admins
+  count                           = var.enabled ? 1 : 0
+  branch                          = var.branch
+  repository                      = var.repository
+  enforce_admins                  = var.enforce_admins
   require_conversation_resolution = var.require_conversation_resolution
-  require_signed_commits = var.require_signed_commits
+  require_signed_commits          = var.require_signed_commits
 }

@@ -1,4 +1,4 @@
 resource "kubernetes_service_account" "this" {
-  count = var.enabled ? 1 : 0
+  count                           = var.enabled ? 1 : 0
   automount_service_account_token = var.automount_service_account_token
 }

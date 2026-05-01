@@ -1,12 +1,12 @@
 resource "aws_route53_record" "this" {
-  count = var.enabled ? 1 : 0
-  name = var.name
-  type = var.type
-  zone_id = var.zone_id
-  allow_overwrite = var.allow_overwrite
-  health_check_id = var.health_check_id
+  count                            = var.enabled ? 1 : 0
+  name                             = var.name
+  type                             = var.type
+  zone_id                          = var.zone_id
+  allow_overwrite                  = var.allow_overwrite
+  health_check_id                  = var.health_check_id
   multivalue_answer_routing_policy = var.multivalue_answer_routing_policy
-  records = var.records
-  set_identifier = var.set_identifier
-  ttl = var.ttl
+  records                          = var.records
+  set_identifier                   = var.set_identifier
+  ttl                              = var.ttl
 }

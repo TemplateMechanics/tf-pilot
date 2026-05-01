@@ -1,7 +1,7 @@
 data "azurerm_image" "this" {
-  count = var.enabled ? 1 : 0
+  count               = var.enabled ? 1 : 0
   resource_group_name = var.resource_group_name
-  name = var.name
-  name_regex = var.name_regex
-  sort_descending = var.sort_descending
+  name                = var.name
+  name_regex          = var.name_regex
+  sort_descending     = var.sort_descending
 }

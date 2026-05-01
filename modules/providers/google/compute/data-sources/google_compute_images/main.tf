@@ -1,5 +1,5 @@
 data "google_compute_images" "this" {
-  count = var.enabled ? 1 : 0
-  filter = var.filter
+  count   = var.enabled ? 1 : 0
+  filter  = var.filter
   project = var.project
 }

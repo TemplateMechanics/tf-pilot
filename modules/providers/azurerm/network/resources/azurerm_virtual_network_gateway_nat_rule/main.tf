@@ -1,9 +1,9 @@
 resource "azurerm_virtual_network_gateway_nat_rule" "this" {
-  count = var.enabled ? 1 : 0
-  name = var.name
-  resource_group_name = var.resource_group_name
+  count                      = var.enabled ? 1 : 0
+  name                       = var.name
+  resource_group_name        = var.resource_group_name
   virtual_network_gateway_id = var.virtual_network_gateway_id
-  ip_configuration_id = var.ip_configuration_id
-  mode = var.mode
-  type = var.type
+  ip_configuration_id        = var.ip_configuration_id
+  mode                       = var.mode
+  type                       = var.type
 }
