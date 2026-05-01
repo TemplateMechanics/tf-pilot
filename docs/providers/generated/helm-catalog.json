@@ -1,0 +1,86 @@
+﻿{
+    "generatedAt":  "2026-05-01T02:01:43.7635530Z",
+    "generatedFromPath":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\helm",
+    "provider":  "helm",
+    "providerSchemaKey":  "registry.terraform.io/hashicorp/helm",
+    "modules":  [
+                    "repository",
+                    "release"
+                ],
+    "resourcePrefixes":  [
+                             "helm_release"
+                         ],
+    "dataSourcePrefixes":  [
+                               "__none__"
+                           ],
+    "resourceCount":  1,
+    "dataSourceCount":  0,
+    "resources":  [
+                      {
+                          "type":  "helm_release",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "chart",
+                                                                     "name"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "atomic",
+                                                                     "cleanup_on_fail",
+                                                                     "create_namespace",
+                                                                     "dependency_update",
+                                                                     "description",
+                                                                     "devel",
+                                                                     "disable_crd_hooks",
+                                                                     "disable_openapi_validation",
+                                                                     "disable_webhooks",
+                                                                     "force_update",
+                                                                     "keyring",
+                                                                     "lint",
+                                                                     "max_history",
+                                                                     "namespace",
+                                                                     "pass_credentials",
+                                                                     "postrender",
+                                                                     "recreate_pods",
+                                                                     "render_subchart_notes",
+                                                                     "replace",
+                                                                     "repository",
+                                                                     "repository_ca_file",
+                                                                     "repository_cert_file",
+                                                                     "repository_key_file",
+                                                                     "repository_password",
+                                                                     "repository_username",
+                                                                     "reset_values",
+                                                                     "reuse_values",
+                                                                     "set",
+                                                                     "set_list",
+                                                                     "set_sensitive",
+                                                                     "set_wo",
+                                                                     "set_wo_revision",
+                                                                     "skip_crds",
+                                                                     "take_ownership",
+                                                                     "timeout",
+                                                                     "timeouts",
+                                                                     "upgrade_install",
+                                                                     "values",
+                                                                     "verify",
+                                                                     "version",
+                                                                     "wait",
+                                                                     "wait_for_jobs"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "id",
+                                                                     "manifest",
+                                                                     "metadata",
+                                                                     "resources",
+                                                                     "status"
+                                                                 ],
+                                          "nestedBlocks":  [
+
+                                                           ]
+                                      }
+                      }
+                  ],
+    "dataSources":  [
+
+                    ]
+}
