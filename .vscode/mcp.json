@@ -1,78 +1,78 @@
 {
-    "servers": {
-        "terraform": {
-            "type": "stdio",
-            "command": "pwsh",
-            "args": [
-                "-NoProfile",
-                "-File",
-                "${workspaceFolder}/scripts/Start-TerraformMcpServer.ps1",
-                "-Runtime",
-                "auto"
-            ],
-            "disabled": false
-        },
-        "azure": {
-            "type": "stdio",
-            "command": "npx",
-            "args": [
-                "-y",
-                "@azure/mcp@latest",
-                "server",
-                "start"
-            ],
-            "env": {
-                "AZURE_CLOUD": "${input:azure_cloud}",
-                "AZURE_MCP_COLLECT_TELEMETRY": "false"
-            },
-            "disabled": true
-        },
-        "awsDocumentation": {
-            "type": "stdio",
-            "command": "docker",
-            "args": [
-                "run",
-                "-i",
-                "--rm",
-                "-e",
-                "FASTMCP_LOG_LEVEL=ERROR",
-                "-e",
-                "AWS_REGION=${input:aws_region}",
-                "public.ecr.aws/awslabs-mcp/awslabs/aws-documentation-mcp-server:latest"
-            ],
-            "disabled": true
-        },
-        "context7": {
-            "type": "stdio",
-            "command": "npx",
-            "args": [
-                "-y",
-                "@upstash/context7-mcp"
-            ],
-            "env": {
-                "CONTEXT7_API_KEY": "${input:context7_api_key}"
-            },
-            "disabled": true
-        }
-    },
-    "inputs": [
-        {
-            "type": "promptString",
-            "id": "azure_cloud",
-            "description": "Azure cloud (AzureCloud, AzureUSGovernment, AzureChinaCloud)",
-            "password": false
-        },
-        {
-            "type": "promptString",
-            "id": "aws_region",
-            "description": "AWS Region (for AWS Documentation MCP server)",
-            "password": false
-        },
-        {
-            "type": "promptString",
-            "id": "context7_api_key",
-            "description": "Context7 API key (optional)",
-            "password": true
-        }
-    ]
+    "servers":  {
+                    "terraform":  {
+                                      "type":  "stdio",
+                                      "command":  "pwsh",
+                                      "args":  [
+                                                   "-NoProfile",
+                                                   "-File",
+                                                   "${workspaceFolder}/scripts/Start-TerraformMcpServer.ps1",
+                                                   "-Runtime",
+                                                   "auto"
+                                               ],
+                                      "disabled":  false
+                                  },
+                    "azure":  {
+                                  "type":  "stdio",
+                                  "command":  "npx",
+                                  "args":  [
+                                               "-y",
+                                               "@azure/mcp@latest",
+                                               "server",
+                                               "start"
+                                           ],
+                                  "env":  {
+                                              "AZURE_CLOUD":  "${input:azure_cloud}",
+                                              "AZURE_MCP_COLLECT_TELEMETRY":  "false"
+                                          },
+                                  "disabled":  false
+                              },
+                    "awsDocumentation":  {
+                                             "type":  "stdio",
+                                             "command":  "docker",
+                                             "args":  [
+                                                          "run",
+                                                          "-i",
+                                                          "--rm",
+                                                          "-e",
+                                                          "FASTMCP_LOG_LEVEL=ERROR",
+                                                          "-e",
+                                                          "AWS_REGION=${input:aws_region}",
+                                                          "public.ecr.aws/awslabs-mcp/awslabs/aws-documentation-mcp-server:latest"
+                                                      ],
+                                             "disabled":  false
+                                         },
+                    "context7":  {
+                                     "type":  "stdio",
+                                     "command":  "npx",
+                                     "args":  [
+                                                  "-y",
+                                                  "@upstash/context7-mcp"
+                                              ],
+                                     "env":  {
+                                                 "CONTEXT7_API_KEY":  "${input:context7_api_key}"
+                                             },
+                                     "disabled":  false
+                                 }
+                },
+    "inputs":  [
+                   {
+                       "type":  "promptString",
+                       "id":  "azure_cloud",
+                       "description":  "Azure cloud (AzureCloud, AzureUSGovernment, AzureChinaCloud)",
+                       "password":  false
+                   },
+                   {
+                       "type":  "promptString",
+                       "id":  "aws_region",
+                       "description":  "AWS Region (for AWS Documentation MCP server)",
+                       "password":  false
+                   },
+                   {
+                       "type":  "promptString",
+                       "id":  "context7_api_key",
+                       "description":  "Context7 API key (optional)",
+                       "password":  true
+                   }
+               ]
 }
