@@ -1,0 +1,61 @@
+name: Provider Diff Matrix
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 2 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: provider-diff-matrix-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  provider-diff:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        provider:
+          - aws
+          - azurerm
+          - google
+          - kubernetes
+          - helm
+          - random
+          - tls
+          - time
+          - local
+          - null
+          - external
+          - http
+          - cloudinit
+          - archive
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.0"
+
+      - name: Run reflection diff for provider
+        shell: pwsh
+        run: |
+          ./scripts/Invoke-ProviderCatalogRefresh.ps1 -Providers ${{ matrix.provider }} -WriteUnchangedCatalogs
+
+      - name: Upload provider diff artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: provider-diff-${{ matrix.provider }}
+          path: |
+            docs/providers/generated/${{ matrix.provider }}-catalog.json
+            docs/providers/generated/${{ matrix.provider }}-summary.md
+            docs/providers/generated/refresh-summary.json
+            docs/providers/generated/refresh-diff-summary.json
+            docs/providers/generated/refresh-diff-summary.md
