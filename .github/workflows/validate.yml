@@ -12,6 +12,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
@@ -367,3 +371,32 @@ jobs:
         with:
           name: sbom
           path: sbom.spdx.json
+
+  merge-readiness:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    needs:
+      - validate
+      - provider-catalog-drift-report
+      - terraform-policy-check
+      - module-contract-tests
+      - cost-estimate
+      - sbom
+    steps:
+      - name: Enforce required pre-merge checks
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "validate result: ${{ needs.validate.result }}"
+          if [ "${{ needs.validate.result }}" != "success" ]; then
+            echo "validate job must pass before merge." >&2
+            exit 1
+          fi
+
+          echo "Non-blocking jobs status summary"
+          echo "provider-catalog-drift-report: ${{ needs.provider-catalog-drift-report.result }}"
+          echo "terraform-policy-check: ${{ needs.terraform-policy-check.result }}"
+          echo "module-contract-tests: ${{ needs.module-contract-tests.result }}"
+          echo "cost-estimate: ${{ needs.cost-estimate.result }}"
+          echo "sbom: ${{ needs.sbom.result }}"

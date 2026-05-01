@@ -50,6 +50,8 @@ It also includes an **official Terraform MCP server integration** so agents can 
 | `.vscode/mcp.json` | Official Terraform MCP server workspace integration |
 | `.vscode/schemas/stack.schema.json` | JSON Schema contract for YAML-driven stack files |
 | `docs/TERRAFORM-MCP-INTEGRATION.md` | MCP-first usage model and setup notes |
+| `docs/PROVIDER-MODULE-BUILDOUT.md` | Copilot-facing design for AWS, Azure, Google Cloud, Kubernetes, and Helm modules |
+| `docs/BRANCH-WORKFLOW.md` | Branch protection and required-check merge workflow guidance |
 | `scripts/` | PowerShell wrappers around terraform, tflint, trivy |
 | `tests/Harness.Tests.ps1` | Pester suite for the wrappers |
 | `examples/` | Working Terraform projects to copy from |
