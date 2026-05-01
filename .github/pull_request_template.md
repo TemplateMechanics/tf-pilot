@@ -22,6 +22,7 @@
 - [ ] No secrets committed.
 - [ ] No direct state file edits.
 - [ ] Plan reviewed before apply.
+- [ ] Cloud adoption guardrails reviewed (`docs/CLOUD-ADOPTION-GUARDRAILS.md`).
 
 ## Impact / Risk
 - Affected providers/modules:

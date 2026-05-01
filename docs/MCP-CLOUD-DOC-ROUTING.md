@@ -15,6 +15,21 @@ Then supplement with cloud-native docs based on provider usage.
 - `kubernetes`: Terraform Kubernetes provider docs + Kubernetes upstream docs
 - `helm`: Terraform Helm provider docs + Helm docs + chart documentation
 
+## Mixed-Provider Routing Decision Table
+
+Use this table for stacks that span multiple providers.
+
+| Stack Pattern | Primary Context | Secondary Context | Priority Order |
+| --- | --- | --- | --- |
+| aws + kubernetes | Cluster host platform (AWS networking, IAM, node/cluster lifecycle) | Kubernetes RBAC, ingress, workload policy | `MCP schema -> aws docs -> kubernetes docs` |
+| azurerm + kubernetes | AKS host controls (Azure RBAC, network, policy) | Kubernetes RBAC, ingress, workload policy | `MCP schema -> azurerm docs -> kubernetes docs` |
+| google + kubernetes | GKE host controls (project/IAM/network baseline) | Kubernetes RBAC, ingress, workload policy | `MCP schema -> google docs -> kubernetes docs` |
+| kubernetes + helm | Kubernetes API/resource behavior | Helm release/chart lifecycle and values | `MCP schema -> kubernetes docs -> helm docs -> chart docs` |
+| aws/azurerm/google + helm | Cloud network/identity boundary | Helm release/chart values and app exposure | `MCP schema -> cloud provider docs -> helm docs -> chart docs` |
+| aws + azurerm + google (multi-cloud) | Control-plane separation by environment/workload | Shared policy/compliance standards | `MCP schema per provider -> provider docs per change set` |
+
+If one change set spans multiple rows, split planning and review notes by provider boundary.
+
 ## Detection Sources
 
 Use these files to infer active providers and modules:
