@@ -31,7 +31,7 @@ Coverage targets are sourced from examples/providers/schema-catalog/provider-cov
 | kubernetes | config | done | 6 | 4 |
 | kubernetes | workload | done | 10 | 6 |
 | helm | repository | done | 0 | 0 |
-| helm | release | done | 1 | 0 |
+| helm | release | done | 1 | 1 |
 | github | foundation | done | 19 | 17 |
 | github | repository | done | 21 | 16 |
 | github | automation | done | 19 | 13 |

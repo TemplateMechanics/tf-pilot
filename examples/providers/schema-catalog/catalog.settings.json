@@ -74,31 +74,7 @@
                                                                                                        "aws_cloudwatch_",
                                                                                                        "aws_logs_"
                                                                                                    ]
-                                                                    },
-                                                  "database":  {
-                                                                    "enabled":  true,
-                                                                    "resourceTypePrefixes":  [
-                                                                                                 "aws_db_",
-                                                                                                 "aws_rds_",
-                                                                                                 "aws_dynamodb_"
-                                                                                             ],
-                                                                    "dataSourceTypePrefixes":  [
-                                                                                                   "aws_db_",
-                                                                                                   "aws_rds_"
-                                                                                               ]
-                                                                },
-                                                  "serverless":  {
-                                                                     "enabled":  true,
-                                                                     "resourceTypePrefixes":  [
-                                                                                                  "aws_lambda_",
-                                                                                                  "aws_apigateway",
-                                                                                                  "aws_api_gateway_"
-                                                                                              ],
-                                                                     "dataSourceTypePrefixes":  [
-                                                                                                    "aws_lambda_",
-                                                                                                    "aws_apigateway"
-                                                                                                ]
-                                                                 }
+                                                                    }
                                               }
                               },
                       "azurerm":  {
@@ -170,33 +146,7 @@
                                                                                                            "azurerm_monitor_",
                                                                                                            "azurerm_log_analytics_"
                                                                                                        ]
-                                                                        },
-                                                      "database":  {
-                                                                       "enabled":  true,
-                                                                       "resourceTypePrefixes":  [
-                                                                                                    "azurerm_mssql_",
-                                                                                                    "azurerm_mysql_",
-                                                                                                    "azurerm_postgresql_",
-                                                                                                    "azurerm_cosmosdb_"
-                                                                                                ],
-                                                                       "dataSourceTypePrefixes":  [
-                                                                                                      "azurerm_mssql_",
-                                                                                                      "azurerm_mysql_",
-                                                                                                      "azurerm_postgresql_",
-                                                                                                      "azurerm_cosmosdb_"
-                                                                                                  ]
-                                                                   },
-                                                      "app-service":  {
-                                                                          "enabled":  true,
-                                                                          "resourceTypePrefixes":  [
-                                                                                                       "azurerm_app_service",
-                                                                                                       "azurerm_function_app",
-                                                                                                       "azurerm_web_app"
-                                                                                                   ],
-                                                                          "dataSourceTypePrefixes":  [
-                                                                                                         "azurerm_app_service"
-                                                                                                     ]
-                                                                      }
+                                                                        }
                                                   }
                                   },
                       "google":  {
@@ -267,29 +217,7 @@
                                                                                                           "google_logging_",
                                                                                                           "google_monitoring_"
                                                                                                       ]
-                                                                       },
-                                                     "database":  {
-                                                                      "enabled":  true,
-                                                                      "resourceTypePrefixes":  [
-                                                                                                   "google_sql_",
-                                                                                                   "google_firestore_",
-                                                                                                   "google_datastore_"
-                                                                                               ],
-                                                                      "dataSourceTypePrefixes":  [
-                                                                                                     "google_sql_"
-                                                                                                 ]
-                                                                  },
-                                                     "functions":  {
-                                                                       "enabled":  true,
-                                                                       "resourceTypePrefixes":  [
-                                                                                                    "google_cloudfunctions_",
-                                                                                                    "google_cloudfunctions2_"
-                                                                                                ],
-                                                                       "dataSourceTypePrefixes":  [
-                                                                                                      "google_cloudfunctions_",
-                                                                                                      "google_cloudfunctions2_"
-                                                                                                  ]
-                                                                   }
+                                                                       }
                                                  }
                                  },
                       "kubernetes":  {
@@ -339,84 +267,7 @@
                                                                                                          "kubernetes_service",
                                                                                                          "kubernetes_ingress"
                                                                                                      ]
-                                                                      },
-                                                         "stateful-set":  {
-                                                                              "enabled":  true,
-                                                                              "resourceTypePrefixes":  [
-                                                                                                           "kubernetes_stateful_set"
-                                                                                                       ],
-                                                                              "dataSourceTypePrefixes":  [
-                                                                                                              "kubernetes_stateful_set"
-                                                                                                          ]
-                                                                          },
-                                                         "daemon-set":  {
-                                                                            "enabled":  true,
-                                                                            "resourceTypePrefixes":  [
-                                                                                                         "kubernetes_daemon_set"
-                                                                                                     ],
-                                                                            "dataSourceTypePrefixes":  [
-                                                                                                            "kubernetes_daemon_set"
-                                                                                                        ]
-                                                                        },
-                                                         "job":  {
-                                                                     "enabled":  true,
-                                                                     "resourceTypePrefixes":  [
-                                                                                                  "kubernetes_job"
-                                                                                              ],
-                                                                     "dataSourceTypePrefixes":  [
-                                                                                                     "kubernetes_job"
-                                                                                                 ]
-                                                                 },
-                                                         "cron-job":  {
-                                                                          "enabled":  true,
-                                                                          "resourceTypePrefixes":  [
-                                                                                                       "kubernetes_cron_job"
-                                                                                                   ],
-                                                                          "dataSourceTypePrefixes":  [
-                                                                                                         "kubernetes_cron_job"
-                                                                                                     ]
-                                                                      },
-                                                         "storage":  {
-                                                                         "enabled":  true,
-                                                                         "resourceTypePrefixes":  [
-                                                                                                      "kubernetes_persistent_volume",
-                                                                                                      "kubernetes_persistent_volume_claim",
-                                                                                                      "kubernetes_storage_class"
-                                                                                                  ],
-                                                                         "dataSourceTypePrefixes":  [
-                                                                                                        "kubernetes_persistent_volume",
-                                                                                                        "kubernetes_persistent_volume_claim",
-                                                                                                        "kubernetes_storage_class"
-                                                                                                    ]
-                                                                     },
-                                                         "network-policy":  {
-                                                                                "enabled":  true,
-                                                                                "resourceTypePrefixes":  [
-                                                                                                             "kubernetes_network_policy"
-                                                                                                         ],
-                                                                                "dataSourceTypePrefixes":  [
-                                                                                                                "kubernetes_network_policy"
-                                                                                                            ]
-                                                                            },
-                                                         "hpa":  {
-                                                                     "enabled":  true,
-                                                                     "resourceTypePrefixes":  [
-                                                                                                  "kubernetes_horizontal_pod_autoscaler"
-                                                                                              ],
-                                                                     "dataSourceTypePrefixes":  [
-                                                                                                     "kubernetes_horizontal_pod_autoscaler"
-                                                                                                 ]
-                                                                 },
-                                                         "rbac":  {
-                                                                      "enabled":  true,
-                                                                      "resourceTypePrefixes":  [
-                                                                                                   "kubernetes_cluster_role",
-                                                                                                   "kubernetes_cluster_role_binding"
-                                                                                               ],
-                                                                      "dataSourceTypePrefixes":  [
-                                                                                                     "kubernetes_cluster_role"
-                                                                                                 ]
-                                                                  }
+                                                                      }
                                                      }
                                      },
                       "helm":  {

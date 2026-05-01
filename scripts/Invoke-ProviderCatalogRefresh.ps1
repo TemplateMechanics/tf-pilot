@@ -293,8 +293,8 @@ function Compare-CatalogEntries {
 
 function Add-DiffSection {
   param(
-    [Parameter(Mandatory)]
-    [System.Collections.Generic.List[string]]$Lines,
+    [Parameter()]
+    $Lines,
 
     [Parameter(Mandatory)]
     [string]$Title,
@@ -303,14 +303,30 @@ function Add-DiffSection {
     [string[]]$Items
   )
 
-  $Lines.Add("- $Title") | Out-Null
-  if (-not $Items -or $Items.Count -eq 0) {
-    $Lines.Add("  - none") | Out-Null
+  $lineBuffer = if ($Lines -is [System.Collections.Generic.List[string]]) {
+    $Lines
+  }
+  elseif ($script:lines -is [System.Collections.Generic.List[string]]) {
+    $script:lines
+  }
+  else {
+    New-Object 'System.Collections.Generic.List[string]'
+  }
+
+  $itemList = @(
+    @($Items) |
+      ForEach-Object { [string]$_ } |
+      Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+  )
+
+  $lineBuffer.Add("- $Title") | Out-Null
+  if ($itemList.Count -eq 0) {
+    $lineBuffer.Add("  - none") | Out-Null
     return
   }
 
-  foreach ($item in $Items) {
-    $Lines.Add("  - $item") | Out-Null
+  foreach ($item in $itemList) {
+    $lineBuffer.Add("  - $item") | Out-Null
   }
 }
 
@@ -366,6 +382,19 @@ else {
 
 if (-not $targetProviders -or $targetProviders.Count -eq 0) {
   Write-Warning "No providers selected for refresh."
+  exit 0
+}
+
+# Guard against accidental empty provider entries from caller input.
+$targetProviders = @(
+  $targetProviders |
+    ForEach-Object { [string]$_ } |
+    Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+    Sort-Object -Unique
+)
+
+if ($targetProviders.Count -eq 0) {
+  Write-Warning "No valid providers selected for refresh after input normalization."
   exit 0
 }
 

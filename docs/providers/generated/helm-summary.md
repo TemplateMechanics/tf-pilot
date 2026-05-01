@@ -1,6 +1,6 @@
 # helm Provider Catalog Summary
 
-Generated: 2026-05-01T17:55:39.1389874Z
+Generated: 2026-05-01T18:02:37.5629159Z
 
 - Provider schema key: registry.terraform.io/hashicorp/helm
 - Modules reflected: repository, release

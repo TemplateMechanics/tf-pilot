@@ -47,7 +47,16 @@ if ($LASTEXITCODE -ne 0) {
 
 $refreshParams = @{}
 if (-not $ProvidersAll -and $Providers -and $Providers.Count -gt 0) {
-  $refreshParams['Providers'] = @($Providers)
+  $normalizedProviders = @(
+    $Providers |
+      ForEach-Object { [string]$_ } |
+      Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+      Sort-Object -Unique
+  )
+
+  if ($normalizedProviders.Count -gt 0) {
+    $refreshParams['Providers'] = $normalizedProviders
+  }
 }
 elseif (-not $ProvidersAll) {
   $refreshParams['Profile'] = $Profile
@@ -68,7 +77,16 @@ $resourceCoverageParams = @{
 }
 
 if (-not $ProvidersAll -and $Providers -and $Providers.Count -gt 0) {
-  $resourceCoverageParams['Providers'] = @($Providers)
+  $normalizedProviders = @(
+    $Providers |
+      ForEach-Object { [string]$_ } |
+      Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
+      Sort-Object -Unique
+  )
+
+  if ($normalizedProviders.Count -gt 0) {
+    $resourceCoverageParams['Providers'] = $normalizedProviders
+  }
 }
 
 & $syncResourceCoverageScript @resourceCoverageParams

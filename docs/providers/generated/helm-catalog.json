@@ -1,5 +1,5 @@
 {
-    "generatedAt":  "2026-05-01T17:55:39.1389874Z",
+    "generatedAt":  "2026-05-01T18:02:37.5629159Z",
     "generatedFromPath":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\helm",
     "provider":  "helm",
     "providerSchemaKey":  "registry.terraform.io/hashicorp/helm",

@@ -78,32 +78,6 @@
                   }
     },
     {
-        "provider":  "aws",
-        "module":  "database",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\aws\\database",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "aws",
-        "module":  "serverless",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\aws\\serverless",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
         "provider":  "azurerm",
         "module":  "foundation",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\foundation",
@@ -172,32 +146,6 @@
         "provider":  "azurerm",
         "module":  "observability",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\observability",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "azurerm",
-        "module":  "database",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\database",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "azurerm",
-        "module":  "app-service",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\app-service",
         "files":  {
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
@@ -286,32 +234,6 @@
                   }
     },
     {
-        "provider":  "google",
-        "module":  "database",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\google\\database",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "google",
-        "module":  "functions",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\google\\functions",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
         "provider":  "kubernetes",
         "module":  "namespace",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\namespace",
@@ -358,110 +280,6 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "updated",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "kubernetes",
-        "module":  "stateful-set",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\stateful-set",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "kubernetes",
-        "module":  "daemon-set",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\daemon-set",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "kubernetes",
-        "module":  "job",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\job",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "kubernetes",
-        "module":  "cron-job",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\cron-job",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "kubernetes",
-        "module":  "storage",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\storage",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "kubernetes",
-        "module":  "network-policy",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\network-policy",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "kubernetes",
-        "module":  "hpa",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\hpa",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
-                      "README.md":  "unchanged",
-                      "tests/basic.tftest.hcl":  "unchanged"
-                  }
-    },
-    {
-        "provider":  "kubernetes",
-        "module":  "rbac",
-        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\rbac",
-        "files":  {
-                      "versions.tf":  "unchanged",
-                      "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
                       "outputs.tf":  "unchanged",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
