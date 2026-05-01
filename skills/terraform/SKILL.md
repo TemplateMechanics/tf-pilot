@@ -445,7 +445,7 @@ Then remove the resource block from HCL so it stays gone.
 
 **Option 3 — refresh-only plan/apply (syncs all drift in one pass)**
 ```powershell
-./scripts/Invoke-TerraformPlan.ps1 -Path . -ExtraArgs "-refresh-only"
+./scripts/Invoke-TerraformPlan.ps1 -Path . -RefreshOnly
 # Review what will be removed from state, then:
 ./scripts/Invoke-TerraformApply.ps1 -PlanFile tfplan
 ```
@@ -625,7 +625,7 @@ variable "db_password" {
 | `Unsupported argument` | Hallucinated or deprecated provider arg | Check provider docs; check version pin; cross-ref schema |
 | Cycle in dependency graph | Two resources depend on each other | Break the cycle; one side uses a `data` source after `apply -target` (rarely needed); usually means a config bug |
 | `Error: NoCredentialProviders` (AWS) | Provider has no creds | Set `AWS_PROFILE`, `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`, or assume_role in provider |
-| Drift between plan and reality | Manual changes outside Terraform | Run `Invoke-TerraformPlan.ps1 -ExtraArgs "-refresh-only"` to sync state; see **State drift recovery** section above |
+| Drift between plan and reality | Manual changes outside Terraform | Run `Invoke-TerraformPlan.ps1 -RefreshOnly` to sync state; see **State drift recovery** section above |
 | `ResourceNotFoundException` / 404 on plan or apply | Resource deleted out-of-band; state still references it | Backup state → add `removed { lifecycle { destroy = false } }` block OR run `terraform state rm <addr>` → remove from HCL |
 | Plan shows unexpected resource creation | Resource exists in infra but not in state | Add `import {}` block pointing to the existing resource ID; plan should show "1 to import" |
 | Apply interrupted mid-run; partial state | Ctrl+C or network drop during apply | Backup state → run plan to see what landed → review carefully before re-applying |
