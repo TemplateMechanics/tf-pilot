@@ -18,3 +18,4 @@ Behavior notes:
 - `services.<name>.enabled: false` excludes that service from module instantiation.
 - `metadata` is intentionally flexible; known keys such as `owner` and `cost_center` are consumed by the root output rendering.
 - Common tags are merged in root and passed into each module instance to model real-world tagging patterns.
+- `*.stack.yaml` files are validated by a JSON Schema (`.vscode/schemas/stack.schema.json`) through `.vscode/settings.json`.

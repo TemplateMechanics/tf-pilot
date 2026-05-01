@@ -9,6 +9,8 @@ For end-user focused infrastructure authoring, use a YAML-to-module pattern by d
 
 This separates product configuration from Terraform implementation details and keeps day-2 changes safer.
 
+Use a standards-based schema for YAML contracts (JSON Schema Draft 2020-12) and bind it in VS Code settings so YAML authors get immediate feedback before `terraform plan`.
+
 ## Composition vs inheritance
 Terraform modules are composition units, not inheritance hierarchies. Build small modules that represent stable infrastructure capabilities, then compose them in root modules.
 

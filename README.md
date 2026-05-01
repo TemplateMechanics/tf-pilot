@@ -48,6 +48,7 @@ It also includes an **official Terraform MCP server integration** so agents can 
 | `skills/terraform/SKILL.md` | Authoritative HCL/state/module reference |
 | `docs/` | Deep-dive references (state, modules, testing, security) |
 | `.vscode/mcp.json` | Official Terraform MCP server workspace integration |
+| `.vscode/schemas/stack.schema.json` | JSON Schema contract for YAML-driven stack files |
 | `docs/TERRAFORM-MCP-INTEGRATION.md` | MCP-first usage model and setup notes |
 | `scripts/` | PowerShell wrappers around terraform, tflint, trivy |
 | `tests/Harness.Tests.ps1` | Pester suite for the wrappers |

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://template-mechanics.local/schemas/stack.schema.json",
+  "title": "YAML-Driven Terraform Stack",
+  "description": "Schema for end-user stack YAML consumed by examples/multi-env-stack.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "services"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Loose metadata consumed by root rendering and governance context.",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean"
+        ]
+      }
+    },
+    "services": {
+      "type": "object",
+      "description": "Map of service keys to service configuration.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/service"
+      }
+    }
+  },
+  "$defs": {
+    "service": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "port",
+        "tier"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "If false, service is excluded from module instantiation."
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "description": "Service listener port."
+        },
+        "tier": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Logical service tier such as frontend, backend, or batch."
+        }
+      }
+    }
+  }
+}

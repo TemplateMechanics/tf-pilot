@@ -24,6 +24,12 @@
   "terraform.codelens.referenceCount": true,
   "terraform.experimentalFeatures.prefillRequiredFields": true,
   "terraform.experimentalFeatures.validateOnSave": true,
+  "yaml.validate": true,
+  "yaml.schemas": {
+    "./.vscode/schemas/stack.schema.json": [
+      "examples/multi-env-stack/envs/*.stack.yaml"
+    ]
+  },
   "search.exclude": {
     "**/.terraform": true,
     "**/*.tfstate*": true,
