@@ -146,6 +146,87 @@ Describe 'Sync-ProviderGeneratedModules.ps1' {
   }
 }
 
+Describe 'Sync-McpServerEnablement.ps1' {
+  BeforeAll {
+    function script:New-TestMcpConfig {
+      param([Parameter(Mandatory)][string]$Path)
+
+      $config = [ordered]@{
+        servers = [ordered]@{
+          terraform = [ordered]@{ command = 'node'; disabled = $false }
+          azure = [ordered]@{ command = 'node'; disabled = $false }
+          awsDocumentation = [ordered]@{ command = 'node'; disabled = $false }
+          context7 = [ordered]@{ command = 'node'; disabled = $false }
+        }
+      }
+
+      $config | ConvertTo-Json -Depth 10 | Set-Content -Path $Path -Encoding utf8
+    }
+
+    function script:New-TestSettings {
+      param(
+        [Parameter(Mandatory)][string]$Path,
+        [Parameter(Mandatory)][string[]]$EnabledProviders
+      )
+
+      $providerNames = @('aws', 'azurerm', 'google', 'kubernetes', 'helm', 'github', 'azuredevops', 'gitlab')
+      $providers = [ordered]@{}
+      foreach ($providerName in $providerNames) {
+        $providers[$providerName] = [ordered]@{
+          enabled = ($providerName -in $EnabledProviders)
+          workspace = $providerName
+          modules = [ordered]@{}
+        }
+      }
+
+      $settings = [ordered]@{ providers = $providers }
+      $settings | ConvertTo-Json -Depth 10 | Set-Content -Path $Path -Encoding utf8
+    }
+  }
+
+  It 'disables context7 when only aws and azurerm are enabled' {
+    $mcpPath = Join-Path $TestDrive 'mcp.json'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    New-TestMcpConfig -Path $mcpPath
+    New-TestSettings -Path $settingsPath -EnabledProviders @('aws', 'azurerm')
+
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath
+    $LASTEXITCODE | Should -Be 0
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    [bool]$mcp.servers.context7.disabled | Should -BeTrue
+    [bool]$mcp.servers.azure.disabled | Should -BeFalse
+    [bool]$mcp.servers.awsDocumentation.disabled | Should -BeFalse
+    [bool]$mcp.servers.terraform.disabled | Should -BeFalse
+  }
+
+  It 'enables context7 and disables azure/awsDocumentation when only helm is enabled' {
+    $mcpPath = Join-Path $TestDrive 'mcp.json'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    New-TestMcpConfig -Path $mcpPath
+    New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
+
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath
+    $LASTEXITCODE | Should -Be 0
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    [bool]$mcp.servers.context7.disabled | Should -BeFalse
+    [bool]$mcp.servers.azure.disabled | Should -BeTrue
+    [bool]$mcp.servers.awsDocumentation.disabled | Should -BeTrue
+    [bool]$mcp.servers.terraform.disabled | Should -BeFalse
+  }
+
+  It 'returns non-zero in check mode when MCP file is out of sync' {
+    $mcpPath = Join-Path $TestDrive 'mcp.json'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    New-TestMcpConfig -Path $mcpPath
+    New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
+
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -Check
+    $LASTEXITCODE | Should -Be 1
+  }
+}
+
 Describe 'Script syntax' {
   $scripts = Get-ChildItem -Path $script:scriptsDir -Filter '*.ps1'
   foreach ($s in $scripts) {
