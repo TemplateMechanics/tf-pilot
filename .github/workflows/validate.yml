@@ -5,9 +5,13 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 1"
 
 jobs:
   validate:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -70,6 +74,7 @@ jobs:
           path: test-results.xml
 
   provider-catalog-drift-report:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -106,3 +111,51 @@ jobs:
             docs/providers/generated/refresh-diff-summary.md
             docs/providers/generated/aws-catalog.json
             docs/providers/generated/aws-summary.md
+
+  provider-coverage-buildout-report:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.0"
+
+      - name: Generate full provider coverage buildout report (non-blocking)
+        shell: pwsh
+        run: |
+          ./scripts/Invoke-ProviderCoverageBuildout.ps1 -IncludeDisabledModules -ProvidersAll
+
+      - name: Add coverage and drift summary to workflow report
+        if: always()
+        shell: bash
+        run: |
+          if [ -f "docs/providers/README.md" ]; then
+            {
+              echo "## Provider Coverage Matrix";
+              cat docs/providers/README.md;
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          if [ -f "docs/providers/generated/refresh-diff-summary.md" ]; then
+            {
+              echo "";
+              echo "## Provider Drift Summary";
+              cat docs/providers/generated/refresh-diff-summary.md;
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload provider coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: provider-coverage-buildout-report
+          path: |
+            docs/providers/README.md
+            docs/providers/generated/refresh-summary.json
+            docs/providers/generated/refresh-diff-summary.json
+            docs/providers/generated/refresh-diff-summary.md
+            docs/providers/generated/module-scaffold-summary.json
