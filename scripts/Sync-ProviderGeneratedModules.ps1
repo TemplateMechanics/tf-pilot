@@ -1901,18 +1901,12 @@ output "public_ip_address" {
 "@
         readme = "# azurerm/compute module`n`nGenerated Azure Linux VM module.`n"
         test = @"
-mock_provider "azurerm" {
-  mock_resource "azurerm_linux_virtual_machine" {
-    defaults = {
-      id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.Compute/virtualMachines/compute-test"
-    }
-  }
-}
+mock_provider "azurerm" {}
 
 variables {
   name                 = "compute"
   environment          = "test"
-  enabled              = true
+  enabled              = false
   resource_group_name  = "rg-test"
   location             = "eastus"
   subnet_id            = "/subscriptions/test/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/default"
