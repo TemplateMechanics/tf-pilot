@@ -1,0 +1,14 @@
+metadata:
+  owner: platform-team
+  cost_center: development
+
+services:
+  api:
+    enabled: true
+    port: 8080
+    tier: frontend
+  worker:
+    enabled: true
+    port: 9090
+    tier: backend
+    upstream_service_id: "${svc.api.service_id}"

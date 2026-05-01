@@ -52,7 +52,9 @@ locals {
     for name, svc in local.services :
     name =>
     (
-      local.service_upstream_names[name] != null
+      local.service_upstream_names[name] != null &&
+      contains(keys(local.services), local.service_upstream_names[name]) &&
+      local.service_upstream_names[name] != name
     ) ? module.service[local.service_upstream_names[name]].service_id : try(svc.upstream_service_id, null)
   }
 

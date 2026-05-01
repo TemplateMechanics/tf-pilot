@@ -1,0 +1,18 @@
+project: tf-pilot
+environment: dev
+provider: aws
+region: us-east-1
+tags:
+  owner: platform
+  managed_by: terraform
+modules:
+  foundation:
+    enabled: true
+    enable_live_discovery: false
+  network:
+    enabled: true
+    name: "${mod.foundation.region}"
+    cidr_block: "10.42.0.0/16"
+    availability_zones: ["us-east-1a", "us-east-1b"]
+    public_subnet_cidrs: ["10.42.1.0/24", "10.42.2.0/24"]
+    create_internet_gateway: false

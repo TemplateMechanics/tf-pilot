@@ -30,6 +30,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Fixed `aws-stack` module filtering to iterate heterogeneous YAML objects without `tomap` conversion failures.
 - Hardened YAML token validation with regex + Terraform `check` blocks for loud failures on malformed, unknown, or self-referencing tokens.
 - Corrected `aws-stack` README plan command to pass `stack_file` directly.
+- Added negative Terraform test coverage for token validation paths in `examples/multi-env-stack` and `examples/providers/aws-stack` (malformed, unknown/unresolvable, self-reference).
 
 ## [0.2.0-dev] - 2026-05-01
 
