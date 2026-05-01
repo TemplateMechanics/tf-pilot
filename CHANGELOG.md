@@ -26,6 +26,10 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Expanded Terraform policy warnings for sensitive updates across IAM, security boundary, and database resource families.
 - Added YAML reference-token support in `examples/multi-env-stack` for `${service.<name>.service_id}` dependency wiring.
 - Expanded YAML reference-token support to provider stack composition in `examples/providers/aws-stack` for module output to downstream input wiring.
+- Fixed `multi-env-stack` null interpolation by using null-safe upstream summary rendering.
+- Fixed `aws-stack` module filtering to iterate heterogeneous YAML objects without `tomap` conversion failures.
+- Hardened YAML token validation with regex + Terraform `check` blocks for loud failures on malformed, unknown, or self-referencing tokens.
+- Corrected `aws-stack` README plan command to pass `stack_file` directly.
 
 ## [0.2.0-dev] - 2026-05-01
 

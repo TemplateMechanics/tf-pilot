@@ -5,7 +5,7 @@ resource "null_resource" "this" {
     enabled             = tostring(var.config.enabled)
     port                = tostring(var.config.port)
     tier                = var.config.tier
-    upstream_service_id = tostring(try(var.config.upstream_service_id, ""))
+    upstream_service_id = var.config.upstream_service_id != null ? var.config.upstream_service_id : ""
     tags_json           = jsonencode(var.tags)
   }
 }

@@ -21,3 +21,4 @@ Behavior notes:
 - `*.stack.yaml` files are validated by a JSON Schema (`.vscode/schemas/stack.schema.json`) through `.vscode/settings.json`.
 - `services.<name>.upstream_service_id` supports output-reference tokens in the form `${service.<other>.service_id}`.
 - Reference tokens are resolved to Terraform expressions (`module.service[<other>].service_id`) so values can depend on resources created in the same apply.
+- Invalid tokens fail fast at plan time (unknown service, self-reference, unsupported token shape).
