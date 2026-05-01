@@ -3,7 +3,13 @@
 # Provider: aws
 # Module: identity
 # File: tests/basic.tftest.hcl
-mock_provider "aws" {}
+mock_provider "aws" {
+  mock_data "aws_iam_policy_document" {
+    defaults = {
+      json = "{\"Version\":\"2012-10-17\",\"Statement\":[]}"
+    }
+  }
+}
 
 variables {
   name        = "identity"

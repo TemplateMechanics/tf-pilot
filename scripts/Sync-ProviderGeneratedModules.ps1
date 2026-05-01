@@ -869,7 +869,13 @@ output "instance_profile_name" {
 "@
         readme = "# aws/identity module`n`nGenerated AWS IAM role module.`n"
         test = @"
-mock_provider "aws" {}
+mock_provider "aws" {
+  mock_data "aws_iam_policy_document" {
+    defaults = {
+      json = "{\"Version\":\"2012-10-17\",\"Statement\":[]}"
+    }
+  }
+}
 
 variables {
   name        = "identity"
