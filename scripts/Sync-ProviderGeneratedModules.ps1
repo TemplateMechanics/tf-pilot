@@ -2548,7 +2548,13 @@ output "granted_roles" {
 "@
         readme = "# google/identity module`n`nGenerated Google service account and IAM grant module.`n"
         test = @"
-mock_provider "google" {}
+mock_provider "google" {
+  mock_resource "google_service_account" {
+    defaults = {
+      email = "identity-test@test-project.iam.gserviceaccount.com"
+    }
+  }
+}
 
 variables {
   name        = "identity"

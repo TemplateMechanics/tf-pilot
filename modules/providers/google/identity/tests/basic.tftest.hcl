@@ -3,7 +3,13 @@
 # Provider: google
 # Module: identity
 # File: tests/basic.tftest.hcl
-mock_provider "google" {}
+mock_provider "google" {
+  mock_resource "google_service_account" {
+    defaults = {
+      email = "identity-test@test-project.iam.gserviceaccount.com"
+    }
+  }
+}
 
 variables {
   name        = "identity"
