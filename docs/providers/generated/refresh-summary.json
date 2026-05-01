@@ -1,41 +1,12 @@
-﻿{
-    "provider":  "azurerm",
-    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\azurerm",
+{
+    "provider":  "helm",
+    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\helm",
     "modules":  [
-                    "foundation",
-                    "network",
-                    "storage",
-                    "identity",
-                    "compute",
-                    "observability"
+                    "repository",
+                    "release"
                 ],
-    "resourcePrefixes":  [
-                             "azurerm_container_app",
-                             "azurerm_linux_virtual_machine",
-                             "azurerm_log_analytics_",
-                             "azurerm_monitor_",
-                             "azurerm_network_security_group",
-                             "azurerm_resource_group",
-                             "azurerm_role_assignment",
-                             "azurerm_route_table",
-                             "azurerm_storage_",
-                             "azurerm_subnet",
-                             "azurerm_user_assigned_identity",
-                             "azurerm_virtual_network",
-                             "azurerm_windows_virtual_machine"
-                         ],
-    "dataSourcePrefixes":  [
-                               "azurerm_client_config",
-                               "azurerm_image",
-                               "azurerm_log_analytics_",
-                               "azurerm_monitor_",
-                               "azurerm_role_definition",
-                               "azurerm_storage_",
-                               "azurerm_subnet",
-                               "azurerm_subscription",
-                               "azurerm_virtual_machine",
-                               "azurerm_virtual_network"
-                           ],
+    "resourcePrefixes":  "helm_release",
+    "dataSourcePrefixes":  "helm_template",
     "lockMode":  "host-only:windows_amd64",
     "writeMode":  "changed-only"
 }

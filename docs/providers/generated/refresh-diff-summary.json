@@ -1,5 +1,5 @@
-﻿{
-    "provider":  "azurerm",
+{
+    "provider":  "helm",
     "status":  "unchanged",
     "resourceAddedCount":  0,
     "resourceRemovedCount":  0,

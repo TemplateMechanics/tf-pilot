@@ -438,7 +438,7 @@
                                                                                                 "helm_release"
                                                                                             ],
                                                                    "dataSourceTypePrefixes":  [
-
+                                                                                                  "helm_template"
                                                                                               ]
                                                                }
                                                }

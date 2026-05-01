@@ -1,5 +1,5 @@
-﻿{
-    "generatedAt":  "2026-05-01T02:01:43.7635530Z",
+{
+    "generatedAt":  "2026-05-01T17:55:39.1389874Z",
     "generatedFromPath":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\helm",
     "provider":  "helm",
     "providerSchemaKey":  "registry.terraform.io/hashicorp/helm",
@@ -11,10 +11,10 @@
                              "helm_release"
                          ],
     "dataSourcePrefixes":  [
-                               "__none__"
+                               "helm_template"
                            ],
     "resourceCount":  1,
-    "dataSourceCount":  0,
+    "dataSourceCount":  1,
     "resources":  [
                       {
                           "type":  "helm_release",
@@ -81,6 +81,65 @@
                       }
                   ],
     "dataSources":  [
+                        {
+                            "type":  "helm_template",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "chart",
+                                                                       "name"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "api_versions",
+                                                                       "atomic",
+                                                                       "crds",
+                                                                       "create_namespace",
+                                                                       "dependency_update",
+                                                                       "description",
+                                                                       "devel",
+                                                                       "disable_openapi_validation",
+                                                                       "disable_webhooks",
+                                                                       "include_crds",
+                                                                       "is_upgrade",
+                                                                       "keyring",
+                                                                       "kube_version",
+                                                                       "manifest",
+                                                                       "manifests",
+                                                                       "namespace",
+                                                                       "notes",
+                                                                       "pass_credentials",
+                                                                       "postrender",
+                                                                       "render_subchart_notes",
+                                                                       "replace",
+                                                                       "repository",
+                                                                       "repository_ca_file",
+                                                                       "repository_cert_file",
+                                                                       "repository_key_file",
+                                                                       "repository_password",
+                                                                       "repository_username",
+                                                                       "reset_values",
+                                                                       "reuse_values",
+                                                                       "set",
+                                                                       "set_list",
+                                                                       "set_sensitive",
+                                                                       "set_wo",
+                                                                       "show_only",
+                                                                       "skip_crds",
+                                                                       "skip_tests",
+                                                                       "timeout",
+                                                                       "timeouts",
+                                                                       "validate",
+                                                                       "values",
+                                                                       "verify",
+                                                                       "version",
+                                                                       "wait"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "nestedBlocks":  [
 
+                                                             ]
+                                        }
+                        }
                     ]
 }

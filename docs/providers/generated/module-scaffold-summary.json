@@ -82,12 +82,12 @@
         "module":  "database",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\aws\\database",
         "files":  {
-                      "versions.tf":  "created",
-                      "variables.tf":  "created",
-                      "main.tf":  "created",
-                      "outputs.tf":  "created",
-                      "README.md":  "created",
-                      "tests/basic.tftest.hcl":  "created"
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
                   }
     },
     {
@@ -95,12 +95,12 @@
         "module":  "serverless",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\aws\\serverless",
         "files":  {
-                      "versions.tf":  "created",
-                      "variables.tf":  "created",
-                      "main.tf":  "created",
-                      "outputs.tf":  "created",
-                      "README.md":  "created",
-                      "tests/basic.tftest.hcl":  "created"
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
                   }
     },
     {
@@ -186,12 +186,12 @@
         "module":  "database",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\database",
         "files":  {
-                      "versions.tf":  "created",
-                      "variables.tf":  "created",
-                      "main.tf":  "created",
-                      "outputs.tf":  "created",
-                      "README.md":  "created",
-                      "tests/basic.tftest.hcl":  "created"
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
                   }
     },
     {
@@ -199,12 +199,12 @@
         "module":  "app-service",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azurerm\\app-service",
         "files":  {
-                      "versions.tf":  "created",
-                      "variables.tf":  "created",
-                      "main.tf":  "created",
-                      "outputs.tf":  "created",
-                      "README.md":  "created",
-                      "tests/basic.tftest.hcl":  "created"
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
                   }
     },
     {
@@ -290,12 +290,12 @@
         "module":  "database",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\google\\database",
         "files":  {
-                      "versions.tf":  "created",
-                      "variables.tf":  "created",
-                      "main.tf":  "created",
-                      "outputs.tf":  "created",
-                      "README.md":  "created",
-                      "tests/basic.tftest.hcl":  "created"
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
                   }
     },
     {
@@ -303,12 +303,12 @@
         "module":  "functions",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\google\\functions",
         "files":  {
-                      "versions.tf":  "created",
-                      "variables.tf":  "created",
-                      "main.tf":  "created",
-                      "outputs.tf":  "created",
-                      "README.md":  "created",
-                      "tests/basic.tftest.hcl":  "created"
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
                   }
     },
     {

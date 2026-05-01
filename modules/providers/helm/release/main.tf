@@ -12,7 +12,7 @@ locals {
   })
 
   reflected_resource_prefixes    = ["helm_release"]
-  reflected_data_source_prefixes = []
+  reflected_data_source_prefixes = ["helm_template"]
 }
 
 resource "helm_release" "this" {

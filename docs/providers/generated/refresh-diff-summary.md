@@ -1,7 +1,7 @@
-﻿# Provider Catalog Diff Summary
+# Provider Catalog Diff Summary
 
-Generated: 2026-05-01T05:26:34.3112584Z
+Generated: 2026-05-01T17:55:44.6928380Z
 
 | Provider | Status | Resources (+/-/~) | Data Sources (+/-/~) |
 |---|---|---:|---:|
-| azurerm | unchanged | 0/0/0 | 0/0/0 |
+| helm | unchanged | 0/0/0 | 0/0/0 |
