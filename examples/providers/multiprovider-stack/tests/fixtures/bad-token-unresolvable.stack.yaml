@@ -1,0 +1,16 @@
+project: tf-pilot
+environment: dev
+provider: multi
+region: local
+tags:
+  owner: platform
+  managed_by: terraform
+modules:
+  time_anchor:
+    enabled: true
+  suffix:
+    enabled: true
+  artifact:
+    enabled: true
+    filename: "${module.time_anchor.nano}"
+    content: "artifact"

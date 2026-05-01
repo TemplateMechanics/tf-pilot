@@ -12,7 +12,8 @@ The example uses `modules/providers/aws/foundation` with `enable_live_discovery=
 Token references in YAML:
 - Supported syntax: `${module.<module_name>.<output_name>}`
 - This example resolves supported tokens for selected downstream module inputs.
-- Current reference keys exposed by output `available_module_reference_values`:
+
+- Tokens currently supported are:
 	- `${module.foundation.account_id}`
 	- `${module.foundation.partition}`
 	- `${module.foundation.region}`

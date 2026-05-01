@@ -1,0 +1,18 @@
+project: tf-pilot
+environment: dev
+provider: multi
+region: local
+tags:
+  owner: platform
+  managed_by: terraform
+modules:
+  time_anchor:
+    enabled: true
+  suffix:
+    enabled: true
+    length: 2
+    separator: "-"
+  artifact:
+    enabled: true
+    filename: "dev-artifact.txt"
+    content: "${module.suffix.id}"

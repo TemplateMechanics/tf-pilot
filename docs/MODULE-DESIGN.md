@@ -57,6 +57,8 @@ Recommended pattern:
 
 This preserves Terraform's dependency graph while keeping end-user YAML ergonomic.
 
+See `docs/YAML-TOKEN-REFERENCES.md` for canonical token formats, failure modes, and extension guidance.
+
 ## Vendoring vs registry vs git
 Registry modules are easiest to consume and version. Git sources are flexible but require strict ref pinning, and vendoring is useful for locked-down environments or long-term reproducibility.
 

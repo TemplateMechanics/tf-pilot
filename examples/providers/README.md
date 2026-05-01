@@ -9,3 +9,4 @@ Examples are intended to be:
 
 Current example:
 - `aws-stack`
+- `multiprovider-stack`

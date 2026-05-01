@@ -24,12 +24,12 @@ locals {
     }
   }
 
-  network_name_raw = tostring(try(local.network_cfg.name, "${local.stack.project}-${local.stack.environment}-network"))
-  network_name_is_token = can(regex(local.any_token_regex, local.network_name_raw))
+  network_name_raw                = tostring(try(local.network_cfg.name, "${local.stack.project}-${local.stack.environment}-network"))
+  network_name_is_token           = can(regex(local.any_token_regex, local.network_name_raw))
   network_name_is_supported_token = can(regex(local.module_output_token_regex, local.network_name_raw))
-  network_name_ref_module = local.network_name_is_supported_token ? regex(local.module_output_token_regex, local.network_name_raw)[0] : null
-  network_name_ref_output = local.network_name_is_supported_token ? regex(local.module_output_token_regex, local.network_name_raw)[1] : null
-  network_name_resolved_value = local.network_name_is_supported_token ? try(local.module_reference_values[local.network_name_ref_module][local.network_name_ref_output], null) : null
+  network_name_ref_module         = local.network_name_is_supported_token ? regex(local.module_output_token_regex, local.network_name_raw)[0] : null
+  network_name_ref_output         = local.network_name_is_supported_token ? regex(local.module_output_token_regex, local.network_name_raw)[1] : null
+  network_name_resolved_value     = local.network_name_is_supported_token ? try(local.module_reference_values[local.network_name_ref_module][local.network_name_ref_output], null) : null
 
   resolved_network_name = (
     local.network_name_is_supported_token

@@ -29,7 +29,8 @@
         "azurerm",
         "google",
         "kubernetes",
-        "helm"
+        "helm",
+        "multi"
       ]
     },
     "region": {
