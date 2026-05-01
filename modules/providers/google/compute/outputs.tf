@@ -27,6 +27,10 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "instance_id" {
   description = "Compute instance ID."
   value       = try(google_compute_instance.this[0].id, null)
@@ -38,4 +42,8 @@ output "instance_name" {
 output "self_link" {
   description = "Compute instance self link."
   value       = try(google_compute_instance.this[0].self_link, null)
+}
+output "external_ip" {
+  description = "External IP address of the instance when assigned."
+  value       = try(google_compute_instance.this[0].network_interface[0].access_config[0].nat_ip, null)
 }

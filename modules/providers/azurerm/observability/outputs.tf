@@ -27,13 +27,26 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "workspace_id" {
   description = "Log Analytics workspace ID."
   value       = try(azurerm_log_analytics_workspace.this[0].id, null)
 }
+output "workspace_name" {
+  description = "Log Analytics workspace name."
+  value       = local.workspace_name
+}
 output "application_insights_id" {
   description = "Application Insights ID."
   value       = try(azurerm_application_insights.this[0].id, null)
+}
+output "application_insights_instrumentation_key" {
+  description = "Application Insights instrumentation key."
+  sensitive   = true
+  value       = try(azurerm_application_insights.this[0].instrumentation_key, null)
 }
 output "application_insights_connection_string" {
   description = "Application Insights connection string."

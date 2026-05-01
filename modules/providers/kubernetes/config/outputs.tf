@@ -27,11 +27,23 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "config_map_name" {
   description = "Generated ConfigMap name."
   value       = try(kubernetes_config_map.this[0].metadata[0].name, null)
 }
+output "config_map_uid" {
+  description = "Generated ConfigMap UID."
+  value       = try(kubernetes_config_map.this[0].metadata[0].uid, null)
+}
 output "secret_name" {
   description = "Generated Secret name."
   value       = try(kubernetes_secret.this[0].metadata[0].name, null)
+}
+output "secret_uid" {
+  description = "Generated Secret UID."
+  value       = try(kubernetes_secret.this[0].metadata[0].uid, null)
 }

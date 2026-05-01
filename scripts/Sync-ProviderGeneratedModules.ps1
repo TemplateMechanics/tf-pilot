@@ -533,9 +533,21 @@ resource "aws_internet_gateway" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "vpc_id" {
   description = "VPC ID."
   value       = try(aws_vpc.this[0].id, null)
+}
+output "vpc_arn" {
+  description = "VPC ARN."
+  value       = try(aws_vpc.this[0].arn, null)
+}
+output "vpc_cidr_block" {
+  description = "VPC CIDR block."
+  value       = try(aws_vpc.this[0].cidr_block, null)
 }
 output "public_subnet_ids" {
   description = "IDs of created public subnets."
@@ -657,6 +669,10 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "bucket_id" {
   description = "S3 bucket ID."
   value       = try(aws_s3_bucket.this[0].id, null)
@@ -668,6 +684,10 @@ output "bucket_arn" {
 output "bucket_name" {
   description = "Resolved S3 bucket name."
   value       = local.bucket_name
+}
+output "bucket_regional_domain_name" {
+  description = "S3 bucket regional domain name."
+  value       = try(aws_s3_bucket.this[0].bucket_regional_domain_name, null)
 }
 "@
         readme = "# aws/storage module`n`nGenerated AWS S3 bucket module with versioning and encryption.`n"
@@ -816,6 +836,10 @@ resource "aws_iam_role_policy" "inline" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "role_name" {
   description = "IAM role name."
   value       = var.enabled ? aws_iam_role.this[0].name : null
@@ -824,9 +848,17 @@ output "role_arn" {
   description = "IAM role ARN."
   value       = try(aws_iam_role.this[0].arn, null)
 }
+output "role_id" {
+  description = "IAM role unique ID."
+  value       = try(aws_iam_role.this[0].unique_id, null)
+}
 output "instance_profile_arn" {
   description = "Instance profile ARN when created."
   value       = try(aws_iam_instance_profile.this[0].arn, null)
+}
+output "instance_profile_name" {
+  description = "Instance profile name when created."
+  value       = try(aws_iam_instance_profile.this[0].name, null)
 }
 "@
         readme = "# aws/identity module`n`nGenerated AWS IAM role module.`n"
@@ -1020,6 +1052,10 @@ resource "aws_autoscaling_group" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "ami_id" {
   description = "Resolved AMI ID."
   value       = local.ami_id
@@ -1028,9 +1064,17 @@ output "launch_template_id" {
   description = "Launch template ID."
   value       = try(aws_launch_template.this[0].id, null)
 }
+output "launch_template_arn" {
+  description = "Launch template ARN."
+  value       = try(aws_launch_template.this[0].arn, null)
+}
 output "autoscaling_group_name" {
   description = "Auto Scaling group name when created."
   value       = try(aws_autoscaling_group.this[0].name, null)
+}
+output "autoscaling_group_arn" {
+  description = "Auto Scaling group ARN when created."
+  value       = try(aws_autoscaling_group.this[0].arn, null)
 }
 "@
         readme = "# aws/compute module`n`nGenerated AWS EC2 launch template and Auto Scaling module.`n"
@@ -1135,6 +1179,10 @@ resource "aws_cloudwatch_dashboard" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "log_group_name" {
   description = "CloudWatch log group name."
   value       = local.log_group_name
@@ -1237,6 +1285,10 @@ resource "azurerm_resource_group" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "resource_group_name" {
   description = "Resource group name."
   value       = local.resource_group_name
@@ -1244,6 +1296,10 @@ output "resource_group_name" {
 output "resource_group_id" {
   description = "Resource group ID when created."
   value       = try(azurerm_resource_group.this[0].id, null)
+}
+output "resource_group_location" {
+  description = "Resource group location."
+  value       = var.location
 }
 output "subscription_id" {
   description = "Azure subscription ID."
@@ -1368,9 +1424,17 @@ resource "azurerm_subnet" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "virtual_network_id" {
   description = "Virtual network ID."
   value       = try(azurerm_virtual_network.this[0].id, null)
+}
+output "virtual_network_name" {
+  description = "Virtual network name."
+  value       = try(azurerm_virtual_network.this[0].name, null)
 }
 output "subnet_ids" {
   description = "Subnet IDs."
@@ -1495,6 +1559,10 @@ resource "azurerm_storage_container" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "storage_account_id" {
   description = "Storage account ID."
   value       = try(azurerm_storage_account.this[0].id, null)
@@ -1502,6 +1570,10 @@ output "storage_account_id" {
 output "storage_account_name" {
   description = "Storage account name."
   value       = local.storage_account_name
+}
+output "primary_blob_endpoint" {
+  description = "Primary blob service endpoint."
+  value       = try(azurerm_storage_account.this[0].primary_blob_endpoint, null)
 }
 output "container_id" {
   description = "Blob container ID."
@@ -1609,9 +1681,17 @@ resource "azurerm_role_assignment" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "identity_id" {
   description = "User-assigned identity resource ID."
   value       = try(azurerm_user_assigned_identity.this[0].id, null)
+}
+output "identity_name" {
+  description = "User-assigned identity name."
+  value       = try(azurerm_user_assigned_identity.this[0].name, null)
 }
 output "principal_id" {
   description = "Principal ID of the generated identity."
@@ -1782,13 +1862,25 @@ resource "azurerm_linux_virtual_machine" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "virtual_machine_id" {
   description = "Linux virtual machine ID."
   value       = try(azurerm_linux_virtual_machine.this[0].id, null)
 }
+output "virtual_machine_name" {
+  description = "Linux virtual machine name."
+  value       = local.vm_name
+}
 output "network_interface_id" {
   description = "Network interface ID."
   value       = try(azurerm_network_interface.this[0].id, null)
+}
+output "public_ip_id" {
+  description = "Public IP resource ID when created."
+  value       = try(azurerm_public_ip.this[0].id, null)
 }
 output "public_ip_address" {
   description = "Allocated public IP address."
@@ -1909,13 +2001,26 @@ resource "azurerm_application_insights" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "workspace_id" {
   description = "Log Analytics workspace ID."
   value       = try(azurerm_log_analytics_workspace.this[0].id, null)
 }
+output "workspace_name" {
+  description = "Log Analytics workspace name."
+  value       = local.workspace_name
+}
 output "application_insights_id" {
   description = "Application Insights ID."
   value       = try(azurerm_application_insights.this[0].id, null)
+}
+output "application_insights_instrumentation_key" {
+  description = "Application Insights instrumentation key."
+  sensitive   = true
+  value       = try(azurerm_application_insights.this[0].instrumentation_key, null)
 }
 output "application_insights_connection_string" {
   description = "Application Insights connection string."
@@ -2023,6 +2128,10 @@ resource "google_project_service" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "project_id" {
   description = "GCP project ID."
   value       = data.google_project.current.project_id
@@ -2161,9 +2270,17 @@ resource "google_compute_firewall" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "network_id" {
   description = "Compute network ID."
   value       = try(google_compute_network.this[0].id, null)
+}
+output "network_name" {
+  description = "Compute network name."
+  value       = local.network_name
 }
 output "subnetwork_id" {
   description = "Compute subnetwork ID."
@@ -2284,6 +2401,10 @@ resource "google_storage_bucket" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "bucket_name" {
   description = "Bucket name."
   value       = local.bucket_name
@@ -2392,6 +2513,10 @@ resource "google_project_iam_member" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "service_account_email" {
   description = "Generated service account email."
   value       = try(google_service_account.this[0].email, null)
@@ -2399,6 +2524,10 @@ output "service_account_email" {
 output "service_account_name" {
   description = "Generated service account resource name."
   value       = try(google_service_account.this[0].name, null)
+}
+output "service_account_id" {
+  description = "Generated service account unique ID."
+  value       = try(google_service_account.this[0].unique_id, null)
 }
 output "granted_roles" {
   description = "Project roles granted to the service account."
@@ -2530,6 +2659,10 @@ resource "google_compute_instance" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "instance_id" {
   description = "Compute instance ID."
   value       = try(google_compute_instance.this[0].id, null)
@@ -2541,6 +2674,10 @@ output "instance_name" {
 output "self_link" {
   description = "Compute instance self link."
   value       = try(google_compute_instance.this[0].self_link, null)
+}
+output "external_ip" {
+  description = "External IP address of the instance when assigned."
+  value       = try(google_compute_instance.this[0].network_interface[0].access_config[0].nat_ip, null)
 }
 "@
         readme = "# google/compute module`n`nGenerated Google Compute Engine instance module.`n"
@@ -2641,6 +2778,10 @@ resource "google_logging_metric" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "metric_name" {
   description = "Generated logging metric name."
   value       = local.metric_name
@@ -2734,6 +2875,10 @@ resource "kubernetes_namespace" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "name" {
   description = "Namespace name."
   value       = var.enabled ? kubernetes_namespace.this[0].metadata[0].name : null
@@ -2846,13 +2991,25 @@ resource "kubernetes_secret" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "config_map_name" {
   description = "Generated ConfigMap name."
   value       = try(kubernetes_config_map.this[0].metadata[0].name, null)
 }
+output "config_map_uid" {
+  description = "Generated ConfigMap UID."
+  value       = try(kubernetes_config_map.this[0].metadata[0].uid, null)
+}
 output "secret_name" {
   description = "Generated Secret name."
   value       = try(kubernetes_secret.this[0].metadata[0].name, null)
+}
+output "secret_uid" {
+  description = "Generated Secret UID."
+  value       = try(kubernetes_secret.this[0].metadata[0].uid, null)
 }
 "@
         readme = "# kubernetes/config module`n`nGenerated Kubernetes ConfigMap and Secret module.`n"
@@ -2986,9 +3143,17 @@ resource "kubernetes_role_binding" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "service_account_name" {
   description = "Generated service account name."
   value       = try(kubernetes_service_account.this[0].metadata[0].name, null)
+}
+output "service_account_uid" {
+  description = "Generated service account UID."
+  value       = try(kubernetes_service_account.this[0].metadata[0].uid, null)
 }
 output "role_name" {
   description = "Generated Role name."
@@ -3177,13 +3342,33 @@ resource "kubernetes_ingress_v1" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "deployment_name" {
   description = "Generated Deployment name."
   value       = try(kubernetes_deployment.this[0].metadata[0].name, null)
 }
+output "deployment_uid" {
+  description = "Generated Deployment UID."
+  value       = try(kubernetes_deployment.this[0].metadata[0].uid, null)
+}
 output "service_name" {
   description = "Generated Service name."
   value       = try(kubernetes_service.this[0].metadata[0].name, null)
+}
+output "service_uid" {
+  description = "Generated Service UID."
+  value       = try(kubernetes_service.this[0].metadata[0].uid, null)
+}
+output "service_cluster_ip" {
+  description = "ClusterIP assigned to the Service."
+  value       = try(kubernetes_service.this[0].spec[0].cluster_ip, null)
+}
+output "service_load_balancer_ingress" {
+  description = "Load balancer ingress points when service_type is LoadBalancer."
+  value       = try(kubernetes_service.this[0].status[0].load_balancer[0].ingress, [])
 }
 output "ingress_name" {
   description = "Generated Ingress name when created."
@@ -3425,6 +3610,10 @@ resource "helm_release" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "name" {
   description = "Helm release name."
   value       = var.enabled ? helm_release.this[0].name : null
@@ -3432,6 +3621,14 @@ output "name" {
 output "namespace" {
   description = "Helm release namespace."
   value       = var.enabled ? helm_release.this[0].namespace : var.namespace
+}
+output "chart" {
+  description = "Helm chart name."
+  value       = var.chart
+}
+output "version" {
+  description = "Deployed chart version."
+  value       = try(helm_release.this[0].version, null)
 }
 output "status" {
   description = "Helm release status when created."
@@ -3518,6 +3715,10 @@ resource "github_team" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "team_name" {
   description = "Resolved team name."
   value       = local.resolved_team_name
@@ -3629,6 +3830,10 @@ resource "github_repository" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "repository_name" {
   description = "Resolved repository name."
   value       = local.resolved_repository_name
@@ -3640,6 +3845,10 @@ output "repository_id" {
 output "repository_html_url" {
   description = "Repository HTML URL when created."
   value       = try(github_repository.this[0].html_url, null)
+}
+output "repository_ssh_clone_url" {
+  description = "Repository SSH clone URL when created."
+  value       = try(github_repository.this[0].ssh_clone_url, null)
 }
 "@
         readme = "# github/repository module`n`nGenerated GitHub repository module.`n"
@@ -3717,6 +3926,10 @@ resource "github_actions_variable" "environment" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "repository_name" {
   description = "Repository name targeted by automation resources."
   value       = local.resolved_repository_name
@@ -3823,6 +4036,10 @@ resource "azuredevops_project" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "project_name" {
   description = "Resolved Azure DevOps project name."
   value       = local.resolved_project_name
@@ -3920,6 +4137,10 @@ resource "azuredevops_git_repository" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "repository_name" {
   description = "Resolved Azure DevOps repository name."
   value       = local.resolved_repository_name
@@ -3927,6 +4148,10 @@ output "repository_name" {
 output "repository_id" {
   description = "Repository ID when created."
   value       = try(azuredevops_git_repository.this[0].id, null)
+}
+output "remote_url" {
+  description = "Repository remote URL when created."
+  value       = try(azuredevops_git_repository.this[0].remote_url, null)
 }
 "@
         readme = "# azuredevops/repository module`n`nGenerated Azure DevOps Git repository module.`n"
@@ -4014,6 +4239,10 @@ resource "azuredevops_variable_group" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "variable_group_name" {
   description = "Resolved variable group name."
   value       = local.resolved_variable_group_name
@@ -4109,6 +4338,10 @@ resource "gitlab_group" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "group_name" {
   description = "Resolved GitLab group name."
   value       = local.resolved_group_name
@@ -4116,6 +4349,10 @@ output "group_name" {
 output "group_id" {
   description = "Group ID when created."
   value       = try(gitlab_group.this[0].id, null)
+}
+output "group_path" {
+  description = "Resolved GitLab group path."
+  value       = local.resolved_group_path
 }
 "@
         readme = "# gitlab/foundation module`n`nGenerated GitLab foundation module for group scaffolding.`n"
@@ -4216,6 +4453,10 @@ resource "gitlab_project" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "project_name" {
   description = "Resolved GitLab project name."
   value       = local.resolved_project_name
@@ -4224,9 +4465,17 @@ output "project_id" {
   description = "Project ID when created."
   value       = try(gitlab_project.this[0].id, null)
 }
+output "project_path" {
+  description = "Resolved GitLab project path."
+  value       = local.resolved_project_path
+}
 output "project_web_url" {
   description = "Project web URL when created."
   value       = try(gitlab_project.this[0].web_url, null)
+}
+output "project_ssh_url_to_repo" {
+  description = "SSH URL for the project repository."
+  value       = try(gitlab_project.this[0].ssh_url_to_repo, null)
 }
 "@
         readme = "# gitlab/repository module`n`nGenerated GitLab repository module for project scaffolding.`n"
@@ -4319,6 +4568,10 @@ resource "gitlab_pipeline_schedule" "this" {
 "@
         outputs = @"
 $commonOutputs
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "project_id" {
   description = "Project ID targeted by automation resources."
   value       = var.project_id

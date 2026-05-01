@@ -27,9 +27,21 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "vpc_id" {
   description = "VPC ID."
   value       = try(aws_vpc.this[0].id, null)
+}
+output "vpc_arn" {
+  description = "VPC ARN."
+  value       = try(aws_vpc.this[0].arn, null)
+}
+output "vpc_cidr_block" {
+  description = "VPC CIDR block."
+  value       = try(aws_vpc.this[0].cidr_block, null)
 }
 output "public_subnet_ids" {
   description = "IDs of created public subnets."

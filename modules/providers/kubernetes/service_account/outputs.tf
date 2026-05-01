@@ -27,9 +27,17 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "service_account_name" {
   description = "Generated service account name."
   value       = try(kubernetes_service_account.this[0].metadata[0].name, null)
+}
+output "service_account_uid" {
+  description = "Generated service account UID."
+  value       = try(kubernetes_service_account.this[0].metadata[0].uid, null)
 }
 output "role_name" {
   description = "Generated Role name."

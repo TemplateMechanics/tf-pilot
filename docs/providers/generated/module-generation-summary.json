@@ -20,7 +20,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -33,7 +33,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -46,7 +46,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -59,7 +59,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -72,7 +72,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -85,7 +85,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -98,7 +98,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -111,7 +111,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "updated",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -124,7 +124,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -137,7 +137,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "updated",
                       "main.tf":  "updated",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -150,7 +150,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -163,7 +163,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -176,7 +176,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -189,7 +189,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -202,7 +202,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -215,7 +215,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -228,7 +228,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -241,7 +241,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "updated",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -254,7 +254,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "updated",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -267,7 +267,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "updated",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -280,7 +280,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "updated",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -306,7 +306,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -319,7 +319,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -332,7 +332,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -345,7 +345,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -358,7 +358,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -371,7 +371,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -384,7 +384,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -397,7 +397,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -410,7 +410,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
@@ -423,7 +423,7 @@
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
                       "main.tf":  "unchanged",
-                      "outputs.tf":  "unchanged",
+                      "outputs.tf":  "updated",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }

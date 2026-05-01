@@ -27,6 +27,10 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "repository_name" {
   description = "Resolved Azure DevOps repository name."
   value       = local.resolved_repository_name
@@ -34,4 +38,8 @@ output "repository_name" {
 output "repository_id" {
   description = "Repository ID when created."
   value       = try(azuredevops_git_repository.this[0].id, null)
+}
+output "remote_url" {
+  description = "Repository remote URL when created."
+  value       = try(azuredevops_git_repository.this[0].remote_url, null)
 }

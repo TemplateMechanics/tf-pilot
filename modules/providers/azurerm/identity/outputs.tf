@@ -27,9 +27,17 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "identity_id" {
   description = "User-assigned identity resource ID."
   value       = try(azurerm_user_assigned_identity.this[0].id, null)
+}
+output "identity_name" {
+  description = "User-assigned identity name."
+  value       = try(azurerm_user_assigned_identity.this[0].name, null)
 }
 output "principal_id" {
   description = "Principal ID of the generated identity."

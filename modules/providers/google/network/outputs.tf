@@ -27,9 +27,17 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "network_id" {
   description = "Compute network ID."
   value       = try(google_compute_network.this[0].id, null)
+}
+output "network_name" {
+  description = "Compute network name."
+  value       = local.network_name
 }
 output "subnetwork_id" {
   description = "Compute subnetwork ID."

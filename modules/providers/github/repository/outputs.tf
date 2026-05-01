@@ -27,6 +27,10 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "repository_name" {
   description = "Resolved repository name."
   value       = local.resolved_repository_name
@@ -38,4 +42,8 @@ output "repository_id" {
 output "repository_html_url" {
   description = "Repository HTML URL when created."
   value       = try(github_repository.this[0].html_url, null)
+}
+output "repository_ssh_clone_url" {
+  description = "Repository SSH clone URL when created."
+  value       = try(github_repository.this[0].ssh_clone_url, null)
 }

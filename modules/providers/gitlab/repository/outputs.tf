@@ -27,6 +27,10 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "project_name" {
   description = "Resolved GitLab project name."
   value       = local.resolved_project_name
@@ -35,7 +39,15 @@ output "project_id" {
   description = "Project ID when created."
   value       = try(gitlab_project.this[0].id, null)
 }
+output "project_path" {
+  description = "Resolved GitLab project path."
+  value       = local.resolved_project_path
+}
 output "project_web_url" {
   description = "Project web URL when created."
   value       = try(gitlab_project.this[0].web_url, null)
+}
+output "project_ssh_url_to_repo" {
+  description = "SSH URL for the project repository."
+  value       = try(gitlab_project.this[0].ssh_url_to_repo, null)
 }

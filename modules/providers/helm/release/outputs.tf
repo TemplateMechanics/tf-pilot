@@ -27,6 +27,10 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "name" {
   description = "Helm release name."
   value       = var.enabled ? helm_release.this[0].name : null
@@ -34,6 +38,14 @@ output "name" {
 output "namespace" {
   description = "Helm release namespace."
   value       = var.enabled ? helm_release.this[0].namespace : var.namespace
+}
+output "chart" {
+  description = "Helm chart name."
+  value       = var.chart
+}
+output "version" {
+  description = "Deployed chart version."
+  value       = try(helm_release.this[0].version, null)
 }
 output "status" {
   description = "Helm release status when created."

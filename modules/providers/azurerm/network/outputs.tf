@@ -27,9 +27,17 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "virtual_network_id" {
   description = "Virtual network ID."
   value       = try(azurerm_virtual_network.this[0].id, null)
+}
+output "virtual_network_name" {
+  description = "Virtual network name."
+  value       = try(azurerm_virtual_network.this[0].name, null)
 }
 output "subnet_ids" {
   description = "Subnet IDs."

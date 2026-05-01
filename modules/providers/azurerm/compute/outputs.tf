@@ -27,13 +27,25 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "virtual_machine_id" {
   description = "Linux virtual machine ID."
   value       = try(azurerm_linux_virtual_machine.this[0].id, null)
 }
+output "virtual_machine_name" {
+  description = "Linux virtual machine name."
+  value       = local.vm_name
+}
 output "network_interface_id" {
   description = "Network interface ID."
   value       = try(azurerm_network_interface.this[0].id, null)
+}
+output "public_ip_id" {
+  description = "Public IP resource ID when created."
+  value       = try(azurerm_public_ip.this[0].id, null)
 }
 output "public_ip_address" {
   description = "Allocated public IP address."

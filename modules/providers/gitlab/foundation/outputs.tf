@@ -27,6 +27,10 @@ output "reflected_data_source_prefixes" {
   description = "Data source prefixes mapped from reflection settings for this module family."
   value       = local.reflected_data_source_prefixes
 }
+output "enabled" {
+  description = "Whether this module is enabled."
+  value       = var.enabled
+}
 output "group_name" {
   description = "Resolved GitLab group name."
   value       = local.resolved_group_name
@@ -34,4 +38,8 @@ output "group_name" {
 output "group_id" {
   description = "Group ID when created."
   value       = try(gitlab_group.this[0].id, null)
+}
+output "group_path" {
+  description = "Resolved GitLab group path."
+  value       = local.resolved_group_path
 }
