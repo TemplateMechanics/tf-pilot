@@ -73,24 +73,6 @@ jobs:
           ./scripts/Validate-Terraform.ps1 -Path ./examples/module-pattern
           ./scripts/Validate-Terraform.ps1 -Path ./examples/multi-env-stack
 
-      - name: OPA policy check (hello-world)
-        shell: bash
-        run: |
-          cd examples/hello-world
-          terraform plan -out=tfplan -input=false
-          terraform show -json tfplan > tfplan.json
-          conftest test tfplan.json --policy ../../policy/terraform/ --no-color
-          rm -f tfplan tfplan.json
-
-      - name: OPA policy check (multi-env-stack dev)
-        shell: bash
-        run: |
-          cd examples/multi-env-stack
-          terraform plan -out=tfplan -input=false -var-file=envs/dev.tfvars
-          terraform show -json tfplan > tfplan.json
-          conftest test tfplan.json --policy ../../policy/terraform/ --no-color
-          rm -f tfplan tfplan.json
-
       - name: Run Pester tests
         shell: pwsh
         run: |
@@ -319,10 +301,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          CONFT_VERSION="0.57.0"
-          curl -sSL -o conftest.tar.gz "https://github.com/open-policy-agent/conftest/releases/download/v${CONFT_VERSION}/conftest_${CONFT_VERSION}_Linux_x86_64.tar.gz"
-          tar -xzf conftest.tar.gz conftest
-          sudo mv conftest /usr/local/bin/conftest
+          CONFTEST_VERSION="0.57.0"
+          curl -sL "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz" \
+            | tar -xz -C /usr/local/bin conftest
           conftest --version
 
       - name: Create plan JSON for policy check
@@ -432,11 +413,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - validate
-      - provider-catalog-drift-report
-      - terraform-policy-check
-      - module-contract-tests
-      - cost-estimate
-      - sbom
     steps:
       - name: Enforce required pre-merge checks
         shell: bash
@@ -448,10 +424,3 @@ jobs:
             echo "validate job must pass before merge." >&2
             exit 1
           fi
-
-          echo "Non-blocking jobs status summary"
-          echo "provider-catalog-drift-report: ${{ needs.provider-catalog-drift-report.result }}"
-          echo "terraform-policy-check: ${{ needs.terraform-policy-check.result }}"
-          echo "module-contract-tests: ${{ needs.module-contract-tests.result }}"
-          echo "cost-estimate: ${{ needs.cost-estimate.result }}"
-          echo "sbom: ${{ needs.sbom.result }}"
