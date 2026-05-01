@@ -143,33 +143,3 @@ variable "zero_custom_learned_route_priority" {
   type        = any
   default     = null
 }
-
-variable "block_advertised_ip_ranges" {
-  description = "Optional nested block 'advertised_ip_ranges' for type 'google_compute_router_peer'."
-  type        = any
-  default     = null
-}
-
-variable "block_bfd" {
-  description = "Optional nested block 'bfd' for type 'google_compute_router_peer'."
-  type        = any
-  default     = null
-}
-
-variable "block_custom_learned_ip_ranges" {
-  description = "Optional nested block 'custom_learned_ip_ranges' for type 'google_compute_router_peer'."
-  type        = any
-  default     = null
-}
-
-variable "block_md5_authentication_key" {
-  description = "Optional nested block 'md5_authentication_key' for type 'google_compute_router_peer'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_router_peer'."
-  type        = any
-  default     = null
-}

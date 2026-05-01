@@ -31,15 +31,3 @@ variable "wait_timer" {
   type        = any
   default     = null
 }
-
-variable "block_deployment_branch_policy" {
-  description = "Optional nested block 'deployment_branch_policy' for type 'github_repository_environment'."
-  type        = any
-  default     = null
-}
-
-variable "block_reviewers" {
-  description = "Optional nested block 'reviewers' for type 'github_repository_environment'."
-  type        = any
-  default     = null
-}

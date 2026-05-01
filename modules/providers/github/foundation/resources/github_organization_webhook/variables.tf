@@ -14,9 +14,3 @@ variable "active" {
   type        = any
   default     = null
 }
-
-variable "block_configuration" {
-  description = "Optional nested block 'configuration' for type 'github_organization_webhook'."
-  type        = any
-  default     = null
-}

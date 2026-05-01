@@ -36,21 +36,3 @@ variable "type" {
   type        = any
   default     = null
 }
-
-variable "block_external_mapping" {
-  description = "Optional nested block 'external_mapping' for type 'azurerm_virtual_network_gateway_nat_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_internal_mapping" {
-  description = "Optional nested block 'internal_mapping' for type 'azurerm_virtual_network_gateway_nat_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_virtual_network_gateway_nat_rule'."
-  type        = any
-  default     = null
-}

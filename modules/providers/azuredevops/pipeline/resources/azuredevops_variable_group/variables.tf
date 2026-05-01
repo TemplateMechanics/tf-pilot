@@ -25,21 +25,3 @@ variable "description" {
   type        = any
   default     = null
 }
-
-variable "block_key_vault" {
-  description = "Optional nested block 'key_vault' for type 'azuredevops_variable_group'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_variable_group'."
-  type        = any
-  default     = null
-}
-
-variable "block_variable" {
-  description = "Optional nested block 'variable' for type 'azuredevops_variable_group'."
-  type        = any
-  default     = null
-}

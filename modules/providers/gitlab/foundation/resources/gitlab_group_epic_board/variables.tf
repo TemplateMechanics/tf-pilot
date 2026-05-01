@@ -13,9 +13,3 @@ variable "name" {
   description = "Required attribute 'name' for type 'gitlab_group_epic_board'."
   type        = any
 }
-
-variable "block_lists" {
-  description = "Optional nested block 'lists' for type 'gitlab_group_epic_board'."
-  type        = any
-  default     = null
-}

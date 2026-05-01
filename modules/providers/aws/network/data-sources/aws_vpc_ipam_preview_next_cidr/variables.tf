@@ -20,9 +20,3 @@ variable "netmask_length" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpc_ipam_preview_next_cidr'."
-  type        = any
-  default     = null
-}

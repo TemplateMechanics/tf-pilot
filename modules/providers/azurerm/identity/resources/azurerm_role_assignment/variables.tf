@@ -67,9 +67,3 @@ variable "skip_service_principal_aad_check" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_role_assignment'."
-  type        = any
-  default     = null
-}

@@ -43,27 +43,3 @@ variable "user_labels" {
   type        = any
   default     = null
 }
-
-variable "block_alert_strategy" {
-  description = "Optional nested block 'alert_strategy' for type 'google_monitoring_alert_policy'."
-  type        = any
-  default     = null
-}
-
-variable "block_conditions" {
-  description = "Optional nested block 'conditions' for type 'google_monitoring_alert_policy'."
-  type        = any
-  default     = null
-}
-
-variable "block_documentation" {
-  description = "Optional nested block 'documentation' for type 'google_monitoring_alert_policy'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_monitoring_alert_policy'."
-  type        = any
-  default     = null
-}

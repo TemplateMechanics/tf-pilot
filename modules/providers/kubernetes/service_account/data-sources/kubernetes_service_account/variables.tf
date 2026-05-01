@@ -3,9 +3,3 @@ variable "enabled" {
   type        = bool
   default     = true
 }
-
-variable "block_metadata" {
-  description = "Optional nested block 'metadata' for type 'kubernetes_service_account'."
-  type        = any
-  default     = null
-}

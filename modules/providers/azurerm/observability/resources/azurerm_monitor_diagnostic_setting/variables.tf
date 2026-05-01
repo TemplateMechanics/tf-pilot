@@ -49,27 +49,3 @@ variable "storage_account_id" {
   type        = any
   default     = null
 }
-
-variable "block_enabled_log" {
-  description = "Optional nested block 'enabled_log' for type 'azurerm_monitor_diagnostic_setting'."
-  type        = any
-  default     = null
-}
-
-variable "block_enabled_metric" {
-  description = "Optional nested block 'enabled_metric' for type 'azurerm_monitor_diagnostic_setting'."
-  type        = any
-  default     = null
-}
-
-variable "block_metric" {
-  description = "Optional nested block 'metric' for type 'azurerm_monitor_diagnostic_setting'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_diagnostic_setting'."
-  type        = any
-  default     = null
-}

@@ -36,27 +36,3 @@ variable "signed_version" {
   type        = any
   default     = null
 }
-
-variable "block_permissions" {
-  description = "Optional nested block 'permissions' for type 'azurerm_storage_account_sas'."
-  type        = any
-  default     = null
-}
-
-variable "block_resource_types" {
-  description = "Optional nested block 'resource_types' for type 'azurerm_storage_account_sas'."
-  type        = any
-  default     = null
-}
-
-variable "block_services" {
-  description = "Optional nested block 'services' for type 'azurerm_storage_account_sas'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_account_sas'."
-  type        = any
-  default     = null
-}

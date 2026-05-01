@@ -19,9 +19,3 @@ variable "role" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_storage_bucket_access_control'."
-  type        = any
-  default     = null
-}

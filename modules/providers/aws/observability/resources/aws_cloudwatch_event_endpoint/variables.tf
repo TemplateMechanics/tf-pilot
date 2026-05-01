@@ -20,21 +20,3 @@ variable "role_arn" {
   type        = any
   default     = null
 }
-
-variable "block_event_bus" {
-  description = "Optional nested block 'event_bus' for type 'aws_cloudwatch_event_endpoint'."
-  type        = any
-  default     = null
-}
-
-variable "block_replication_config" {
-  description = "Optional nested block 'replication_config' for type 'aws_cloudwatch_event_endpoint'."
-  type        = any
-  default     = null
-}
-
-variable "block_routing_config" {
-  description = "Optional nested block 'routing_config' for type 'aws_cloudwatch_event_endpoint'."
-  type        = any
-  default     = null
-}

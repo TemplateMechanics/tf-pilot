@@ -3,15 +3,3 @@ variable "enabled" {
   type        = bool
   default     = true
 }
-
-variable "block_metadata" {
-  description = "Optional nested block 'metadata' for type 'kubernetes_role_v1'."
-  type        = any
-  default     = null
-}
-
-variable "block_rule" {
-  description = "Optional nested block 'rule' for type 'kubernetes_role_v1'."
-  type        = any
-  default     = null
-}

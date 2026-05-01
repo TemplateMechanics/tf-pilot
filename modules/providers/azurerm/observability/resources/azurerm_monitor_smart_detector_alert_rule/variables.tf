@@ -57,15 +57,3 @@ variable "throttling_duration" {
   type        = any
   default     = null
 }
-
-variable "block_action_group" {
-  description = "Optional nested block 'action_group' for type 'azurerm_monitor_smart_detector_alert_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_smart_detector_alert_rule'."
-  type        = any
-  default     = null
-}

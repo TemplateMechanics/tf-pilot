@@ -31,15 +31,3 @@ variable "virtual_network_subnet_ids" {
   type        = any
   default     = null
 }
-
-variable "block_private_link_access" {
-  description = "Optional nested block 'private_link_access' for type 'azurerm_storage_account_network_rules'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_account_network_rules'."
-  type        = any
-  default     = null
-}

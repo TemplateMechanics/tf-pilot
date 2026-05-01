@@ -20,9 +20,3 @@ variable "force" {
   type        = any
   default     = null
 }
-
-variable "block_metadata" {
-  description = "Optional nested block 'metadata' for type 'kubernetes_secret_v1_data'."
-  type        = any
-  default     = null
-}

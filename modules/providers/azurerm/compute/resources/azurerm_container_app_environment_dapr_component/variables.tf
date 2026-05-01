@@ -41,21 +41,3 @@ variable "scopes" {
   type        = any
   default     = null
 }
-
-variable "block_metadata" {
-  description = "Optional nested block 'metadata' for type 'azurerm_container_app_environment_dapr_component'."
-  type        = any
-  default     = null
-}
-
-variable "block_secret" {
-  description = "Optional nested block 'secret' for type 'azurerm_container_app_environment_dapr_component'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_container_app_environment_dapr_component'."
-  type        = any
-  default     = null
-}

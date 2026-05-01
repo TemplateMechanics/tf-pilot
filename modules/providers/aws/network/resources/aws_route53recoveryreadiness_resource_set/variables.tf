@@ -25,15 +25,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_resources" {
-  description = "Optional nested block 'resources' for type 'aws_route53recoveryreadiness_resource_set'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_route53recoveryreadiness_resource_set'."
-  type        = any
-  default     = null
-}

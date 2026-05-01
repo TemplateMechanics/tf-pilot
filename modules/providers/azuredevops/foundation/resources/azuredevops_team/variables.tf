@@ -31,9 +31,3 @@ variable "members" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_team'."
-  type        = any
-  default     = null
-}

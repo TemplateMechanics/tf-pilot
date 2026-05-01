@@ -38,9 +38,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_dead_letter_config" {
-  description = "Optional nested block 'dead_letter_config' for type 'aws_cloudwatch_event_bus'."
-  type        = any
-  default     = null
-}

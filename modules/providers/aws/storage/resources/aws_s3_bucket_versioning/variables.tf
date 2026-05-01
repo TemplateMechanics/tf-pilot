@@ -20,9 +20,3 @@ variable "mfa" {
   type        = any
   default     = null
 }
-
-variable "block_versioning_configuration" {
-  description = "Optional nested block 'versioning_configuration' for type 'aws_s3_bucket_versioning'."
-  type        = any
-  default     = null
-}

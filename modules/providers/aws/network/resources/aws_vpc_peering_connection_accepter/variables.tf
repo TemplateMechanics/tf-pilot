@@ -26,21 +26,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_accepter" {
-  description = "Optional nested block 'accepter' for type 'aws_vpc_peering_connection_accepter'."
-  type        = any
-  default     = null
-}
-
-variable "block_requester" {
-  description = "Optional nested block 'requester' for type 'aws_vpc_peering_connection_accepter'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpc_peering_connection_accepter'."
-  type        = any
-  default     = null
-}

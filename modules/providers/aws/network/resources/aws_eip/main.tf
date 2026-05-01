@@ -1,18 +1,15 @@
 resource "aws_eip" "this" {
-  count                     = var.enabled ? 1 : 0
-  address                   = var.address
+  count = var.enabled ? 1 : 0
+  address = var.address
   associate_with_private_ip = var.associate_with_private_ip
-  customer_owned_ipv4_pool  = var.customer_owned_ipv4_pool
-  domain                    = var.domain
-  instance                  = var.instance
-  ipam_pool_id              = var.ipam_pool_id
-  network_border_group      = var.network_border_group
-  network_interface         = var.network_interface
-  public_ipv4_pool          = var.public_ipv4_pool
-  tags                      = var.tags
-  tags_all                  = var.tags_all
-  vpc                       = var.vpc
-
-  # Nested block 'timeouts' is schema-supported.
-  # Provide a value via var.block_timeouts and expand this template as needed.
+  customer_owned_ipv4_pool = var.customer_owned_ipv4_pool
+  domain = var.domain
+  instance = var.instance
+  ipam_pool_id = var.ipam_pool_id
+  network_border_group = var.network_border_group
+  network_interface = var.network_interface
+  public_ipv4_pool = var.public_ipv4_pool
+  tags = var.tags
+  tags_all = var.tags_all
+  vpc = var.vpc
 }

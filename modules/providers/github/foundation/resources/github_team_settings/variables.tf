@@ -14,9 +14,3 @@ variable "notify" {
   type        = any
   default     = null
 }
-
-variable "block_review_request_delegation" {
-  description = "Optional nested block 'review_request_delegation' for type 'github_team_settings'."
-  type        = any
-  default     = null
-}

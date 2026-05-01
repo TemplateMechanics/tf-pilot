@@ -31,21 +31,3 @@ variable "require_signed_commits" {
   type        = any
   default     = null
 }
-
-variable "block_required_pull_request_reviews" {
-  description = "Optional nested block 'required_pull_request_reviews' for type 'github_branch_protection_v3'."
-  type        = any
-  default     = null
-}
-
-variable "block_required_status_checks" {
-  description = "Optional nested block 'required_status_checks' for type 'github_branch_protection_v3'."
-  type        = any
-  default     = null
-}
-
-variable "block_restrictions" {
-  description = "Optional nested block 'restrictions' for type 'github_branch_protection_v3'."
-  type        = any
-  default     = null
-}

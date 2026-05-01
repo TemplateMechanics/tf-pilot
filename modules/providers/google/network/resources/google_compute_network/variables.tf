@@ -86,15 +86,3 @@ variable "routing_mode" {
   type        = any
   default     = null
 }
-
-variable "block_params" {
-  description = "Optional nested block 'params' for type 'google_compute_network'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_network'."
-  type        = any
-  default     = null
-}

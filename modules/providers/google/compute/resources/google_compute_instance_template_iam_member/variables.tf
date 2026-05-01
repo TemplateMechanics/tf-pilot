@@ -24,9 +24,3 @@ variable "project" {
   type        = any
   default     = null
 }
-
-variable "block_condition" {
-  description = "Optional nested block 'condition' for type 'google_compute_instance_template_iam_member'."
-  type        = any
-  default     = null
-}

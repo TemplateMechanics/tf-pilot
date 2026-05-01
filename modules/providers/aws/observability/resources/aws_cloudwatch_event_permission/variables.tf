@@ -25,9 +25,3 @@ variable "event_bus_name" {
   type        = any
   default     = null
 }
-
-variable "block_condition" {
-  description = "Optional nested block 'condition' for type 'aws_cloudwatch_event_permission'."
-  type        = any
-  default     = null
-}

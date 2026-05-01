@@ -30,9 +30,3 @@ variable "project" {
   type        = any
   default     = null
 }
-
-variable "block_condition" {
-  description = "Optional nested block 'condition' for type 'google_cloud_run_v2_service_iam_member'."
-  type        = any
-  default     = null
-}

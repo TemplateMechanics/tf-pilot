@@ -53,15 +53,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_rule" {
-  description = "Optional nested block 'rule' for type 'azurerm_monitor_alert_prometheus_rule_group'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_alert_prometheus_rule_group'."
-  type        = any
-  default     = null
-}

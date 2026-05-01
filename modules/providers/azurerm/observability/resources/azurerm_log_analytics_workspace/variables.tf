@@ -96,15 +96,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_identity" {
-  description = "Optional nested block 'identity' for type 'azurerm_log_analytics_workspace'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_log_analytics_workspace'."
-  type        = any
-  default     = null
-}

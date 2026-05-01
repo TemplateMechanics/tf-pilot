@@ -79,33 +79,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_capacity_provider_strategy" {
-  description = "Optional nested block 'capacity_provider_strategy' for type 'aws_ecs_task_execution'."
-  type        = any
-  default     = null
-}
-
-variable "block_network_configuration" {
-  description = "Optional nested block 'network_configuration' for type 'aws_ecs_task_execution'."
-  type        = any
-  default     = null
-}
-
-variable "block_overrides" {
-  description = "Optional nested block 'overrides' for type 'aws_ecs_task_execution'."
-  type        = any
-  default     = null
-}
-
-variable "block_placement_constraints" {
-  description = "Optional nested block 'placement_constraints' for type 'aws_ecs_task_execution'."
-  type        = any
-  default     = null
-}
-
-variable "block_placement_strategy" {
-  description = "Optional nested block 'placement_strategy' for type 'aws_ecs_task_execution'."
-  type        = any
-  default     = null
-}

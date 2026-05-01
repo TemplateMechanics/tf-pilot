@@ -37,9 +37,3 @@ variable "weight" {
   type        = any
   default     = null
 }
-
-variable "block_lists" {
-  description = "Optional nested block 'lists' for type 'gitlab_project_issue_board'."
-  type        = any
-  default     = null
-}

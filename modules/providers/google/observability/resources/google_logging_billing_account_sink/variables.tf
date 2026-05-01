@@ -36,15 +36,3 @@ variable "filter" {
   type        = any
   default     = null
 }
-
-variable "block_bigquery_options" {
-  description = "Optional nested block 'bigquery_options' for type 'google_logging_billing_account_sink'."
-  type        = any
-  default     = null
-}
-
-variable "block_exclusions" {
-  description = "Optional nested block 'exclusions' for type 'google_logging_billing_account_sink'."
-  type        = any
-  default     = null
-}

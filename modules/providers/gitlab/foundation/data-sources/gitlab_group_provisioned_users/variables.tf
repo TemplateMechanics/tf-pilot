@@ -44,9 +44,3 @@ variable "username" {
   type        = any
   default     = null
 }
-
-variable "block_provisioned_users" {
-  description = "Optional nested block 'provisioned_users' for type 'gitlab_group_provisioned_users'."
-  type        = any
-  default     = null
-}

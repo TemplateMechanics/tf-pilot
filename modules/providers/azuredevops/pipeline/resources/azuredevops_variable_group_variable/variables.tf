@@ -30,9 +30,3 @@ variable "value" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_variable_group_variable'."
-  type        = any
-  default     = null
-}

@@ -60,33 +60,3 @@ variable "parameters" {
   type        = any
   default     = null
 }
-
-variable "block_identity" {
-  description = "Optional nested block 'identity' for type 'azurerm_resource_group_policy_assignment'."
-  type        = any
-  default     = null
-}
-
-variable "block_non_compliance_message" {
-  description = "Optional nested block 'non_compliance_message' for type 'azurerm_resource_group_policy_assignment'."
-  type        = any
-  default     = null
-}
-
-variable "block_overrides" {
-  description = "Optional nested block 'overrides' for type 'azurerm_resource_group_policy_assignment'."
-  type        = any
-  default     = null
-}
-
-variable "block_resource_selectors" {
-  description = "Optional nested block 'resource_selectors' for type 'azurerm_resource_group_policy_assignment'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_resource_group_policy_assignment'."
-  type        = any
-  default     = null
-}

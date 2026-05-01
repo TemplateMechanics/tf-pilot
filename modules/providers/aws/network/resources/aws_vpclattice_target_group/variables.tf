@@ -25,15 +25,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_config" {
-  description = "Optional nested block 'config' for type 'aws_vpclattice_target_group'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpclattice_target_group'."
-  type        = any
-  default     = null
-}

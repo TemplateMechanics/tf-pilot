@@ -14,21 +14,3 @@ variable "eventbridge" {
   type        = any
   default     = null
 }
-
-variable "block_lambda_function" {
-  description = "Optional nested block 'lambda_function' for type 'aws_s3_bucket_notification'."
-  type        = any
-  default     = null
-}
-
-variable "block_queue" {
-  description = "Optional nested block 'queue' for type 'aws_s3_bucket_notification'."
-  type        = any
-  default     = null
-}
-
-variable "block_topic" {
-  description = "Optional nested block 'topic' for type 'aws_s3_bucket_notification'."
-  type        = any
-  default     = null
-}

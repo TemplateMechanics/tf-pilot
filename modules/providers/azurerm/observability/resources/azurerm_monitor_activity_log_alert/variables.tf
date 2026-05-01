@@ -41,21 +41,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_action" {
-  description = "Optional nested block 'action' for type 'azurerm_monitor_activity_log_alert'."
-  type        = any
-  default     = null
-}
-
-variable "block_criteria" {
-  description = "Optional nested block 'criteria' for type 'azurerm_monitor_activity_log_alert'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_activity_log_alert'."
-  type        = any
-  default     = null
-}

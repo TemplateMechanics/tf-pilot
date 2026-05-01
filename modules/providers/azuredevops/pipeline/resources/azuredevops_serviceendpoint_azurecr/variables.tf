@@ -51,15 +51,3 @@ variable "service_endpoint_authentication_scheme" {
   type        = any
   default     = null
 }
-
-variable "block_credentials" {
-  description = "Optional nested block 'credentials' for type 'azuredevops_serviceendpoint_azurecr'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_serviceendpoint_azurecr'."
-  type        = any
-  default     = null
-}

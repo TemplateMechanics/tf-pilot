@@ -21,9 +21,3 @@ variable "vpc_id" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_internet_gateway'."
-  type        = any
-  default     = null
-}

@@ -92,21 +92,3 @@ variable "vpc_endpoint_type" {
   type        = any
   default     = null
 }
-
-variable "block_dns_options" {
-  description = "Optional nested block 'dns_options' for type 'aws_vpc_endpoint'."
-  type        = any
-  default     = null
-}
-
-variable "block_subnet_configuration" {
-  description = "Optional nested block 'subnet_configuration' for type 'aws_vpc_endpoint'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpc_endpoint'."
-  type        = any
-  default     = null
-}

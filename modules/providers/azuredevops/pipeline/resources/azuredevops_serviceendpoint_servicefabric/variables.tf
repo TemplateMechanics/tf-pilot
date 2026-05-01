@@ -24,27 +24,3 @@ variable "description" {
   type        = any
   default     = null
 }
-
-variable "block_azure_active_directory" {
-  description = "Optional nested block 'azure_active_directory' for type 'azuredevops_serviceendpoint_servicefabric'."
-  type        = any
-  default     = null
-}
-
-variable "block_certificate" {
-  description = "Optional nested block 'certificate' for type 'azuredevops_serviceendpoint_servicefabric'."
-  type        = any
-  default     = null
-}
-
-variable "block_none" {
-  description = "Optional nested block 'none' for type 'azuredevops_serviceendpoint_servicefabric'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_serviceendpoint_servicefabric'."
-  type        = any
-  default     = null
-}

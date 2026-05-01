@@ -24,9 +24,3 @@ variable "project" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_network_firewall_policy_association'."
-  type        = any
-  default     = null
-}

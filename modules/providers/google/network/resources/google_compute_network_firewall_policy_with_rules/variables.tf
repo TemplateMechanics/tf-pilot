@@ -20,15 +20,3 @@ variable "project" {
   type        = any
   default     = null
 }
-
-variable "block_rule" {
-  description = "Optional nested block 'rule' for type 'google_compute_network_firewall_policy_with_rules'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_network_firewall_policy_with_rules'."
-  type        = any
-  default     = null
-}

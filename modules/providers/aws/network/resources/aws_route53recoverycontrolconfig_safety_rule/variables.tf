@@ -36,9 +36,3 @@ variable "target_controls" {
   type        = any
   default     = null
 }
-
-variable "block_rule_config" {
-  description = "Optional nested block 'rule_config' for type 'aws_route53recoverycontrolconfig_safety_rule'."
-  type        = any
-  default     = null
-}

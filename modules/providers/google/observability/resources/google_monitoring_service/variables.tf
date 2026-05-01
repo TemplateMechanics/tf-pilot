@@ -26,15 +26,3 @@ variable "user_labels" {
   type        = any
   default     = null
 }
-
-variable "block_basic_service" {
-  description = "Optional nested block 'basic_service' for type 'google_monitoring_service'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_monitoring_service'."
-  type        = any
-  default     = null
-}

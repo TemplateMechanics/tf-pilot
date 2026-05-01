@@ -49,21 +49,3 @@ variable "value_extractor" {
   type        = any
   default     = null
 }
-
-variable "block_bucket_options" {
-  description = "Optional nested block 'bucket_options' for type 'google_logging_metric'."
-  type        = any
-  default     = null
-}
-
-variable "block_metric_descriptor" {
-  description = "Optional nested block 'metric_descriptor' for type 'google_logging_metric'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_logging_metric'."
-  type        = any
-  default     = null
-}

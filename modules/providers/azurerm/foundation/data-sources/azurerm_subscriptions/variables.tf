@@ -15,9 +15,3 @@ variable "display_name_prefix" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_subscriptions'."
-  type        = any
-  default     = null
-}

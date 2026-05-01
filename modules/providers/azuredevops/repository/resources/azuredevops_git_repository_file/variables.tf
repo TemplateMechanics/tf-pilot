@@ -60,9 +60,3 @@ variable "overwrite_on_create" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_git_repository_file'."
-  type        = any
-  default     = null
-}

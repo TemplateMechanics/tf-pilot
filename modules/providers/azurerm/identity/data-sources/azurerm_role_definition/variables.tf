@@ -21,9 +21,3 @@ variable "scope" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_role_definition'."
-  type        = any
-  default     = null
-}

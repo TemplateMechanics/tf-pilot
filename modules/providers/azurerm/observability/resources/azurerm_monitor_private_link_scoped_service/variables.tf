@@ -23,9 +23,3 @@ variable "scope_name" {
   description = "Required attribute 'scope_name' for type 'azurerm_monitor_private_link_scoped_service'."
   type        = any
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_private_link_scoped_service'."
-  type        = any
-  default     = null
-}

@@ -103,27 +103,3 @@ variable "stack_type" {
   type        = any
   default     = null
 }
-
-variable "block_log_config" {
-  description = "Optional nested block 'log_config' for type 'google_compute_subnetwork'."
-  type        = any
-  default     = null
-}
-
-variable "block_params" {
-  description = "Optional nested block 'params' for type 'google_compute_subnetwork'."
-  type        = any
-  default     = null
-}
-
-variable "block_secondary_ip_range" {
-  description = "Optional nested block 'secondary_ip_range' for type 'google_compute_subnetwork'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_subnetwork'."
-  type        = any
-  default     = null
-}

@@ -32,9 +32,3 @@ variable "name" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_data_collection_rule_association'."
-  type        = any
-  default     = null
-}

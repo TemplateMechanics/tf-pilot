@@ -36,21 +36,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_condition" {
-  description = "Optional nested block 'condition' for type 'azurerm_monitor_alert_processing_rule_suppression'."
-  type        = any
-  default     = null
-}
-
-variable "block_schedule" {
-  description = "Optional nested block 'schedule' for type 'azurerm_monitor_alert_processing_rule_suppression'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_alert_processing_rule_suppression'."
-  type        = any
-  default     = null
-}

@@ -65,21 +65,3 @@ variable "tls_inspect" {
   type        = any
   default     = null
 }
-
-variable "block_match" {
-  description = "Optional nested block 'match' for type 'google_compute_firewall_policy_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_target_secure_tags" {
-  description = "Optional nested block 'target_secure_tags' for type 'google_compute_firewall_policy_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_firewall_policy_rule'."
-  type        = any
-  default     = null
-}

@@ -19,9 +19,3 @@ variable "path" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_build_definition'."
-  type        = any
-  default     = null
-}

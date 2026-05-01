@@ -18,9 +18,3 @@ variable "role" {
   description = "Required attribute 'role' for type 'google_project_iam_member'."
   type        = any
 }
-
-variable "block_condition" {
-  description = "Optional nested block 'condition' for type 'google_project_iam_member'."
-  type        = any
-  default     = null
-}

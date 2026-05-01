@@ -20,9 +20,3 @@ variable "index_document" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_account_static_website'."
-  type        = any
-  default     = null
-}

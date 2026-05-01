@@ -20,27 +20,3 @@ variable "routing_rules" {
   type        = any
   default     = null
 }
-
-variable "block_error_document" {
-  description = "Optional nested block 'error_document' for type 'aws_s3_bucket_website_configuration'."
-  type        = any
-  default     = null
-}
-
-variable "block_index_document" {
-  description = "Optional nested block 'index_document' for type 'aws_s3_bucket_website_configuration'."
-  type        = any
-  default     = null
-}
-
-variable "block_redirect_all_requests_to" {
-  description = "Optional nested block 'redirect_all_requests_to' for type 'aws_s3_bucket_website_configuration'."
-  type        = any
-  default     = null
-}
-
-variable "block_routing_rule" {
-  description = "Optional nested block 'routing_rule' for type 'aws_s3_bucket_website_configuration'."
-  type        = any
-  default     = null
-}

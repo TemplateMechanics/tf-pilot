@@ -34,9 +34,3 @@ variable "location" {
   type        = any
   default     = null
 }
-
-variable "block_condition" {
-  description = "Optional nested block 'condition' for type 'google_logging_log_view_iam_member'."
-  type        = any
-  default     = null
-}

@@ -13,9 +13,3 @@ variable "project_id" {
   description = "Required attribute 'project_id' for type 'azuredevops_variable_group'."
   type        = any
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_variable_group'."
-  type        = any
-  default     = null
-}

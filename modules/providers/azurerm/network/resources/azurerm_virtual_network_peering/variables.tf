@@ -77,9 +77,3 @@ variable "use_remote_gateways" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_virtual_network_peering'."
-  type        = any
-  default     = null
-}

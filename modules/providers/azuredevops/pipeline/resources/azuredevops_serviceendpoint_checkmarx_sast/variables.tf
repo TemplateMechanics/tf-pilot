@@ -46,9 +46,3 @@ variable "team" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_serviceendpoint_checkmarx_sast'."
-  type        = any
-  default     = null
-}

@@ -1,48 +1,42 @@
 resource "aws_s3_object_copy" "this" {
-  count                         = var.enabled ? 1 : 0
-  bucket                        = var.bucket
-  key                           = var.key
-  source                        = var.source
-  acl                           = var.acl
-  bucket_key_enabled            = var.bucket_key_enabled
-  cache_control                 = var.cache_control
-  checksum_algorithm            = var.checksum_algorithm
-  content_disposition           = var.content_disposition
-  content_encoding              = var.content_encoding
-  content_language              = var.content_language
-  content_type                  = var.content_type
-  copy_if_match                 = var.copy_if_match
-  copy_if_modified_since        = var.copy_if_modified_since
-  copy_if_none_match            = var.copy_if_none_match
-  copy_if_unmodified_since      = var.copy_if_unmodified_since
-  customer_algorithm            = var.customer_algorithm
-  customer_key                  = var.customer_key
-  customer_key_md5              = var.customer_key_md5
-  expected_bucket_owner         = var.expected_bucket_owner
-  expected_source_bucket_owner  = var.expected_source_bucket_owner
-  expires                       = var.expires
-  force_destroy                 = var.force_destroy
-  kms_encryption_context        = var.kms_encryption_context
-  kms_key_id                    = var.kms_key_id
-  metadata                      = var.metadata
-  metadata_directive            = var.metadata_directive
+  count = var.enabled ? 1 : 0
+  bucket = var.bucket
+  key = var.key
+  source = var.source
+  acl = var.acl
+  bucket_key_enabled = var.bucket_key_enabled
+  cache_control = var.cache_control
+  checksum_algorithm = var.checksum_algorithm
+  content_disposition = var.content_disposition
+  content_encoding = var.content_encoding
+  content_language = var.content_language
+  content_type = var.content_type
+  copy_if_match = var.copy_if_match
+  copy_if_modified_since = var.copy_if_modified_since
+  copy_if_none_match = var.copy_if_none_match
+  copy_if_unmodified_since = var.copy_if_unmodified_since
+  customer_algorithm = var.customer_algorithm
+  customer_key = var.customer_key
+  customer_key_md5 = var.customer_key_md5
+  expected_bucket_owner = var.expected_bucket_owner
+  expected_source_bucket_owner = var.expected_source_bucket_owner
+  expires = var.expires
+  force_destroy = var.force_destroy
+  kms_encryption_context = var.kms_encryption_context
+  kms_key_id = var.kms_key_id
+  metadata = var.metadata
+  metadata_directive = var.metadata_directive
   object_lock_legal_hold_status = var.object_lock_legal_hold_status
-  object_lock_mode              = var.object_lock_mode
+  object_lock_mode = var.object_lock_mode
   object_lock_retain_until_date = var.object_lock_retain_until_date
-  request_payer                 = var.request_payer
-  server_side_encryption        = var.server_side_encryption
-  source_customer_algorithm     = var.source_customer_algorithm
-  source_customer_key           = var.source_customer_key
-  source_customer_key_md5       = var.source_customer_key_md5
-  storage_class                 = var.storage_class
-  tagging_directive             = var.tagging_directive
-  tags                          = var.tags
-  tags_all                      = var.tags_all
-  website_redirect              = var.website_redirect
-
-  # Nested block 'grant' is schema-supported.
-  # Provide a value via var.block_grant and expand this template as needed.
-
-  # Nested block 'override_provider' is schema-supported.
-  # Provide a value via var.block_override_provider and expand this template as needed.
+  request_payer = var.request_payer
+  server_side_encryption = var.server_side_encryption
+  source_customer_algorithm = var.source_customer_algorithm
+  source_customer_key = var.source_customer_key
+  source_customer_key_md5 = var.source_customer_key_md5
+  storage_class = var.storage_class
+  tagging_directive = var.tagging_directive
+  tags = var.tags
+  tags_all = var.tags_all
+  website_redirect = var.website_redirect
 }

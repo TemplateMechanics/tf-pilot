@@ -110,9 +110,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_subnet'."
-  type        = any
-  default     = null
-}

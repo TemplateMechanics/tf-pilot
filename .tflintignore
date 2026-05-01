@@ -1,2 +1,0 @@
-modules/providers/*/*/resources/*/variables.tf
-modules/providers/*/*/data-sources/*/variables.tf

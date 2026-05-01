@@ -31,9 +31,3 @@ variable "total_retention_in_days" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_log_analytics_workspace_table'."
-  type        = any
-  default     = null
-}

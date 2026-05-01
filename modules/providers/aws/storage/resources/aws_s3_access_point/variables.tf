@@ -31,15 +31,3 @@ variable "policy" {
   type        = any
   default     = null
 }
-
-variable "block_public_access_block_configuration" {
-  description = "Optional nested block 'public_access_block_configuration' for type 'aws_s3_access_point'."
-  type        = any
-  default     = null
-}
-
-variable "block_vpc_configuration" {
-  description = "Optional nested block 'vpc_configuration' for type 'aws_s3_access_point'."
-  type        = any
-  default     = null
-}

@@ -72,33 +72,3 @@ variable "window_size" {
   type        = any
   default     = null
 }
-
-variable "block_action" {
-  description = "Optional nested block 'action' for type 'azurerm_monitor_metric_alert'."
-  type        = any
-  default     = null
-}
-
-variable "block_application_insights_web_test_location_availability_criteria" {
-  description = "Optional nested block 'application_insights_web_test_location_availability_criteria' for type 'azurerm_monitor_metric_alert'."
-  type        = any
-  default     = null
-}
-
-variable "block_criteria" {
-  description = "Optional nested block 'criteria' for type 'azurerm_monitor_metric_alert'."
-  type        = any
-  default     = null
-}
-
-variable "block_dynamic_criteria" {
-  description = "Optional nested block 'dynamic_criteria' for type 'azurerm_monitor_metric_alert'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_metric_alert'."
-  type        = any
-  default     = null
-}

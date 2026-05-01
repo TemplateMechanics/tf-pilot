@@ -13,9 +13,3 @@ variable "resource_group_name" {
   description = "Required attribute 'resource_group_name' for type 'azurerm_monitor_scheduled_query_rules_alert'."
   type        = any
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_scheduled_query_rules_alert'."
-  type        = any
-  default     = null
-}

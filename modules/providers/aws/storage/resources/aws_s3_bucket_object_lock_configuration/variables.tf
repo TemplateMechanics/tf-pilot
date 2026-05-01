@@ -26,9 +26,3 @@ variable "token" {
   type        = any
   default     = null
 }
-
-variable "block_rule" {
-  description = "Optional nested block 'rule' for type 'aws_s3_bucket_object_lock_configuration'."
-  type        = any
-  default     = null
-}

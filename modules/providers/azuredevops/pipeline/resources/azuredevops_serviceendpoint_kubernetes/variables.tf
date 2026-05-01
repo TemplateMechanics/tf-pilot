@@ -29,27 +29,3 @@ variable "description" {
   type        = any
   default     = null
 }
-
-variable "block_azure_subscription" {
-  description = "Optional nested block 'azure_subscription' for type 'azuredevops_serviceendpoint_kubernetes'."
-  type        = any
-  default     = null
-}
-
-variable "block_kubeconfig" {
-  description = "Optional nested block 'kubeconfig' for type 'azuredevops_serviceendpoint_kubernetes'."
-  type        = any
-  default     = null
-}
-
-variable "block_service_account" {
-  description = "Optional nested block 'service_account' for type 'azuredevops_serviceendpoint_kubernetes'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_serviceendpoint_kubernetes'."
-  type        = any
-  default     = null
-}

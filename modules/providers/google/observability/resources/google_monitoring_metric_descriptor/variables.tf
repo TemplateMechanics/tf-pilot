@@ -48,21 +48,3 @@ variable "unit" {
   type        = any
   default     = null
 }
-
-variable "block_labels" {
-  description = "Optional nested block 'labels' for type 'google_monitoring_metric_descriptor'."
-  type        = any
-  default     = null
-}
-
-variable "block_metadata" {
-  description = "Optional nested block 'metadata' for type 'google_monitoring_metric_descriptor'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_monitoring_metric_descriptor'."
-  type        = any
-  default     = null
-}

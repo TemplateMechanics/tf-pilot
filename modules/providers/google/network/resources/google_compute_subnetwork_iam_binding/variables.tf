@@ -30,9 +30,3 @@ variable "region" {
   type        = any
   default     = null
 }
-
-variable "block_condition" {
-  description = "Optional nested block 'condition' for type 'google_compute_subnetwork_iam_binding'."
-  type        = any
-  default     = null
-}

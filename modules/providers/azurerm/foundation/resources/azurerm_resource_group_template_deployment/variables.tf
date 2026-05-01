@@ -48,9 +48,3 @@ variable "template_spec_version_id" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_resource_group_template_deployment'."
-  type        = any
-  default     = null
-}

@@ -18,9 +18,3 @@ variable "role" {
   description = "Required attribute 'role' for type 'google_storage_bucket_iam_member'."
   type        = any
 }
-
-variable "block_condition" {
-  description = "Optional nested block 'condition' for type 'google_storage_bucket_iam_member'."
-  type        = any
-  default     = null
-}

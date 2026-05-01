@@ -32,9 +32,3 @@ variable "public" {
   type        = any
   default     = null
 }
-
-variable "block_source" {
-  description = "Optional nested block 'source' for type 'github_repository_pages'."
-  type        = any
-  default     = null
-}

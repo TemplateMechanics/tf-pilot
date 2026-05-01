@@ -55,9 +55,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_actions_suppressor" {
-  description = "Optional nested block 'actions_suppressor' for type 'aws_cloudwatch_composite_alarm'."
-  type        = any
-  default     = null
-}

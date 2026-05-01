@@ -24,15 +24,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_definition" {
-  description = "Optional nested block 'definition' for type 'azurerm_subnet_service_endpoint_storage_policy'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_subnet_service_endpoint_storage_policy'."
-  type        = any
-  default     = null
-}

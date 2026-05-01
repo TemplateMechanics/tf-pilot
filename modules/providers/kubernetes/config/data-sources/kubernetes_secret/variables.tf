@@ -9,9 +9,3 @@ variable "binary_data" {
   type        = any
   default     = null
 }
-
-variable "block_metadata" {
-  description = "Optional nested block 'metadata' for type 'kubernetes_secret'."
-  type        = any
-  default     = null
-}

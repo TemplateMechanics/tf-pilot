@@ -26,9 +26,3 @@ variable "storage_location" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_logging_organization_settings'."
-  type        = any
-  default     = null
-}

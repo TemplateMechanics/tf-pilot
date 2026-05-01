@@ -13,15 +13,3 @@ variable "source_storage_account_id" {
   description = "Required attribute 'source_storage_account_id' for type 'azurerm_storage_object_replication'."
   type        = any
 }
-
-variable "block_rules" {
-  description = "Optional nested block 'rules' for type 'azurerm_storage_object_replication'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_object_replication'."
-  type        = any
-  default     = null
-}

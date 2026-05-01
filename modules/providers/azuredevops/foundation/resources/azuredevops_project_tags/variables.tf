@@ -13,9 +13,3 @@ variable "tags" {
   description = "Required attribute 'tags' for type 'azuredevops_project_tags'."
   type        = any
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_project_tags'."
-  type        = any
-  default     = null
-}

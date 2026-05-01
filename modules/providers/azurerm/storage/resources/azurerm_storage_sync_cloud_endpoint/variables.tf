@@ -29,9 +29,3 @@ variable "storage_account_tenant_id" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_sync_cloud_endpoint'."
-  type        = any
-  default     = null
-}

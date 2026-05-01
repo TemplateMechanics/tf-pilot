@@ -26,9 +26,3 @@ variable "sort_descending" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_image'."
-  type        = any
-  default     = null
-}

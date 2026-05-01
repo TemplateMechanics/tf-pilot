@@ -20,9 +20,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_auto_scaling_group_provider" {
-  description = "Optional nested block 'auto_scaling_group_provider' for type 'aws_ecs_capacity_provider'."
-  type        = any
-  default     = null
-}

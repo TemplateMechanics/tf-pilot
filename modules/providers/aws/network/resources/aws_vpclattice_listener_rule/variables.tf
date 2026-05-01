@@ -35,21 +35,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_action" {
-  description = "Optional nested block 'action' for type 'aws_vpclattice_listener_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_match" {
-  description = "Optional nested block 'match' for type 'aws_vpclattice_listener_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpclattice_listener_rule'."
-  type        = any
-  default     = null
-}

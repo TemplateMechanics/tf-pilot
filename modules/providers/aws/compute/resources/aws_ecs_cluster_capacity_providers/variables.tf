@@ -14,9 +14,3 @@ variable "capacity_providers" {
   type        = any
   default     = null
 }
-
-variable "block_default_capacity_provider_strategy" {
-  description = "Optional nested block 'default_capacity_provider_strategy' for type 'aws_ecs_cluster_capacity_providers'."
-  type        = any
-  default     = null
-}

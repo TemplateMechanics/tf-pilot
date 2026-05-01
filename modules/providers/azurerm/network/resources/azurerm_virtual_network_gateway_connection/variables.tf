@@ -136,27 +136,3 @@ variable "use_policy_based_traffic_selectors" {
   type        = any
   default     = null
 }
-
-variable "block_custom_bgp_addresses" {
-  description = "Optional nested block 'custom_bgp_addresses' for type 'azurerm_virtual_network_gateway_connection'."
-  type        = any
-  default     = null
-}
-
-variable "block_ipsec_policy" {
-  description = "Optional nested block 'ipsec_policy' for type 'azurerm_virtual_network_gateway_connection'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_virtual_network_gateway_connection'."
-  type        = any
-  default     = null
-}
-
-variable "block_traffic_selector_policy" {
-  description = "Optional nested block 'traffic_selector_policy' for type 'azurerm_virtual_network_gateway_connection'."
-  type        = any
-  default     = null
-}

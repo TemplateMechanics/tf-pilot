@@ -46,9 +46,3 @@ variable "scope" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_serviceendpoint_gcp_terraform'."
-  type        = any
-  default     = null
-}

@@ -61,21 +61,3 @@ variable "scaling_adjustment" {
   type        = any
   default     = null
 }
-
-variable "block_predictive_scaling_configuration" {
-  description = "Optional nested block 'predictive_scaling_configuration' for type 'aws_autoscaling_policy'."
-  type        = any
-  default     = null
-}
-
-variable "block_step_adjustment" {
-  description = "Optional nested block 'step_adjustment' for type 'aws_autoscaling_policy'."
-  type        = any
-  default     = null
-}
-
-variable "block_target_tracking_configuration" {
-  description = "Optional nested block 'target_tracking_configuration' for type 'aws_autoscaling_policy'."
-  type        = any
-  default     = null
-}

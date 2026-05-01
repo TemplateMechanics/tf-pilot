@@ -66,33 +66,3 @@ variable "wait_until_stable_timeout" {
   type        = any
   default     = null
 }
-
-variable "block_capacity_provider_strategy" {
-  description = "Optional nested block 'capacity_provider_strategy' for type 'aws_ecs_task_set'."
-  type        = any
-  default     = null
-}
-
-variable "block_load_balancer" {
-  description = "Optional nested block 'load_balancer' for type 'aws_ecs_task_set'."
-  type        = any
-  default     = null
-}
-
-variable "block_network_configuration" {
-  description = "Optional nested block 'network_configuration' for type 'aws_ecs_task_set'."
-  type        = any
-  default     = null
-}
-
-variable "block_scale" {
-  description = "Optional nested block 'scale' for type 'aws_ecs_task_set'."
-  type        = any
-  default     = null
-}
-
-variable "block_service_registries" {
-  description = "Optional nested block 'service_registries' for type 'aws_ecs_task_set'."
-  type        = any
-  default     = null
-}

@@ -24,9 +24,3 @@ variable "resource_properties" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_route53profiles_resource_association'."
-  type        = any
-  default     = null
-}

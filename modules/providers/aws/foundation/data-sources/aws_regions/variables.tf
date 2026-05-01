@@ -9,9 +9,3 @@ variable "all_regions" {
   type        = any
   default     = null
 }
-
-variable "block_filter" {
-  description = "Optional nested block 'filter' for type 'aws_regions'."
-  type        = any
-  default     = null
-}

@@ -224,18 +224,6 @@ function New-VariablesTf {
     )
   }
 
-  foreach ($block in @($NestedBlockNames)) {
-    $varName = Convert-AttributeToVarName -AttributeName ("block_$block")
-    $lines += @(
-      "variable `"$varName`" {",
-      "  description = `"Optional nested block '$block' for type '$TypeName'.`"",
-      '  type        = any',
-      '  default     = null',
-      '}',
-      ''
-    )
-  }
-
   if ($lines.Count -eq 0) {
     return "# No variables required by schema reflection.`n"
   }
@@ -283,13 +271,6 @@ function New-ResourceMainTf {
     $attributeLines += "  $attr = var.$varName"
   }
 
-  foreach ($block in @($NestedBlockNames)) {
-    $blockVar = Convert-AttributeToVarName -AttributeName ("block_$block")
-    $attributeLines += ""
-    $attributeLines += "  # Nested block '$block' is schema-supported."
-    $attributeLines += "  # Provide a value via var.$blockVar and expand this template as needed."
-  }
-
   $body = if ($attributeLines.Count -gt 0) { ($attributeLines -join "`n") + "`n" } else { '' }
 
   return @"
@@ -327,13 +308,6 @@ function New-DataMainTf {
   foreach ($attr in @($OptionalAttributes)) {
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $attributeLines += "  $attr = var.$varName"
-  }
-
-  foreach ($block in @($NestedBlockNames)) {
-    $blockVar = Convert-AttributeToVarName -AttributeName ("block_$block")
-    $attributeLines += ""
-    $attributeLines += "  # Nested block '$block' is schema-supported."
-    $attributeLines += "  # Provide a value via var.$blockVar and expand this template as needed."
   }
 
   $body = if ($attributeLines.Count -gt 0) { ($attributeLines -join "`n") + "`n" } else { '' }

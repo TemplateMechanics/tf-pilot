@@ -9,27 +9,3 @@ variable "automount_service_account_token" {
   type        = any
   default     = null
 }
-
-variable "block_image_pull_secret" {
-  description = "Optional nested block 'image_pull_secret' for type 'kubernetes_service_account_v1'."
-  type        = any
-  default     = null
-}
-
-variable "block_metadata" {
-  description = "Optional nested block 'metadata' for type 'kubernetes_service_account_v1'."
-  type        = any
-  default     = null
-}
-
-variable "block_secret" {
-  description = "Optional nested block 'secret' for type 'kubernetes_service_account_v1'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'kubernetes_service_account_v1'."
-  type        = any
-  default     = null
-}

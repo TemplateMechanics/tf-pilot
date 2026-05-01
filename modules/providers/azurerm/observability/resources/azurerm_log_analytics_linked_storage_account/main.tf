@@ -1,11 +1,8 @@
 resource "azurerm_log_analytics_linked_storage_account" "this" {
-  count                 = var.enabled ? 1 : 0
-  data_source_type      = var.data_source_type
-  resource_group_name   = var.resource_group_name
-  storage_account_ids   = var.storage_account_ids
-  workspace_id          = var.workspace_id
+  count = var.enabled ? 1 : 0
+  data_source_type = var.data_source_type
+  resource_group_name = var.resource_group_name
+  storage_account_ids = var.storage_account_ids
+  workspace_id = var.workspace_id
   workspace_resource_id = var.workspace_resource_id
-
-  # Nested block 'timeouts' is schema-supported.
-  # Provide a value via var.block_timeouts and expand this template as needed.
 }

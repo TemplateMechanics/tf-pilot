@@ -55,21 +55,3 @@ variable "project" {
   type        = any
   default     = null
 }
-
-variable "block_binary_authorization" {
-  description = "Optional nested block 'binary_authorization' for type 'google_cloud_run_v2_job'."
-  type        = any
-  default     = null
-}
-
-variable "block_template" {
-  description = "Optional nested block 'template' for type 'google_cloud_run_v2_job'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_cloud_run_v2_job'."
-  type        = any
-  default     = null
-}

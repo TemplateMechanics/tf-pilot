@@ -13,9 +13,3 @@ variable "name" {
   description = "Required attribute 'name' for type 'aws_s3_bucket_metric'."
   type        = any
 }
-
-variable "block_filter" {
-  description = "Optional nested block 'filter' for type 'aws_s3_bucket_metric'."
-  type        = any
-  default     = null
-}

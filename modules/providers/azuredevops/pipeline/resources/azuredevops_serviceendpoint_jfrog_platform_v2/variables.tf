@@ -24,21 +24,3 @@ variable "description" {
   type        = any
   default     = null
 }
-
-variable "block_authentication_basic" {
-  description = "Optional nested block 'authentication_basic' for type 'azuredevops_serviceendpoint_jfrog_platform_v2'."
-  type        = any
-  default     = null
-}
-
-variable "block_authentication_token" {
-  description = "Optional nested block 'authentication_token' for type 'azuredevops_serviceendpoint_jfrog_platform_v2'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_serviceendpoint_jfrog_platform_v2'."
-  type        = any
-  default     = null
-}

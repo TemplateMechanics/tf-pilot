@@ -37,15 +37,3 @@ variable "properties" {
   type        = any
   default     = null
 }
-
-variable "block_ace" {
-  description = "Optional nested block 'ace' for type 'azurerm_storage_data_lake_gen2_filesystem'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_data_lake_gen2_filesystem'."
-  type        = any
-  default     = null
-}

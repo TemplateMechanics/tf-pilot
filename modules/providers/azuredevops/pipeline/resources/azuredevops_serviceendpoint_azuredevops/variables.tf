@@ -36,9 +36,3 @@ variable "release_api_url" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_serviceendpoint_azuredevops'."
-  type        = any
-  default     = null
-}

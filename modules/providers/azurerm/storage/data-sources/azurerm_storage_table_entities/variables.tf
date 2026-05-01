@@ -19,9 +19,3 @@ variable "select" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_table_entities'."
-  type        = any
-  default     = null
-}

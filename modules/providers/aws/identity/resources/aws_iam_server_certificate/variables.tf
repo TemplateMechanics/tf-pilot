@@ -49,9 +49,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_iam_server_certificate'."
-  type        = any
-  default     = null
-}

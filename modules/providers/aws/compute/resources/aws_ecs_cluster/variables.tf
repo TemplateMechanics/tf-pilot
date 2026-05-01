@@ -20,21 +20,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_configuration" {
-  description = "Optional nested block 'configuration' for type 'aws_ecs_cluster'."
-  type        = any
-  default     = null
-}
-
-variable "block_service_connect_defaults" {
-  description = "Optional nested block 'service_connect_defaults' for type 'aws_ecs_cluster'."
-  type        = any
-  default     = null
-}
-
-variable "block_setting" {
-  description = "Optional nested block 'setting' for type 'aws_ecs_cluster'."
-  type        = any
-  default     = null
-}

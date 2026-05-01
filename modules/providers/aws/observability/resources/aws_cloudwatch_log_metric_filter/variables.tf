@@ -18,9 +18,3 @@ variable "pattern" {
   description = "Required attribute 'pattern' for type 'aws_cloudwatch_log_metric_filter'."
   type        = any
 }
-
-variable "block_metric_transformation" {
-  description = "Optional nested block 'metric_transformation' for type 'aws_cloudwatch_log_metric_filter'."
-  type        = any
-  default     = null
-}

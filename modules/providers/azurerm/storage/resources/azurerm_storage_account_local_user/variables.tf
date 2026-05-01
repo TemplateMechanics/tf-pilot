@@ -31,21 +31,3 @@ variable "ssh_password_enabled" {
   type        = any
   default     = null
 }
-
-variable "block_permission_scope" {
-  description = "Optional nested block 'permission_scope' for type 'azurerm_storage_account_local_user'."
-  type        = any
-  default     = null
-}
-
-variable "block_ssh_authorized_key" {
-  description = "Optional nested block 'ssh_authorized_key' for type 'azurerm_storage_account_local_user'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_account_local_user'."
-  type        = any
-  default     = null
-}

@@ -48,9 +48,3 @@ variable "region" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_network_attachment'."
-  type        = any
-  default     = null
-}

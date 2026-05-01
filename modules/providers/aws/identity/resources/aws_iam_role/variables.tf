@@ -68,9 +68,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_inline_policy" {
-  description = "Optional nested block 'inline_policy' for type 'aws_iam_role'."
-  type        = any
-  default     = null
-}

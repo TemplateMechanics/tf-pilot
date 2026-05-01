@@ -20,15 +20,3 @@ variable "sha_pinning_required" {
   type        = any
   default     = null
 }
-
-variable "block_allowed_actions_config" {
-  description = "Optional nested block 'allowed_actions_config' for type 'github_actions_organization_permissions'."
-  type        = any
-  default     = null
-}
-
-variable "block_enabled_repositories_config" {
-  description = "Optional nested block 'enabled_repositories_config' for type 'github_actions_organization_permissions'."
-  type        = any
-  default     = null
-}

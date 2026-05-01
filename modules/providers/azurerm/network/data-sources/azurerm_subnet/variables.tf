@@ -18,9 +18,3 @@ variable "virtual_network_name" {
   description = "Required attribute 'virtual_network_name' for type 'azurerm_subnet'."
   type        = any
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_subnet'."
-  type        = any
-  default     = null
-}

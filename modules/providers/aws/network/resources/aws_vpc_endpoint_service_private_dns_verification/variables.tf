@@ -14,9 +14,3 @@ variable "wait_for_verification" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpc_endpoint_service_private_dns_verification'."
-  type        = any
-  default     = null
-}

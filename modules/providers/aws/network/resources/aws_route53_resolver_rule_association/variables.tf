@@ -19,9 +19,3 @@ variable "name" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_route53_resolver_rule_association'."
-  type        = any
-  default     = null
-}

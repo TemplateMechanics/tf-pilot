@@ -31,15 +31,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_certificate_key_vault" {
-  description = "Optional nested block 'certificate_key_vault' for type 'azurerm_container_app_environment_certificate'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_container_app_environment_certificate'."
-  type        = any
-  default     = null
-}

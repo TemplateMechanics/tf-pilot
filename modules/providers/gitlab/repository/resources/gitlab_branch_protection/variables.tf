@@ -43,21 +43,3 @@ variable "unprotect_access_level" {
   type        = any
   default     = null
 }
-
-variable "block_allowed_to_merge" {
-  description = "Optional nested block 'allowed_to_merge' for type 'gitlab_branch_protection'."
-  type        = any
-  default     = null
-}
-
-variable "block_allowed_to_push" {
-  description = "Optional nested block 'allowed_to_push' for type 'gitlab_branch_protection'."
-  type        = any
-  default     = null
-}
-
-variable "block_allowed_to_unprotect" {
-  description = "Optional nested block 'allowed_to_unprotect' for type 'gitlab_branch_protection'."
-  type        = any
-  default     = null
-}

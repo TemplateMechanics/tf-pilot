@@ -30,9 +30,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_network_security_group'."
-  type        = any
-  default     = null
-}

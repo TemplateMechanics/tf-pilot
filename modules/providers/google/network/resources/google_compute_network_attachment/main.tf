@@ -1,14 +1,11 @@
 resource "google_compute_network_attachment" "this" {
-  count                 = var.enabled ? 1 : 0
+  count = var.enabled ? 1 : 0
   connection_preference = var.connection_preference
-  name                  = var.name
-  subnetworks           = var.subnetworks
-  description           = var.description
+  name = var.name
+  subnetworks = var.subnetworks
+  description = var.description
   producer_accept_lists = var.producer_accept_lists
   producer_reject_lists = var.producer_reject_lists
-  project               = var.project
-  region                = var.region
-
-  # Nested block 'timeouts' is schema-supported.
-  # Provide a value via var.block_timeouts and expand this template as needed.
+  project = var.project
+  region = var.region
 }

@@ -50,15 +50,3 @@ variable "user_labels" {
   type        = any
   default     = null
 }
-
-variable "block_sensitive_labels" {
-  description = "Optional nested block 'sensitive_labels' for type 'google_monitoring_notification_channel'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_monitoring_notification_channel'."
-  type        = any
-  default     = null
-}

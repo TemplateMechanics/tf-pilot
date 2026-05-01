@@ -31,15 +31,3 @@ variable "parent_repository_id" {
   type        = any
   default     = null
 }
-
-variable "block_initialization" {
-  description = "Optional nested block 'initialization' for type 'azuredevops_git_repository'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_git_repository'."
-  type        = any
-  default     = null
-}

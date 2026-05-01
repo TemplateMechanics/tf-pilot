@@ -61,9 +61,3 @@ variable "use_oidc" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_serviceendpoint_aws'."
-  type        = any
-  default     = null
-}

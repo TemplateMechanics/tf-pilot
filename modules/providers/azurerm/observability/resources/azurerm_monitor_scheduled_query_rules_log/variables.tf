@@ -47,15 +47,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_criteria" {
-  description = "Optional nested block 'criteria' for type 'azurerm_monitor_scheduled_query_rules_log'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_scheduled_query_rules_log'."
-  type        = any
-  default     = null
-}

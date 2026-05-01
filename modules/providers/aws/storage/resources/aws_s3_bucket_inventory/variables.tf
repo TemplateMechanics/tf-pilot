@@ -30,21 +30,3 @@ variable "optional_fields" {
   type        = any
   default     = null
 }
-
-variable "block_destination" {
-  description = "Optional nested block 'destination' for type 'aws_s3_bucket_inventory'."
-  type        = any
-  default     = null
-}
-
-variable "block_filter" {
-  description = "Optional nested block 'filter' for type 'aws_s3_bucket_inventory'."
-  type        = any
-  default     = null
-}
-
-variable "block_schedule" {
-  description = "Optional nested block 'schedule' for type 'aws_s3_bucket_inventory'."
-  type        = any
-  default     = null
-}

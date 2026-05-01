@@ -30,15 +30,3 @@ variable "retention_days" {
   type        = any
   default     = null
 }
-
-variable "block_cmek_settings" {
-  description = "Optional nested block 'cmek_settings' for type 'google_logging_organization_bucket_config'."
-  type        = any
-  default     = null
-}
-
-variable "block_index_configs" {
-  description = "Optional nested block 'index_configs' for type 'google_logging_organization_bucket_config'."
-  type        = any
-  default     = null
-}

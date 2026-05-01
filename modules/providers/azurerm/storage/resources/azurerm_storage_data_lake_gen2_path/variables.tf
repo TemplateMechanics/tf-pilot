@@ -35,15 +35,3 @@ variable "owner" {
   type        = any
   default     = null
 }
-
-variable "block_ace" {
-  description = "Optional nested block 'ace' for type 'azurerm_storage_data_lake_gen2_path'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_data_lake_gen2_path'."
-  type        = any
-  default     = null
-}

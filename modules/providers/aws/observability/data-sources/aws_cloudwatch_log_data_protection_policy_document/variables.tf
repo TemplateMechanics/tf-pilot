@@ -20,15 +20,3 @@ variable "version" {
   type        = any
   default     = null
 }
-
-variable "block_configuration" {
-  description = "Optional nested block 'configuration' for type 'aws_cloudwatch_log_data_protection_policy_document'."
-  type        = any
-  default     = null
-}
-
-variable "block_statement" {
-  description = "Optional nested block 'statement' for type 'aws_cloudwatch_log_data_protection_policy_document'."
-  type        = any
-  default     = null
-}

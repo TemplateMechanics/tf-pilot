@@ -20,15 +20,3 @@ variable "netmask_length" {
   type        = any
   default     = null
 }
-
-variable "block_cidr_authorization_context" {
-  description = "Optional nested block 'cidr_authorization_context' for type 'aws_vpc_ipam_pool_cidr'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpc_ipam_pool_cidr'."
-  type        = any
-  default     = null
-}

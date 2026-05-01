@@ -50,15 +50,3 @@ variable "type" {
   type        = any
   default     = null
 }
-
-variable "block_resource_configuration_definition" {
-  description = "Optional nested block 'resource_configuration_definition' for type 'aws_vpclattice_resource_configuration'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpclattice_resource_configuration'."
-  type        = any
-  default     = null
-}

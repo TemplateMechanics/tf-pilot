@@ -34,9 +34,3 @@ variable "enabled" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_log_analytics_data_export_rule'."
-  type        = any
-  default     = null
-}

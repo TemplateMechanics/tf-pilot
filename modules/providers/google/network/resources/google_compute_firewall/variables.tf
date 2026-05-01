@@ -85,33 +85,3 @@ variable "target_tags" {
   type        = any
   default     = null
 }
-
-variable "block_allow" {
-  description = "Optional nested block 'allow' for type 'google_compute_firewall'."
-  type        = any
-  default     = null
-}
-
-variable "block_deny" {
-  description = "Optional nested block 'deny' for type 'google_compute_firewall'."
-  type        = any
-  default     = null
-}
-
-variable "block_log_config" {
-  description = "Optional nested block 'log_config' for type 'google_compute_firewall'."
-  type        = any
-  default     = null
-}
-
-variable "block_params" {
-  description = "Optional nested block 'params' for type 'google_compute_firewall'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_firewall'."
-  type        = any
-  default     = null
-}

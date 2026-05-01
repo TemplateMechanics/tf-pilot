@@ -20,15 +20,3 @@ variable "zone" {
   type        = any
   default     = null
 }
-
-variable "block_network_endpoints" {
-  description = "Optional nested block 'network_endpoints' for type 'google_compute_network_endpoints'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_network_endpoints'."
-  type        = any
-  default     = null
-}

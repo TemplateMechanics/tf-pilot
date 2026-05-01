@@ -31,15 +31,3 @@ variable "parent" {
   type        = any
   default     = null
 }
-
-variable "block_bigquery_dataset" {
-  description = "Optional nested block 'bigquery_dataset' for type 'google_logging_linked_dataset'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_logging_linked_dataset'."
-  type        = any
-  default     = null
-}

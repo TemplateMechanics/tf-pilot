@@ -44,9 +44,3 @@ variable "status_badges_are_private" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_project_pipeline_settings'."
-  type        = any
-  default     = null
-}

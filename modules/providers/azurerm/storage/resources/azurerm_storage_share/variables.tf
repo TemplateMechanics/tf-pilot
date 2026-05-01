@@ -43,15 +43,3 @@ variable "storage_account_name" {
   type        = any
   default     = null
 }
-
-variable "block_acl" {
-  description = "Optional nested block 'acl' for type 'azurerm_storage_share'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_share'."
-  type        = any
-  default     = null
-}

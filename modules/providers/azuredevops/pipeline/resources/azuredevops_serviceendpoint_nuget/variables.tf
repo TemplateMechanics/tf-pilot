@@ -48,9 +48,3 @@ variable "username" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_serviceendpoint_nuget'."
-  type        = any
-  default     = null
-}

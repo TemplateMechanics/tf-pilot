@@ -8,9 +8,3 @@ variable "storage_account_id" {
   description = "Required attribute 'storage_account_id' for type 'azurerm_storage_management_policy'."
   type        = any
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_management_policy'."
-  type        = any
-  default     = null
-}

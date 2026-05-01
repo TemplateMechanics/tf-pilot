@@ -234,15 +234,3 @@ variable "website_redirect" {
   type        = any
   default     = null
 }
-
-variable "block_grant" {
-  description = "Optional nested block 'grant' for type 'aws_s3_object_copy'."
-  type        = any
-  default     = null
-}
-
-variable "block_override_provider" {
-  description = "Optional nested block 'override_provider' for type 'aws_s3_object_copy'."
-  type        = any
-  default     = null
-}

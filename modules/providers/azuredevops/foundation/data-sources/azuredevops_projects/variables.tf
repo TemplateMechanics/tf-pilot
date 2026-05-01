@@ -15,9 +15,3 @@ variable "state" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_projects'."
-  type        = any
-  default     = null
-}

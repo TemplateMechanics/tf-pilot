@@ -132,9 +132,3 @@ variable "unit" {
   type        = any
   default     = null
 }
-
-variable "block_metric_query" {
-  description = "Optional nested block 'metric_query' for type 'aws_cloudwatch_metric_alarm'."
-  type        = any
-  default     = null
-}

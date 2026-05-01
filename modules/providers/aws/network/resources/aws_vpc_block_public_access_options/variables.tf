@@ -8,9 +8,3 @@ variable "internet_gateway_block_mode" {
   description = "Required attribute 'internet_gateway_block_mode' for type 'aws_vpc_block_public_access_options'."
   type        = any
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpc_block_public_access_options'."
-  type        = any
-  default     = null
-}

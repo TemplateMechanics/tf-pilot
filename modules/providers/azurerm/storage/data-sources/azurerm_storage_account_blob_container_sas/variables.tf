@@ -65,15 +65,3 @@ variable "ip_address" {
   type        = any
   default     = null
 }
-
-variable "block_permissions" {
-  description = "Optional nested block 'permissions' for type 'azurerm_storage_account_blob_container_sas'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_account_blob_container_sas'."
-  type        = any
-  default     = null
-}

@@ -52,9 +52,3 @@ variable "shared_project_ids" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_serviceendpoint_generic_v2'."
-  type        = any
-  default     = null
-}

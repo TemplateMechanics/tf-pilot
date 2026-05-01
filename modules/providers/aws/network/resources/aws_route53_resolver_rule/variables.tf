@@ -37,15 +37,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_target_ip" {
-  description = "Optional nested block 'target_ip' for type 'aws_route53_resolver_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_route53_resolver_rule'."
-  type        = any
-  default     = null
-}

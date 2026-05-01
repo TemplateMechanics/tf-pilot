@@ -79,39 +79,3 @@ variable "project" {
   type        = any
   default     = null
 }
-
-variable "block_binary_authorization" {
-  description = "Optional nested block 'binary_authorization' for type 'google_cloud_run_v2_service'."
-  type        = any
-  default     = null
-}
-
-variable "block_build_config" {
-  description = "Optional nested block 'build_config' for type 'google_cloud_run_v2_service'."
-  type        = any
-  default     = null
-}
-
-variable "block_scaling" {
-  description = "Optional nested block 'scaling' for type 'google_cloud_run_v2_service'."
-  type        = any
-  default     = null
-}
-
-variable "block_template" {
-  description = "Optional nested block 'template' for type 'google_cloud_run_v2_service'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_cloud_run_v2_service'."
-  type        = any
-  default     = null
-}
-
-variable "block_traffic" {
-  description = "Optional nested block 'traffic' for type 'google_cloud_run_v2_service'."
-  type        = any
-  default     = null
-}

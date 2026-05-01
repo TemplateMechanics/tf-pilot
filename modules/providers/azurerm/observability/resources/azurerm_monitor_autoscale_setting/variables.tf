@@ -35,27 +35,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_notification" {
-  description = "Optional nested block 'notification' for type 'azurerm_monitor_autoscale_setting'."
-  type        = any
-  default     = null
-}
-
-variable "block_predictive" {
-  description = "Optional nested block 'predictive' for type 'azurerm_monitor_autoscale_setting'."
-  type        = any
-  default     = null
-}
-
-variable "block_profile" {
-  description = "Optional nested block 'profile' for type 'azurerm_monitor_autoscale_setting'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_autoscale_setting'."
-  type        = any
-  default     = null
-}

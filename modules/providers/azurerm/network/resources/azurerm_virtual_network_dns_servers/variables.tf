@@ -14,9 +14,3 @@ variable "dns_servers" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_virtual_network_dns_servers'."
-  type        = any
-  default     = null
-}

@@ -29,9 +29,3 @@ variable "description" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_mover_target_endpoint'."
-  type        = any
-  default     = null
-}

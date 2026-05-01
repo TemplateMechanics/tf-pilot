@@ -20,15 +20,3 @@ variable "transition_default_minimum_object_size" {
   type        = any
   default     = null
 }
-
-variable "block_rule" {
-  description = "Optional nested block 'rule' for type 'aws_s3_bucket_lifecycle_configuration'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_s3_bucket_lifecycle_configuration'."
-  type        = any
-  default     = null
-}

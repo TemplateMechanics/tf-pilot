@@ -25,21 +25,3 @@ variable "url" {
   type        = any
   default     = null
 }
-
-variable "block_auth_oauth" {
-  description = "Optional nested block 'auth_oauth' for type 'azuredevops_serviceendpoint_github_enterprise'."
-  type        = any
-  default     = null
-}
-
-variable "block_auth_personal" {
-  description = "Optional nested block 'auth_personal' for type 'azuredevops_serviceendpoint_github_enterprise'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azuredevops_serviceendpoint_github_enterprise'."
-  type        = any
-  default     = null
-}

@@ -40,21 +40,3 @@ variable "file_format" {
   type        = any
   default     = null
 }
-
-variable "block_export_data_options" {
-  description = "Optional nested block 'export_data_options' for type 'azurerm_resource_group_cost_management_export'."
-  type        = any
-  default     = null
-}
-
-variable "block_export_data_storage_location" {
-  description = "Optional nested block 'export_data_storage_location' for type 'azurerm_resource_group_cost_management_export'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_resource_group_cost_management_export'."
-  type        = any
-  default     = null
-}

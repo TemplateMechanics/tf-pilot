@@ -60,21 +60,3 @@ variable "sharing_scope" {
   type        = any
   default     = null
 }
-
-variable "block_delegation" {
-  description = "Optional nested block 'delegation' for type 'azurerm_subnet'."
-  type        = any
-  default     = null
-}
-
-variable "block_ip_address_pool" {
-  description = "Optional nested block 'ip_address_pool' for type 'azurerm_subnet'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_subnet'."
-  type        = any
-  default     = null
-}

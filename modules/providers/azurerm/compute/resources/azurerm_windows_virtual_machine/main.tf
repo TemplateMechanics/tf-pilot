@@ -1,84 +1,45 @@
 resource "azurerm_windows_virtual_machine" "this" {
-  count                                                  = var.enabled ? 1 : 0
-  location                                               = var.location
-  name                                                   = var.name
-  network_interface_ids                                  = var.network_interface_ids
-  resource_group_name                                    = var.resource_group_name
-  size                                                   = var.size
-  admin_password                                         = var.admin_password
-  admin_username                                         = var.admin_username
-  allow_extension_operations                             = var.allow_extension_operations
-  automatic_updates_enabled                              = var.automatic_updates_enabled
-  availability_set_id                                    = var.availability_set_id
+  count = var.enabled ? 1 : 0
+  location = var.location
+  name = var.name
+  network_interface_ids = var.network_interface_ids
+  resource_group_name = var.resource_group_name
+  size = var.size
+  admin_password = var.admin_password
+  admin_username = var.admin_username
+  allow_extension_operations = var.allow_extension_operations
+  automatic_updates_enabled = var.automatic_updates_enabled
+  availability_set_id = var.availability_set_id
   bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
-  capacity_reservation_group_id                          = var.capacity_reservation_group_id
-  computer_name                                          = var.computer_name
-  custom_data                                            = var.custom_data
-  dedicated_host_group_id                                = var.dedicated_host_group_id
-  dedicated_host_id                                      = var.dedicated_host_id
-  disk_controller_type                                   = var.disk_controller_type
-  edge_zone                                              = var.edge_zone
-  enable_automatic_updates                               = var.enable_automatic_updates
-  encryption_at_host_enabled                             = var.encryption_at_host_enabled
-  eviction_policy                                        = var.eviction_policy
-  extensions_time_budget                                 = var.extensions_time_budget
-  hotpatching_enabled                                    = var.hotpatching_enabled
-  license_type                                           = var.license_type
-  max_bid_price                                          = var.max_bid_price
-  os_managed_disk_id                                     = var.os_managed_disk_id
-  patch_assessment_mode                                  = var.patch_assessment_mode
-  patch_mode                                             = var.patch_mode
-  platform_fault_domain                                  = var.platform_fault_domain
-  priority                                               = var.priority
-  provision_vm_agent                                     = var.provision_vm_agent
-  proximity_placement_group_id                           = var.proximity_placement_group_id
-  reboot_setting                                         = var.reboot_setting
-  secure_boot_enabled                                    = var.secure_boot_enabled
-  source_image_id                                        = var.source_image_id
-  tags                                                   = var.tags
-  timezone                                               = var.timezone
-  user_data                                              = var.user_data
-  virtual_machine_scale_set_id                           = var.virtual_machine_scale_set_id
-  vm_agent_platform_updates_enabled                      = var.vm_agent_platform_updates_enabled
-  vtpm_enabled                                           = var.vtpm_enabled
-  zone                                                   = var.zone
-
-  # Nested block 'additional_capabilities' is schema-supported.
-  # Provide a value via var.block_additional_capabilities and expand this template as needed.
-
-  # Nested block 'additional_unattend_content' is schema-supported.
-  # Provide a value via var.block_additional_unattend_content and expand this template as needed.
-
-  # Nested block 'boot_diagnostics' is schema-supported.
-  # Provide a value via var.block_boot_diagnostics and expand this template as needed.
-
-  # Nested block 'gallery_application' is schema-supported.
-  # Provide a value via var.block_gallery_application and expand this template as needed.
-
-  # Nested block 'identity' is schema-supported.
-  # Provide a value via var.block_identity and expand this template as needed.
-
-  # Nested block 'os_disk' is schema-supported.
-  # Provide a value via var.block_os_disk and expand this template as needed.
-
-  # Nested block 'os_image_notification' is schema-supported.
-  # Provide a value via var.block_os_image_notification and expand this template as needed.
-
-  # Nested block 'plan' is schema-supported.
-  # Provide a value via var.block_plan and expand this template as needed.
-
-  # Nested block 'secret' is schema-supported.
-  # Provide a value via var.block_secret and expand this template as needed.
-
-  # Nested block 'source_image_reference' is schema-supported.
-  # Provide a value via var.block_source_image_reference and expand this template as needed.
-
-  # Nested block 'termination_notification' is schema-supported.
-  # Provide a value via var.block_termination_notification and expand this template as needed.
-
-  # Nested block 'timeouts' is schema-supported.
-  # Provide a value via var.block_timeouts and expand this template as needed.
-
-  # Nested block 'winrm_listener' is schema-supported.
-  # Provide a value via var.block_winrm_listener and expand this template as needed.
+  capacity_reservation_group_id = var.capacity_reservation_group_id
+  computer_name = var.computer_name
+  custom_data = var.custom_data
+  dedicated_host_group_id = var.dedicated_host_group_id
+  dedicated_host_id = var.dedicated_host_id
+  disk_controller_type = var.disk_controller_type
+  edge_zone = var.edge_zone
+  enable_automatic_updates = var.enable_automatic_updates
+  encryption_at_host_enabled = var.encryption_at_host_enabled
+  eviction_policy = var.eviction_policy
+  extensions_time_budget = var.extensions_time_budget
+  hotpatching_enabled = var.hotpatching_enabled
+  license_type = var.license_type
+  max_bid_price = var.max_bid_price
+  os_managed_disk_id = var.os_managed_disk_id
+  patch_assessment_mode = var.patch_assessment_mode
+  patch_mode = var.patch_mode
+  platform_fault_domain = var.platform_fault_domain
+  priority = var.priority
+  provision_vm_agent = var.provision_vm_agent
+  proximity_placement_group_id = var.proximity_placement_group_id
+  reboot_setting = var.reboot_setting
+  secure_boot_enabled = var.secure_boot_enabled
+  source_image_id = var.source_image_id
+  tags = var.tags
+  timezone = var.timezone
+  user_data = var.user_data
+  virtual_machine_scale_set_id = var.virtual_machine_scale_set_id
+  vm_agent_platform_updates_enabled = var.vm_agent_platform_updates_enabled
+  vtpm_enabled = var.vtpm_enabled
+  zone = var.zone
 }

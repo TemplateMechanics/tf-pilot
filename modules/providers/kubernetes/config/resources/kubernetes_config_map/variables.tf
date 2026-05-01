@@ -21,9 +21,3 @@ variable "immutable" {
   type        = any
   default     = null
 }
-
-variable "block_metadata" {
-  description = "Optional nested block 'metadata' for type 'kubernetes_config_map'."
-  type        = any
-  default     = null
-}

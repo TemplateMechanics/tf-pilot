@@ -218,21 +218,3 @@ variable "web_commit_signoff_required" {
   type        = any
   default     = null
 }
-
-variable "block_pages" {
-  description = "Optional nested block 'pages' for type 'github_repository'."
-  type        = any
-  default     = null
-}
-
-variable "block_security_and_analysis" {
-  description = "Optional nested block 'security_and_analysis' for type 'github_repository'."
-  type        = any
-  default     = null
-}
-
-variable "block_template" {
-  description = "Optional nested block 'template' for type 'github_repository'."
-  type        = any
-  default     = null
-}

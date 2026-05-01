@@ -78,21 +78,3 @@ variable "zone_redundancy_enabled" {
   type        = any
   default     = null
 }
-
-variable "block_identity" {
-  description = "Optional nested block 'identity' for type 'azurerm_container_app_environment'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_container_app_environment'."
-  type        = any
-  default     = null
-}
-
-variable "block_workload_profile" {
-  description = "Optional nested block 'workload_profile' for type 'azurerm_container_app_environment'."
-  type        = any
-  default     = null
-}

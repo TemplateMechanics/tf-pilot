@@ -31,9 +31,3 @@ variable "project" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_monitoring_group'."
-  type        = any
-  default     = null
-}

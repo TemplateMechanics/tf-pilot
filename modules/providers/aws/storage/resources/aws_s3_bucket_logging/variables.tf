@@ -24,15 +24,3 @@ variable "expected_bucket_owner" {
   type        = any
   default     = null
 }
-
-variable "block_target_grant" {
-  description = "Optional nested block 'target_grant' for type 'aws_s3_bucket_logging'."
-  type        = any
-  default     = null
-}
-
-variable "block_target_object_key_format" {
-  description = "Optional nested block 'target_object_key_format' for type 'aws_s3_bucket_logging'."
-  type        = any
-  default     = null
-}

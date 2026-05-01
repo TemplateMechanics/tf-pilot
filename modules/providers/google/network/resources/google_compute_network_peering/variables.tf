@@ -48,9 +48,3 @@ variable "stack_type" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_network_peering'."
-  type        = any
-  default     = null
-}

@@ -66,27 +66,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_ddos_protection_plan" {
-  description = "Optional nested block 'ddos_protection_plan' for type 'azurerm_virtual_network'."
-  type        = any
-  default     = null
-}
-
-variable "block_encryption" {
-  description = "Optional nested block 'encryption' for type 'azurerm_virtual_network'."
-  type        = any
-  default     = null
-}
-
-variable "block_ip_address_pool" {
-  description = "Optional nested block 'ip_address_pool' for type 'azurerm_virtual_network'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_virtual_network'."
-  type        = any
-  default     = null
-}

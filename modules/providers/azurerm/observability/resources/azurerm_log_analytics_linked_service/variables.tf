@@ -25,9 +25,3 @@ variable "write_access_id" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_log_analytics_linked_service'."
-  type        = any
-  default     = null
-}

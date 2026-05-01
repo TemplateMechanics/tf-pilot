@@ -42,39 +42,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_data_flow" {
-  description = "Optional nested block 'data_flow' for type 'azurerm_monitor_data_collection_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_data_sources" {
-  description = "Optional nested block 'data_sources' for type 'azurerm_monitor_data_collection_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_destinations" {
-  description = "Optional nested block 'destinations' for type 'azurerm_monitor_data_collection_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_identity" {
-  description = "Optional nested block 'identity' for type 'azurerm_monitor_data_collection_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_stream_declaration" {
-  description = "Optional nested block 'stream_declaration' for type 'azurerm_monitor_data_collection_rule'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_data_collection_rule'."
-  type        = any
-  default     = null
-}

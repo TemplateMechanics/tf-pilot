@@ -43,15 +43,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_default_action" {
-  description = "Optional nested block 'default_action' for type 'aws_vpclattice_listener'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpclattice_listener'."
-  type        = any
-  default     = null
-}

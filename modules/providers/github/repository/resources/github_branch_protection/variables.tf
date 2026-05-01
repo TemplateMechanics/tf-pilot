@@ -61,21 +61,3 @@ variable "required_linear_history" {
   type        = any
   default     = null
 }
-
-variable "block_required_pull_request_reviews" {
-  description = "Optional nested block 'required_pull_request_reviews' for type 'github_branch_protection'."
-  type        = any
-  default     = null
-}
-
-variable "block_required_status_checks" {
-  description = "Optional nested block 'required_status_checks' for type 'github_branch_protection'."
-  type        = any
-  default     = null
-}
-
-variable "block_restrict_pushes" {
-  description = "Optional nested block 'restrict_pushes' for type 'github_branch_protection'."
-  type        = any
-  default     = null
-}

@@ -98,27 +98,3 @@ variable "workspace_alerts_storage_enabled" {
   type        = any
   default     = null
 }
-
-variable "block_action" {
-  description = "Optional nested block 'action' for type 'azurerm_monitor_scheduled_query_rules_alert_v2'."
-  type        = any
-  default     = null
-}
-
-variable "block_criteria" {
-  description = "Optional nested block 'criteria' for type 'azurerm_monitor_scheduled_query_rules_alert_v2'."
-  type        = any
-  default     = null
-}
-
-variable "block_identity" {
-  description = "Optional nested block 'identity' for type 'azurerm_monitor_scheduled_query_rules_alert_v2'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_scheduled_query_rules_alert_v2'."
-  type        = any
-  default     = null
-}

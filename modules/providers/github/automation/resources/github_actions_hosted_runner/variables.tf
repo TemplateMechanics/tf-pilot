@@ -42,15 +42,3 @@ variable "public_ip_enabled" {
   type        = any
   default     = null
 }
-
-variable "block_image" {
-  description = "Optional nested block 'image' for type 'github_actions_hosted_runner'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'github_actions_hosted_runner'."
-  type        = any
-  default     = null
-}

@@ -37,21 +37,3 @@ variable "region" {
   type        = any
   default     = null
 }
-
-variable "block_bgp" {
-  description = "Optional nested block 'bgp' for type 'google_compute_router'."
-  type        = any
-  default     = null
-}
-
-variable "block_md5_authentication_keys" {
-  description = "Optional nested block 'md5_authentication_keys' for type 'google_compute_router'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_router'."
-  type        = any
-  default     = null
-}

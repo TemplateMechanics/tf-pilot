@@ -596,21 +596,3 @@ variable "wiki_enabled" {
   type        = any
   default     = null
 }
-
-variable "block_container_expiration_policy" {
-  description = "Optional nested block 'container_expiration_policy' for type 'gitlab_project'."
-  type        = any
-  default     = null
-}
-
-variable "block_push_rules" {
-  description = "Optional nested block 'push_rules' for type 'gitlab_project'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'gitlab_project'."
-  type        = any
-  default     = null
-}

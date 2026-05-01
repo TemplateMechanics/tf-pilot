@@ -38,9 +38,3 @@ variable "ipv6_pool" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpc_ipv6_cidr_block_association'."
-  type        = any
-  default     = null
-}

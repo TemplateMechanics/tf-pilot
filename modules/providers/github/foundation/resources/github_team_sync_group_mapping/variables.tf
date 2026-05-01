@@ -8,9 +8,3 @@ variable "team_slug" {
   description = "Required attribute 'team_slug' for type 'github_team_sync_group_mapping'."
   type        = any
 }
-
-variable "block_group" {
-  description = "Optional nested block 'group' for type 'github_team_sync_group_mapping'."
-  type        = any
-  default     = null
-}

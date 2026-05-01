@@ -25,9 +25,3 @@ variable "milestone_id" {
   type        = any
   default     = null
 }
-
-variable "block_lists" {
-  description = "Optional nested block 'lists' for type 'gitlab_group_issue_board'."
-  type        = any
-  default     = null
-}

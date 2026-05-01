@@ -112,39 +112,3 @@ variable "vpn_type" {
   type        = any
   default     = null
 }
-
-variable "block_bgp_settings" {
-  description = "Optional nested block 'bgp_settings' for type 'azurerm_virtual_network_gateway'."
-  type        = any
-  default     = null
-}
-
-variable "block_custom_route" {
-  description = "Optional nested block 'custom_route' for type 'azurerm_virtual_network_gateway'."
-  type        = any
-  default     = null
-}
-
-variable "block_ip_configuration" {
-  description = "Optional nested block 'ip_configuration' for type 'azurerm_virtual_network_gateway'."
-  type        = any
-  default     = null
-}
-
-variable "block_policy_group" {
-  description = "Optional nested block 'policy_group' for type 'azurerm_virtual_network_gateway'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_virtual_network_gateway'."
-  type        = any
-  default     = null
-}
-
-variable "block_vpn_client_configuration" {
-  description = "Optional nested block 'vpn_client_configuration' for type 'azurerm_virtual_network_gateway'."
-  type        = any
-  default     = null
-}

@@ -38,15 +38,3 @@ variable "tags_all" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_route53_zone'."
-  type        = any
-  default     = null
-}
-
-variable "block_vpc" {
-  description = "Optional nested block 'vpc' for type 'aws_route53_zone'."
-  type        = any
-  default     = null
-}

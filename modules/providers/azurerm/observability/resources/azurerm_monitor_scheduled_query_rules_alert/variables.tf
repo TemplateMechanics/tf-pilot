@@ -86,21 +86,3 @@ variable "throttling" {
   type        = any
   default     = null
 }
-
-variable "block_action" {
-  description = "Optional nested block 'action' for type 'azurerm_monitor_scheduled_query_rules_alert'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_monitor_scheduled_query_rules_alert'."
-  type        = any
-  default     = null
-}
-
-variable "block_trigger" {
-  description = "Optional nested block 'trigger' for type 'azurerm_monitor_scheduled_query_rules_alert'."
-  type        = any
-  default     = null
-}

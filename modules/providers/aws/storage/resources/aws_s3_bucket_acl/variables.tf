@@ -20,9 +20,3 @@ variable "expected_bucket_owner" {
   type        = any
   default     = null
 }
-
-variable "block_access_control_policy" {
-  description = "Optional nested block 'access_control_policy' for type 'aws_s3_bucket_acl'."
-  type        = any
-  default     = null
-}

@@ -38,9 +38,3 @@ variable "project" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_service_account'."
-  type        = any
-  default     = null
-}

@@ -31,15 +31,3 @@ variable "type" {
   type        = any
   default     = null
 }
-
-variable "block_terms" {
-  description = "Optional nested block 'terms' for type 'google_compute_router_route_policy'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_router_route_policy'."
-  type        = any
-  default     = null
-}

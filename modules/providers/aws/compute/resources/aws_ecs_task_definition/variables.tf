@@ -91,39 +91,3 @@ variable "track_latest" {
   type        = any
   default     = null
 }
-
-variable "block_ephemeral_storage" {
-  description = "Optional nested block 'ephemeral_storage' for type 'aws_ecs_task_definition'."
-  type        = any
-  default     = null
-}
-
-variable "block_inference_accelerator" {
-  description = "Optional nested block 'inference_accelerator' for type 'aws_ecs_task_definition'."
-  type        = any
-  default     = null
-}
-
-variable "block_placement_constraints" {
-  description = "Optional nested block 'placement_constraints' for type 'aws_ecs_task_definition'."
-  type        = any
-  default     = null
-}
-
-variable "block_proxy_configuration" {
-  description = "Optional nested block 'proxy_configuration' for type 'aws_ecs_task_definition'."
-  type        = any
-  default     = null
-}
-
-variable "block_runtime_platform" {
-  description = "Optional nested block 'runtime_platform' for type 'aws_ecs_task_definition'."
-  type        = any
-  default     = null
-}
-
-variable "block_volume" {
-  description = "Optional nested block 'volume' for type 'aws_ecs_task_definition'."
-  type        = any
-  default     = null
-}

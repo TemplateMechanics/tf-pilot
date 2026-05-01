@@ -9,15 +9,3 @@ variable "wait_for_load_balancer" {
   type        = any
   default     = null
 }
-
-variable "block_metadata" {
-  description = "Optional nested block 'metadata' for type 'kubernetes_ingress'."
-  type        = any
-  default     = null
-}
-
-variable "block_spec" {
-  description = "Optional nested block 'spec' for type 'kubernetes_ingress'."
-  type        = any
-  default     = null
-}

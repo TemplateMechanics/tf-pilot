@@ -19,9 +19,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpclattice_service_network_resource_association'."
-  type        = any
-  default     = null
-}

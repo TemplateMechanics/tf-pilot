@@ -54,9 +54,3 @@ variable "resource_discovery_mode" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_resource_group_policy_remediation'."
-  type        = any
-  default     = null
-}

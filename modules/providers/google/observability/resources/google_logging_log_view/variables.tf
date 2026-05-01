@@ -37,9 +37,3 @@ variable "parent" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_logging_log_view'."
-  type        = any
-  default     = null
-}

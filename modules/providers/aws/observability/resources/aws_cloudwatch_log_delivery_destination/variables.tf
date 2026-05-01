@@ -20,9 +20,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_delivery_destination_configuration" {
-  description = "Optional nested block 'delivery_destination_configuration' for type 'aws_cloudwatch_log_delivery_destination'."
-  type        = any
-  default     = null
-}

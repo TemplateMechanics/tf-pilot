@@ -56,9 +56,3 @@ variable "user_assigned_identity_id" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_account_customer_managed_key'."
-  type        = any
-  default     = null
-}

@@ -25,9 +25,3 @@ variable "container_app_environment_certificate_id" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_container_app_custom_domain'."
-  type        = any
-  default     = null
-}

@@ -9,9 +9,3 @@ variable "security_group_rule_id" {
   type        = any
   default     = null
 }
-
-variable "block_filter" {
-  description = "Optional nested block 'filter' for type 'aws_vpc_security_group_rule'."
-  type        = any
-  default     = null
-}

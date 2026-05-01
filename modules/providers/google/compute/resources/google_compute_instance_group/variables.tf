@@ -38,15 +38,3 @@ variable "zone" {
   type        = any
   default     = null
 }
-
-variable "block_named_port" {
-  description = "Optional nested block 'named_port' for type 'google_compute_instance_group'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_compute_instance_group'."
-  type        = any
-  default     = null
-}

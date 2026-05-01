@@ -14,9 +14,3 @@ variable "expected_bucket_owner" {
   type        = any
   default     = null
 }
-
-variable "block_cors_rule" {
-  description = "Optional nested block 'cors_rule' for type 'aws_s3_bucket_cors_configuration'."
-  type        = any
-  default     = null
-}

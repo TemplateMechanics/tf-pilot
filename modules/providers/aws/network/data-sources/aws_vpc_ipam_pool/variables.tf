@@ -21,15 +21,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_filter" {
-  description = "Optional nested block 'filter' for type 'aws_vpc_ipam_pool'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpc_ipam_pool'."
-  type        = any
-  default     = null
-}

@@ -30,9 +30,3 @@ variable "tags" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_sync'."
-  type        = any
-  default     = null
-}

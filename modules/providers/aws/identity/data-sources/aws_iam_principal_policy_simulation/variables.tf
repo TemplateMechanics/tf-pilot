@@ -55,9 +55,3 @@ variable "resource_policy_json" {
   type        = any
   default     = null
 }
-
-variable "block_context" {
-  description = "Optional nested block 'context' for type 'aws_iam_principal_policy_simulation'."
-  type        = any
-  default     = null
-}

@@ -89,9 +89,3 @@ variable "source_uri" {
   type        = any
   default     = null
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'azurerm_storage_blob'."
-  type        = any
-  default     = null
-}

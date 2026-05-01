@@ -49,27 +49,3 @@ variable "user_labels" {
   type        = any
   default     = null
 }
-
-variable "block_basic_sli" {
-  description = "Optional nested block 'basic_sli' for type 'google_monitoring_slo'."
-  type        = any
-  default     = null
-}
-
-variable "block_request_based_sli" {
-  description = "Optional nested block 'request_based_sli' for type 'google_monitoring_slo'."
-  type        = any
-  default     = null
-}
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'google_monitoring_slo'."
-  type        = any
-  default     = null
-}
-
-variable "block_windows_based_sli" {
-  description = "Optional nested block 'windows_based_sli' for type 'google_monitoring_slo'."
-  type        = any
-  default     = null
-}

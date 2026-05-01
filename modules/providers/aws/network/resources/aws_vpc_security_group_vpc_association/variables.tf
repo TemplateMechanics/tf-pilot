@@ -13,9 +13,3 @@ variable "vpc_id" {
   description = "Required attribute 'vpc_id' for type 'aws_vpc_security_group_vpc_association'."
   type        = any
 }
-
-variable "block_timeouts" {
-  description = "Optional nested block 'timeouts' for type 'aws_vpc_security_group_vpc_association'."
-  type        = any
-  default     = null
-}

@@ -26,9 +26,3 @@ variable "type" {
   type        = any
   default     = null
 }
-
-variable "block_location" {
-  description = "Optional nested block 'location' for type 'aws_s3_directory_bucket'."
-  type        = any
-  default     = null
-}
