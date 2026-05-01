@@ -128,7 +128,24 @@ if ($DestroyMode) { $planArgs += '-destroy' }
 Push-Location $resolvedPath
 try {
   Write-Host "`nTerraform Plan" -ForegroundColor Cyan
-  $planOutput = & $terraform.Source @planArgs 2>&1
+  $previousNativeErrPref = $null
+  $previousErrorActionPreference = $ErrorActionPreference
+  if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
+    $previousNativeErrPref = $PSNativeCommandUseErrorActionPreference
+    $PSNativeCommandUseErrorActionPreference = $false
+  }
+
+  try {
+    $ErrorActionPreference = 'Continue'
+    $planOutput = & $terraform.Source @planArgs 2>&1
+  }
+  finally {
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($null -ne $previousNativeErrPref) {
+      $PSNativeCommandUseErrorActionPreference = $previousNativeErrPref
+    }
+  }
+
   if ($planOutput) { $planOutput | ForEach-Object { Write-Host $_ } }
 
   $planExitCode = $LASTEXITCODE
@@ -145,7 +162,24 @@ try {
   }
 
   $jsonPath = "$outPath.json"
-  & $terraform.Source show -json $outPath | Out-File -FilePath $jsonPath -Encoding utf8
+  $previousShowNativeErrPref = $null
+  $previousShowErrorActionPreference = $ErrorActionPreference
+  if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
+    $previousShowNativeErrPref = $PSNativeCommandUseErrorActionPreference
+    $PSNativeCommandUseErrorActionPreference = $false
+  }
+
+  try {
+    $ErrorActionPreference = 'Continue'
+    & $terraform.Source show -json $outPath | Out-File -FilePath $jsonPath -Encoding utf8
+  }
+  finally {
+    $ErrorActionPreference = $previousShowErrorActionPreference
+    if ($null -ne $previousShowNativeErrPref) {
+      $PSNativeCommandUseErrorActionPreference = $previousShowNativeErrPref
+    }
+  }
+
   if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to write plan JSON to $jsonPath"
     exit $LASTEXITCODE
