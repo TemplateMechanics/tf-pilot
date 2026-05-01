@@ -1,11 +1,18 @@
 locals {
-  effective_tags = merge(var.tags, {
-    name        = var.name
-    environment = var.environment
-    module      = "kubernetes-namespace"
-    provider    = "kubernetes"
-  })
+  effective_labels = merge(
+    var.tags,
+    var.labels,
+    {
+      "app.kubernetes.io/managed-by" = "terraform"
+      "environment"                  = var.environment
+    }
+  )
+}
 
-  reflected_resource_prefixes    = ["kubernetes_namespace"]
-  reflected_data_source_prefixes = ["kubernetes_namespace"]
+resource "kubernetes_namespace" "this" {
+  metadata {
+    name        = var.name
+    labels      = local.effective_labels
+    annotations = var.annotations
+  }
 }

@@ -38,6 +38,14 @@ jobs:
         with:
           version: "v0.58.0"
 
+      - name: Setup conftest
+        shell: bash
+        run: |
+          CONFTEST_VERSION="0.57.0"
+          curl -sL "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz" \
+            | tar -xz -C /usr/local/bin conftest
+          conftest --version
+
       - name: Setup PowerShell
         shell: bash
         run: |
@@ -59,6 +67,24 @@ jobs:
           ./scripts/Validate-Terraform.ps1 -Path ./examples/hello-world
           ./scripts/Validate-Terraform.ps1 -Path ./examples/module-pattern
           ./scripts/Validate-Terraform.ps1 -Path ./examples/multi-env-stack
+
+      - name: OPA policy check (hello-world)
+        shell: bash
+        run: |
+          cd examples/hello-world
+          terraform plan -out=tfplan -input=false
+          terraform show -json tfplan > tfplan.json
+          conftest test tfplan.json --policy ../../policy/terraform/ --no-color
+          rm -f tfplan tfplan.json
+
+      - name: OPA policy check (multi-env-stack dev)
+        shell: bash
+        run: |
+          cd examples/multi-env-stack
+          terraform plan -out=tfplan -input=false -var-file=envs/dev.tfvars
+          terraform show -json tfplan > tfplan.json
+          conftest test tfplan.json --policy ../../policy/terraform/ --no-color
+          rm -f tfplan tfplan.json
 
       - name: Run Pester tests
         shell: pwsh
