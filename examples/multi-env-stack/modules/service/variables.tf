@@ -16,3 +16,8 @@ variable "config" {
     tier    = string
   })
 }
+
+variable "tags" {
+  description = "Common tags propagated from the root stack composition."
+  type        = map(string)
+}

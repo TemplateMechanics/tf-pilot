@@ -1,5 +1,6 @@
 locals {
   stack = yamldecode(file(var.stack_file))
+  metadata = try(tomap(local.stack.metadata), {})
 
   merged_tags = merge(
     var.tags,
@@ -10,7 +11,10 @@ locals {
     }
   )
 
-  services = tomap(local.stack.services)
+  services = {
+    for name, svc in tomap(local.stack.services) : name => svc
+    if try(svc.enabled, true)
+  }
 
   service_lines = [for _, svc in module.service : svc.summary]
 
@@ -18,8 +22,8 @@ locals {
     [
       "project=${var.project}",
       "environment=${var.environment}",
-      "owner=${lookup(local.stack.metadata, "owner", "unknown")}",
-      "cost_center=${lookup(local.stack.metadata, "cost_center", "unset")}",
+      "owner=${lookup(local.metadata, "owner", "unknown")}",
+      "cost_center=${lookup(local.metadata, "cost_center", "unset")}",
       "--- services ---"
     ],
     local.service_lines
@@ -37,6 +41,7 @@ module "service" {
   name        = each.key
   environment = var.environment
   config      = each.value
+  tags        = local.merged_tags
 }
 
 resource "local_file" "config" {

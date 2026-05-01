@@ -5,5 +5,6 @@ resource "null_resource" "this" {
     enabled      = tostring(var.config.enabled)
     port         = tostring(var.config.port)
     tier         = var.config.tier
+    tags_json    = jsonencode(var.tags)
   }
 }
