@@ -105,6 +105,10 @@ Describe 'Sync-ProviderGeneratedModules.ps1' {
     & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -SummaryDir $summaryDir -IncludeDisabledModules
     $LASTEXITCODE | Should -Be 0
 
+    $generationSummaryPath = Join-Path $summaryDir 'module-generation-summary.json'
+    $scaffoldSummaryPath   = Join-Path $summaryDir 'module-scaffold-summary.json'
+    ((Test-Path $generationSummaryPath) -or (Test-Path $scaffoldSummaryPath)) | Should -BeTrue
+
     $generatedMain = Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'release') 'main.tf'
     $generatedTest = Join-Path (Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'release') 'tests') 'basic.tftest.hcl'
     Test-Path $generatedMain | Should -BeTrue
@@ -250,9 +254,12 @@ Describe 'Sync-ProviderModuleScaffolds.ps1 (smoke test)' {
 }
 '@ | Set-Content -Path $settingsPath -Encoding utf8
 
-    # Smoke test: verify script accepts settings without throwing
-    & "$script:scriptsDir/Sync-ProviderModuleScaffolds.ps1" -SettingsFile $settingsPath -ModulesRoot (Join-Path $TestDrive 'modules') -ErrorAction SilentlyContinue
-    # Exit code may be non-zero due to missing workspace, but script should not throw an exception
+    # Smoke test: verify script accepts settings without throwing.
+    # A non-zero exit code is currently allowed for this scenario, so assert only
+    # that invocation does not terminate with an exception.
+    {
+      & "$script:scriptsDir/Sync-ProviderModuleScaffolds.ps1" -SettingsFile $settingsPath -ModulesRoot (Join-Path $TestDrive 'modules')
+    } | Should -Not -Throw
   }
 }
 
