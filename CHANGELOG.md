@@ -19,6 +19,12 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Replaced first-person AI marketing copy in README with neutral technical documentation.
 - Set non-Terraform MCP servers to disabled-by-default in `.vscode/mcp.json`.
 
+## [0.2.0-dev] - 2026-05-01
+
+### Changed
+- Adopted a `v0.2.0-dev` stream to represent post-`0.1.0` expansion work.
+- Updated `BUILD-SPEC.md` with an explicit scope addendum covering reflection, autonomous sync, generated provider modules, and expanded CI automation.
+
 ## [0.1.0] - 2026-04-30
 
 ### Added

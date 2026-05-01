@@ -8,6 +8,40 @@
 
 ---
 
+## Status and Version Stream
+
+- **Current stream:** `v0.2.0-dev` (active development)
+- **Historical baseline:** `v0.1.0` (original harness scope captured below)
+
+This document started as the original build contract for `v0.1.0`. The repository
+has since expanded materially with provider reflection, autonomous sync workflows,
+provider module generation, policy automation, and additional CI/reporting jobs.
+
+Treat sections below as the **baseline contract** and use this addendum as the
+authoritative summary for current scope tracking.
+
+### v0.2.0-dev Scope Addendum
+
+The active codebase now includes, in addition to baseline files:
+
+- Provider reflection and catalog-refresh automation scripts.
+- Autonomous infrastructure sync orchestration.
+- Generated provider module trees under `modules/providers/`.
+- Provider coverage/drift reports under `docs/providers/generated/`.
+- OPA policy checks and additional CI jobs for drift, contracts, cost, and SBOM.
+- MCP launch/install utilities and server enablement synchronization.
+
+### Maintenance Rule
+
+Any newly added subsystem must update both:
+
+1. `BUILD-SPEC.md` (either baseline updates or addendum entries), and
+2. `CHANGELOG.md` (`Unreleased` and release sections)
+
+to keep implementation and declared scope synchronized.
+
+---
+
 ## 1. Source Pattern Recap (pbi-pilot)
 
 `pbi-pilot` is an AI-powered conversational interface for Power BI development. Its harness pattern has six layers:
