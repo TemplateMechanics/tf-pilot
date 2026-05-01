@@ -1,0 +1,13 @@
+metadata:
+  owner: platform-team
+  cost_center: production
+
+services:
+  api:
+    enabled: true
+    port: 80
+    tier: frontend
+  worker:
+    enabled: true
+    port: 443
+    tier: backend

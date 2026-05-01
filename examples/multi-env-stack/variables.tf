@@ -13,12 +13,9 @@ variable "project" {
   type        = string
 }
 
-variable "services" {
-  description = "Map of services and their runtime options."
-  type = map(object({
-    enabled = bool
-    port    = number
-  }))
+variable "stack_file" {
+  description = "Path to environment YAML defining services and metadata."
+  type        = string
 }
 
 variable "tags" {

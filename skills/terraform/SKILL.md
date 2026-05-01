@@ -21,6 +21,8 @@ Use `scripts/*.ps1` for guarded execution workflows (validate, plan, apply, dest
 - Backend configuration and migrations
 - HCP Terraform / Terraform Cloud workspace setup
 
+For end-user platform design, prefer YAML-driven module composition as the primary authoring pattern.
+
 ## Project Structure
 
 A typical Terraform project looks like:
@@ -310,6 +312,8 @@ Why this is preferred for composability:
 - Keeps infrastructure intent in data, not repeated code
 - Scales cleanly across services/environments
 - Allows per-service variation without copy-paste drift
+
+For end-user-facing Terraform, treat this as the default pattern unless there is a clear reason to keep logic purely in HCL variables.
 
 ## Refactoring blocks
 

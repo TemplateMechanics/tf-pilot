@@ -66,6 +66,38 @@ param(
 $ErrorActionPreference = 'Stop'
 $global:LASTEXITCODE = 0
 
+function Test-HasTrueValue {
+  param([Parameter()]$InputObject)
+
+  if ($null -eq $InputObject) {
+    return $false
+  }
+
+  if ($InputObject -is [bool]) {
+    return $InputObject
+  }
+
+  if ($InputObject -is [System.Collections.IDictionary]) {
+    foreach ($entry in $InputObject.GetEnumerator()) {
+      if (Test-HasTrueValue -InputObject $entry.Value) {
+        return $true
+      }
+    }
+    return $false
+  }
+
+  if ($InputObject -is [System.Collections.IEnumerable] -and -not ($InputObject -is [string])) {
+    foreach ($item in $InputObject) {
+      if (Test-HasTrueValue -InputObject $item) {
+        return $true
+      }
+    }
+    return $false
+  }
+
+  return $false
+}
+
 $terraform = Get-Command 'terraform' -ErrorAction SilentlyContinue
 if (-not $terraform) {
   Write-Error "Required command 'terraform' is not available on PATH."
@@ -85,18 +117,18 @@ if (-not $Force) {
   }
 }
 
-$args = @('plan', '-out=' + $outPath, '-detailed-exitcode')
-if ($VarFile) { foreach ($vf in $VarFile) { $args += "-var-file=$vf" } }
-if ($Var) { foreach ($v in $Var) { $args += "-var=$v" } }
-if ($Target) { foreach ($t in $Target) { $args += "-target=$t" } }
-if ($Replace) { foreach ($r in $Replace) { $args += "-replace=$r" } }
-if ($RefreshOnly) { $args += '-refresh-only' }
-if ($DestroyMode) { $args += '-destroy' }
+$planArgs = @('plan', '-no-color', '-out', $outPath, '-detailed-exitcode')
+if ($VarFile) { foreach ($vf in $VarFile) { $planArgs += @('-var-file', $vf) } }
+if ($Var) { foreach ($v in $Var) { $planArgs += @('-var', $v) } }
+if ($Target) { foreach ($t in $Target) { $planArgs += @('-target', $t) } }
+if ($Replace) { foreach ($r in $Replace) { $planArgs += @('-replace', $r) } }
+if ($RefreshOnly) { $planArgs += '-refresh-only' }
+if ($DestroyMode) { $planArgs += '-destroy' }
 
 Push-Location $resolvedPath
 try {
   Write-Host "`nTerraform Plan" -ForegroundColor Cyan
-  $planOutput = & $terraform.Source @args 2>&1
+  $planOutput = & $terraform.Source @planArgs 2>&1
   if ($planOutput) { $planOutput | ForEach-Object { Write-Host $_ } }
 
   $planExitCode = $LASTEXITCODE
@@ -120,45 +152,45 @@ try {
   }
 
   $planJson = Get-Content -Path $jsonPath -Raw | ConvertFrom-Json
-  $create = 0
-  $update = 0
-  $delete = 0
-  $replace = 0
-  $sensitive = 0
+  $createCount = 0
+  $updateCount = 0
+  $deleteCount = 0
+  $replaceCount = 0
+  $sensitiveCount = 0
   $destroyItems = @()
 
   foreach ($rc in $planJson.resource_changes) {
     $actions = @($rc.change.actions)
     $joined = ($actions -join ',')
     switch ($joined) {
-      'create' { $create++ }
-      'update' { $update++ }
+      'create' { $createCount = $createCount + 1 }
+      'update' { $updateCount = $updateCount + 1 }
       'delete' {
-        $delete++
+        $deleteCount = $deleteCount + 1
         $destroyItems += $rc.address
       }
       'delete,create' {
-        $replace++
+        $replaceCount = $replaceCount + 1
         $destroyItems += $rc.address
       }
       'create,delete' {
-        $replace++
+        $replaceCount = $replaceCount + 1
         $destroyItems += $rc.address
       }
     }
 
-    if ($rc.change.after_sensitive) {
-      $sensitive++
+    if (Test-HasTrueValue -InputObject $rc.change.after_sensitive) {
+      $sensitiveCount = $sensitiveCount + 1
     }
   }
 
   Write-Host "`nPlan Summary" -ForegroundColor Cyan
   @(
-    [pscustomobject]@{ Metric = 'Create'; Count = $create }
-    [pscustomobject]@{ Metric = 'Update'; Count = $update }
-    [pscustomobject]@{ Metric = 'Delete'; Count = $delete }
-    [pscustomobject]@{ Metric = 'Replace'; Count = $replace }
-    [pscustomobject]@{ Metric = 'Sensitive Changes'; Count = $sensitive }
+    [pscustomobject]@{ Metric = 'Create'; Count = $createCount }
+    [pscustomobject]@{ Metric = 'Update'; Count = $updateCount }
+    [pscustomobject]@{ Metric = 'Delete'; Count = $deleteCount }
+    [pscustomobject]@{ Metric = 'Replace'; Count = $replaceCount }
+    [pscustomobject]@{ Metric = 'Sensitive Changes'; Count = $sensitiveCount }
   ) | Format-Table -AutoSize
 
   if ($destroyItems.Count -gt 0) {

@@ -1,4 +1,6 @@
 locals {
+  stack = yamldecode(file(var.stack_file))
+
   merged_tags = merge(
     var.tags,
     {
@@ -8,12 +10,18 @@ locals {
     }
   )
 
-  service_lines = [
-    for name, svc in var.services : "${name}: enabled=${svc.enabled}, port=${svc.port}"
-  ]
+  services = tomap(local.stack.services)
+
+  service_lines = [for _, svc in module.service : svc.summary]
 
   rendered_config = join("\n", concat(
-    ["project=${var.project}", "environment=${var.environment}"],
+    [
+      "project=${var.project}",
+      "environment=${var.environment}",
+      "owner=${lookup(local.stack.metadata, "owner", "unknown")}",
+      "cost_center=${lookup(local.stack.metadata, "cost_center", "unset")}",
+      "--- services ---"
+    ],
     local.service_lines
   ))
 }
@@ -22,15 +30,13 @@ resource "random_pet" "suffix" {
   length = 2
 }
 
-resource "null_resource" "service" {
-  for_each = var.services
+module "service" {
+  source   = "./modules/service"
+  for_each = local.services
 
-  triggers = {
-    service_name = each.key
-    enabled      = tostring(each.value.enabled)
-    port         = tostring(each.value.port)
-    environment  = var.environment
-  }
+  name        = each.key
+  environment = var.environment
+  config      = each.value
 }
 
 resource "local_file" "config" {
