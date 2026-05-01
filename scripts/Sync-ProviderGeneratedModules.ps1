@@ -19,6 +19,9 @@ Path to catalog settings JSON.
 .PARAMETER ModulesRoot
 Root directory where provider modules are stored.
 
+.PARAMETER SummaryDir
+Directory where to write generation summary JSON files. Defaults to docs/providers/generated.
+
 .PARAMETER IncludeDisabledModules
 When set, generate all modules from settings regardless of enabled flag.
 
@@ -32,6 +35,9 @@ param(
 
   [Parameter()]
   [string]$ModulesRoot = "modules/providers",
+
+  [Parameter()]
+  [string]$SummaryDir,
 
   [Parameter()]
   [switch]$IncludeDisabledModules,
@@ -4625,7 +4631,11 @@ function Get-ModuleTemplate {
 
 $settingsPath = Resolve-RepoPath -Path $SettingsFile
 $modulesRootPath = Resolve-RepoPath -Path $ModulesRoot
-$summaryDir = Resolve-RepoPath -Path 'docs/providers/generated'
+$summaryDir = if ($SummaryDir) {
+  Resolve-RepoPath -Path $SummaryDir
+} else {
+  Resolve-RepoPath -Path 'docs/providers/generated'
+}
 
 # In Check mode, generate into a temp dir so we can fmt-normalize before comparing against disk
 $tempCheckRoot = $null

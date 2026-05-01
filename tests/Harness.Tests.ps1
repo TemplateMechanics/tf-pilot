@@ -101,7 +101,8 @@ Describe 'Sync-ProviderGeneratedModules.ps1' {
 }
 '@ | Set-Content -Path $settingsPath -Encoding utf8
 
-    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -IncludeDisabledModules
+    $summaryDir = Join-Path $TestDrive 'summaries'
+    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -SummaryDir $summaryDir -IncludeDisabledModules
     $LASTEXITCODE | Should -Be 0
 
     $generatedMain = Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'release') 'main.tf'
@@ -135,13 +136,14 @@ Describe 'Sync-ProviderGeneratedModules.ps1' {
 }
 '@ | Set-Content -Path $settingsPath -Encoding utf8
 
-    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -IncludeDisabledModules
+    $summaryDir = Join-Path $TestDrive 'summaries'
+    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -SummaryDir $summaryDir -IncludeDisabledModules
     $LASTEXITCODE | Should -Be 0
 
     $driftFile = Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'repository') 'outputs.tf'
     Add-Content -Path $driftFile -Value '# drift'
 
-    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -IncludeDisabledModules -Check
+    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -SummaryDir $summaryDir -IncludeDisabledModules -Check
     $LASTEXITCODE | Should -Be 1
   }
 }
