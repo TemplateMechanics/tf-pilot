@@ -1,0 +1,11 @@
+project: tf-pilot
+environment: dev
+provider: aws
+region: us-east-1
+tags:
+  owner: platform
+  managed_by: terraform
+modules:
+  foundation:
+    enabled: true
+    enable_live_discovery: false
