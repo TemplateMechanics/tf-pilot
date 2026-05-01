@@ -3,6 +3,7 @@
 # Provider: aws
 # Module: identity
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 mock_provider "aws" {
   mock_data "aws_iam_policy_document" {
     defaults = {

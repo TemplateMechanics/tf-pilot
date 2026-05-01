@@ -3,6 +3,7 @@
 # Provider: aws
 # Module: identity
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   role_name = coalesce(var.role_name, "${var.name}-${var.environment}")
   effective_tags = merge(var.tags, {

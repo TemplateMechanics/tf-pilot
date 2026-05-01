@@ -3,6 +3,7 @@
 # Provider: gitlab
 # Module: repository
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Short name for this deployment."
   type        = string

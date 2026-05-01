@@ -3,6 +3,7 @@
 # Provider: google
 # Module: identity
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 mock_provider "google" {
   mock_resource "google_service_account" {
     defaults = {

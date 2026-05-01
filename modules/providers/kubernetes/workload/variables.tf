@@ -3,6 +3,7 @@
 # Provider: kubernetes
 # Module: workload
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Workload name prefix."
   type        = string

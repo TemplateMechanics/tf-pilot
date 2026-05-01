@@ -3,6 +3,7 @@
 # Provider: azuredevops
 # Module: repository
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 mock_provider "azuredevops" {}
 
 variables {

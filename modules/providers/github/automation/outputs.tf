@@ -3,6 +3,7 @@
 # Provider: github
 # Module: automation
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "github-automation"

@@ -3,6 +3,7 @@
 # Provider: azuredevops
 # Module: repository
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   resolved_repository_name = coalesce(var.repository_name, "${var.name}-${var.environment}")
   effective_tags = merge(var.tags, {

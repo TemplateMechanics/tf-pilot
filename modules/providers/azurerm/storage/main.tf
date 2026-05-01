@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: storage
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   base_name            = lower(replace("${var.name}${var.environment}", "-", ""))
   storage_account_name = substr(coalesce(var.storage_account_name, local.base_name), 0, 24)

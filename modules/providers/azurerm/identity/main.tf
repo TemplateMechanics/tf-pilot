@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: identity
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   identity_name = "${var.name}-${var.environment}-id"
   effective_tags = merge(var.tags, {

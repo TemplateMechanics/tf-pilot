@@ -3,6 +3,7 @@
 # Provider: helm
 # Module: repository
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 variables {
   name           = "bitnami"
   environment    = "test"

@@ -3,6 +3,7 @@
 # Provider: aws
 # Module: storage
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   bucket_name = coalesce(var.bucket_name, lower(replace("${var.name}-${var.environment}", "_", "-")))
   effective_tags = merge(var.tags, {

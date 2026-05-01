@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: storage
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 mock_provider "azurerm" {}
 
 variables {

@@ -3,6 +3,7 @@
 # Provider: helm
 # Module: repository
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Logical repository name."
   type        = string

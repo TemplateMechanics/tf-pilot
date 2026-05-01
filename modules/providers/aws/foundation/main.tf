@@ -3,6 +3,7 @@
 # Provider: aws
 # Module: foundation
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   effective_tags = merge(var.tags, {
     Name        = var.name

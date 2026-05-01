@@ -3,6 +3,7 @@
 # Provider: azuredevops
 # Module: pipeline
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "azuredevops-pipeline"

@@ -3,6 +3,7 @@
 # Provider: google
 # Module: compute
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   instance_name = "${var.name}-${var.environment}"
   effective_tags = merge(var.tags, {

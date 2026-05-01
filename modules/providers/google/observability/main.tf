@@ -3,6 +3,7 @@
 # Provider: google
 # Module: observability
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   metric_name = "${replace(var.name, "-", "_")}_${var.environment}_events"
   effective_tags = merge(var.tags, {

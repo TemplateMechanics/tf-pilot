@@ -3,6 +3,7 @@
 # Provider: github
 # Module: automation
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 mock_provider "github" {}
 
 variables {

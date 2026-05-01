@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: network
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Network name prefix."
   type        = string

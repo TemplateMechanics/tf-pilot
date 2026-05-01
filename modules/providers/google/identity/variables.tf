@@ -3,6 +3,7 @@
 # Provider: google
 # Module: identity
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Service account name prefix."
   type        = string

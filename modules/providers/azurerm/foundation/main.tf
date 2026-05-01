@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: foundation
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   resource_group_name = coalesce(var.resource_group_name, "${var.name}-${var.environment}-rg")
   effective_tags = merge(var.tags, {

@@ -3,6 +3,7 @@
 # Provider: google
 # Module: identity
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   account_id = substr(replace("${var.name}-${var.environment}", "_", "-"), 0, 30)
   effective_tags = merge(var.tags, {

@@ -3,6 +3,7 @@
 # Provider: kubernetes
 # Module: workload
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 mock_provider "kubernetes" {}
 
 variables {

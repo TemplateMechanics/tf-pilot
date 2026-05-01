@@ -187,6 +187,7 @@ function Get-GeneratedHeader {
 # Provider: $ProviderName
 # Module: $ModuleName
 # File: $FileName
+# SPDX-License-Identifier: MIT
 "@
 }
 

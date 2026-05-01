@@ -3,6 +3,7 @@
 # Provider: google
 # Module: network
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   network_name = coalesce(var.network_name, "${var.name}-${var.environment}-vpc")
   effective_tags = merge(var.tags, {

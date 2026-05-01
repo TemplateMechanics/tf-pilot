@@ -3,6 +3,7 @@
 # Provider: gitlab
 # Module: repository
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   resolved_project_name = coalesce(var.project_name, "${var.name}-${var.environment}")
   resolved_project_path = coalesce(var.project_path, lower(replace(local.resolved_project_name, "_", "-")))
