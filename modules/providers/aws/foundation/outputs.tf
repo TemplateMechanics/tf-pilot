@@ -44,5 +44,5 @@ output "partition" {
 
 output "region" {
   description = "Resolved AWS region from variable or live discovery."
-  value       = coalesce(var.region, try(data.aws_region.current[0].name, null))
+  value       = try(coalesce(var.region, data.aws_region.current[0].name), null)
 }
