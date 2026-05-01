@@ -1,0 +1,28 @@
+﻿{
+    "provider":  "aws",
+    "status":  "unchanged",
+    "resourceAddedCount":  0,
+    "resourceRemovedCount":  0,
+    "resourceChangedCount":  0,
+    "resourceAdded":  [
+
+                      ],
+    "resourceRemoved":  [
+
+                        ],
+    "resourceChanged":  [
+
+                        ],
+    "dataSourceAddedCount":  0,
+    "dataSourceRemovedCount":  0,
+    "dataSourceChangedCount":  0,
+    "dataSourceAdded":  [
+
+                        ],
+    "dataSourceRemoved":  [
+
+                          ],
+    "dataSourceChanged":  [
+
+                          ]
+}

@@ -68,3 +68,41 @@ jobs:
         with:
           name: test-results
           path: test-results.xml
+
+  provider-catalog-drift-report:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.0"
+
+      - name: Generate provider catalog drift report (non-blocking)
+        shell: pwsh
+        run: |
+          ./scripts/Invoke-ProviderCatalogRefresh.ps1 -Providers aws
+
+      - name: Add drift summary to workflow report
+        if: always()
+        shell: bash
+        run: |
+          if [ -f "docs/providers/generated/refresh-diff-summary.md" ]; then
+            cat docs/providers/generated/refresh-diff-summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Provider catalog drift summary was not generated." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload provider drift artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: provider-catalog-drift-report
+          path: |
+            docs/providers/generated/refresh-summary.json
+            docs/providers/generated/refresh-diff-summary.json
+            docs/providers/generated/refresh-diff-summary.md
+            docs/providers/generated/aws-catalog.json
+            docs/providers/generated/aws-summary.md

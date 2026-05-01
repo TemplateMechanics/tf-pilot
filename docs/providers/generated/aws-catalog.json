@@ -1,0 +1,104 @@
+﻿{
+    "generatedAt":  "2026-05-01T01:33:05.8175781Z",
+    "generatedFromPath":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\aws",
+    "provider":  "aws",
+    "providerSchemaKey":  "registry.terraform.io/hashicorp/aws",
+    "modules":  [
+                    "foundation"
+                ],
+    "resourcePrefixes":  [
+                             "__none__"
+                         ],
+    "dataSourcePrefixes":  [
+                               "aws_caller_identity",
+                               "aws_partition",
+                               "aws_region"
+                           ],
+    "resourceCount":  0,
+    "dataSourceCount":  4,
+    "resources":  [
+
+                  ],
+    "dataSources":  [
+                        {
+                            "type":  "aws_caller_identity",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "account_id",
+                                                                       "arn",
+                                                                       "user_id"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "aws_partition",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "dns_suffix",
+                                                                       "partition",
+                                                                       "reverse_dns_prefix"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "aws_region",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "endpoint",
+                                                                       "id",
+                                                                       "name"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "description"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "aws_regions",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "all_regions",
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "names"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "filter",
+                                                                     "nesting":  "set",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        }
+                    ]
+}

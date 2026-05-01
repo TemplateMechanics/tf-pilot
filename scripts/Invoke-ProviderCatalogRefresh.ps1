@@ -1,0 +1,530 @@
+<#
+.SYNOPSIS
+Refresh provider option catalogs using selective provider/module settings.
+
+.DESCRIPTION
+Reads schema-catalog settings, initializes only enabled provider workspaces,
+locks providers for the host platform by default, and exports filtered option
+catalogs for enabled module families.
+
+.PARAMETER Path
+Root directory containing provider schema-catalog workspaces.
+
+.PARAMETER SettingsFile
+Settings JSON file relative to Path (or absolute path).
+
+.PARAMETER OutputDir
+Output directory for generated catalogs, relative to repository root unless absolute.
+
+.PARAMETER Providers
+Optional list of provider names to refresh. If omitted, enabled providers from settings are used.
+
+.PARAMETER Upgrade
+Passes -Upgrade to workspace initialization.
+
+.PARAMETER AllPlatforms
+When set, uses Sync-ProviderLock.ps1 to lock all supported platforms.
+By default, only the host platform is locked.
+
+.PARAMETER LockProviders
+When set, executes provider lock synchronization during refresh.
+By default, locking is skipped to minimize transfer and data movement.
+
+.PARAMETER ForceInit
+When set, always runs workspace initialization.
+By default, initialization is skipped when provider cache and lock file already exist.
+
+.PARAMETER WriteUnchangedCatalogs
+When set, writes catalog files even when no semantic change is detected.
+#>
+[CmdletBinding()]
+param(
+  [Parameter()]
+  [string]$Path = "examples/providers/schema-catalog",
+
+  [Parameter()]
+  [string]$SettingsFile = "catalog.settings.json",
+
+  [Parameter()]
+  [string]$OutputDir = "docs/providers/generated",
+
+  [Parameter()]
+  [string[]]$Providers,
+
+  [Parameter()]
+  [switch]$Upgrade,
+
+  [Parameter()]
+  [switch]$AllPlatforms,
+
+  [Parameter()]
+  [switch]$LockProviders,
+
+  [Parameter()]
+  [switch]$ForceInit,
+
+  [Parameter()]
+  [switch]$WriteUnchangedCatalogs
+)
+
+$ErrorActionPreference = 'Stop'
+$global:LASTEXITCODE = 0
+
+function Get-RequiredCommand {
+  param([Parameter(Mandatory)][string]$Name)
+  $cmd = Get-Command $Name -ErrorAction SilentlyContinue
+  if (-not $cmd) {
+    Write-Error "Required command '$Name' is not available on PATH."
+    exit 1
+  }
+  return $cmd.Source
+}
+
+function Get-HostTerraformPlatform {
+  $osPlatformType = [System.Runtime.InteropServices.OSPlatform]
+  $runtimeInfoType = [System.Runtime.InteropServices.RuntimeInformation]
+
+  $os = if ($runtimeInfoType::IsOSPlatform($osPlatformType::Windows)) {
+    'windows'
+  }
+  elseif ($runtimeInfoType::IsOSPlatform($osPlatformType::OSX)) {
+    'darwin'
+  }
+  elseif ($runtimeInfoType::IsOSPlatform($osPlatformType::Linux)) {
+    'linux'
+  }
+  else {
+    throw "Unsupported host OS for terraform platform detection."
+  }
+
+  $arch = $null
+  $rawOsArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture
+  if ($rawOsArch) {
+    $arch = switch ($rawOsArch.ToString()) {
+      'X64' { 'amd64' }
+      'Arm64' { 'arm64' }
+      default { $null }
+    }
+  }
+
+  if (-not $arch) {
+    $rawProcessArch = [Environment]::GetEnvironmentVariable('PROCESSOR_ARCHITECTURE')
+    $arch = switch (($rawProcessArch | ForEach-Object { $_.ToUpperInvariant() })) {
+      'AMD64' { 'amd64' }
+      'X86' { 'amd64' }
+      'ARM64' { 'arm64' }
+      default { $null }
+    }
+  }
+
+  if (-not $arch) {
+    throw "Unsupported host architecture '$rawOsArch'."
+  }
+
+  return "${os}_${arch}"
+}
+
+function Get-EnabledModuleNames {
+  param(
+    [Parameter()]
+    $ModulesNode
+  )
+
+  if (-not $ModulesNode) {
+    return @()
+  }
+
+  $enabledModules = @()
+  foreach ($moduleProperty in $ModulesNode.PSObject.Properties) {
+    if ($moduleProperty.Value.enabled -eq $true) {
+      $enabledModules += $moduleProperty.Name
+    }
+  }
+
+  return @($enabledModules)
+}
+
+function Get-CombinedPrefixes {
+  param(
+    [Parameter()]
+    $ModulesNode,
+
+    [Parameter(Mandatory)]
+    [string[]]$EnabledModuleNames,
+
+    [Parameter(Mandatory)]
+    [string]$PropertyName
+  )
+
+  $values = @()
+  foreach ($moduleName in $EnabledModuleNames) {
+    $moduleConfig = $ModulesNode.$moduleName
+    if (-not $moduleConfig) {
+      continue
+    }
+
+    $prefixes = $moduleConfig.$PropertyName
+    if ($prefixes) {
+      $values += @($prefixes)
+    }
+  }
+
+  return @($values | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Sort-Object -Unique)
+}
+
+function Get-CatalogSemanticFingerprint {
+  param(
+    [Parameter()]
+    [psobject]$Catalog
+  )
+
+  if (-not $Catalog) {
+    return $null
+  }
+
+  $material = [ordered]@{
+    provider           = $Catalog.provider
+    providerSchemaKey  = $Catalog.providerSchemaKey
+    modules            = @($Catalog.modules)
+    resourcePrefixes   = @($Catalog.resourcePrefixes)
+    dataSourcePrefixes = @($Catalog.dataSourcePrefixes)
+    resourceCount      = $Catalog.resourceCount
+    dataSourceCount    = $Catalog.dataSourceCount
+    resources          = $Catalog.resources
+    dataSources        = $Catalog.dataSources
+  }
+
+  return ($material | ConvertTo-Json -Depth 64 -Compress)
+}
+
+function Compare-CatalogEntries {
+  param(
+    [Parameter()]
+    $OldEntries,
+
+    [Parameter()]
+    $NewEntries
+  )
+
+  $oldMap = @{}
+  foreach ($entry in @($OldEntries)) {
+    $oldMap[$entry.type] = ($entry.options | ConvertTo-Json -Depth 64 -Compress)
+  }
+
+  $newMap = @{}
+  foreach ($entry in @($NewEntries)) {
+    $newMap[$entry.type] = ($entry.options | ConvertTo-Json -Depth 64 -Compress)
+  }
+
+  $added = @()
+  $removed = @()
+  $changed = @()
+
+  foreach ($typeName in ($newMap.Keys | Sort-Object)) {
+    if (-not $oldMap.ContainsKey($typeName)) {
+      $added += $typeName
+      continue
+    }
+
+    if ($oldMap[$typeName] -ne $newMap[$typeName]) {
+      $changed += $typeName
+    }
+  }
+
+  foreach ($typeName in ($oldMap.Keys | Sort-Object)) {
+    if (-not $newMap.ContainsKey($typeName)) {
+      $removed += $typeName
+    }
+  }
+
+  return [ordered]@{
+    added   = $added
+    removed = $removed
+    changed = $changed
+  }
+}
+
+function Add-DiffSection {
+  param(
+    [Parameter(Mandatory)]
+    [System.Collections.Generic.List[string]]$Lines,
+
+    [Parameter(Mandatory)]
+    [string]$Title,
+
+    [Parameter()]
+    [string[]]$Items
+  )
+
+  $Lines.Add("- $Title") | Out-Null
+  if (-not $Items -or $Items.Count -eq 0) {
+    $Lines.Add("  - none") | Out-Null
+    return
+  }
+
+  foreach ($item in $Items) {
+    $Lines.Add("  - $item") | Out-Null
+  }
+}
+
+$terraform = Get-RequiredCommand -Name 'terraform'
+$scriptRoot = Split-Path -Parent $PSCommandPath
+$repoRoot = (Resolve-Path -Path (Join-Path $scriptRoot '..')).Path
+$catalogRoot = (Resolve-Path -Path (Join-Path $repoRoot $Path)).Path
+
+$settingsPath = if ([System.IO.Path]::IsPathRooted($SettingsFile)) {
+  $SettingsFile
+}
+else {
+  Join-Path $catalogRoot $SettingsFile
+}
+
+if (-not (Test-Path $settingsPath)) {
+  Write-Error "Settings file not found: $settingsPath"
+  exit 1
+}
+
+$settings = Get-Content -Path $settingsPath -Raw | ConvertFrom-Json
+if (-not $settings.providers) {
+  Write-Error "Settings file is missing 'providers' configuration."
+  exit 1
+}
+
+$targetProviders = if ($Providers -and $Providers.Count -gt 0) {
+  @($Providers)
+}
+else {
+  @(
+    $settings.providers.PSObject.Properties |
+      Where-Object { $_.Value.enabled -eq $true } |
+      ForEach-Object { $_.Name }
+  )
+}
+
+if (-not $targetProviders -or $targetProviders.Count -eq 0) {
+  Write-Warning "No providers selected for refresh."
+  exit 0
+}
+
+$initializeScript = Join-Path $scriptRoot 'Initialize-Workspace.ps1'
+$lockScript = Join-Path $scriptRoot 'Sync-ProviderLock.ps1'
+$exportScript = Join-Path $scriptRoot 'Export-ProviderOptionCatalog.ps1'
+$resolvedOutputDir = if ([System.IO.Path]::IsPathRooted($OutputDir)) {
+  [System.IO.Path]::GetFullPath($OutputDir)
+}
+else {
+  [System.IO.Path]::GetFullPath((Join-Path $repoRoot $OutputDir))
+}
+
+$hostPlatform = Get-HostTerraformPlatform
+$results = @()
+$diffResults = @()
+
+Write-Host "`nProvider Catalog Refresh" -ForegroundColor Cyan
+Write-Host "Catalog root: $catalogRoot"
+Write-Host "Output dir: $resolvedOutputDir"
+Write-Host "Lock mode: $(if (-not $LockProviders) { 'skip' } elseif ($AllPlatforms) { 'all-platforms' } else { "host-only ($hostPlatform)" })"
+
+foreach ($providerName in $targetProviders) {
+  $providerConfig = $settings.providers.$providerName
+  if (-not $providerConfig) {
+    Write-Warning "Provider '$providerName' is not configured in settings. Skipping."
+    continue
+  }
+
+  if ($providerConfig.enabled -ne $true) {
+    Write-Host "Skipping disabled provider '$providerName'."
+    continue
+  }
+
+  $workspaceName = if ($providerConfig.workspace) { $providerConfig.workspace } else { $providerName }
+  $workspacePath = Join-Path $catalogRoot $workspaceName
+  if (-not (Test-Path $workspacePath)) {
+    Write-Warning "Workspace path missing for provider '$providerName': $workspacePath"
+    continue
+  }
+
+  $enabledModuleNames = Get-EnabledModuleNames -ModulesNode $providerConfig.modules
+  if ($enabledModuleNames.Count -eq 0) {
+    Write-Host "Skipping provider '$providerName' because no modules are enabled."
+    continue
+  }
+
+  $resourcePrefixes = Get-CombinedPrefixes -ModulesNode $providerConfig.modules -EnabledModuleNames $enabledModuleNames -PropertyName 'resourceTypePrefixes'
+  $dataSourcePrefixes = Get-CombinedPrefixes -ModulesNode $providerConfig.modules -EnabledModuleNames $enabledModuleNames -PropertyName 'dataSourceTypePrefixes'
+
+  if ($resourcePrefixes.Count -eq 0 -and $providerConfig.reflectAllResources -ne $true) {
+    $resourcePrefixes = @('__none__')
+  }
+
+  if ($dataSourcePrefixes.Count -eq 0 -and $providerConfig.reflectAllDataSources -ne $true) {
+    $dataSourcePrefixes = @('__none__')
+  }
+
+  $lockFilePath = Join-Path $workspacePath '.terraform.lock.hcl'
+  $providerCachePath = Join-Path $workspacePath '.terraform/providers'
+  $shouldInit = $ForceInit -or $Upgrade -or -not (Test-Path $lockFilePath) -or -not (Test-Path $providerCachePath)
+
+  Write-Host "`nRefreshing provider '$providerName'" -ForegroundColor Cyan
+  if ($shouldInit) {
+    & $initializeScript -Path $workspacePath -Upgrade:$Upgrade
+    if ($LASTEXITCODE -ne 0) {
+      exit $LASTEXITCODE
+    }
+  }
+  else {
+    Write-Host "Skipping init for '$providerName' (lock and provider cache already present)."
+  }
+
+  if ($LockProviders) {
+    if ($AllPlatforms) {
+      & $lockScript -Path $workspacePath
+      if ($LASTEXITCODE -ne 0) {
+        exit $LASTEXITCODE
+      }
+    }
+    else {
+      Push-Location $workspacePath
+      try {
+        & $terraform providers lock "-platform=$hostPlatform"
+        if ($LASTEXITCODE -ne 0) {
+          Write-Error "terraform providers lock failed for provider '$providerName' with exit code $LASTEXITCODE"
+          exit $LASTEXITCODE
+        }
+      }
+      finally {
+        Pop-Location
+      }
+    }
+  }
+  else {
+    Write-Host "Skipping lock sync for '$providerName' (use -LockProviders to enable)."
+  }
+
+  $tempOutputDir = Join-Path ([System.IO.Path]::GetTempPath()) ("tf-pilot-catalog-" + [guid]::NewGuid().ToString('N'))
+  New-Item -ItemType Directory -Path $tempOutputDir -Force | Out-Null
+
+  & $exportScript `
+    -Path $workspacePath `
+    -OutputDir $tempOutputDir `
+    -Providers @($providerName) `
+    -ResourceTypePrefixes $resourcePrefixes `
+    -DataSourceTypePrefixes $dataSourcePrefixes `
+    -ModuleNames $enabledModuleNames
+  if ($LASTEXITCODE -ne 0) {
+    exit $LASTEXITCODE
+  }
+
+  $existingJsonPath = Join-Path $resolvedOutputDir "$providerName-catalog.json"
+  $existingSummaryPath = Join-Path $resolvedOutputDir "$providerName-summary.md"
+  $newJsonPath = Join-Path $tempOutputDir "$providerName-catalog.json"
+  $newSummaryPath = Join-Path $tempOutputDir "$providerName-summary.md"
+
+  $newCatalog = Get-Content -Path $newJsonPath -Raw | ConvertFrom-Json
+  $oldCatalog = $null
+  if (Test-Path $existingJsonPath) {
+    $oldCatalog = Get-Content -Path $existingJsonPath -Raw | ConvertFrom-Json
+  }
+
+  $status = 'new'
+  $resourceDiff = [ordered]@{ added = @(); removed = @(); changed = @() }
+  $dataSourceDiff = [ordered]@{ added = @(); removed = @(); changed = @() }
+
+  if ($oldCatalog) {
+    $resourceDiff = Compare-CatalogEntries -OldEntries $oldCatalog.resources -NewEntries $newCatalog.resources
+    $dataSourceDiff = Compare-CatalogEntries -OldEntries $oldCatalog.dataSources -NewEntries $newCatalog.dataSources
+
+    $oldFingerprint = Get-CatalogSemanticFingerprint -Catalog $oldCatalog
+    $newFingerprint = Get-CatalogSemanticFingerprint -Catalog $newCatalog
+    if ($oldFingerprint -eq $newFingerprint) {
+      $status = 'unchanged'
+    }
+    else {
+      $status = 'changed'
+    }
+  }
+
+  if ($status -ne 'unchanged' -or $WriteUnchangedCatalogs) {
+    if (-not (Test-Path $resolvedOutputDir)) {
+      New-Item -ItemType Directory -Path $resolvedOutputDir -Force | Out-Null
+    }
+    Copy-Item -Path $newJsonPath -Destination $existingJsonPath -Force
+    Copy-Item -Path $newSummaryPath -Destination $existingSummaryPath -Force
+  }
+
+  Remove-Item -Path $tempOutputDir -Recurse -Force
+
+  $diffResults += [ordered]@{
+    provider                = $providerName
+    status                  = $status
+    resourceAddedCount      = @($resourceDiff.added).Count
+    resourceRemovedCount    = @($resourceDiff.removed).Count
+    resourceChangedCount    = @($resourceDiff.changed).Count
+    resourceAdded           = @($resourceDiff.added)
+    resourceRemoved         = @($resourceDiff.removed)
+    resourceChanged         = @($resourceDiff.changed)
+    dataSourceAddedCount    = @($dataSourceDiff.added).Count
+    dataSourceRemovedCount  = @($dataSourceDiff.removed).Count
+    dataSourceChangedCount  = @($dataSourceDiff.changed).Count
+    dataSourceAdded         = @($dataSourceDiff.added)
+    dataSourceRemoved       = @($dataSourceDiff.removed)
+    dataSourceChanged       = @($dataSourceDiff.changed)
+  }
+
+  Write-Host "Provider '$providerName' catalog status: $status" -ForegroundColor Green
+
+  $results += [ordered]@{
+    provider           = $providerName
+    workspace          = $workspacePath
+    modules            = $enabledModuleNames
+    resourcePrefixes   = $resourcePrefixes
+    dataSourcePrefixes = $dataSourcePrefixes
+    lockMode           = if ($AllPlatforms) { 'all-platforms' } else { "host-only:$hostPlatform" }
+    writeMode          = if ($WriteUnchangedCatalogs) { 'always' } else { 'changed-only' }
+  }
+}
+
+if (-not (Test-Path $resolvedOutputDir)) {
+  New-Item -ItemType Directory -Path $resolvedOutputDir -Force | Out-Null
+}
+
+$summaryPath = Join-Path $resolvedOutputDir 'refresh-summary.json'
+@($results) | ConvertTo-Json -Depth 16 | Out-File -FilePath $summaryPath -Encoding utf8
+
+$diffSummaryPath = Join-Path $resolvedOutputDir 'refresh-diff-summary.json'
+@($diffResults) | ConvertTo-Json -Depth 16 | Out-File -FilePath $diffSummaryPath -Encoding utf8
+
+$diffMarkdownPath = Join-Path $resolvedOutputDir 'refresh-diff-summary.md'
+$lines = New-Object 'System.Collections.Generic.List[string]'
+$lines.Add('# Provider Catalog Diff Summary') | Out-Null
+$lines.Add('') | Out-Null
+$lines.Add("Generated: $((Get-Date).ToUniversalTime().ToString('o'))") | Out-Null
+$lines.Add('') | Out-Null
+$lines.Add('| Provider | Status | Resources (+/-/~) | Data Sources (+/-/~) |') | Out-Null
+$lines.Add('|---|---|---:|---:|') | Out-Null
+
+foreach ($item in @($diffResults)) {
+  $resourceDelta = "$($item.resourceAddedCount)/$($item.resourceRemovedCount)/$($item.resourceChangedCount)"
+  $dataSourceDelta = "$($item.dataSourceAddedCount)/$($item.dataSourceRemovedCount)/$($item.dataSourceChangedCount)"
+  $lines.Add("| $($item.provider) | $($item.status) | $resourceDelta | $dataSourceDelta |") | Out-Null
+}
+
+foreach ($item in @($diffResults | Where-Object { $_.status -ne 'unchanged' })) {
+  $lines.Add('') | Out-Null
+  $lines.Add("## $($item.provider) changes") | Out-Null
+  $lines.Add('') | Out-Null
+
+  Add-DiffSection -Lines $lines -Title 'Resource types added' -Items @($item.resourceAdded)
+  Add-DiffSection -Lines $lines -Title 'Resource types removed' -Items @($item.resourceRemoved)
+  Add-DiffSection -Lines $lines -Title 'Resource types changed' -Items @($item.resourceChanged)
+  Add-DiffSection -Lines $lines -Title 'Data source types added' -Items @($item.dataSourceAdded)
+  Add-DiffSection -Lines $lines -Title 'Data source types removed' -Items @($item.dataSourceRemoved)
+  Add-DiffSection -Lines $lines -Title 'Data source types changed' -Items @($item.dataSourceChanged)
+}
+
+$lines | Out-File -FilePath $diffMarkdownPath -Encoding utf8
+
+Write-Host "`nProvider catalog refresh complete." -ForegroundColor Green
+Write-Host "Summary written to $summaryPath"
+Write-Host "Diff summary written to $diffSummaryPath"
+Write-Host "Diff markdown written to $diffMarkdownPath"

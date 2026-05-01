@@ -1,0 +1,15 @@
+﻿{
+    "provider":  "aws",
+    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\aws",
+    "modules":  "foundation",
+    "resourcePrefixes":  [
+                             "__none__"
+                         ],
+    "dataSourcePrefixes":  [
+                               "aws_caller_identity",
+                               "aws_partition",
+                               "aws_region"
+                           ],
+    "lockMode":  "host-only:windows_amd64",
+    "writeMode":  "changed-only"
+}
