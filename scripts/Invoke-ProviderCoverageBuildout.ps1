@@ -18,7 +18,11 @@ param(
   [switch]$ProvidersAll,
 
   [Parameter()]
-  [string[]]$Providers
+  [string[]]$Providers,
+
+  [Parameter()]
+  [ValidateSet('core', 'extended', 'all-hashicorp')]
+  [string]$Profile = 'extended'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -32,6 +36,9 @@ $syncScaffoldScript = Join-Path $scriptRoot 'Sync-ProviderModuleScaffolds.ps1'
 $refreshParams = @{}
 if (-not $ProvidersAll -and $Providers -and $Providers.Count -gt 0) {
   $refreshParams['Providers'] = @($Providers)
+}
+elseif (-not $ProvidersAll) {
+  $refreshParams['Profile'] = $Profile
 }
 
 & $refreshScript @refreshParams
@@ -104,8 +111,10 @@ $lines.Add('## Reflection-Driven Upkeep') | Out-Null
 $lines.Add('') | Out-Null
 $lines.Add('Use these commands for near-zero upkeep:') | Out-Null
 $lines.Add('1. ./scripts/Invoke-ProviderCatalogRefresh.ps1') | Out-Null
+$lines.Add('   - Opt-in profiles: core | extended | all-hashicorp') | Out-Null
+$lines.Add('   - Example: ./scripts/Invoke-ProviderCatalogRefresh.ps1 -Profile core') | Out-Null
 $lines.Add('2. ./scripts/Sync-ProviderModuleScaffolds.ps1 -IncludeDisabledModules') | Out-Null
-$lines.Add('3. ./scripts/Invoke-ProviderCoverageBuildout.ps1 -IncludeDisabledModules') | Out-Null
+$lines.Add('3. ./scripts/Invoke-ProviderCoverageBuildout.ps1 -IncludeDisabledModules -Profile extended') | Out-Null
 $lines.Add('') | Out-Null
 $lines.Add('Generated artifacts:') | Out-Null
 $lines.Add('- docs/providers/generated/refresh-summary.json') | Out-Null

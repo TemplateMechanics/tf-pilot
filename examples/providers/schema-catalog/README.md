@@ -14,6 +14,19 @@ Refresh only a subset of providers:
 ./scripts/Invoke-ProviderCatalogRefresh.ps1 -Providers aws,azurerm
 ```
 
+Opt-in profile mode:
+
+```powershell
+./scripts/Invoke-ProviderCatalogRefresh.ps1 -Profile core
+./scripts/Invoke-ProviderCatalogRefresh.ps1 -Profile extended
+./scripts/Invoke-ProviderCatalogRefresh.ps1 -Profile all-hashicorp
+```
+
+Profile notes:
+- `core`: AWS, AzureRM, Google, Kubernetes, Helm
+- `extended`: enabled providers from `catalog.settings.json`
+- `all-hashicorp`: all configured providers in `catalog.settings.json` (ignores provider enabled flags)
+
 Diff-focused refresh:
 
 ```powershell

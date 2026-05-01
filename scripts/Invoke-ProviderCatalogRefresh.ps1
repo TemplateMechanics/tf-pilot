@@ -19,6 +19,12 @@ Output directory for generated catalogs, relative to repository root unless abso
 .PARAMETER Providers
 Optional list of provider names to refresh. If omitted, enabled providers from settings are used.
 
+.PARAMETER Profile
+Opt-in provider profile when -Providers is not supplied.
+- core: AWS, AzureRM, Google, Kubernetes, Helm
+- extended: enabled providers from settings (default)
+- all-hashicorp: all configured providers, ignoring provider enabled flags
+
 .PARAMETER Upgrade
 Passes -Upgrade to workspace initialization.
 
@@ -50,6 +56,10 @@ param(
 
   [Parameter()]
   [string[]]$Providers,
+
+  [Parameter()]
+  [ValidateSet('core', 'extended', 'all-hashicorp')]
+  [string]$Profile = 'extended',
 
   [Parameter()]
   [switch]$Upgrade,
@@ -290,15 +300,32 @@ if (-not $settings.providers) {
   exit 1
 }
 
+$configuredProviders = @($settings.providers.PSObject.Properties.Name)
+$coreProfileProviders = @('aws', 'azurerm', 'google', 'kubernetes', 'helm')
+$ignoreProviderEnabled = $Profile -eq 'all-hashicorp'
+
 $targetProviders = if ($Providers -and $Providers.Count -gt 0) {
   @($Providers)
 }
 else {
-  @(
-    $settings.providers.PSObject.Properties |
-      Where-Object { $_.Value.enabled -eq $true } |
-      ForEach-Object { $_.Name }
-  )
+  switch ($Profile) {
+    'core' {
+      @($coreProfileProviders | Where-Object { $_ -in $configuredProviders })
+      break
+    }
+    'all-hashicorp' {
+      @($configuredProviders)
+      break
+    }
+    default {
+      @(
+        $settings.providers.PSObject.Properties |
+          Where-Object { $_.Value.enabled -eq $true } |
+          ForEach-Object { $_.Name }
+      )
+      break
+    }
+  }
 }
 
 if (-not $targetProviders -or $targetProviders.Count -eq 0) {
@@ -323,6 +350,7 @@ $diffResults = @()
 Write-Host "`nProvider Catalog Refresh" -ForegroundColor Cyan
 Write-Host "Catalog root: $catalogRoot"
 Write-Host "Output dir: $resolvedOutputDir"
+Write-Host "Profile: $Profile"
 Write-Host "Lock mode: $(if (-not $LockProviders) { 'skip' } elseif ($AllPlatforms) { 'all-platforms' } else { "host-only ($hostPlatform)" })"
 
 foreach ($providerName in $targetProviders) {
@@ -332,7 +360,7 @@ foreach ($providerName in $targetProviders) {
     continue
   }
 
-  if ($providerConfig.enabled -ne $true) {
+  if (-not $ignoreProviderEnabled -and $providerConfig.enabled -ne $true) {
     Write-Host "Skipping disabled provider '$providerName'."
     continue
   }
