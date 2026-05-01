@@ -39,6 +39,8 @@ Use the official Terraform MCP server first when available (`hashicorp/terraform
 21. **MCP-first behavior:** for read/discovery workflows, use official Terraform MCP tools before ad-hoc shell commands.
 22. **YAML-first composition check:** before authoring many repeated resources, first consider a YAML-driven module composition pattern (`yamldecode(file(...))` + `module` `for_each`) for composable infrastructure.
 23. **State Q&A support:** when asked state questions, answer from state-aware sources (MCP state/workspace context or wrapped `terraform state` workflows) and call out lock/consistency caveats.
+24. **Never manually delete a Terraform-managed resource out-of-band.** Out-of-band deletions leave state orphaned and are the #1 cause of state corruption. Always delete through a normal HCL-remove → plan → apply sequence or a `removed {}` block.
+25. **State drift recovery — when resources were manually deleted and state is now stale:** (a) Always run `Backup-TerraformState.ps1` first. (b) For a single orphaned state reference use a `removed { lifecycle { destroy = false } }` block (Terraform 1.7+) or `terraform state rm <addr>`. (c) For widespread drift, run `Invoke-TerraformPlan.ps1 -ExtraArgs "-refresh-only"` then apply to sync all state in one pass. (d) For the reverse — resource exists in infra but not state — add an `import {}` block. See `skills/terraform/SKILL.md` **State drift recovery** section for the full decision tree.
 
 ## File Locations
 

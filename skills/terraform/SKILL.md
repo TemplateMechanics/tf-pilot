@@ -396,6 +396,87 @@ State lives in a backend. Local state is dev-only. Production uses a remote back
 
 **Locking:** S3 backend uses DynamoDB; AzureRM uses blob lease; GCS uses GCS object generation. Always enable locking. If a lock is stuck, `terraform force-unlock <id>` — verify nobody else is running first.
 
+### State drift prevention
+
+State drift occurs when real infrastructure diverges from what Terraform's state file describes. The most dangerous drift scenario is: **Terraform plans a delete → apply is skipped or interrupted → someone manually deletes the resource outside Terraform → state still references the now-gone resource → next plan/apply errors or tries to re-create something that should be gone.**
+
+**Prevention rules (enforce these on every project):**
+
+1. **Never manually delete a Terraform-managed resource** without first removing it from HCL config and running a plan → apply through the normal workflow. Out-of-band deletions are the #1 cause of state corruption.
+2. **If a plan shows a destroy you are not ready to execute, do NOT skip the apply and manually delete instead.** Either:
+   - Remove the resource from config and let Terraform do the deletion, OR
+   - Use a `removed {}` block (1.7+) to drop it from state gracefully without destroying it first.
+3. **Always run `Backup-TerraformState.ps1` before any destructive operation** (mass deletes, module moves, provider migrations). State backups are cheap; recovery without one is painful.
+4. **Run `Invoke-TerraformPlan.ps1` with `-RefreshOnly` before any planned maintenance window** that involves manual changes to infrastructure. This syncs state to current reality before the window begins.
+5. **Never interrupt a running apply** (`Ctrl+C` mid-apply). If interrupted, run `Invoke-TerraformPlan.ps1` immediately to see what landed and what did not before doing anything else.
+
+### State drift recovery
+
+Use this decision tree when state and reality are out of sync:
+
+#### Scenario A — Resource exists in state but was manually deleted from infrastructure
+
+Terraform will error on the next plan with `ResourceNotFoundException` / `404` / `object not found`. To recover:
+
+**Option 1 — Preferred: `removed {}` block (Terraform 1.7+)**
+```hcl
+removed {
+  from = aws_s3_bucket.my_bucket
+
+  lifecycle {
+    destroy = false   # do not try to destroy — it's already gone
+  }
+}
+```
+Commit the block → plan (expect "0 to add, 0 to change, 0 to destroy") → apply → remove the `removed {}` block in a follow-up commit.
+
+**Option 2 — Direct state removal**
+```powershell
+# 1. Backup first — always
+./scripts/Backup-TerraformState.ps1 -Path .
+
+# 2. Confirm the address
+terraform state list | Select-String "my_bucket"
+
+# 3. Remove the orphaned reference
+terraform state rm aws_s3_bucket.my_bucket
+```
+Then remove the resource block from HCL so it stays gone.
+
+**Option 3 — refresh-only plan/apply (syncs all drift in one pass)**
+```powershell
+./scripts/Invoke-TerraformPlan.ps1 -Path . -ExtraArgs "-refresh-only"
+# Review what will be removed from state, then:
+./scripts/Invoke-TerraformApply.ps1 -PlanFile tfplan
+```
+This updates state to match current reality across *all* resources, not just one. Use when multiple resources were deleted out-of-band.
+
+#### Scenario B — Resource exists in infrastructure but is not in state (orphaned)
+
+Terraform will try to create a duplicate on the next apply. To recover:
+
+```hcl
+# Add an import block (Terraform 1.5+) in the relevant .tf file
+import {
+  to = aws_s3_bucket.my_bucket
+  id = "my-actual-bucket-name"
+}
+```
+Run `Invoke-TerraformPlan.ps1` — expect "1 to import, 0 to add, 0 to change, 0 to destroy". Apply. Remove the `import {}` block after.
+
+#### Scenario C — Terraform planned a delete but apply was skipped, then the resource was manually deleted
+
+This is the exact failure mode: state says resource exists → infra says it does not. Use **Scenario A, Option 1** (`removed {}` block) for the cleanest audit trail, or **Option 3** (refresh-only) to sweep all orphaned state references in one pass.
+
+#### Scenario D — Apply was interrupted mid-run
+
+Some resources landed, some did not. Do NOT re-run apply blindly.
+
+1. Run `Backup-TerraformState.ps1` to snapshot current (partial) state.
+2. Run `Invoke-TerraformPlan.ps1` to identify what was created vs. what was not.
+3. Review the plan carefully — Terraform will try to finish the interrupted work.
+4. Apply only after confirming the plan is safe.
+
 ### State management Q&A workflow (agent behavior)
 
 When users ask state questions (for example: "what is managing this resource?", "why drift?", "what backend strategy should we use?"), answer from state-aware sources in this order:
@@ -544,7 +625,10 @@ variable "db_password" {
 | `Unsupported argument` | Hallucinated or deprecated provider arg | Check provider docs; check version pin; cross-ref schema |
 | Cycle in dependency graph | Two resources depend on each other | Break the cycle; one side uses a `data` source after `apply -target` (rarely needed); usually means a config bug |
 | `Error: NoCredentialProviders` (AWS) | Provider has no creds | Set `AWS_PROFILE`, `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`, or assume_role in provider |
-| Drift between plan and reality | Manual changes outside Terraform | `terraform refresh`-equivalent: re-plan; consider `terraform plan -refresh-only` to update state |
+| Drift between plan and reality | Manual changes outside Terraform | Run `Invoke-TerraformPlan.ps1 -ExtraArgs "-refresh-only"` to sync state; see **State drift recovery** section above |
+| `ResourceNotFoundException` / 404 on plan or apply | Resource deleted out-of-band; state still references it | Backup state → add `removed { lifecycle { destroy = false } }` block OR run `terraform state rm <addr>` → remove from HCL |
+| Plan shows unexpected resource creation | Resource exists in infra but not in state | Add `import {}` block pointing to the existing resource ID; plan should show "1 to import" |
+| Apply interrupted mid-run; partial state | Ctrl+C or network drop during apply | Backup state → run plan to see what landed → review carefully before re-applying |
 
 ## Reference shortcuts
 

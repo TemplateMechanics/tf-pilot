@@ -26,6 +26,8 @@ This workspace contains Terraform / OpenTofu configuration. You are working with
 15. **`depends_on` is a last resort.** Prefer implicit dependencies through attribute references.
 16. **YAML-module composition check:** before expanding repetitive resources, evaluate YAML-driven modules (`yamldecode(file(...))` + module `for_each`) for composable infrastructure.
 17. **State Q&A support:** answer state-management questions from state-aware sources (MCP context or wrapped `terraform state` workflows) and surface lock/drift caveats.
+18. **Never manually delete a Terraform-managed resource out-of-band.** Out-of-band deletions leave state orphaned and are the #1 cause of state corruption. Always delete through a normal HCL-remove → plan → apply sequence or a `removed {}` block.
+19. **State drift recovery — when resources were manually deleted and state is now stale:** (a) Always run `Backup-TerraformState.ps1` first. (b) For a single orphaned state reference use a `removed { lifecycle { destroy = false } }` block (Terraform 1.7+) or `terraform state rm <addr>`. (c) For widespread drift, run `Invoke-TerraformPlan.ps1 -ExtraArgs "-refresh-only"` then apply to sync all state in one pass. See `skills/terraform/SKILL.md` **State drift recovery** section for the full decision tree.
 
 ## File Locations
 
