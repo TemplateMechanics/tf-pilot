@@ -229,6 +229,33 @@ Describe 'Sync-McpServerEnablement.ps1' {
   }
 }
 
+Describe 'Sync-ProviderModuleScaffolds.ps1 (smoke test)' {
+  It 'accepts test settings without crashing' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    @'
+{
+  "providers": {
+    "random": {
+      "enabled": true,
+      "workspace": "random",
+      "modules": {
+        "core": {
+          "enabled": true,
+          "resourceTypePrefixes": ["random_"],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    # Smoke test: verify script accepts settings without throwing
+    & "$script:scriptsDir/Sync-ProviderModuleScaffolds.ps1" -SettingsFile $settingsPath -ModulesRoot (Join-Path $TestDrive 'modules') -ErrorAction SilentlyContinue
+    # Exit code may be non-zero due to missing workspace, but script should not throw an exception
+  }
+}
+
 Describe 'Script syntax' {
   $scripts = Get-ChildItem -Path $script:scriptsDir -Filter '*.ps1'
   foreach ($s in $scripts) {
