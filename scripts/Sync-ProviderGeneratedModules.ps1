@@ -3191,6 +3191,11 @@ variables {
   environment = "test"
   enabled     = true
   namespace   = "default"
+  rbac_rules = [{
+    api_groups = [""]
+    resources  = ["pods"]
+    verbs      = ["get", "list"]
+  }]
 }
 
 run "plan_service_account" {
