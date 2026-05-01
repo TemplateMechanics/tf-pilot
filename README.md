@@ -71,6 +71,8 @@ User request
 6. Sync provider-aware MCP server enablement with `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints` (also run automatically by `Invoke-ProviderCatalogRefresh.ps1`).
 7. Before pushing changes, run `./scripts/Pre-Commit.ps1` (or `./scripts/Pre-Commit.ps1 -RunTests -RunSecurity` for the full local gate).
 
+Tip: for local interactive runs, use `./scripts/Initialize-Workspace.ps1 -Path <dir> -Compact` to suppress repetitive Terraform success boilerplate while still surfacing meaningful init output and errors.
+
 ## The mandatory plan/apply discipline
 
 > **WARNING:** Just like pbi-pilot enforces a refresh after every PBI Desktop open, tf-pilot enforces a plan-before-apply, never-apply-without-saved-plan discipline. The AI will refuse to call `terraform apply` without first calling `Invoke-TerraformPlan.ps1`, presenting the plan output, and waiting for explicit user approval.
