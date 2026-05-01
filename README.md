@@ -95,7 +95,7 @@ Tip: for local interactive runs, use `./scripts/Initialize-Workspace.ps1 -Path <
 | You normally have to | tf-pilot does for you |
 |---|---|
 | Memorize provider argument schemas | MCP + provider schema tooling provide live provider/module context |
-| Remember every validation/lint/security command | `./scripts/Validate-Terraform.ps1` runs fmt + validate + tflint + trivy |
+| Remember every validation/lint/security/schema command | `./scripts/Validate-Terraform.ps1` runs fmt + validate + tflint + trivy + stack YAML schema checks |
 | Risk direct apply behavior | `Invoke-TerraformApply.ps1` requires a saved `-PlanFile` |
 | Hand-author repetitive provider module scaffolds | sync scripts generate consistent module contracts and tests |
 | Catch YAML composition errors late | `.vscode/schemas/stack.schema.json` + `Validate-StackYaml.ps1` catch issues early |
@@ -127,6 +127,7 @@ Tip: for local interactive runs, use `./scripts/Initialize-Workspace.ps1 -Path <
 | `docs/providers/` | Provider catalog and generated module documentation |
 | `.vscode/mcp.json` | Workspace MCP integration (Terraform + optional cloud/doc servers) |
 | `.vscode/schemas/stack.schema.json` | JSON Schema contract for YAML-driven stack files |
+| `.vscode/schemas/kind-smoke.stack.schema.json` | JSON Schema contract for Istio kind smoke stack files |
 | `docs/TERRAFORM-MCP-INTEGRATION.md` | MCP-first usage model and setup notes |
 | `docs/PROVIDER-MODULE-BUILDOUT.md` | Copilot-facing design for AWS, Azure, Google Cloud, Kubernetes, and Helm modules |
 | `docs/BRANCH-WORKFLOW.md` | Branch protection and required-check merge workflow guidance |
@@ -149,6 +150,53 @@ Use commit-and-gate workflow:
 1. Regenerate with the provided scripts.
 2. Commit generated output in the same change.
 3. Rely on CI sync checks to detect stale generated files.
+
+## Troubleshooting
+
+### Terraform Apply Interrupted by Provider Process Failures (Windows)
+
+**Symptom:** `terraform apply` or `terraform plan` is interrupted while long-running providers (Helm, Kubernetes) are executing. The message "Interrupt received" appears, but cluster resources are actually created. Next run requires `terraform import`.
+
+**Root Cause:** On Windows, interrupted Terraform operations sometimes leave provider processes running. These orphaned processes hold TCP port bindings, preventing new provider instances from starting. When new providers fail to initialize, they crash with RPC/EOF errors, which cascade into OS-level SIGINT signals that terminate Terraform.
+
+**Solution:** The harness automatically cleans up orphaned provider processes before each `plan` and `apply` operation. This is transparent and included in both `Invoke-TerraformPlan.ps1` and `Invoke-TerraformApply.ps1`.
+
+To manually clean up orphaned providers outside the harness:
+
+```powershell
+./scripts/Clear-OrphanedProviders.ps1 -Force
+```
+
+**Affected Providers:**
+- `terraform-provider-helm_v*`
+- `terraform-provider-kubernetes_v*`
+- `terraform-provider-azurerm_v*`
+- `terraform-provider-google_v*`
+- `terraform-provider-aws_v*`
+
+The cleanup is safe to run anytime; it only terminates processes that are not actively managed by a running Terraform operation.
+
+### Terraform Destroy Plan Fails with "Too many command line arguments"
+
+**Symptom:** `Invoke-TerraformDestroy.ps1` fails immediately with:
+
+`Error: Too many command line arguments`
+
+**Root Cause:** Terraform 1.14+ is strict about the `-out` argument form for `plan`; `-out=<file>` can fail in some wrappers.
+
+**Harness Fix:** `Invoke-TerraformDestroy.ps1` now uses the Terraform-compatible form `-out <file>`, plus the same provider cleanup and isolated Helm cache/config behavior as plan/apply wrappers.
+
+### YAML Scalar Coercion (ON/OFF/YES/NO) Causes Unexpected Drift
+
+**Symptom:** plan shows a value change like `"OFF" -> false` even though YAML looked correct.
+
+**Root Cause:** YAML scalar coercion can convert unquoted tokens (`ON`, `OFF`, `YES`, `NO`) into booleans.
+
+**Harness Fixes:**
+- Stack schema validation is now part of `Validate-Terraform.ps1`.
+- `scratch/kind-smoke/istio.stack.yaml` is validated against a dedicated schema that enforces `meshConfig.ingressControllerMode` as a string enum.
+
+**Rule of thumb:** quote YAML values that must remain strings, e.g. `ingressControllerMode: "OFF"`.
 
 ## License
 

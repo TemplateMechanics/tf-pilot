@@ -66,7 +66,7 @@ foreach ($relativePath in $examples) {
 }
 
 Write-Host "`nValidating stack YAML schemas" -ForegroundColor Cyan
-& $validateYamlScript -Path (Join-Path $repoRoot 'examples')
+& $validateYamlScript -Path $repoRoot
 if ($LASTEXITCODE -ne 0) {
   Write-Error 'Validate-StackYaml failed.'
   exit $LASTEXITCODE

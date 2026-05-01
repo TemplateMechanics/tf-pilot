@@ -14,6 +14,9 @@ Skips trivy config security scanning.
 
 .PARAMETER Detailed
 Prints additional detail from tool output.
+
+.PARAMETER SkipStackYaml
+Skips stack YAML schema validation.
 #>
 [CmdletBinding()]
 param(
@@ -22,6 +25,12 @@ param(
 
   [Parameter()]
   [switch]$SkipSecurity,
+
+  [Parameter()]
+  [switch]$SkipLint,
+
+  [Parameter()]
+  [switch]$SkipStackYaml,
 
   [Parameter()]
   [switch]$Detailed
@@ -41,10 +50,20 @@ function Test-RequiredCommand {
 }
 
 $terraform = Test-RequiredCommand -Name 'terraform'
-$tflint = Test-RequiredCommand -Name 'tflint'
+$tflint = $null
+if (-not $SkipLint) {
+  $tflint = Get-Command 'tflint' -ErrorAction SilentlyContinue
+  if (-not $tflint) {
+    Write-Host "Warning: 'tflint' not found on PATH. Skipping lint checks." -ForegroundColor Yellow
+  }
+}
+
 $trivy = $null
 if (-not $SkipSecurity) {
-  $trivy = Test-RequiredCommand -Name 'trivy'
+  $trivy = Get-Command 'trivy' -ErrorAction SilentlyContinue
+  if (-not $trivy) {
+    Write-Host "Warning: 'trivy' not found on PATH. Skipping security checks." -ForegroundColor Yellow
+  }
 }
 
 $resolvedPath = (Resolve-Path -Path $Path).Path
@@ -59,6 +78,7 @@ $results = [ordered]@{
   validate = $true
   tflint   = $true
   trivy    = $true
+  stackYaml = $true
 }
 
 Push-Location $resolvedPath
@@ -123,18 +143,20 @@ try {
     $results.validate = $false
   }
 
-  Write-Host "`nTFLint" -ForegroundColor Cyan
-  $lintOutput = & $tflint --recursive --format compact 2>&1
-  if ($lintOutput) { $lintOutput | ForEach-Object { Write-Host $_ } }
-  # Exit code 1 = rule errors; exit code 2 = warnings only (treated as pass)
-  if ($LASTEXITCODE -eq 1) {
-    $results.tflint = $false
+  if ($tflint) {
+    Write-Host "`nTFLint" -ForegroundColor Cyan
+    $lintOutput = & $tflint.Source --recursive --format compact 2>&1
+    if ($lintOutput) { $lintOutput | ForEach-Object { Write-Host $_ } }
+    # Exit code 1 = rule errors; exit code 2 = warnings only (treated as pass)
+    if ($LASTEXITCODE -eq 1) {
+      $results.tflint = $false
+    }
+  }
+  else {
+    $results.tflint = $null
   }
 
-  if (-not $SkipSecurity) {
-    Write-Host "`nTrivy Config" -ForegroundColor Cyan
-    # Redirect stderr to stdout and avoid treating native stderr as terminating error
-    $previousNativeErrPref = $null
+  if ($trivy) {
     $previousErrorActionPreference = $ErrorActionPreference
     if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
       $previousNativeErrPref = $PSNativeCommandUseErrorActionPreference
@@ -156,19 +178,63 @@ try {
       }
     }
   }
+  else {
+    $results.trivy = $null
+  }
+
+  $validateStackYamlScript = Join-Path $PSScriptRoot 'Validate-StackYaml.ps1'
+  if ($SkipStackYaml) {
+    $results.stackYaml = $null
+  }
+  elseif (-not (Test-Path $validateStackYamlScript)) {
+    Write-Warning "Stack YAML validation script not found: $validateStackYamlScript"
+    $results.stackYaml = $null
+  }
+  else {
+    Write-Host "`nStack YAML Schema Validation" -ForegroundColor Cyan
+    & $validateStackYamlScript -Path $resolvedPath
+    if ($LASTEXITCODE -ne 0) {
+      $results.stackYaml = $false
+    }
+  }
 
   Write-Host "`nValidation Summary" -ForegroundColor Cyan
   $summary = @(
     [pscustomobject]@{ Check = 'terraform fmt -check -recursive -diff'; Passed = $results.fmt }
     [pscustomobject]@{ Check = 'terraform validate -json'; Passed = $results.validate }
-    [pscustomobject]@{ Check = 'tflint --recursive --format compact'; Passed = $results.tflint }
-    [pscustomobject]@{ Check = 'trivy config --severity MEDIUM,HIGH,CRITICAL'; Passed = if ($SkipSecurity) { 'Skipped' } else { $results.trivy } }
   )
+  
+  if ($tflint) {
+    $summary += [pscustomobject]@{ Check = 'tflint --recursive --format compact'; Passed = $results.tflint }
+  }
+  else {
+    $summary += [pscustomobject]@{ Check = 'tflint --recursive --format compact'; Passed = 'Skipped (not installed)' }
+  }
+
+  if ($trivy) {
+    $summary += [pscustomobject]@{ Check = 'trivy config --severity MEDIUM,HIGH,CRITICAL'; Passed = $results.trivy }
+  }
+  else {
+    $summary += [pscustomobject]@{ Check = 'trivy config --severity MEDIUM,HIGH,CRITICAL'; Passed = 'Skipped' }
+  }
+
+  if ($SkipStackYaml) {
+    $summary += [pscustomobject]@{ Check = 'Validate-StackYaml.ps1'; Passed = 'Skipped' }
+  }
+  elseif ($null -eq $results.stackYaml) {
+    $summary += [pscustomobject]@{ Check = 'Validate-StackYaml.ps1'; Passed = 'Skipped' }
+  }
+  else {
+    $summary += [pscustomobject]@{ Check = 'Validate-StackYaml.ps1'; Passed = $results.stackYaml }
+  }
+
   $summary | Format-Table -AutoSize
 
   $failed = @()
   foreach ($k in $results.Keys) {
-    if (-not $results[$k]) { $failed += $k }
+    if ($results[$k] -eq $false) { 
+      $failed += $k 
+    }
   }
 
   if ($failed.Count -gt 0) {

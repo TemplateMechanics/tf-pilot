@@ -31,6 +31,9 @@
     ],
     "./.vscode/schemas/provider-stack.schema.json": [
       "examples/providers/*/envs/*.stack.yaml"
+    ],
+    "./.vscode/schemas/kind-smoke.stack.schema.json": [
+      "scratch/kind-smoke/*.stack.yaml"
     ]
   },
   "search.exclude": {
@@ -41,5 +44,8 @@
   },
   "files.watcherExclude": {
     "**/.terraform/**": true
+  },
+  "chat.tools.terminal.autoApprove": {
+    "terraform": true
   }
 }

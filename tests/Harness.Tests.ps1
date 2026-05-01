@@ -8,6 +8,24 @@ BeforeAll {
   $script:hasTflint = $null -ne (Get-Command tflint -ErrorAction SilentlyContinue)
   $script:hasTrivy = $null -ne (Get-Command trivy -ErrorAction SilentlyContinue)
   $script:hasValidateToolchain = $script:hasTerraform -and $script:hasTflint -and $script:hasTrivy
+  $script:hasConvertFromYaml = $null -ne (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)
+  $script:testJson = Get-Command Test-Json -ErrorAction SilentlyContinue
+  $script:hasTestJsonSchema = $null -ne $script:testJson -and $script:testJson.Parameters.ContainsKey('SchemaFile')
+  $script:hasValidateStackYamlToolchain = $script:hasConvertFromYaml -and $script:hasTestJsonSchema
+}
+
+Describe 'Validate-StackYaml.ps1' {
+  It 'validates known stack YAML files including kind-smoke' -Skip:(-not $script:hasValidateStackYamlToolchain) {
+    & "$script:scriptsDir/Validate-StackYaml.ps1" -Path $script:repoRoot
+    $LASTEXITCODE | Should -Be 0
+  }
+
+  It 'fails when a stack YAML file has no schema mapping' -Skip:(-not $script:hasValidateStackYamlToolchain) {
+    $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'stack-unmapped')
+    Set-Content (Join-Path $tmp 'bad.stack.yaml') "environment: test"
+    & "$script:scriptsDir/Validate-StackYaml.ps1" -Path $tmp.FullName
+    $LASTEXITCODE | Should -Be 1
+  }
 }
 
 Describe 'Validate-Terraform.ps1' {
@@ -66,11 +84,23 @@ Describe 'Invoke-TerraformApply.ps1' {
   It 'refuses to apply when plan file is missing' {
     { & "$script:scriptsDir/Invoke-TerraformApply.ps1" -PlanFile 'does-not-exist.tfplan' } | Should -Throw
   }
+
+  It 'does not use PowerShell automatic $args variable for apply args' {
+    $content = Get-Content -Path (Join-Path $script:scriptsDir 'Invoke-TerraformApply.ps1') -Raw
+    $content | Should -Not -Match '\$args\s*='
+    $content | Should -Match '\$applyArgs\s*=\s*@\('
+  }
 }
 
 Describe 'Invoke-TerraformDestroy.ps1' {
   It 'refuses without -Confirm' {
     { & "$script:scriptsDir/Invoke-TerraformDestroy.ps1" -Path . -Confirm:$false } | Should -Throw
+  }
+
+  It 'uses terraform-compatible plan out argument form' {
+    $content = Get-Content -Path (Join-Path $script:scriptsDir 'Invoke-TerraformDestroy.ps1') -Raw
+    $content | Should -Match "'-out',\s*\`$destroyPlan"
+    $content | Should -Not -Match '-out='
   }
 }
 
@@ -259,7 +289,7 @@ Describe 'Sync-ProviderModuleScaffolds.ps1 (smoke test)' {
     # A non-zero exit code is currently allowed for this scenario, so assert only
     # that invocation does not terminate with an exception.
     # Snapshot the tracked scaffold summary so the repo is clean after the test.
-    $trackedSummary = Join-Path $PSScriptRoot '..' 'docs' 'providers' 'generated' 'module-scaffold-summary.json'
+    $trackedSummary = Join-Path (Join-Path (Join-Path (Join-Path (Join-Path $PSScriptRoot '..') 'docs') 'providers') 'generated') 'module-scaffold-summary.json'
     $trackedSummary = [System.IO.Path]::GetFullPath($trackedSummary)
     $summaryBackup  = if (Test-Path $trackedSummary) { Get-Content -Path $trackedSummary -Raw } else { $null }
     try {

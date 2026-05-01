@@ -107,6 +107,23 @@ if (-not $terraform) {
 $resolvedPath = (Resolve-Path -Path $Path).Path
 $outPath = if ([System.IO.Path]::IsPathRooted($Out)) { $Out } else { Join-Path $resolvedPath $Out }
 
+# Use an isolated Helm cache/config inside the working directory to avoid
+# failures caused by stale or corrupted global Helm repo state on Windows.
+$helmStatePath = Join-Path $resolvedPath '.helm'
+$helmRepositoryCachePath = Join-Path $helmStatePath 'repository-cache'
+$helmRepositoryConfigPath = Join-Path $helmStatePath 'repositories.yaml'
+if (-not (Test-Path $helmRepositoryCachePath)) {
+  New-Item -Path $helmRepositoryCachePath -ItemType Directory -Force | Out-Null
+}
+if (-not (Test-Path $helmRepositoryConfigPath)) {
+  Set-Content -Path $helmRepositoryConfigPath -Value "apiVersion: v1`nrepositories: []`n" -NoNewline
+}
+
+$previousHelmRepositoryCache = $env:HELM_REPOSITORY_CACHE
+$previousHelmRepositoryConfig = $env:HELM_REPOSITORY_CONFIG
+$env:HELM_REPOSITORY_CACHE = $helmRepositoryCachePath
+$env:HELM_REPOSITORY_CONFIG = $helmRepositoryConfigPath
+
 if (-not $Force) {
   $validator = Join-Path $PSScriptRoot 'Validate-Terraform.ps1'
   Write-Host "`nValidation Gate" -ForegroundColor Cyan
@@ -125,9 +142,18 @@ if ($Replace) { foreach ($r in $Replace) { $planArgs += @('-replace', $r) } }
 if ($RefreshOnly) { $planArgs += '-refresh-only' }
 if ($DestroyMode) { $planArgs += '-destroy' }
 
+Write-Host "`nTerraform Plan" -ForegroundColor Cyan
+
+# Clean up any orphaned provider processes from previous interrupted operations.
+# These hold port bindings and cause RPC/EOF errors for new provider instances.
+$cleanupScript = Join-Path $PSScriptRoot 'Clear-OrphanedProviders.ps1'
+if (Test-Path $cleanupScript) {
+  Write-Host "Clearing orphaned provider processes..." -ForegroundColor Gray
+  & $cleanupScript -Force -ErrorAction Continue | ForEach-Object { Write-Host "  $_" }
+}
+
 Push-Location $resolvedPath
 try {
-  Write-Host "`nTerraform Plan" -ForegroundColor Cyan
   $previousNativeErrPref = $null
   $previousErrorActionPreference = $ErrorActionPreference
   if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
@@ -236,5 +262,19 @@ try {
   exit 0
 }
 finally {
+  if ($null -eq $previousHelmRepositoryCache) {
+    Remove-Item Env:HELM_REPOSITORY_CACHE -ErrorAction SilentlyContinue
+  }
+  else {
+    $env:HELM_REPOSITORY_CACHE = $previousHelmRepositoryCache
+  }
+
+  if ($null -eq $previousHelmRepositoryConfig) {
+    Remove-Item Env:HELM_REPOSITORY_CONFIG -ErrorAction SilentlyContinue
+  }
+  else {
+    $env:HELM_REPOSITORY_CONFIG = $previousHelmRepositoryConfig
+  }
+
   Pop-Location
 }
