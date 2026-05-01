@@ -28,6 +28,9 @@
   "yaml.schemas": {
     "./.vscode/schemas/stack.schema.json": [
       "examples/multi-env-stack/envs/*.stack.yaml"
+    ],
+    "./.vscode/schemas/provider-stack.schema.json": [
+      "examples/providers/*/envs/*.stack.yaml"
     ]
   },
   "search.exclude": {

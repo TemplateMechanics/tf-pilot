@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://template-mechanics.local/schemas/provider-stack.schema.json",
+  "title": "Provider Stack Contract",
+  "description": "High-level YAML contract for provider stack examples.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project",
+    "environment",
+    "provider",
+    "region",
+    "tags",
+    "modules"
+  ],
+  "properties": {
+    "project": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider": {
+      "type": "string",
+      "enum": [
+        "aws",
+        "azurerm",
+        "google",
+        "kubernetes",
+        "helm"
+      ]
+    },
+    "region": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "modules": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/moduleConfig"
+      }
+    }
+  },
+  "$defs": {
+    "moduleConfig": {
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}
