@@ -433,6 +433,9 @@ removed {
 Commit both changes → plan (expect "0 to add, 0 to change, 0 to destroy") → apply → remove the `removed {}` block in a follow-up commit.
 
 **Option 2 — Direct state removal**
+
+Use this only when `removed {}` is not practical (for example, urgent one-off cleanup). This is an explicit exception to scripts-only writes.
+
 ```powershell
 # 1. Backup first — always
 ./scripts/Backup-TerraformState.ps1 -Path .

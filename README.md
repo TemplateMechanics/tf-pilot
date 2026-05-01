@@ -78,8 +78,8 @@ User request
 ## Requirements
 
 - Terraform minimums:
-	- `>= 1.7.0` for `removed {}` workflows used by this harness
-	- `>= 1.10.0` recommended for full stack-oriented examples and the current CI baseline
+	- `>= 1.10.0` to use this repository as-is, including checked-in modules/examples and the current CI baseline
+	- `>= 1.7.0` only for `removed {}` workflows when you copy just the harness patterns into a separate project
 - PowerShell `7.0+` (cross-platform; `pwsh`)
 - [tflint](https://github.com/terraform-linters/tflint) `>= 0.50`
 - [trivy](https://github.com/aquasecurity/trivy) `>= 0.50` (replaces deprecated `tfsec`)
