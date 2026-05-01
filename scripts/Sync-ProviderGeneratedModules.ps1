@@ -3608,22 +3608,8 @@ resource "helm_release" "this" {
   wait             = var.wait
   timeout          = var.timeout
   atomic           = var.atomic
-
-  dynamic "set" {
-    for_each = var.set
-    content {
-      name  = set.key
-      value = set.value
-    }
-  }
-
-  dynamic "set_sensitive" {
-    for_each = var.set_sensitive
-    content {
-      name  = set_sensitive.key
-      value = set_sensitive.value
-    }
-  }
+  set              = [for k, v in var.set : { name = k, value = v }]
+  set_sensitive    = [for k, v in nonsensitive(var.set_sensitive) : { name = k, value = v }]
 }
 "@
         outputs = @"

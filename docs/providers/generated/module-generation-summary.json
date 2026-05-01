@@ -292,7 +292,7 @@
         "files":  {
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
+                      "main.tf":  "updated",
                       "outputs.tf":  "unchanged",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
@@ -305,7 +305,7 @@
         "files":  {
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
-                      "main.tf":  "unchanged",
+                      "main.tf":  "updated",
                       "outputs.tf":  "unchanged",
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
