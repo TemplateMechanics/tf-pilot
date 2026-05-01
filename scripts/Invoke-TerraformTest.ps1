@@ -11,7 +11,7 @@ Terraform working directory.
 .PARAMETER Filter
 Optional test filter pattern.
 
-.PARAMETER Verbose
+.PARAMETER TerraformVerbose
 Enable verbose test output.
 #>
 [CmdletBinding()]
@@ -23,7 +23,7 @@ param(
   [string]$Filter,
 
   [Parameter()]
-  [switch]$Verbose
+  [switch]$TerraformVerbose
 )
 
 $ErrorActionPreference = 'Stop'
@@ -38,7 +38,7 @@ if (-not $terraform) {
 $resolvedPath = (Resolve-Path -Path $Path).Path
 $args = @('test')
 if ($Filter) { $args += @('-filter', $Filter) }
-if ($Verbose) { $args += '-verbose' }
+if ($TerraformVerbose) { $args += '-verbose' }
 
 Push-Location $resolvedPath
 try {
