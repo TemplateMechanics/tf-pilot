@@ -46,6 +46,18 @@ Commit generated catalogs when provider versions change in `examples/providers/s
 
 This avoids hand-maintaining long argument lists and creates a repeatable reflection baseline for AWS, Azure, Google, Kubernetes, and Helm.
 
+## Generated Artifacts Policy
+
+This repository uses a **commit-and-gate** policy for generated provider modules and provider catalog artifacts.
+
+1. Generated module files under `modules/providers/` are committed to git.
+2. Generated catalog/report files under `docs/providers/generated/` are committed when reflection output changes.
+3. CI enforces synchronization via `Sync-ProviderGeneratedModules.ps1 -Check` in `.github/workflows/validate.yml`.
+4. Any intentional generation update must include the regenerated output in the same PR.
+5. Manual edits to generated files are not supported and may be overwritten by sync scripts.
+
+This policy keeps review diffs explicit, guarantees reproducible module output across environments, and avoids release-time regeneration drift.
+
 ## Design Principles
 
 1. Keep `tf-pilot` provider-neutral at the harness layer. Provider-specific behavior belongs under `modules/providers/<provider>/`, provider examples, docs, and tests.

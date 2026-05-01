@@ -71,6 +71,15 @@ The schema reflection pipeline is designed to improve reliability and consistenc
 4. **Local guardrails**: Validation, lint, policy, and test scripts provide fast feedback before plan/apply workflows.
 5. **Targeted scope**: Provider family/module selection narrows generated output to the intended infrastructure surface area.
 
+## Generated Artifacts Governance
+
+Generated provider modules and provider catalog artifacts are intentionally committed to this repository and protected by CI sync checks.
+
+Use commit-and-gate workflow:
+1. Regenerate with the provided scripts.
+2. Commit generated output in the same change.
+3. Rely on CI sync checks to detect stale generated files.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
