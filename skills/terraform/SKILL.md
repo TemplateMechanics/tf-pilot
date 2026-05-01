@@ -419,6 +419,8 @@ Use this decision tree when state and reality are out of sync:
 Terraform will error on the next plan with `ResourceNotFoundException` / `404` / `object not found`. To recover:
 
 **Option 1 — Preferred: `removed {}` block (Terraform 1.7+)**
+
+First, delete the resource block from your HCL. Then add a `removed {}` block referencing its former address:
 ```hcl
 removed {
   from = aws_s3_bucket.my_bucket
@@ -428,7 +430,7 @@ removed {
   }
 }
 ```
-Commit the block → plan (expect "0 to add, 0 to change, 0 to destroy") → apply → remove the `removed {}` block in a follow-up commit.
+Commit both changes → plan (expect "0 to add, 0 to change, 0 to destroy") → apply → remove the `removed {}` block in a follow-up commit.
 
 **Option 2 — Direct state removal**
 ```powershell

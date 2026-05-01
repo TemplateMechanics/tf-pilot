@@ -107,7 +107,8 @@ Describe 'Sync-ProviderGeneratedModules.ps1' {
 
     $generationSummaryPath = Join-Path $summaryDir 'module-generation-summary.json'
     $scaffoldSummaryPath   = Join-Path $summaryDir 'module-scaffold-summary.json'
-    ((Test-Path $generationSummaryPath) -or (Test-Path $scaffoldSummaryPath)) | Should -BeTrue
+    Test-Path $generationSummaryPath | Should -BeTrue
+    Test-Path $scaffoldSummaryPath   | Should -BeTrue
 
     $generatedMain = Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'release') 'main.tf'
     $generatedTest = Join-Path (Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'release') 'tests') 'basic.tftest.hcl'
@@ -257,9 +258,21 @@ Describe 'Sync-ProviderModuleScaffolds.ps1 (smoke test)' {
     # Smoke test: verify script accepts settings without throwing.
     # A non-zero exit code is currently allowed for this scenario, so assert only
     # that invocation does not terminate with an exception.
-    {
-      & "$script:scriptsDir/Sync-ProviderModuleScaffolds.ps1" -SettingsFile $settingsPath -ModulesRoot (Join-Path $TestDrive 'modules')
-    } | Should -Not -Throw
+    # Snapshot the tracked scaffold summary so the repo is clean after the test.
+    $trackedSummary = Join-Path $PSScriptRoot '..' 'docs' 'providers' 'generated' 'module-scaffold-summary.json'
+    $trackedSummary = [System.IO.Path]::GetFullPath($trackedSummary)
+    $summaryBackup  = if (Test-Path $trackedSummary) { Get-Content -Path $trackedSummary -Raw } else { $null }
+    try {
+      {
+        & "$script:scriptsDir/Sync-ProviderModuleScaffolds.ps1" -SettingsFile $settingsPath -ModulesRoot (Join-Path $TestDrive 'modules')
+      } | Should -Not -Throw
+    } finally {
+      if ($null -ne $summaryBackup) {
+        Set-Content -Path $trackedSummary -Value $summaryBackup -Encoding utf8 -NoNewline
+      } elseif (Test-Path $trackedSummary) {
+        Remove-Item -Path $trackedSummary -Force
+      }
+    }
   }
 }
 
