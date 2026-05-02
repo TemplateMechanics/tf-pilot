@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: network/resources/aws_vpc_route_server_peer
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "aws_vpc_route_server_peer" "this" {
   count                    = var.enabled ? 1 : 0
   peer_address             = var.peer_address

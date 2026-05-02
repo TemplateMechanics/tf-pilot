@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: storage/resources/azurerm_storage_mover_agent
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azurerm_storage_mover_agent" "this" {
   count                    = var.enabled ? 1 : 0
   arc_virtual_machine_id   = var.arc_virtual_machine_id

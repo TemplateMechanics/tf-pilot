@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: network/resources/aws_vpc_ipam_pool
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "aws_vpc_ipam_pool" "this" {
   count                             = var.enabled ? 1 : 0
   address_family                    = var.address_family

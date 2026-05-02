@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: foundation/resources/azurerm_resource_group_policy_exemption
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azurerm_resource_group_policy_exemption" "this" {
   count                           = var.enabled ? 1 : 0
   exemption_category              = var.exemption_category

@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: network/resources/aws_route53recoveryreadiness_resource_set
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "aws_route53recoveryreadiness_resource_set" "this" {
   count             = var.enabled ? 1 : 0
   resource_set_name = var.resource_set_name

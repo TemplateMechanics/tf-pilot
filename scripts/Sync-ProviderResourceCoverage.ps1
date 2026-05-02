@@ -72,6 +72,23 @@ function Write-Utf8NoBom {
   [System.IO.File]::WriteAllText($Path, ($Content -replace "`r?`n", "`n").TrimEnd("`n") + "`n", $encoding)
 }
 
+function Get-GeneratedHeader {
+  param(
+    [Parameter(Mandatory)][string]$ProviderName,
+    [Parameter(Mandatory)][string]$ModuleName,
+    [Parameter(Mandatory)][string]$FileName
+  )
+
+  return @"
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: $ProviderName
+# Module: $ModuleName
+# File: $FileName
+# SPDX-License-Identifier: MIT
+"@
+}
+
 function Get-ProviderSourceVersion {
   param([Parameter(Mandatory)][string]$ProviderName)
 
@@ -409,10 +426,10 @@ foreach ($providerName in $targetProviders) {
       $optionalAttrs = Get-OptionalAttributes -CatalogEntry $entry
       $nestedBlocks = Get-NestedBlockNames -CatalogEntry $entry
 
-      Write-Utf8NoBom -Path (Join-Path $targetDir 'versions.tf') -Content (New-VersionsTf -ProviderName $providerName -ProviderSource $providerMeta.source -ProviderVersion $providerMeta.version)
-      Write-Utf8NoBom -Path (Join-Path $targetDir 'variables.tf') -Content (New-VariablesTf -TypeName $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks)
-      Write-Utf8NoBom -Path (Join-Path $targetDir 'main.tf') -Content (New-ResourceMainTf -ResourceType $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks)
-      Write-Utf8NoBom -Path (Join-Path $targetDir 'outputs.tf') -Content (New-ResourceOutputsTf -ResourceType $typeName)
+      Write-Utf8NoBom -Path (Join-Path $targetDir 'versions.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/resources/$typeName" -FileName 'versions.tf') + "`n" + (New-VersionsTf -ProviderName $providerName -ProviderSource $providerMeta.source -ProviderVersion $providerMeta.version))
+      Write-Utf8NoBom -Path (Join-Path $targetDir 'variables.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/resources/$typeName" -FileName 'variables.tf') + "`n" + (New-VariablesTf -TypeName $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks))
+      Write-Utf8NoBom -Path (Join-Path $targetDir 'main.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/resources/$typeName" -FileName 'main.tf') + "`n" + (New-ResourceMainTf -ResourceType $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks))
+      Write-Utf8NoBom -Path (Join-Path $targetDir 'outputs.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/resources/$typeName" -FileName 'outputs.tf') + "`n" + (New-ResourceOutputsTf -ResourceType $typeName))
 
       $providerResourceCount++
     }
@@ -430,10 +447,10 @@ foreach ($providerName in $targetProviders) {
       $optionalAttrs = Get-OptionalAttributes -CatalogEntry $entry
       $nestedBlocks = Get-NestedBlockNames -CatalogEntry $entry
 
-      Write-Utf8NoBom -Path (Join-Path $targetDir 'versions.tf') -Content (New-VersionsTf -ProviderName $providerName -ProviderSource $providerMeta.source -ProviderVersion $providerMeta.version)
-      Write-Utf8NoBom -Path (Join-Path $targetDir 'variables.tf') -Content (New-VariablesTf -TypeName $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks)
-      Write-Utf8NoBom -Path (Join-Path $targetDir 'main.tf') -Content (New-DataMainTf -DataType $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks)
-      Write-Utf8NoBom -Path (Join-Path $targetDir 'outputs.tf') -Content (New-DataOutputsTf -DataType $typeName)
+      Write-Utf8NoBom -Path (Join-Path $targetDir 'versions.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/data-sources/$typeName" -FileName 'versions.tf') + "`n" + (New-VersionsTf -ProviderName $providerName -ProviderSource $providerMeta.source -ProviderVersion $providerMeta.version))
+      Write-Utf8NoBom -Path (Join-Path $targetDir 'variables.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/data-sources/$typeName" -FileName 'variables.tf') + "`n" + (New-VariablesTf -TypeName $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks))
+      Write-Utf8NoBom -Path (Join-Path $targetDir 'main.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/data-sources/$typeName" -FileName 'main.tf') + "`n" + (New-DataMainTf -DataType $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks))
+      Write-Utf8NoBom -Path (Join-Path $targetDir 'outputs.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/data-sources/$typeName" -FileName 'outputs.tf') + "`n" + (New-DataOutputsTf -DataType $typeName))
 
       $providerDataCount++
     }

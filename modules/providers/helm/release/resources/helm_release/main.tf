@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: helm
+# Module: release/resources/helm_release
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "helm_release" "this" {
   count                      = var.enabled ? 1 : 0
   chart                      = var.chart

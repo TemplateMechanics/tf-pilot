@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: google
+# Module: compute/resources/google_compute_instance_iam_member
+# File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "enabled" {
   description = "When false, this module creates no resources."
   type        = bool

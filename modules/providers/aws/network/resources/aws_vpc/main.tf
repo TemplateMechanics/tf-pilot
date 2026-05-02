@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: network/resources/aws_vpc
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "aws_vpc" "this" {
   count                                = var.enabled ? 1 : 0
   assign_generated_ipv6_cidr_block     = var.assign_generated_ipv6_cidr_block

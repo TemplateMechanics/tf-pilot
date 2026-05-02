@@ -3,6 +3,7 @@
 # Provider: tls
 # Module: self_signed
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Short name for the resource or capability."
   type        = string

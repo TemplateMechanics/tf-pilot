@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azuredevops
+# Module: repository/data-sources/azuredevops_git_repositories
+# File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "enabled" {
   description = "When false, this module creates no resources."
   type        = bool

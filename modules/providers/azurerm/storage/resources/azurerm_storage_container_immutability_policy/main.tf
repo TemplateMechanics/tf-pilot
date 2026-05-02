@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: storage/resources/azurerm_storage_container_immutability_policy
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azurerm_storage_container_immutability_policy" "this" {
   count                                 = var.enabled ? 1 : 0
   immutability_period_in_days           = var.immutability_period_in_days

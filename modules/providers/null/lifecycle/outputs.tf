@@ -3,6 +3,7 @@
 # Provider: null
 # Module: lifecycle
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "null-lifecycle"

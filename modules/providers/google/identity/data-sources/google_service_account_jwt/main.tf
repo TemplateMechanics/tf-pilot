@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: google
+# Module: identity/data-sources/google_service_account_jwt
+# File: main.tf
+# SPDX-License-Identifier: MIT
 data "google_service_account_jwt" "this" {
   count                  = var.enabled ? 1 : 0
   payload                = var.payload

@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: network/data-sources/aws_vpc_peering_connection
+# File: main.tf
+# SPDX-License-Identifier: MIT
 data "aws_vpc_peering_connection" "this" {
   count           = var.enabled ? 1 : 0
   cidr_block      = var.cidr_block

@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: compute/data-sources/aws_ecs_task_execution
+# File: main.tf
+# SPDX-License-Identifier: MIT
 data "aws_ecs_task_execution" "this" {
   count                   = var.enabled ? 1 : 0
   cluster                 = var.cluster
