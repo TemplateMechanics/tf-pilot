@@ -75,6 +75,43 @@ Use `terraform plan -refresh-only` for periodic drift checks and incident respon
 
 For critical stacks, schedule routine drift checks and publish findings.
 
+## State drift recovery decision tree
+
+Use this sequence when infrastructure and state are out of sync.
+
+1. Back up state first with `./scripts/Backup-TerraformState.ps1 -Path .`.
+2. Classify drift:
+	- resource missing in infrastructure but still present in state
+	- widespread drift across many resources
+	- resource exists in infrastructure but is missing from state
+3. Apply the smallest safe corrective action.
+
+### Case A: Single orphaned state reference
+
+Symptom: Terraform wants to manage or destroy an object that no longer exists remotely.
+
+Preferred fix (Terraform 1.7+): add a `removed {}` block with `lifecycle { destroy = false }` and apply through normal review.
+
+Fallback fix: `terraform state rm <address>` for surgical emergency cleanup.
+
+### Case B: Widespread drift
+
+Symptom: Many resources are stale due to broad manual changes or an incident.
+
+Run a refresh-only reconciliation using the wrapper plan flow, review the drift delta, then apply to sync state in one controlled pass.
+
+### Case C: Resource exists remotely but not in state
+
+Symptom: Terraform wants to create a duplicate resource that already exists.
+
+Use an `import {}` block and apply through normal review to bring the existing object under management.
+
+### Hard guardrails
+
+- Never manually edit `terraform.tfstate` files.
+- Never manually delete Terraform-managed resources out-of-band as a normal workflow.
+- Prefer source-controlled `removed {}` and `import {}` blocks over ad-hoc CLI surgery.
+
 ## Migrating backends (`terraform init -migrate-state`)
 Backend migration should be executed as a controlled change window with backups and explicit rollback steps. Use `terraform init -migrate-state` only after validating destination backend permissions and lock behavior.
 
