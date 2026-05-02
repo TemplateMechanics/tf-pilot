@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: observability/resources/azurerm_log_analytics_data_export_rule
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azurerm_log_analytics_data_export_rule" "this" {
   count                   = var.enabled ? 1 : 0
   destination_resource_id = var.destination_resource_id

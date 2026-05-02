@@ -3,6 +3,7 @@
 # Provider: tls
 # Module: cert_request
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "tls-cert_request"

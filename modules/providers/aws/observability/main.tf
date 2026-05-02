@@ -3,6 +3,7 @@
 # Provider: aws
 # Module: observability
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   log_group_name = "/${var.environment}/${var.name}"
   dashboard_name = "${var.name}-${var.environment}"

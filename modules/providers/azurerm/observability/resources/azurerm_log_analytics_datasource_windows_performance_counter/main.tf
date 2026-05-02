@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: observability/resources/azurerm_log_analytics_datasource_windows_performance_counter
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azurerm_log_analytics_datasource_windows_performance_counter" "this" {
   count               = var.enabled ? 1 : 0
   counter_name        = var.counter_name

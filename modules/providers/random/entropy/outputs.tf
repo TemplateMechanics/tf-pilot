@@ -3,6 +3,7 @@
 # Provider: random
 # Module: entropy
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "random-entropy"

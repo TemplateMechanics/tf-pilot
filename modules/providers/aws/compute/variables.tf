@@ -3,6 +3,7 @@
 # Provider: aws
 # Module: compute
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Compute workload name prefix."
   type        = string

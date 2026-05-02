@@ -3,6 +3,7 @@
 # Provider: google
 # Module: compute
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Compute instance name prefix."
   type        = string

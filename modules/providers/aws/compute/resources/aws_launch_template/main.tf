@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: compute/resources/aws_launch_template
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "aws_launch_template" "this" {
   count                                = var.enabled ? 1 : 0
   default_version                      = var.default_version

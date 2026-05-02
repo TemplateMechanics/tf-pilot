@@ -3,6 +3,7 @@
 # Provider: kubernetes
 # Module: service_account
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 mock_provider "kubernetes" {}
 
 variables {
@@ -10,6 +11,11 @@ variables {
   environment = "test"
   enabled     = true
   namespace   = "default"
+  rbac_rules = [{
+    api_groups = [""]
+    resources  = ["pods"]
+    verbs      = ["get", "list"]
+  }]
 }
 
 run "plan_service_account" {

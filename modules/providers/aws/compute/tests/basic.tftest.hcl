@@ -3,6 +3,7 @@
 # Provider: aws
 # Module: compute
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 mock_provider "aws" {}
 
 variables {

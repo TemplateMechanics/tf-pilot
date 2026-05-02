@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: storage/resources/azurerm_storage_sync_server_endpoint
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azurerm_storage_sync_server_endpoint" "this" {
   count                      = var.enabled ? 1 : 0
   name                       = var.name

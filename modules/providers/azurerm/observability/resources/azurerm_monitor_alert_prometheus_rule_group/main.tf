@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: observability/resources/azurerm_monitor_alert_prometheus_rule_group
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azurerm_monitor_alert_prometheus_rule_group" "this" {
   count               = var.enabled ? 1 : 0
   location            = var.location

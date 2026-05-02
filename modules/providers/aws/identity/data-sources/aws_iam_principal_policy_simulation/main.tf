@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: identity/data-sources/aws_iam_principal_policy_simulation
+# File: main.tf
+# SPDX-License-Identifier: MIT
 data "aws_iam_principal_policy_simulation" "this" {
   count                              = var.enabled ? 1 : 0
   action_names                       = var.action_names

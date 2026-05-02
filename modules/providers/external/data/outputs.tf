@@ -3,6 +3,7 @@
 # Provider: external
 # Module: data
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "external-data"

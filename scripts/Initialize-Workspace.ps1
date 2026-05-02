@@ -20,6 +20,10 @@ Adds -reconfigure to terraform init.
 
 .PARAMETER MigrateState
 Adds -migrate-state to terraform init.
+
+.PARAMETER Compact
+When set, suppresses repetitive Terraform success boilerplate lines to keep
+local interactive output concise.
 #>
 [CmdletBinding()]
 param(
@@ -36,7 +40,10 @@ param(
   [switch]$Reconfigure,
 
   [Parameter()]
-  [switch]$MigrateState
+  [switch]$MigrateState,
+
+  [Parameter()]
+  [switch]$Compact
 )
 
 $ErrorActionPreference = 'Stop'
@@ -72,15 +79,58 @@ $retryPatterns = @(
   '503 Service Unavailable'
 )
 
+function Write-InitOutput {
+  param(
+    [Parameter()]
+    [object[]]$Lines,
+
+    [Parameter()]
+    [switch]$CompactMode,
+
+    [Parameter()]
+    [switch]$Succeeded
+  )
+
+  if (-not $Lines) {
+    return
+  }
+
+  $noisePatterns = @(
+    'Terraform has created a lock file \.terraform\.lock\.hcl',
+    '^Include this file in your version control repository',
+    '^You may now begin working with Terraform\.',
+    '^any changes that are required for your infrastructure',
+    '^should now work\.$',
+    '^If you ever set or change modules or backend configuration for Terraform',
+    '^rerun this command to reinitialize your working directory\.',
+    '^commands will detect it and remind you to do so if necessary\.'
+  )
+
+  foreach ($line in $Lines) {
+    $text = [string]$line
+    if ($CompactMode -and $Succeeded) {
+      $skip = $false
+      foreach ($pattern in $noisePatterns) {
+        if ($text -match $pattern) {
+          $skip = $true
+          break
+        }
+      }
+      if ($skip) {
+        continue
+      }
+    }
+    Write-Host $text
+  }
+}
+
 Push-Location $resolvedPath
 try {
   $maxAttempts = 3
   for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
     Write-Host "`nTerraform Init (attempt $attempt/$maxAttempts)" -ForegroundColor Cyan
     $output = & $terraform.Source @tfArgs 2>&1
-    if ($output) {
-      $output | ForEach-Object { Write-Host $_ }
-    }
+    Write-InitOutput -Lines $output -CompactMode:$Compact -Succeeded:($LASTEXITCODE -eq 0)
 
     if ($LASTEXITCODE -eq 0) {
       Write-Host "Workspace initialized successfully." -ForegroundColor Green

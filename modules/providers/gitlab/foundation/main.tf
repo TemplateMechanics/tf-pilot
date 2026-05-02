@@ -3,6 +3,7 @@
 # Provider: gitlab
 # Module: foundation
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   resolved_group_name = coalesce(var.group_name, "${var.name}-${var.environment}")
   resolved_group_path = coalesce(var.group_path, lower(replace(local.resolved_group_name, "_", "-")))

@@ -3,6 +3,7 @@
 # Provider: kubernetes
 # Module: config
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Config object name prefix."
   type        = string

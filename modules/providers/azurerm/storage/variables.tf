@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: storage
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Storage account name prefix."
   type        = string

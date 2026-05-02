@@ -3,6 +3,7 @@
 # Provider: google
 # Module: observability
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Observability workload name prefix."
   type        = string

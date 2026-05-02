@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: google
+# Module: compute/resources/google_compute_instance
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "google_compute_instance" "this" {
   count                      = var.enabled ? 1 : 0
   machine_type               = var.machine_type

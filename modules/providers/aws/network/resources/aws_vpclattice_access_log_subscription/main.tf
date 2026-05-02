@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: network/resources/aws_vpclattice_access_log_subscription
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "aws_vpclattice_access_log_subscription" "this" {
   count                    = var.enabled ? 1 : 0
   destination_arn          = var.destination_arn

@@ -3,6 +3,7 @@
 # Provider: helm
 # Module: release
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "helm-release"

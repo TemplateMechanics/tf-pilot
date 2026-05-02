@@ -3,6 +3,7 @@
 # Provider: tls
 # Module: private_key
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "tls-private_key"

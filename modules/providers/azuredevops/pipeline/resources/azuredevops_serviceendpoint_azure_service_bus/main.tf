@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azuredevops
+# Module: pipeline/resources/azuredevops_serviceendpoint_azure_service_bus
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azuredevops_serviceendpoint_azure_service_bus" "this" {
   count                 = var.enabled ? 1 : 0
   connection_string     = var.connection_string

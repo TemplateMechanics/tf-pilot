@@ -34,9 +34,9 @@ jobs:
           tflint_version: "v0.55.0"
 
       - name: Setup Trivy
-        uses: aquasecurity/setup-trivy@v0.2.0
+        uses: aquasecurity/setup-trivy@v0.2.6
         with:
-          version: "v0.58.0"
+          version: "v0.70.0"
 
       - name: Setup conftest
         shell: bash

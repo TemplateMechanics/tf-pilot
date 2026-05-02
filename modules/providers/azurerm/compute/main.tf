@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: compute
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   vm_name = "${var.name}-${var.environment}-vm"
   effective_tags = merge(var.tags, {

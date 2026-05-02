@@ -19,6 +19,9 @@ Path to catalog settings JSON.
 .PARAMETER ModulesRoot
 Root directory where provider modules are stored.
 
+.PARAMETER SummaryDir
+Directory where to write generation summary JSON files. Defaults to docs/providers/generated.
+
 .PARAMETER IncludeDisabledModules
 When set, generate all modules from settings regardless of enabled flag.
 
@@ -32,6 +35,9 @@ param(
 
   [Parameter()]
   [string]$ModulesRoot = "modules/providers",
+
+  [Parameter()]
+  [string]$SummaryDir,
 
   [Parameter()]
   [switch]$IncludeDisabledModules,
@@ -181,6 +187,7 @@ function Get-GeneratedHeader {
 # Provider: $ProviderName
 # Module: $ModuleName
 # File: $FileName
+# SPDX-License-Identifier: MIT
 "@
 }
 
@@ -414,7 +421,7 @@ output "partition" {
 
 output "region" {
   description = "Resolved AWS region from variable or live discovery."
-  value       = coalesce(var.region, try(data.aws_region.current[0].name, null))
+  value       = var.region != null ? var.region : try(data.aws_region.current[0].name, null)
 }
 "@
         readme = "# aws/foundation module`n`nGenerated AWS foundation module for account and region context discovery.`n"
@@ -863,7 +870,13 @@ output "instance_profile_name" {
 "@
         readme = "# aws/identity module`n`nGenerated AWS IAM role module.`n"
         test = @"
-mock_provider "aws" {}
+mock_provider "aws" {
+  mock_data "aws_iam_policy_document" {
+    defaults = {
+      json = "{\"Version\":\"2012-10-17\",\"Statement\":[]}"
+    }
+  }
+}
 
 variables {
   name        = "identity"
@@ -1898,7 +1911,7 @@ variables {
   resource_group_name  = "rg-test"
   location             = "eastus"
   subnet_id            = "/subscriptions/test/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/default"
-  admin_ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCu"
+  admin_ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl test@test"
 }
 
 run "plan_compute" {
@@ -2508,7 +2521,7 @@ resource "google_project_iam_member" "this" {
 
   project = var.project_id
   role    = each.value
-  member  = "serviceAccount:${google_service_account.this[0].email}"
+  member  = "serviceAccount:`${google_service_account.this[0].email}"
 }
 "@
         outputs = @"
@@ -2536,7 +2549,13 @@ output "granted_roles" {
 "@
         readme = "# google/identity module`n`nGenerated Google service account and IAM grant module.`n"
         test = @"
-mock_provider "google" {}
+mock_provider "google" {
+  mock_resource "google_service_account" {
+    defaults = {
+      email = "identity-test@test-project.iam.gserviceaccount.com"
+    }
+  }
+}
 
 variables {
   name        = "identity"
@@ -3173,6 +3192,11 @@ variables {
   environment = "test"
   enabled     = true
   namespace   = "default"
+  rbac_rules = [{
+    api_groups = [""]
+    resources  = ["pods"]
+    verbs      = ["get", "list"]
+  }]
 }
 
 run "plan_service_account" {
@@ -3590,22 +3614,8 @@ resource "helm_release" "this" {
   wait             = var.wait
   timeout          = var.timeout
   atomic           = var.atomic
-
-  dynamic "set" {
-    for_each = var.set
-    content {
-      name  = set.key
-      value = set.value
-    }
-  }
-
-  dynamic "set_sensitive" {
-    for_each = var.set_sensitive
-    content {
-      name  = set_sensitive.key
-      value = set_sensitive.value
-    }
-  }
+  set              = [for k, v in var.set : { name = k, value = v }]
+  set_sensitive    = [for k, v in var.set_sensitive : { name = k, value = v }]
 }
 "@
         outputs = @"
@@ -4625,7 +4635,11 @@ function Get-ModuleTemplate {
 
 $settingsPath = Resolve-RepoPath -Path $SettingsFile
 $modulesRootPath = Resolve-RepoPath -Path $ModulesRoot
-$summaryDir = Resolve-RepoPath -Path 'docs/providers/generated'
+$summaryDir = if ($SummaryDir) {
+  Resolve-RepoPath -Path $SummaryDir
+} else {
+  Resolve-RepoPath -Path 'docs/providers/generated'
+}
 
 # In Check mode, generate into a temp dir so we can fmt-normalize before comparing against disk
 $tempCheckRoot = $null

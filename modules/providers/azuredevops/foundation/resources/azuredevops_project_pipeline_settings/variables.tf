@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azuredevops
+# Module: foundation/resources/azuredevops_project_pipeline_settings
+# File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "enabled" {
   description = "When false, this module creates no resources."
   type        = bool

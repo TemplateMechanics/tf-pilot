@@ -3,6 +3,7 @@
 # Provider: kubernetes
 # Module: namespace
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Name of the Kubernetes namespace to create."
   type        = string

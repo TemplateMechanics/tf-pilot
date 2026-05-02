@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: network/resources/azurerm_virtual_network_gateway_connection
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azurerm_virtual_network_gateway_connection" "this" {
   count                              = var.enabled ? 1 : 0
   location                           = var.location

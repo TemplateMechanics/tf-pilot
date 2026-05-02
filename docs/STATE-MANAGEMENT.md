@@ -31,6 +31,17 @@ Locking prevents concurrent writes that corrupt state. Backend-native locks diff
 
 Never force-unlock until you verify no active run exists. Manual unlocks are last-resort recovery steps.
 
+## Lock acquisition failure recovery
+
+When Terraform cannot acquire a lock:
+
+1. Verify no other plan/apply/destroy operation is active.
+2. Check backend health and identity permissions (storage access, lease/table permissions).
+3. Retry the operation only after confirming no active writer.
+4. Use force-unlock only as an audited last resort after active-run confirmation.
+
+For repeated lock failures, treat it as a backend reliability incident and pause mutations until resolved.
+
 ## Backup before any state surgery
 Create a state backup before `state mv`, `state rm`, provider replacement, or imports. Backups are the fastest recovery path if an operation targets the wrong address.
 
@@ -67,6 +78,16 @@ If state corruption is suspected, stop concurrent runs, restore from the most re
 
 Document the incident cause and harden process gaps that allowed corruption.
 
+## Accidental `terraform destroy` response
+
+If destructive operations were applied unintentionally:
+
+1. Stop further Terraform mutations immediately.
+2. Capture the destroy plan/apply logs and backend state snapshots.
+3. Restore critical resources through approved recovery workflow (import existing recovery artifacts where possible).
+4. Reconcile state with `import {}` blocks and refresh-only plan before normal operations resume.
+5. Add guardrails (policy checks, approval requirements, environment protections) to prevent recurrence.
+
 ## Drift detection strategy
 
 Use `terraform plan -refresh-only` for periodic drift checks and incident response. Treat drift as either:
@@ -74,6 +95,43 @@ Use `terraform plan -refresh-only` for periodic drift checks and incident respon
 - unauthorized/manual mutation (security/process issue)
 
 For critical stacks, schedule routine drift checks and publish findings.
+
+## State drift recovery decision tree
+
+Use this sequence when infrastructure and state are out of sync.
+
+1. Back up state first with `./scripts/Backup-TerraformState.ps1 -Path .`.
+2. Classify drift:
+	- resource missing in infrastructure but still present in state
+	- widespread drift across many resources
+	- resource exists in infrastructure but is missing from state
+3. Apply the smallest safe corrective action.
+
+### Case A: Single orphaned state reference
+
+Symptom: Terraform wants to manage or destroy an object that no longer exists remotely.
+
+Preferred fix (Terraform 1.7+): add a `removed {}` block with `lifecycle { destroy = false }` and apply through normal review.
+
+Fallback fix: `terraform state rm <address>` for surgical emergency cleanup.
+
+### Case B: Widespread drift
+
+Symptom: Many resources are stale due to broad manual changes or an incident.
+
+Run a refresh-only reconciliation using the wrapper plan flow, review the drift delta, then apply to sync state in one controlled pass.
+
+### Case C: Resource exists remotely but not in state
+
+Symptom: Terraform wants to create a duplicate resource that already exists.
+
+Use an `import {}` block and apply through normal review to bring the existing object under management.
+
+### Hard guardrails
+
+- Never manually edit `terraform.tfstate` files.
+- Never manually delete Terraform-managed resources out-of-band as a normal workflow.
+- Prefer source-controlled `removed {}` and `import {}` blocks over ad-hoc CLI surgery.
 
 ## Migrating backends (`terraform init -migrate-state`)
 Backend migration should be executed as a controlled change window with backups and explicit rollback steps. Use `terraform init -migrate-state` only after validating destination backend permissions and lock behavior.

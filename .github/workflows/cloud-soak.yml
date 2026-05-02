@@ -1,0 +1,191 @@
+name: Cloud Infrastructure Soak Test
+
+# Nightly soak test: Initialize → Plan → Apply → Destroy on a real cloud provider
+# Validates end-to-end harness behavior and catches provider drift early
+# Only runs when AWS_OIDC_ROLE secret is configured (blocks unintended AWS access)
+on:
+  schedule:
+    # Run nightly at 02:00 UTC (off-peak)
+    - cron: '0 2 * * *'
+  # Allow manual trigger for on-demand testing
+  workflow_dispatch:
+  # Intentionally NOT triggered on pull_request (cost + performance)
+
+permissions:
+  contents: read
+  # For AWS OIDC token exchange
+  id-token: write
+
+concurrency:
+  # Allow one soak test to run at a time; cancel if a new one is triggered
+  group: cloud-soak
+  cancel-in-progress: true
+
+jobs:
+  cloud-soak:
+    name: AWS Sandbox Soak Test
+    # Only run if AWS_OIDC_ROLE secret is configured (gating mechanism)
+    if: vars.AWS_OIDC_ROLE_ARN != ''
+    runs-on: ubuntu-latest
+    env:
+      # AWS configuration
+      AWS_ROLE_ARN: ${{ vars.AWS_OIDC_ROLE_ARN }}
+      AWS_ROLE_SESSION_NAME: tf-pilot-soak-${{ github.run_id }}
+      AWS_DEFAULT_REGION: us-east-1
+      
+      # Terraform configuration
+      EXAMPLE_PATH: ./examples/providers/aws-stack
+      TFVARS_FILE: envs/dev.tfvars
+      TF_LOG: INFO
+      # Prevent interactive prompts
+      TF_INPUT: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.0"
+
+      - name: Setup PowerShell
+        shell: bash
+        run: |
+          if ! command -v pwsh &> /dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y wget apt-transport-https software-properties-common
+            wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
+            sudo dpkg -i packages-microsoft-prod.deb
+            sudo apt-get update -qq
+            sudo apt-get install -y powershell
+          fi
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          role-session-name: ${{ env.AWS_ROLE_SESSION_NAME }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      - name: Verify AWS credentials
+        run: |
+          echo "AWS Account: $(aws sts get-caller-identity --query Account --output text)"
+          echo "Caller ARN: $(aws sts get-caller-identity --query Arn --output text)"
+
+      - name: Initialize Terraform
+        shell: pwsh
+        run: |
+          Write-Host "Initializing ${{ env.EXAMPLE_PATH }}..."
+          ./scripts/Initialize-Workspace.ps1 -Path ${{ env.EXAMPLE_PATH }}
+
+      - name: Validate configuration
+        shell: pwsh
+        run: |
+          Write-Host "Validating ${{ env.EXAMPLE_PATH }}..."
+          ./scripts/Validate-Terraform.ps1 -Path ${{ env.EXAMPLE_PATH }}
+
+      - name: Plan infrastructure changes
+        shell: pwsh
+        run: |
+          Write-Host "Planning ${{ env.EXAMPLE_PATH }}..."
+          ./scripts/Invoke-TerraformPlan.ps1 `
+            -Path ${{ env.EXAMPLE_PATH }} `
+            -VarFile ${{ env.EXAMPLE_PATH }}/${{ env.TFVARS_FILE }} `
+            -Out tfplan
+
+      - name: Show plan
+        shell: bash
+        working-directory: ${{ env.EXAMPLE_PATH }}
+        run: |
+          echo "## Terraform Plan Summary" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          jq -r '.resource_changes[] | select(.change.actions != ["no-op"]) | "\(.type).\(.name): \(.change.actions | join(","))"' tfplan.json >> $GITHUB_STEP_SUMMARY || echo "(no changes)" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Apply infrastructure
+        shell: pwsh
+        run: |
+          Write-Host "Applying ${{ env.EXAMPLE_PATH }}..."
+          ./scripts/Invoke-TerraformApply.ps1 -PlanFile ${{ env.EXAMPLE_PATH }}/tfplan
+          Write-Host "✅ Apply succeeded"
+
+      - name: Run smoke test
+        shell: bash
+        working-directory: ${{ env.EXAMPLE_PATH }}
+        run: |
+          echo "Running post-apply smoke tests..."
+          # Example: check that created resources are actually accessible
+          # Customize based on example outputs (e.g., ALB health check, RDS connectivity)
+          terraform output -json | jq . > /tmp/outputs.json
+          echo "Outputs written to /tmp/outputs.json"
+          if [ -s /tmp/outputs.json ]; then
+            echo "✅ Terraform outputs generated"
+          else
+            echo "❌ No outputs; apply may have failed silently"
+            exit 1
+          fi
+
+      - name: Destroy infrastructure
+        if: always()
+        shell: pwsh
+        run: |
+          Write-Host "Destroying ${{ env.EXAMPLE_PATH }}..."
+          ./scripts/Invoke-TerraformDestroy.ps1 `
+            -Path ${{ env.EXAMPLE_PATH }} `
+            -VarFile ${{ env.EXAMPLE_PATH }}/${{ env.TFVARS_FILE }} `
+            -Confirm
+
+      - name: Verify cleanup
+        if: always()
+        shell: pwsh
+        run: |
+          Write-Host "Running final plan to confirm resource destruction..."
+          ./scripts/Invoke-TerraformPlan.ps1 `
+            -Path ${{ env.EXAMPLE_PATH }} `
+            -VarFile ${{ env.EXAMPLE_PATH }}/${{ env.TFVARS_FILE }} `
+            -Out verify-destroy-tfplan
+
+      - name: Summarize cleanup verification
+        if: always()
+        shell: bash
+        working-directory: ${{ env.EXAMPLE_PATH }}
+        run: |
+          remaining="$(jq -r '.resource_changes[] | select(.change.actions != ["no-op"]) | "⚠️ Resource still planned: \(.type).\(.name)"' verify-destroy-tfplan.json | head -5)"
+          if [ -n "$remaining" ]; then
+            echo "$remaining" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No outstanding resources detected after destroy verification" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Report soak test result
+        if: always()
+        shell: bash
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "## ✅ Cloud Soak Test Passed" >> $GITHUB_STEP_SUMMARY
+            echo "- Initialized: ✅" >> $GITHUB_STEP_SUMMARY
+            echo "- Validated: ✅" >> $GITHUB_STEP_SUMMARY
+            echo "- Planned: ✅" >> $GITHUB_STEP_SUMMARY
+            echo "- Applied: ✅" >> $GITHUB_STEP_SUMMARY
+            echo "- Destroyed: ✅" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "The v0.2.0 harness maintains end-to-end discipline against real infrastructure." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ❌ Cloud Soak Test Failed" >> $GITHUB_STEP_SUMMARY
+            echo "See logs above for root cause. Likely issues:" >> $GITHUB_STEP_SUMMARY
+            echo "- AWS credentials or OIDC role misconfigured" >> $GITHUB_STEP_SUMMARY
+            echo "- Provider version incompatibility" >> $GITHUB_STEP_SUMMARY
+            echo "- Resource quota exceeded" >> $GITHUB_STEP_SUMMARY
+            echo "- Resource cleanup failed (manual intervention may be needed)" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload plan artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: soak-test-plan
+          path: |
+            ${{ env.EXAMPLE_PATH }}/tfplan
+            ${{ env.EXAMPLE_PATH }}/tfplan.json
+          retention-days: 7

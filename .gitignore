@@ -58,3 +58,9 @@ Thumbs.db
 
 # Local tool cache
 .tools/
+
+# Helm cache directories created by harness plan/apply/destroy isolation
+# (Invoke-TerraformPlan.ps1, Invoke-TerraformApply.ps1, Invoke-TerraformDestroy.ps1
+#  set HELM_REPOSITORY_CACHE/CONFIG to <workspace>/.helm/ to avoid polluting
+#  the global ~/.helm. These dirs must not be committed.)
+**/.helm/

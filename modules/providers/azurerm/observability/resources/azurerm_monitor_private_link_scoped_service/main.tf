@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: observability/resources/azurerm_monitor_private_link_scoped_service
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azurerm_monitor_private_link_scoped_service" "this" {
   count               = var.enabled ? 1 : 0
   linked_resource_id  = var.linked_resource_id

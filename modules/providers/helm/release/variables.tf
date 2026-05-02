@@ -3,6 +3,7 @@
 # Provider: helm
 # Module: release
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Helm release name."
   type        = string

@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azuredevops
+# Module: pipeline/resources/azuredevops_serviceendpoint_checkmarx_sca
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azuredevops_serviceendpoint_checkmarx_sca" "this" {
   count                 = var.enabled ? 1 : 0
   access_control_url    = var.access_control_url

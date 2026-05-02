@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azuredevops
+# Module: repository/data-sources/azuredevops_git_repository_file
+# File: versions.tf
+# SPDX-License-Identifier: MIT
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 
