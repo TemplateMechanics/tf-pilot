@@ -31,6 +31,17 @@ Locking prevents concurrent writes that corrupt state. Backend-native locks diff
 
 Never force-unlock until you verify no active run exists. Manual unlocks are last-resort recovery steps.
 
+## Lock acquisition failure recovery
+
+When Terraform cannot acquire a lock:
+
+1. Verify no other plan/apply/destroy operation is active.
+2. Check backend health and identity permissions (storage access, lease/table permissions).
+3. Retry the operation only after confirming no active writer.
+4. Use force-unlock only as an audited last resort after active-run confirmation.
+
+For repeated lock failures, treat it as a backend reliability incident and pause mutations until resolved.
+
 ## Backup before any state surgery
 Create a state backup before `state mv`, `state rm`, provider replacement, or imports. Backups are the fastest recovery path if an operation targets the wrong address.
 
@@ -66,6 +77,16 @@ For reproducible infrastructure-as-code, encode import intent in HCL and apply t
 If state corruption is suspected, stop concurrent runs, restore from the most recent known-good backup, and validate with a refresh-only plan. Confirm backend lock integrity before resuming normal operations.
 
 Document the incident cause and harden process gaps that allowed corruption.
+
+## Accidental `terraform destroy` response
+
+If destructive operations were applied unintentionally:
+
+1. Stop further Terraform mutations immediately.
+2. Capture the destroy plan/apply logs and backend state snapshots.
+3. Restore critical resources through approved recovery workflow (import existing recovery artifacts where possible).
+4. Reconcile state with `import {}` blocks and refresh-only plan before normal operations resume.
+5. Add guardrails (policy checks, approval requirements, environment protections) to prevent recurrence.
 
 ## Drift detection strategy
 

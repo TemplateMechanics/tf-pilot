@@ -13,6 +13,7 @@ This workspace contains Terraform / OpenTofu configuration. You are working with
 Read `skills/terraform/SKILL.md` — it contains the complete reference for HCL syntax, provider configuration patterns, module structure, state management, the `moved`/`removed`/`import` refactor blocks, the test framework, and common DAX-equivalent recipes (locals patterns, dynamic blocks, for_each idioms). This is the single source of truth for this project.
 
 Use the official Terraform MCP server first when available (`hashicorp/terraform-mcp-server`). Prefer MCP for provider/module discovery, registry lookups, workspace context, and state-oriented Q&A. Use project scripts for guarded execution workflows (validate, plan, apply, destroy, import, tests).
+If MCP is unavailable, continue with repository docs plus `Get-TerraformVersion.ps1 -Schema` for schema truth, then proceed with the same script-guarded workflow.
 
 ## Key Rules
 
