@@ -1,0 +1,94 @@
+$schema: "../../../../../.vscode/schemas/multi-cloud.schema.json"
+project: tf-pilot-free
+environment: demo
+tags:
+  owner: platform
+  managed_by: terraform
+  demo: free-tier
+  cost_center: none
+
+clouds:
+  aws:
+    enabled: true
+    region: us-east-1
+    modules:
+      foundation:
+        enabled: true
+        enable_live_discovery: false
+      # NOTE: Kept disabled only for terraform test mock-provider reliability.
+      # The real demo stack enables AWS identity in envs/free-tier.stack.yaml.
+      identity:
+        enabled: false
+      network:
+        enabled: true
+        cidr_block: "10.42.0.0/16"
+        availability_zones:
+          - us-east-1a
+        public_subnet_cidrs:
+          - "10.42.1.0/24"
+        create_internet_gateway: false
+      observability:
+        enabled: true
+        retention_in_days: 7
+        create_dashboard: false
+      storage:
+        enabled: true
+        versioning_enabled: false
+        force_destroy: true
+
+  azure:
+    enabled: true
+    location: eastus
+    modules:
+      foundation:
+        enabled: true
+        create_resource_group: true
+      identity:
+        enabled: true
+        scope: null
+        role_definition_name: null
+      network:
+        enabled: true
+        address_space:
+          - "10.52.0.0/16"
+        subnet_cidrs:
+          - "10.52.1.0/24"
+      observability:
+        enabled: true
+        workspace_sku: PerGB2018
+        retention_in_days: 30
+        application_type: web
+      storage:
+        enabled: true
+        account_tier: Standard
+        replication_type: LRS
+        container_name: artifacts
+
+  gcp:
+    enabled: true
+    region: us-central1
+    project_id: "placeholder"
+    modules:
+      foundation:
+        enabled: true
+        services:
+          - storage.googleapis.com
+        disable_services_on_destroy: false
+
+      network:
+        enabled: true
+        subnet_cidr: "10.62.0.0/24"
+        allow_ingress_cidrs:
+          - "0.0.0.0/0"
+      observability:
+        enabled: true
+        # Reference a non-existent module to trigger token resolution error.
+        filter: "resource.labels.bucket_name=\"${module.no_such_module.no_such_output}\""
+        metric_kind: DELTA
+        value_type: INT64
+      storage:
+        enabled: true
+        location: US
+        storage_class: STANDARD
+        versioning_enabled: false
+        force_destroy: true

@@ -29,5 +29,5 @@ resource "google_project_iam_member" "this" {
 
   project = var.project_id
   role    = each.value
-  member  = "serviceAccount:"
+  member  = "serviceAccount:${local.account_id}@${var.project_id}.iam.gserviceaccount.com"
 }
