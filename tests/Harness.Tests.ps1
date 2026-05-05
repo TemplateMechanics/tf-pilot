@@ -320,11 +320,11 @@ Describe 'Script syntax' {
 Describe 'YAML token anti-pattern checks' {
   It 'contains no token_example_ keys in YAML files' {
     $yamlFiles = Get-ChildItem -Path $script:repoRoot -Recurse -File -Include *.yaml,*.yml |
-      Where-Object { $_.FullName -notmatch '\\.terraform\\' }
+      Where-Object { $_.FullName -notmatch '[\\/]\.terraform[\\/]' }
 
     $matches = @()
     foreach ($yamlFile in $yamlFiles) {
-      $matches += Select-String -Path $yamlFile.FullName -Pattern '(^|\s)token_example_[A-Za-z0-9_]+' -AllMatches
+      $matches += Select-String -Path $yamlFile.FullName -Pattern '^\s*token_example_[A-Za-z0-9_]+\s*:' -AllMatches
     }
 
     $matches | Should -BeNullOrEmpty

@@ -98,7 +98,7 @@ The test file uses `mock_provider` blocks so all assertions can be validated wit
 
 | Run | Fixture | What it validates |
 |-----|---------|-------------------|
-| `all_three_clouds_enabled` | `envs/free-tier.stack.yaml` | All 3 clouds active; all storage names non-null |
+| `all_three_clouds_enabled` | `tests/fixtures/all-clouds-test.stack.yaml` | All 3 clouds active; all storage names non-null |
 | `aws_only_selective_enable` | `tests/fixtures/aws-only.stack.yaml` | Only AWS active; Azure + GCP outputs null |
 | `azure_only_selective_enable` | `tests/fixtures/azure-only.stack.yaml` | Only Azure active; AWS + GCP outputs null |
 | `gcp_only_selective_enable` | `tests/fixtures/gcp-only.stack.yaml` | Only GCP active; AWS + Azure outputs null |
