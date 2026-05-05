@@ -19,7 +19,10 @@ locals {
 
   token_aware_field_raw = {
     artifact_filename = tostring(try(local.artifact_cfg.filename, "${path.module}/.generated/${local.stack.project}-${local.stack.environment}.txt"))
-    artifact_content  = tostring(try(local.artifact_cfg.content, "Generated at $${module.time_anchor.rfc3339}"))
+    artifact_content = local.artifact_cfg != null ? tostring(try(
+      local.artifact_cfg.content,
+      local.time_anchor_cfg != null ? "Generated at $${module.time_anchor.rfc3339}" : "Generated artifact"
+    )) : ""
   }
 
   resolved_token_fields = {

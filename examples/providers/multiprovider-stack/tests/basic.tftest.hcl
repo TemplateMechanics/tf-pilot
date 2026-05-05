@@ -31,3 +31,31 @@ run "plan_succeeds" {
   }
 }
 
+run "plan_succeeds_when_artifact_disabled" {
+  command = plan
+
+  variables {
+    stack_file = "envs/artifact-disabled.stack.yaml"
+  }
+
+  assert {
+    condition     = !output.time_anchor_enabled
+    error_message = "Expected time_anchor module to be disabled"
+  }
+
+  assert {
+    condition     = !output.suffix_enabled
+    error_message = "Expected suffix module to be disabled"
+  }
+
+  assert {
+    condition     = !output.artifact_enabled
+    error_message = "Expected artifact module to be disabled"
+  }
+
+  assert {
+    condition     = output.resolved_artifact_content == ""
+    error_message = "Expected resolved artifact content to remain empty when artifact is disabled"
+  }
+}
+
