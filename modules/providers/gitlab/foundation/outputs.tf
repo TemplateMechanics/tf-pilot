@@ -3,6 +3,7 @@
 # Provider: gitlab
 # Module: foundation
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "gitlab-foundation"

@@ -3,6 +3,7 @@
 # Provider: kubernetes
 # Module: network-policy
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   effective_tags = merge(var.tags, {
     name        = var.name

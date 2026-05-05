@@ -3,6 +3,7 @@
 # Provider: google
 # Module: identity
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   account_id = substr(replace("${var.name}-${var.environment}", "_", "-"), 0, 30)
   effective_tags = merge(var.tags, {
@@ -29,5 +30,5 @@ resource "google_project_iam_member" "this" {
 
   project = var.project_id
   role    = each.value
-  member  = "serviceAccount:${local.account_id}@${var.project_id}.iam.gserviceaccount.com"
+  member  = "serviceAccount:${google_service_account.this[0].email}"
 }

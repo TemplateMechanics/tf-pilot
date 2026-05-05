@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: network/resources/aws_route53recoveryreadiness_readiness_check
+# File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "enabled" {
   description = "When false, this module creates no resources."
   type        = bool

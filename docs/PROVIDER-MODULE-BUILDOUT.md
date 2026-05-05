@@ -46,6 +46,18 @@ Commit generated catalogs when provider versions change in `examples/providers/s
 
 This avoids hand-maintaining long argument lists and creates a repeatable reflection baseline for AWS, Azure, Google, Kubernetes, and Helm.
 
+## Provider Upgrade Policy (Release Gate)
+
+When provider major versions are released (for example, AWS 6.x), use a manual review workflow.
+
+1. Major version bumps are reviewed manually and are never auto-merged.
+2. The drift-summary issue or report must call out:
+  - which provider catalogs changed
+  - which module families regenerate
+  - any known breaking argument or behavior changes
+3. Regenerated module PRs go through the same validation and approval gates as handwritten changes.
+4. If the change affects stable contracts, include migration notes before merge.
+
 ## Generated Artifacts Policy
 
 This repository uses a **commit-and-gate** policy for generated provider modules and provider catalog artifacts.

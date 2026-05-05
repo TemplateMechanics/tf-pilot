@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: compute
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 mock_provider "azurerm" {}
 
 variables {
@@ -12,7 +13,7 @@ variables {
   resource_group_name  = "rg-test"
   location             = "eastus"
   subnet_id            = "/subscriptions/test/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/default"
-  admin_ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCu"
+  admin_ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl test@test"
 }
 
 run "plan_compute" {

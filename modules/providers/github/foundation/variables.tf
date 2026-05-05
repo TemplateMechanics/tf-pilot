@@ -3,6 +3,7 @@
 # Provider: github
 # Module: foundation
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Short name for this deployment."
   type        = string

@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: foundation/resources/azurerm_resource_group_policy_assignment
+# File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "enabled" {
   description = "When false, this module creates no resources."
   type        = bool

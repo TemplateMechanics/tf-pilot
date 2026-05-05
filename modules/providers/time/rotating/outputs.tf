@@ -3,6 +3,7 @@
 # Provider: time
 # Module: rotating
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "time-rotating"

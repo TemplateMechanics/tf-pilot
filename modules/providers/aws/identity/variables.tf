@@ -3,6 +3,7 @@
 # Provider: aws
 # Module: identity
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "IAM role name prefix."
   type        = string

@@ -3,6 +3,7 @@
 # Provider: azuredevops
 # Module: pipeline
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   resolved_variable_group_name = coalesce(var.variable_group_name, "${var.name}-${var.environment}-vars")
   effective_tags = merge(var.tags, {

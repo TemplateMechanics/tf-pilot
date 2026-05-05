@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://template-mechanics.local/schemas/kind-smoke.stack.schema.json",
+  "title": "Kind Smoke Istio Stack Contract",
+  "description": "Schema for YAML-driven Istio smoke deployment stack files.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "environment",
+    "namespaces",
+    "helm_releases",
+    "service_account"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional schema hint for editor and script validation."
+    },
+    "environment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "namespaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "istio_system",
+        "app"
+      ],
+      "properties": {
+        "istio_system": {
+          "$ref": "#/$defs/namespaceConfig"
+        },
+        "app": {
+          "$ref": "#/$defs/namespaceConfig"
+        }
+      }
+    },
+    "helm_releases": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "istio_base",
+        "istiod",
+        "istio_gateway"
+      ],
+      "properties": {
+        "istio_base": {
+          "$ref": "#/$defs/baseRelease"
+        },
+        "istiod": {
+          "$ref": "#/$defs/istiodRelease"
+        },
+        "istio_gateway": {
+          "$ref": "#/$defs/gatewayRelease"
+        }
+      }
+    },
+    "service_account": {
+      "$ref": "#/$defs/serviceAccount"
+    }
+  },
+  "$defs": {
+    "namespaceConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "enabled"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "releaseBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "enabled",
+        "chart",
+        "repository",
+        "create_namespace",
+        "wait",
+        "timeout",
+        "atomic"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "chart": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "create_namespace": {
+          "type": "boolean"
+        },
+        "wait": {
+          "type": "boolean"
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atomic": {
+          "type": "boolean"
+        },
+        "values": {
+          "type": "object"
+        }
+      }
+    },
+    "baseRelease": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/releaseBase"
+        }
+      ]
+    },
+    "istiodRelease": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/releaseBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "values"
+          ],
+          "properties": {
+            "values": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": [
+                "global",
+                "telemetry",
+                "meshConfig"
+              ],
+              "properties": {
+                "global": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "istioNamespace"
+                  ],
+                  "properties": {
+                    "istioNamespace": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "telemetry": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "required": [
+                    "enabled"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "meshConfig": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "required": [
+                    "ingressControllerMode"
+                  ],
+                  "properties": {
+                    "ingressControllerMode": {
+                      "type": "string",
+                      "enum": [
+                        "OFF",
+                        "DEFAULT",
+                        "STRICT"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "gatewayRelease": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/releaseBase"
+        },
+        {
+          "type": "object",
+          "required": [
+            "values"
+          ],
+          "properties": {
+            "values": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": [
+                "service"
+              ],
+              "properties": {
+                "service": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "required": [
+                    "type"
+                  ],
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "ClusterIP",
+                        "NodePort",
+                        "LoadBalancer",
+                        "ExternalName"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "serviceAccount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "enabled",
+        "rbac_rules"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "rbac_rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/rbacRule"
+          }
+        }
+      }
+    },
+    "rbacRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "api_groups",
+        "resources",
+        "verbs"
+      ],
+      "properties": {
+        "api_groups": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "resources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verbs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

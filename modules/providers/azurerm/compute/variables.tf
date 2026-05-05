@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: compute
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Virtual machine name prefix."
   type        = string

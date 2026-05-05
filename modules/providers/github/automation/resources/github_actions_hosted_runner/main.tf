@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: github
+# Module: automation/resources/github_actions_hosted_runner
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "github_actions_hosted_runner" "this" {
   count             = var.enabled ? 1 : 0
   name              = var.name

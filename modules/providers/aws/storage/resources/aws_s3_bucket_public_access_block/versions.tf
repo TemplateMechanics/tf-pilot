@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: storage/resources/aws_s3_bucket_public_access_block
+# File: versions.tf
+# SPDX-License-Identifier: MIT
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 

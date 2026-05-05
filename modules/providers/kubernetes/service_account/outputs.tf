@@ -3,6 +3,7 @@
 # Provider: kubernetes
 # Module: service_account
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "kubernetes-service_account"

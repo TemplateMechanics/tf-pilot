@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: network/resources/aws_vpclattice_service_network_vpc_association
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "aws_vpclattice_service_network_vpc_association" "this" {
   count                      = var.enabled ? 1 : 0
   service_network_identifier = var.service_network_identifier

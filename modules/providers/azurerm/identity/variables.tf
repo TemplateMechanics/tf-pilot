@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: identity
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Identity name prefix."
   type        = string

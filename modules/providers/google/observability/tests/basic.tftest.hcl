@@ -3,6 +3,7 @@
 # Provider: google
 # Module: observability
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 mock_provider "google" {}
 
 variables {

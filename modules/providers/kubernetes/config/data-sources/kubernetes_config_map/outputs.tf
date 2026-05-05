@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: kubernetes
+# Module: config/data-sources/kubernetes_config_map
+# File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "result" {
   description = "Resolved attributes for data source kubernetes_config_map."
   value       = try(data.kubernetes_config_map.this[0], null)

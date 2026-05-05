@@ -3,6 +3,7 @@
 # Provider: kubernetes
 # Module: service_account
 # File: versions.tf
+# SPDX-License-Identifier: MIT
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 

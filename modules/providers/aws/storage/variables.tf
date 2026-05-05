@@ -3,6 +3,7 @@
 # Provider: aws
 # Module: storage
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Bucket name prefix."
   type        = string

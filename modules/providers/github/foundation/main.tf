@@ -3,6 +3,7 @@
 # Provider: github
 # Module: foundation
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   resolved_team_name = coalesce(var.team_name, "${var.name}-${var.environment}")
   effective_tags = merge(var.tags, {

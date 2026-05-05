@@ -160,6 +160,7 @@ function New-ModuleScaffold {
   $dataPrefixText = if ($dataPrefixes.Count -gt 0) { $dataPrefixes -join ', ' } else { '(none)' }
 
   $versionsTf = @"
+# SPDX-License-Identifier: MIT
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 
@@ -170,6 +171,7 @@ terraform {
 "@
 
   $variablesTf = @"
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Short name for the resource or capability."
   type        = string
@@ -197,6 +199,7 @@ variable "enabled" {
 "@
 
   $mainTf = @"
+# SPDX-License-Identifier: MIT
 locals {
   effective_tags = merge(var.tags, {
     name        = var.name
@@ -211,6 +214,7 @@ locals {
 "@
 
   $outputsTf = @"
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "$ProviderName-$ModuleName"

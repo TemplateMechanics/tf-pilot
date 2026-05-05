@@ -3,6 +3,7 @@
 # Provider: kubernetes
 # Module: config
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   effective_tags = merge(var.tags, {
     environment                    = var.environment

@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: network/resources/aws_vpc_ipv4_cidr_block_association
+# File: versions.tf
+# SPDX-License-Identifier: MIT
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 

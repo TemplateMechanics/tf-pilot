@@ -3,6 +3,7 @@
 # Provider: kubernetes
 # Module: storage
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "kubernetes-storage"

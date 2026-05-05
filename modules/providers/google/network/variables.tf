@@ -3,6 +3,7 @@
 # Provider: google
 # Module: network
 # File: variables.tf
+# SPDX-License-Identifier: MIT
 variable "name" {
   description = "Network name prefix."
   type        = string

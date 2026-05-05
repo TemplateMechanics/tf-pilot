@@ -9,6 +9,10 @@
     "services"
   ],
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional schema hint for editor and script validation."
+    },
     "metadata": {
       "type": "object",
       "description": "Loose metadata consumed by root rendering and governance context.",

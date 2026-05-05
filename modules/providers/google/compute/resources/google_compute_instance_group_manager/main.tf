@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: google
+# Module: compute/resources/google_compute_instance_group_manager
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "google_compute_instance_group_manager" "this" {
   count                          = var.enabled ? 1 : 0
   base_instance_name             = var.base_instance_name

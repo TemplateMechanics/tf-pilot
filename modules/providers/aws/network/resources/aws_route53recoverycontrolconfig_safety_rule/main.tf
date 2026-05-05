@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: network/resources/aws_route53recoverycontrolconfig_safety_rule
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "aws_route53recoverycontrolconfig_safety_rule" "this" {
   count             = var.enabled ? 1 : 0
   control_panel_arn = var.control_panel_arn

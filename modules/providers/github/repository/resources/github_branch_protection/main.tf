@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: github
+# Module: repository/resources/github_branch_protection
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "github_branch_protection" "this" {
   count                           = var.enabled ? 1 : 0
   pattern                         = var.pattern

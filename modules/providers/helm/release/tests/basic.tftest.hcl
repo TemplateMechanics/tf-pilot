@@ -3,6 +3,7 @@
 # Provider: helm
 # Module: release
 # File: tests/basic.tftest.hcl
+# SPDX-License-Identifier: MIT
 mock_provider "helm" {}
 
 variables {

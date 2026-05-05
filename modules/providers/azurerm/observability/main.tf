@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: observability
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   workspace_name = "${var.name}-${var.environment}-law"
   app_name       = "${var.name}-${var.environment}-appi"

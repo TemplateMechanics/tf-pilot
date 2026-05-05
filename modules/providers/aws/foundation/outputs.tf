@@ -3,6 +3,7 @@
 # Provider: aws
 # Module: foundation
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "aws-foundation"
@@ -44,5 +45,5 @@ output "partition" {
 
 output "region" {
   description = "Resolved AWS region from variable or live discovery."
-  value       = coalesce(var.region, try(data.aws_region.current[0].name, null))
+  value       = var.region != null ? var.region : try(data.aws_region.current[0].name, null)
 }

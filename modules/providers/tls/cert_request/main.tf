@@ -3,6 +3,7 @@
 # Provider: tls
 # Module: cert_request
 # File: main.tf
+# SPDX-License-Identifier: MIT
 locals {
   effective_tags = merge(var.tags, {
     name        = var.name

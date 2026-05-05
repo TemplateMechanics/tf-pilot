@@ -3,6 +3,7 @@
 # Provider: azurerm
 # Module: compute
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "azurerm-compute"

@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: github
+# Module: foundation/data-sources/github_organization_external_identities
+# File: main.tf
+# SPDX-License-Identifier: MIT
 data "github_organization_external_identities" "this" {
   count = var.enabled ? 1 : 0
 }

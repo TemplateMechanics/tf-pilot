@@ -1,3 +1,9 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: compute/resources/azurerm_container_app_environment_custom_domain
+# File: main.tf
+# SPDX-License-Identifier: MIT
 resource "azurerm_container_app_environment_custom_domain" "this" {
   count                        = var.enabled ? 1 : 0
   certificate_blob_base64      = var.certificate_blob_base64

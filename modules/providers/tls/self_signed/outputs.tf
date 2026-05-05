@@ -3,6 +3,7 @@
 # Provider: tls
 # Module: self_signed
 # File: outputs.tf
+# SPDX-License-Identifier: MIT
 output "module" {
   description = "Module identifier."
   value       = "tls-self_signed"

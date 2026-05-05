@@ -16,16 +16,62 @@ It does this with three things:
 
 It also includes an **official Terraform MCP server integration** so agents can query Terraform registry and workspace context with first-party tooling before mutating infrastructure.
 
+## Architecture
+
+tf-pilot is designed as a layered control plane around Terraform, not just a set of helper scripts. The key design choice is split responsibility:
+
+- **Read/discovery path:** MCP + docs + schema catalogs
+- **Write/mutation path:** guarded scripts with explicit plan/apply gates
+
+That split keeps agents fast at lookup while making mutation workflows deterministic and auditable.
+
+```text
+User request
+  -> Agent instructions (CLAUDE.md / .github/copilot-instructions.md / agents/terraform.agent.md)
+  -> Authoritative skill (skills/terraform/SKILL.md)
+  -> Discovery (Terraform MCP, docs/, provider schema catalogs)
+  -> Mutation via wrappers (scripts/*.ps1 only)
+  -> Terraform outputs (tfplan + tfplan.json)
+  -> Policy + quality gates (fmt, validate, tflint, trivy, conftest, tests)
+  -> CI sync checks and merge gates
+```
+
+### Instruction layering
+
+1. `CLAUDE.md` / `.github/copilot-instructions.md`: operational safety rules and workflow constraints
+2. `agents/terraform.agent.md`: conversational persona and behavior defaults
+3. `skills/terraform/SKILL.md`: deep, authoritative Terraform reference
+4. `docs/`: design references and operational playbooks
+5. `examples/`: executable examples that validate expected patterns
+
+## What's innovative here
+
+1. **YAML token references with enforced checks**
+   YAML stack composition supports references like `${service.api.service_id}` and `${module.foundation.region}` with validation and check-block enforcement. See `docs/YAML-TOKEN-REFERENCES.md`.
+2. **Plan-as-artifact discipline**
+   `Invoke-TerraformPlan.ps1` emits `tfplan` plus `tfplan.json`; `Invoke-TerraformApply.ps1` requires `-PlanFile`. This makes change review explicit and repeatable.
+3. **Provider schema reflection to idempotent module generation**
+   Catalog + sync scripts regenerate provider modules reproducibly, and CI enforces sync state (`-Check`). See `docs/PROVIDER-MODULE-BUILDOUT.md` and `scripts/Sync-ProviderGeneratedModules.ps1`.
+4. **Negative-fixture testing pattern**
+   Expected-failure fixtures verify guardrails fail loudly for malformed references or invalid composition paths.
+5. **MCP-first reads, scripts-only writes**
+   Agent workflows use MCP for context and wrappers for mutations to avoid direct, unsafe CLI behavior.
+6. **OPA policy gate on plan JSON**
+   Policy checks run against `tfplan.json` in CI to catch risky changes early. See `policy/terraform/plan.rego`.
+
 ## Quick start
 
-1. Copy the contents of this repo into the root of your Terraform project.
+1. Fork this repository (recommended) or copy the harness into your Terraform project root.
+   If you only want selected components, start with instructions + scripts + docs first, then bring in generated provider modules as needed.
 2. Open the project in VS Code with the [HashiCorp Terraform extension](https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform) installed.
-3. Install the supporting CLIs (PowerShell 7+, Terraform >= 1.6, [tflint](https://github.com/terraform-linters/tflint), [trivy](https://github.com/aquasecurity/trivy)).
+3. Install the supporting CLIs (PowerShell 7+, Terraform, [tflint](https://github.com/terraform-linters/tflint), [trivy](https://github.com/aquasecurity/trivy)).
 4. Talk to your AI assistant in natural language. It will read `CLAUDE.md` (or `.github/copilot-instructions.md`) and follow the operational sequence.
 5. Configure MCP via `.vscode/mcp.json` (included). Terraform MCP now uses a script launcher that prefers a local executable and can fall back to Docker.
-	Optional cloud/documentation MCP servers are present but disabled by default; enable them explicitly if your workflow requires them.
+   Optional cloud/documentation MCP servers are present but disabled by default; enable them explicitly if your workflow requires them.
 6. Sync provider-aware MCP server enablement with `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints` (also run automatically by `Invoke-ProviderCatalogRefresh.ps1`).
 7. Before pushing changes, run `./scripts/Pre-Commit.ps1` (or `./scripts/Pre-Commit.ps1 -RunTests -RunSecurity` for the full local gate).
+
+Tip: for local interactive runs, use `./scripts/Initialize-Workspace.ps1 -Path <dir> -Compact` to suppress repetitive Terraform success boilerplate while still surfacing meaningful init output and errors.
 
 ## The mandatory plan/apply discipline
 
@@ -33,7 +79,9 @@ It also includes an **official Terraform MCP server integration** so agents can 
 
 ## Requirements
 
-- Terraform `>= 1.6.0` (the test framework requires 1.6+; `import {}` blocks need 1.5+; `removed {}` blocks need 1.7+; Stacks need 1.10+)
+- Terraform minimums:
+  - `>= 1.10.0` to use this repository as-is, including checked-in modules/examples and the current CI baseline
+  - `>= 1.7.0` only for `removed {}` workflows when you copy just the harness patterns into a separate project
 - PowerShell `7.0+` (cross-platform; `pwsh`)
 - [tflint](https://github.com/terraform-linters/tflint) `>= 0.50`
 - [trivy](https://github.com/aquasecurity/trivy) `>= 0.50` (replaces deprecated `tfsec`)
@@ -41,6 +89,31 @@ It also includes an **official Terraform MCP server integration** so agents can 
 - Go (recommended for local Terraform MCP executable install path)
 - Docker (optional fallback runtime for Terraform MCP)
 - Optional: [terraform-docs](https://terraform-docs.io/), [infracost](https://www.infracost.io/), [terragrunt](https://terragrunt.gruntwork.io/)
+
+## What you don't have to do
+
+| You normally have to | tf-pilot does for you |
+|---|---|
+| Memorize provider argument schemas | MCP + provider schema tooling provide live provider/module context |
+| Remember every validation/lint/security/schema command | `./scripts/Validate-Terraform.ps1` runs fmt + validate + tflint + trivy + stack YAML schema checks |
+| Risk direct apply behavior | `Invoke-TerraformApply.ps1` requires a saved `-PlanFile` |
+| Hand-author repetitive provider module scaffolds | sync scripts generate consistent module contracts and tests |
+| Catch YAML composition errors late | `.vscode/schemas/stack.schema.json` + `Validate-StackYaml.ps1` catch issues early |
+| Manually maintain provider module drift | CI sync checks fail when generated outputs are stale |
+| Reconstruct policy checks ad hoc | CI runs policy checks on `tfplan.json` via OPA/conftest |
+
+## How a request flows through this harness
+
+1. User asks for a change in chat.
+2. Agent loads instruction files and safety rules.
+3. Agent consults `skills/terraform/SKILL.md` before editing.
+4. Agent discovers provider/module/state context with MCP and docs.
+5. Agent edits HCL/config with repository patterns.
+6. Agent runs validation wrappers (`Validate-Terraform.ps1`, tests, policy checks).
+7. Agent runs `Invoke-TerraformPlan.ps1` and presents plan summary.
+8. User approves apply explicitly.
+9. Agent runs `Invoke-TerraformApply.ps1 -PlanFile ...`.
+10. CI re-validates sync, policy, quality, and test gates.
 
 ## Layout
 
@@ -50,29 +123,27 @@ It also includes an **official Terraform MCP server integration** so agents can 
 | `.github/copilot-instructions.md` | Instructions loaded by GitHub Copilot |
 | `agents/terraform.agent.md` | Conversational agent persona |
 | `skills/terraform/SKILL.md` | Authoritative HCL/state/module reference |
-| `docs/` | Deep-dive references (state, modules, testing, security) |
-| `.vscode/mcp.json` | Official Terraform MCP server workspace integration |
+| `docs/` | Deep-dive references (state drift, plan/apply strategy, YAML tokens, MCP routing, provider buildout) |
+| `docs/RUNBOOK.md` | Operational troubleshooting runbook with severity-tagged incidents and recovery steps |
+| `docs/PROVIDER-UPGRADE-POLICY.md` | Provider and Terraform upgrade policy, cadence, and rollback expectations |
+| `docs/MCP-FALLBACK-COMPATIBILITY.md` | MCP runtime fallback model and backwards-compatibility guarantees |
+| `docs/providers/` | Provider catalog and generated module documentation |
+| `.vscode/mcp.json` | Workspace MCP integration (Terraform + optional cloud/doc servers) |
 | `.vscode/schemas/stack.schema.json` | JSON Schema contract for YAML-driven stack files |
+| `.vscode/schemas/kind-smoke.stack.schema.json` | JSON Schema contract for Istio kind smoke stack files |
 | `docs/TERRAFORM-MCP-INTEGRATION.md` | MCP-first usage model and setup notes |
 | `docs/PROVIDER-MODULE-BUILDOUT.md` | Copilot-facing design for AWS, Azure, Google Cloud, Kubernetes, and Helm modules |
 | `docs/BRANCH-WORKFLOW.md` | Branch protection and required-check merge workflow guidance |
-| `scripts/` | PowerShell wrappers around terraform, tflint, trivy |
+| `scripts/` | PowerShell wrappers for init/validate/plan/apply/test plus catalog/module sync |
 | `scripts/Validate-StackYaml.ps1` | Programmatic schema validation for `*.stack.yaml` files |
 | `scripts/Pre-Commit.ps1` | Local pre-push gate for init, validate, and stack schema checks |
+| `modules/providers/` | Generated provider module fleet (committed, sync-checked by CI) |
+| `examples/providers/` | Provider-specific stacks and schema-catalog examples |
+| `policy/terraform/plan.rego` | OPA policy rules evaluated against plan JSON |
 | `tests/Harness.Tests.ps1` | Pester suite for the wrappers |
 | `examples/` | Working Terraform projects to copy from |
-| `.github/workflows/validate.yml` | CI: fmt + validate + lint + security + tests |
+| `.github/workflows/validate.yml` | CI: fmt + validate + lint + security + policy + tests + sync checks |
 | `.vscode/settings.json` | terraform-ls config + file associations |
-
-## Schema Reflection Benefits
-
-The schema reflection pipeline is designed to improve reliability and consistency for provider module generation.
-
-1. **Version-pinned provider inputs**: Generated modules use provider schema catalogs tied to specific versions, reducing invalid argument usage.
-2. **Consistent module contracts**: Standardized file layouts (`main.tf`, `variables.tf`, `outputs.tf`, `tests/`) keep generated modules predictable.
-3. **YAML-driven composition**: Settings-driven generation reduces repetitive hand edits and keeps provider coverage updates reproducible.
-4. **Local guardrails**: Validation, lint, policy, and test scripts provide fast feedback before plan/apply workflows.
-5. **Targeted scope**: Provider family/module selection narrows generated output to the intended infrastructure surface area.
 
 ## Generated Artifacts Governance
 
@@ -82,6 +153,14 @@ Use commit-and-gate workflow:
 1. Regenerate with the provided scripts.
 2. Commit generated output in the same change.
 3. Rely on CI sync checks to detect stale generated files.
+
+## Troubleshooting
+See `docs/RUNBOOK.md` for operational troubleshooting, incident triage severity tags, and recovery playbooks.
+
+Related guidance:
+- `docs/STATE-MANAGEMENT.md` for state drift and recovery workflows
+- `docs/MCP-FALLBACK-COMPATIBILITY.md` for MCP runtime fallback and compatibility behavior
+- `docs/PROVIDER-UPGRADE-POLICY.md` for safe provider/Terraform upgrade sequencing
 
 ## License
 

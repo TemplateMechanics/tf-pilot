@@ -57,8 +57,59 @@ $repoRoot = (Resolve-Path -Path (Join-Path $PSScriptRoot '..')).Path
 
 $stackSchemaPath = Join-Path $repoRoot '.vscode/schemas/stack.schema.json'
 $providerSchemaPath = Join-Path $repoRoot '.vscode/schemas/provider-stack.schema.json'
+$kindSmokeSchemaPath = Join-Path $repoRoot '.vscode/schemas/kind-smoke.stack.schema.json'
 $multiEnvRoot = (Resolve-Path -Path (Join-Path $repoRoot 'examples/multi-env-stack')).Path
 $providerRoot = (Resolve-Path -Path (Join-Path $repoRoot 'examples/providers')).Path
+$kindSmokeCandidatePath = Join-Path $repoRoot 'scratch/kind-smoke'
+$kindSmokeRoot = if (Test-Path -Path $kindSmokeCandidatePath -PathType Container) {
+  (Resolve-Path -Path $kindSmokeCandidatePath).Path
+} else {
+  $null
+}
+
+$schemaIdMap = @{
+  'https://template-mechanics.local/schemas/stack.schema.json' = $stackSchemaPath
+  'https://template-mechanics.local/schemas/provider-stack.schema.json' = $providerSchemaPath
+  'https://template-mechanics.local/schemas/kind-smoke.stack.schema.json' = $kindSmokeSchemaPath
+}
+
+function Resolve-StackSchemaHint {
+  param(
+    [Parameter()][string]$SchemaHint,
+    [Parameter(Mandatory)][string]$StackFilePath,
+    [Parameter(Mandatory)][string]$RepoRoot,
+    [Parameter(Mandatory)][hashtable]$SchemaIdMap
+  )
+
+  if ([string]::IsNullOrWhiteSpace($SchemaHint)) {
+    return $null
+  }
+
+  if ($SchemaIdMap.ContainsKey($SchemaHint)) {
+    return $SchemaIdMap[$SchemaHint]
+  }
+
+  if ([System.IO.Path]::IsPathRooted($SchemaHint)) {
+    if (Test-Path -Path $SchemaHint -PathType Leaf) {
+      return (Resolve-Path -Path $SchemaHint).Path
+    }
+    return $null
+  }
+
+  $stackDir = Split-Path -Parent $StackFilePath
+  $candidatePaths = @(
+    (Join-Path $stackDir $SchemaHint),
+    (Join-Path $RepoRoot $SchemaHint)
+  )
+
+  foreach ($candidatePath in $candidatePaths) {
+    if (Test-Path -Path $candidatePath -PathType Leaf) {
+      return (Resolve-Path -Path $candidatePath).Path
+    }
+  }
+
+  return $null
+}
 
 $files = Get-ChildItem -Path $resolvedPath -Filter '*.stack.yaml' -Recurse -File -ErrorAction SilentlyContinue
 if (-not $IncludeTestFixtures) {
@@ -74,27 +125,9 @@ $results = @()
 $failures = 0
 
 foreach ($file in $files) {
-  $schemaPath = $null
-  if ($file.FullName.StartsWith($multiEnvRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
-    $schemaPath = $stackSchemaPath
-  }
-  elseif ($file.FullName.StartsWith($providerRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
-    $schemaPath = $providerSchemaPath
-  }
-
-  if (-not $schemaPath) {
-    $failures += 1
-    $results += [pscustomobject]@{
-      File   = $file.FullName
-      Schema = '<none>'
-      Valid  = $false
-      Detail = 'No schema mapping found for file location.'
-    }
-    continue
-  }
-
   try {
     $jsonText = $null
+    $yamlObject = $null
     if ($canUseConvertFromYaml) {
       $yamlText = Get-Content -Path $file.FullName -Raw
       $yamlObject = ConvertFrom-Yaml -Yaml $yamlText
@@ -105,6 +138,37 @@ foreach ($file in $files) {
       if ($LASTEXITCODE -ne 0) {
         throw 'Python YAML parsing failed.'
       }
+      $yamlObject = $jsonText | ConvertFrom-Json
+    }
+
+    $schemaPath = $null
+    $schemaHint = $null
+    if ($null -ne $yamlObject -and $yamlObject.PSObject.Properties.Name -contains '$schema') {
+      $schemaHint = [string]$yamlObject.PSObject.Properties['$schema'].Value
+      $schemaPath = Resolve-StackSchemaHint -SchemaHint $schemaHint -StackFilePath $file.FullName -RepoRoot $repoRoot -SchemaIdMap $schemaIdMap
+    }
+
+    if (-not $schemaPath) {
+      if ($file.FullName.StartsWith($multiEnvRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+        $schemaPath = $stackSchemaPath
+      }
+      elseif ($file.FullName.StartsWith($providerRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+        $schemaPath = $providerSchemaPath
+      }
+      elseif ($kindSmokeRoot -and $file.FullName.StartsWith($kindSmokeRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+        $schemaPath = $kindSmokeSchemaPath
+      }
+    }
+
+    if (-not $schemaPath) {
+      $failures += 1
+      $results += [pscustomobject]@{
+        File   = $file.FullName
+        Schema = '<none>'
+        Valid  = $false
+        Detail = if ([string]::IsNullOrWhiteSpace($schemaHint)) { 'No schema mapping found for file location.' } else { "Schema hint '$schemaHint' could not be resolved." }
+      }
+      continue
     }
 
     $isValid = $false
