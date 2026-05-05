@@ -1,7 +1,7 @@
 # YAML Token Registry — Dynamic Resolver Pattern
 
-> **Status:** Design spec. Not yet implemented.
-> **Audience:** GitHub Copilot / Claude Code, acting as the implementer of this pattern across the harness's YAML-driven stack examples.
+> **Status:** Implemented. All three provider stack examples use the registry-based `templatestring()` resolver.
+> **Audience:** GitHub Copilot / Claude Code, acting as maintainer of this pattern across the harness's YAML-driven stack examples.
 > **Companion doc:** [`docs/YAML-TOKEN-REFERENCES.md`](YAML-TOKEN-REFERENCES.md) — end-user reference for the token syntax. This doc describes how the harness *implements* and *maintains* that syntax.
 
 ---
@@ -14,7 +14,7 @@ The harness has three YAML-driven stack examples that resolve `${module.<name>.<
 - [`examples/providers/multiprovider-stack`](../examples/providers/multiprovider-stack)
 - [`examples/providers/multi-cloud-free-tier`](../examples/providers/multi-cloud-free-tier)
 
-Today, two of those examples (`aws-stack`, `multiprovider-stack`) implement the resolver with hand-rolled `regex` + chained `replace` calls, one or two `check {}` blocks per supported field, and a hardcoded list of `(module, output)` pairs. The third example (`multi-cloud-free-tier`) was authored without any resolver at all, and an AI assistant filled the gap by inventing decorative `token_example_*` YAML fields that the HCL never reads. The YAML *appears* to demonstrate tokens, but nothing flows through.
+All three examples now implement the registry-based resolver using `token_scope`, `token_aware_field_raw`, and `resolved_token_fields = templatestring(...)`. The previous approach used hand-rolled `regex` + chained `replace` calls with one or two `check {}` blocks per supported field. An earlier iteration of `multi-cloud-free-tier` had decorative `token_example_*` YAML fields that the HCL never read — this anti-pattern is now blocked by CI guardrails (`scripts/Test-YamlTokens.ps1`).
 
 Maintenance cost of the current per-field pattern:
 

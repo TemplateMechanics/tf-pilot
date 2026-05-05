@@ -11,11 +11,7 @@ locals {
 
   token_scope = {
     module = {
-      foundation = try(module.foundation[0], {
-        account_id = ""
-        partition  = ""
-        region     = ""
-      })
+      foundation = try(module.foundation[0], {})
     }
   }
 

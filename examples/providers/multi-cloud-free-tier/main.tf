@@ -85,18 +85,18 @@ locals {
   # token references. Only include modules whose outputs are referenced.
   token_scope = {
     module = {
-      aws_foundation = try(module.aws_foundation[0], { region = "", account_id = "" })
-      aws_identity   = try(module.aws_identity[0], { role_arn = "", role_name = "" })
-      aws_network    = try(module.aws_network[0], { vpc_id = "", vpc_cidr = "" })
-      aws_storage    = try(module.aws_storage[0], { bucket_name = "", bucket_arn = "", bucket_regional_domain_name = "" })
-      az_foundation  = try(module.az_foundation[0], { resource_group_name = "" })
-      az_identity    = try(module.az_identity[0], { identity_id = "" })
-      az_network     = try(module.az_network[0], { virtual_network_id = "" })
-      az_storage     = try(module.az_storage[0], { storage_account_name = "", primary_blob_endpoint = "" })
-      gcp_foundation = try(module.gcp_foundation[0], { project_id = "", region = "" })
-      gcp_identity   = try(module.gcp_identity[0], { service_account_email = "" })
-      gcp_network    = try(module.gcp_network[0], { network_id = "" })
-      gcp_storage    = try(module.gcp_storage[0], { bucket_name = "", bucket_url = "" })
+      aws_foundation = try(module.aws_foundation[0], {})
+      aws_identity   = try(module.aws_identity[0], {})
+      aws_network    = try(module.aws_network[0], {})
+      aws_storage    = try(module.aws_storage[0], {})
+      az_foundation  = try(module.az_foundation[0], {})
+      az_identity    = try(module.az_identity[0], {})
+      az_network     = try(module.az_network[0], {})
+      az_storage     = try(module.az_storage[0], {})
+      gcp_foundation = try(module.gcp_foundation[0], {})
+      gcp_identity   = try(module.gcp_identity[0], {})
+      gcp_network    = try(module.gcp_network[0], {})
+      gcp_storage    = try(module.gcp_storage[0], {})
     }
   }
 

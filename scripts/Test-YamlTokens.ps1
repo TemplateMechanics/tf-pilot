@@ -14,16 +14,16 @@ function Write-Violation {
     [Parameter(Mandatory)] [string]$Message
   )
 
-  Write-Error $Message
+  Write-Error $Message -ErrorAction Continue
   $script:hasViolation = $true
 }
 
 # Disallow decorative token fields in YAML contracts.
 $yamlFiles = Get-ChildItem -Path $root -Recurse -File -Include *.yaml,*.yml |
-  Where-Object { $_.FullName -notmatch '\\.terraform\\' }
+  Where-Object { $_.FullName -notmatch '[\\/]\.terraform[\\/]' }
 
 foreach ($file in $yamlFiles) {
-  $matches = Select-String -Path $file.FullName -Pattern '(^|\s)token_example_[A-Za-z0-9_]+' -AllMatches
+  $matches = Select-String -Path $file.FullName -Pattern '^\s*token_example_[A-Za-z0-9_]+\s*:' -AllMatches
   foreach ($match in $matches) {
     Write-Violation "Decorative token key found at $($file.FullName):$($match.LineNumber). Remove token_example_* fields and wire real token-aware fields through token_scope/templatestring."
   }

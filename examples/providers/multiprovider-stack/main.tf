@@ -12,13 +12,8 @@ locals {
 
   token_scope = {
     module = {
-      time_anchor = try(time_static.anchor[0], {
-        rfc3339 = ""
-        unix    = 0
-      })
-      suffix = try(random_pet.suffix[0], {
-        id = ""
-      })
+      time_anchor = try(time_static.anchor[0], {})
+      suffix      = try(random_pet.suffix[0], {})
     }
   }
 

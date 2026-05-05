@@ -34,8 +34,8 @@ This split avoids introducing a graph cycle while preserving a user-readable sou
 1. Add the relevant module object to `local.token_scope.module`.
 2. Add the YAML field to `local.token_aware_field_raw`.
 3. Consume `local.resolved_token_fields["<field>"]` at the module/resource call site.
-3. Add negative fixtures for invalid format and unknown target.
-4. Update stack README token list.
+4. Add negative fixtures for invalid format and unknown target.
+5. Update stack README token list.
 
 ## Testing guidance
 - Keep plan-time tests for parser/check validation.
