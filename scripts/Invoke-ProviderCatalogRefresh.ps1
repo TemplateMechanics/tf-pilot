@@ -306,9 +306,6 @@ function Compare-CatalogEntries {
 function Add-DiffSection {
   param(
     [Parameter(Mandatory)]
-    [System.Collections.Generic.List[string]]$Lines,
-
-    [Parameter(Mandatory)]
     [string]$Title,
 
     [Parameter()]
@@ -321,15 +318,18 @@ function Add-DiffSection {
       Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
   )
 
-  $Lines.Add("- $Title") | Out-Null
+  $sectionLines = New-Object 'System.Collections.Generic.List[string]'
+  $sectionLines.Add("- $Title") | Out-Null
   if ($itemList.Count -eq 0) {
-    $Lines.Add("  - none") | Out-Null
-    return
+    $sectionLines.Add("  - none") | Out-Null
+    return @($sectionLines)
   }
 
   foreach ($item in $itemList) {
-    $Lines.Add("  - $item") | Out-Null
+    $sectionLines.Add("  - $item") | Out-Null
   }
+
+  return @($sectionLines)
 }
 
 $terraform = Get-RequiredCommand -Name 'terraform'
@@ -590,32 +590,32 @@ $diffSummaryPath = Join-Path $resolvedOutputDir 'refresh-diff-summary.json'
 Write-Utf8NoBom -Path $diffSummaryPath -Content (@($diffResults) | ConvertTo-Json -Depth 16)
 
 $diffMarkdownPath = Join-Path $resolvedOutputDir 'refresh-diff-summary.md'
-$lines = New-Object 'System.Collections.Generic.List[string]'
-$lines.Add('# Provider Catalog Diff Summary') | Out-Null
-$lines.Add('') | Out-Null
-$lines.Add('| Provider | Status | Resources (+/-/~) | Data Sources (+/-/~) |') | Out-Null
-$lines.Add('|---|---|---:|---:|') | Out-Null
+$markdownLines = New-Object 'System.Collections.Generic.List[string]'
+$markdownLines.Add('# Provider Catalog Diff Summary') | Out-Null
+$markdownLines.Add('') | Out-Null
+$markdownLines.Add('| Provider | Status | Resources (+/-/~) | Data Sources (+/-/~) |') | Out-Null
+$markdownLines.Add('|---|---|---:|---:|') | Out-Null
 
 foreach ($item in @($diffResults)) {
   $resourceDelta = "$($item.resourceAddedCount)/$($item.resourceRemovedCount)/$($item.resourceChangedCount)"
   $dataSourceDelta = "$($item.dataSourceAddedCount)/$($item.dataSourceRemovedCount)/$($item.dataSourceChangedCount)"
-  $lines.Add("| $($item.provider) | $($item.status) | $resourceDelta | $dataSourceDelta |") | Out-Null
+  $markdownLines.Add("| $($item.provider) | $($item.status) | $resourceDelta | $dataSourceDelta |") | Out-Null
 }
 
 foreach ($item in @($diffResults | Where-Object { $_.status -ne 'unchanged' })) {
-  $lines.Add('') | Out-Null
-  $lines.Add("## $($item.provider) changes") | Out-Null
-  $lines.Add('') | Out-Null
+  $markdownLines.Add('') | Out-Null
+  $markdownLines.Add("## $($item.provider) changes") | Out-Null
+  $markdownLines.Add('') | Out-Null
 
-  Add-DiffSection -Lines $lines -Title 'Resource types added' -Items @($item.resourceAdded)
-  Add-DiffSection -Lines $lines -Title 'Resource types removed' -Items @($item.resourceRemoved)
-  Add-DiffSection -Lines $lines -Title 'Resource types changed' -Items @($item.resourceChanged)
-  Add-DiffSection -Lines $lines -Title 'Data source types added' -Items @($item.dataSourceAdded)
-  Add-DiffSection -Lines $lines -Title 'Data source types removed' -Items @($item.dataSourceRemoved)
-  Add-DiffSection -Lines $lines -Title 'Data source types changed' -Items @($item.dataSourceChanged)
+  foreach ($sectionLine in (Add-DiffSection -Title 'Resource types added' -Items @($item.resourceAdded))) { $markdownLines.Add($sectionLine) | Out-Null }
+  foreach ($sectionLine in (Add-DiffSection -Title 'Resource types removed' -Items @($item.resourceRemoved))) { $markdownLines.Add($sectionLine) | Out-Null }
+  foreach ($sectionLine in (Add-DiffSection -Title 'Resource types changed' -Items @($item.resourceChanged))) { $markdownLines.Add($sectionLine) | Out-Null }
+  foreach ($sectionLine in (Add-DiffSection -Title 'Data source types added' -Items @($item.dataSourceAdded))) { $markdownLines.Add($sectionLine) | Out-Null }
+  foreach ($sectionLine in (Add-DiffSection -Title 'Data source types removed' -Items @($item.dataSourceRemoved))) { $markdownLines.Add($sectionLine) | Out-Null }
+  foreach ($sectionLine in (Add-DiffSection -Title 'Data source types changed' -Items @($item.dataSourceChanged))) { $markdownLines.Add($sectionLine) | Out-Null }
 }
 
-Write-Utf8NoBom -Path $diffMarkdownPath -Content ($lines -join "`n")
+Write-Utf8NoBom -Path $diffMarkdownPath -Content ($markdownLines -join "`n")
 
 Write-Host "`nProvider catalog refresh complete." -ForegroundColor Green
 Write-Host "Summary written to $summaryPath"
