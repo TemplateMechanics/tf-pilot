@@ -76,7 +76,7 @@ function Get-YamlObject {
   }
 
   if ($BackendState.CanUsePythonYaml) {
-    $jsonText = & $BackendState.PythonCommand.Source '-c' 'import json,sys,yaml; print(json.dumps(yaml.safe_load(open(sys.argv[1], encoding="utf-8").read())))' $FilePath
+    $jsonText = & $BackendState.PythonCommand.Source '-c' 'import json,sys,yaml; print(json.dumps(yaml.safe_load(open(sys.argv[1], encoding=''utf-8'').read())))' $FilePath
     if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace(($jsonText | Out-String))) {
       return (($jsonText | Out-String).Trim() | ConvertFrom-Json)
     }
