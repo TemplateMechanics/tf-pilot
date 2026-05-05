@@ -60,7 +60,13 @@ param(
   [switch]$DestroyMode,
 
   [Parameter()]
-  [switch]$Force
+  [switch]$Force,
+
+  [Parameter()]
+  [switch]$SkipCloudReadiness,
+
+  [Parameter()]
+  [switch]$StrictCloudReadiness
 )
 
 $ErrorActionPreference = 'Stop'
@@ -106,6 +112,19 @@ if (-not $terraform) {
 
 $resolvedPath = (Resolve-Path -Path $Path).Path
 $outPath = if ([System.IO.Path]::IsPathRooted($Out)) { $Out } else { Join-Path $resolvedPath $Out }
+
+$cloudReadinessScript = Join-Path $PSScriptRoot 'Test-CloudCliReadiness.ps1'
+if (-not $SkipCloudReadiness -and (Test-Path $cloudReadinessScript)) {
+  Write-Host "`nCloud CLI Readiness" -ForegroundColor Cyan
+  $cloudReadinessArgs = @{ Path = $resolvedPath }
+  if ($StrictCloudReadiness) {
+    $cloudReadinessArgs['Strict'] = $true
+  }
+  & $cloudReadinessScript @cloudReadinessArgs
+  if ($LASTEXITCODE -ne 0) {
+    exit $LASTEXITCODE
+  }
+}
 
 # Use an isolated Helm cache/config inside the working directory to avoid
 # failures caused by stale or corrupted global Helm repo state on Windows.

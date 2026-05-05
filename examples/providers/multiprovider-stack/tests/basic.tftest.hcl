@@ -59,3 +59,8 @@ run "plan_succeeds_when_artifact_disabled" {
   }
 }
 
+# NOTE: Negative token resolution tests cannot use expect_failures because templatestring() errors
+# occur during locals evaluation, not at the output level. expect_failures only works with
+# resource preconditions/postconditions and check{} block assertions.
+# Token validation coverage is provided by Test-YamlTokens.ps1 unit tests in tests/Harness.Tests.ps1.
+
