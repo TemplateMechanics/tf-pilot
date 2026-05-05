@@ -9,6 +9,16 @@ Use official Terraform MCP (`hashicorp/terraform-mcp-server`) first for discover
 
 Use `scripts/*.ps1` for guarded execution workflows (validate, plan, apply, destroy, import, test).
 
+## Canonical YAML Token Pattern
+
+For provider stack YAML token references (`${module.<name>.<output>}`), use the registry resolver pattern only:
+
+- `token_scope` contains registered module objects at `token_scope.module.<name>`.
+- `token_aware_field_raw` lists YAML field values that may contain tokens.
+- `resolved_token_fields` uses `templatestring(raw, local.token_scope)` for each token-aware field.
+
+Do not use regex-based token parsing (`module_output_token_regex`, chained `replace`, ad-hoc check blocks), and never add decorative `token_example_*` YAML fields.
+
 ## When to Use
 
 - Any HCL authoring or refactor

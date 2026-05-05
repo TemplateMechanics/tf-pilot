@@ -237,3 +237,31 @@ Describe 'Script syntax' {
     }
   }
 }
+
+Describe 'YAML token anti-pattern checks' {
+  It 'contains no token_example_ keys in YAML files' {
+    $yamlFiles = Get-ChildItem -Path $script:repoRoot -Recurse -File -Include *.yaml,*.yml |
+      Where-Object { $_.FullName -notmatch '\\.terraform\\' }
+
+    $matches = @()
+    foreach ($yamlFile in $yamlFiles) {
+      $matches += Select-String -Path $yamlFile.FullName -Pattern '(^|\s)token_example_[A-Za-z0-9_]+' -AllMatches
+    }
+
+    $matches | Should -BeNullOrEmpty
+  }
+
+  It 'contains no legacy provider token parser symbols in provider examples' {
+    $providerMains = Get-ChildItem -Path (Join-Path $script:repoRoot 'examples/providers') -Recurse -File -Filter 'main.tf'
+    $legacyPatterns = @('module_output_token_regex', 'module_reference_values_flat')
+
+    $matches = @()
+    foreach ($providerMain in $providerMains) {
+      foreach ($pattern in $legacyPatterns) {
+        $matches += Select-String -Path $providerMain.FullName -Pattern ([regex]::Escape($pattern))
+      }
+    }
+
+    $matches | Should -BeNullOrEmpty
+  }
+}

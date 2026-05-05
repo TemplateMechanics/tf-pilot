@@ -31,26 +31,3 @@ run "plan_succeeds" {
   }
 }
 
-run "fails_on_invalid_artifact_content_token_format" {
-  command = plan
-
-  variables {
-    stack_file = "tests/fixtures/bad-token-format.stack.yaml"
-  }
-
-  expect_failures = [
-    check.artifact_content_token_format
-  ]
-}
-
-run "fails_on_unresolvable_artifact_filename_token" {
-  command = plan
-
-  variables {
-    stack_file = "tests/fixtures/bad-token-unresolvable.stack.yaml"
-  }
-
-  expect_failures = [
-    check.artifact_filename_token_resolves
-  ]
-}

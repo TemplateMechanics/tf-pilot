@@ -39,6 +39,7 @@ Use the official Terraform MCP server first when available (`hashicorp/terraform
 21. **MCP-first behavior:** for read/discovery workflows, use official Terraform MCP tools before ad-hoc shell commands.
 22. **YAML-first composition check:** before authoring many repeated resources, first consider a YAML-driven module composition pattern (`yamldecode(file(...))` + `module` `for_each`) for composable infrastructure.
 23. **State Q&A support:** when asked state questions, answer from state-aware sources (MCP state/workspace context or wrapped `terraform state` workflows) and call out lock/consistency caveats.
+24. **YAML token registry discipline:** for provider stack token references (`${module.<name>.<output>}`), implement only the registry model in `docs/YAML-TOKEN-REGISTRY.md`: `token_scope`, `token_aware_field_raw`, and `resolved_token_fields = templatestring(...)`. Never add decorative `token_example_*` fields and never introduce legacy regex/replace token parsing.
 
 ## File Locations
 

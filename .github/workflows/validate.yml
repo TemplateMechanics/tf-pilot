@@ -78,6 +78,11 @@ jobs:
           ./scripts/Validate-Terraform.ps1 -Path ./examples/providers/multiprovider-stack
           ./scripts/Validate-StackYaml.ps1 -Path ./examples
 
+      - name: Enforce YAML token anti-pattern guardrails
+        shell: pwsh
+        run: |
+          ./scripts/Test-YamlTokens.ps1 -RootPath .
+
       - name: Run Pester tests
         shell: pwsh
         run: |

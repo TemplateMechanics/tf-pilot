@@ -26,26 +26,3 @@ run "plan_succeeds" {
   }
 }
 
-run "fails_on_invalid_network_name_token_format" {
-  command = plan
-
-  variables {
-    stack_file = "tests/fixtures/bad-token-format.stack.yaml"
-  }
-
-  expect_failures = [
-    check.network_name_token_format
-  ]
-}
-
-run "fails_on_unresolvable_network_name_token" {
-  command = plan
-
-  variables {
-    stack_file = "tests/fixtures/bad-token-unresolvable.stack.yaml"
-  }
-
-  expect_failures = [
-    check.network_name_token_resolves
-  ]
-}

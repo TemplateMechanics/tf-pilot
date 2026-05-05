@@ -6,6 +6,16 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Added
+- Added `examples/providers/multi-cloud-free-tier` with YAML-driven composition across AWS, Azure, and GCP plus provider-stack schema support.
+- Added `docs/YAML-TOKEN-REGISTRY.md` as the canonical implementation reference for provider-stack token resolution.
+- Added `scripts/Test-YamlTokens.ps1` for anti-pattern enforcement (`token_example_*`, legacy regex token parsers).
+
+### Changed
+- Migrated `examples/providers/aws-stack` and `examples/providers/multiprovider-stack` from regex/check token parsing to registry-based `templatestring` resolution (`token_scope`, `token_aware_field_raw`, `resolved_token_fields`).
+- Updated Terraform harness docs/instructions to require token registry discipline and forbid decorative token fields.
+- Added CI and Pester guardrails to enforce YAML token anti-pattern checks.
+
 ### Fixed
 - Restored missing artifact `path` input in `.github/workflows/validate.yml` and removed stray YAML content from MCP sync step.
 - Updated `.gitignore` to exclude `.state-backups/`, `tfdestroy.plan`, `provider-schema.json`, and archived plan artifacts.

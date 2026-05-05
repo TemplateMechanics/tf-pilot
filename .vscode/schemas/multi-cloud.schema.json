@@ -51,6 +51,11 @@
       "properties": {
         "enabled": { "type": "boolean" }
       },
+      "propertyNames": {
+        "not": {
+          "pattern": "^token_example_"
+        }
+      },
       "additionalProperties": true
     },
     "awsCloud": {
@@ -70,6 +75,11 @@
         "modules": {
           "type": "object",
           "description": "AWS module enables and settings.",
+          "propertyNames": {
+            "not": {
+              "pattern": "^token_example_"
+            }
+          },
           "additionalProperties": { "$ref": "#/$defs/moduleConfig" }
         }
       }
@@ -91,6 +101,11 @@
         "modules": {
           "type": "object",
           "description": "Azure module enables and settings.",
+          "propertyNames": {
+            "not": {
+              "pattern": "^token_example_"
+            }
+          },
           "additionalProperties": { "$ref": "#/$defs/moduleConfig" }
         }
       }
@@ -116,6 +131,11 @@
         "modules": {
           "type": "object",
           "description": "GCP module enables and settings.",
+          "propertyNames": {
+            "not": {
+              "pattern": "^token_example_"
+            }
+          },
           "additionalProperties": { "$ref": "#/$defs/moduleConfig" }
         }
       }

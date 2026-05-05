@@ -46,6 +46,11 @@
     "modules": {
       "type": "object",
       "minProperties": 1,
+      "propertyNames": {
+        "not": {
+          "pattern": "^token_example_"
+        }
+      },
       "additionalProperties": {
         "$ref": "#/$defs/moduleConfig"
       }
@@ -61,6 +66,11 @@
       "properties": {
         "enabled": {
           "type": "boolean"
+        }
+      },
+      "propertyNames": {
+        "not": {
+          "pattern": "^token_example_"
         }
       },
       "additionalProperties": true

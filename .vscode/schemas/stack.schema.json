@@ -24,6 +24,11 @@
       "type": "object",
       "description": "Map of service keys to service configuration.",
       "minProperties": 1,
+      "propertyNames": {
+        "not": {
+          "pattern": "^token_example_"
+        }
+      },
       "additionalProperties": {
         "$ref": "#/$defs/service"
       }
@@ -67,6 +72,11 @@
               "pattern": "^[A-Za-z0-9._:/-]+$"
             }
           ]
+        }
+      },
+      "propertyNames": {
+        "not": {
+          "pattern": "^token_example_"
         }
       }
     }

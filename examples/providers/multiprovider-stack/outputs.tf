@@ -25,5 +25,5 @@ output "resolved_artifact_content" {
 
 output "available_module_reference_values" {
   description = "Nested map of values available for token substitution in this stack."
-  value       = local.module_reference_values
+  value       = local.token_scope.module
 }

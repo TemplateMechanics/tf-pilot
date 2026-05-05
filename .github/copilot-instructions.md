@@ -26,6 +26,7 @@ This workspace contains Terraform / OpenTofu configuration. You are working with
 15. **`depends_on` is a last resort.** Prefer implicit dependencies through attribute references.
 16. **YAML-module composition check:** before expanding repetitive resources, evaluate YAML-driven modules (`yamldecode(file(...))` + module `for_each`) for composable infrastructure.
 17. **State Q&A support:** answer state-management questions from state-aware sources (MCP context or wrapped `terraform state` workflows) and surface lock/drift caveats.
+18. **YAML token registry discipline:** for provider stack token references (`${module.<name>.<output>}`), use the registry pattern from `docs/YAML-TOKEN-REGISTRY.md` only: `token_scope` + `token_aware_field_raw` + `resolved_token_fields = templatestring(...)`. Do not add `token_example_*` fields and do not use legacy regex/replace token parsers.
 
 ## File Locations
 
