@@ -305,8 +305,8 @@ function Compare-CatalogEntries {
 
 function Add-DiffSection {
   param(
-    [Parameter()]
-    $Lines,
+    [Parameter(Mandatory)]
+    [System.Collections.Generic.List[string]]$Lines,
 
     [Parameter(Mandatory)]
     [string]$Title,
@@ -315,30 +315,20 @@ function Add-DiffSection {
     [string[]]$Items
   )
 
-  $lineBuffer = if ($Lines -is [System.Collections.Generic.List[string]]) {
-    $Lines
-  }
-  elseif ($script:lines -is [System.Collections.Generic.List[string]]) {
-    $script:lines
-  }
-  else {
-    New-Object 'System.Collections.Generic.List[string]'
-  }
-
   $itemList = @(
     @($Items) |
       ForEach-Object { [string]$_ } |
       Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
   )
 
-  $lineBuffer.Add("- $Title") | Out-Null
+  $Lines.Add("- $Title") | Out-Null
   if ($itemList.Count -eq 0) {
-    $lineBuffer.Add("  - none") | Out-Null
+    $Lines.Add("  - none") | Out-Null
     return
   }
 
   foreach ($item in $itemList) {
-    $lineBuffer.Add("  - $item") | Out-Null
+    $Lines.Add("  - $item") | Out-Null
   }
 }
 
