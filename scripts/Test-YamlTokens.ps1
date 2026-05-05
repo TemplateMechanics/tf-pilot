@@ -30,7 +30,8 @@ foreach ($file in $yamlFiles) {
 }
 
 # Disallow legacy regex token parser anti-patterns in provider example mains.
-$providerMainFiles = Get-ChildItem -Path (Join-Path $root 'examples/providers') -Recurse -File -Filter 'main.tf' -ErrorAction SilentlyContinue
+$providerMainFiles = Get-ChildItem -Path (Join-Path $root 'examples/providers') -Recurse -File -Filter 'main.tf' -ErrorAction SilentlyContinue |
+  Where-Object { $_.FullName -notmatch '[\\/]\.terraform[\\/]' }
 $legacyPatterns = @('module_output_token_regex', 'module_reference_values_flat')
 
 foreach ($file in $providerMainFiles) {

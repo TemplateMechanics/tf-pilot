@@ -494,7 +494,8 @@ Describe 'YAML token anti-pattern checks' {
   }
 
   It 'contains no legacy provider token parser symbols in provider examples' {
-    $providerMains = Get-ChildItem -Path (Join-Path $script:repoRoot 'examples/providers') -Recurse -File -Filter 'main.tf'
+    $providerMains = Get-ChildItem -Path (Join-Path $script:repoRoot 'examples/providers') -Recurse -File -Filter 'main.tf' |
+      Where-Object { $_.FullName -notmatch '[\\/]\.terraform[\\/]' }
     $legacyPatterns = @('module_output_token_regex', 'module_reference_values_flat')
 
     $matches = @()

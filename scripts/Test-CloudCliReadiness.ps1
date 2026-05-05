@@ -240,12 +240,25 @@ function Get-ExpectedContext {
 function Resolve-ProviderCli {
   param([Parameter(Mandatory)] [string]$ProviderName)
 
+  function Join-PathSafe {
+    param(
+      [Parameter()] [string]$BasePath,
+      [Parameter(Mandatory)] [string]$ChildPath
+    )
+
+    if ([string]::IsNullOrWhiteSpace($BasePath)) {
+      return $null
+    }
+
+    return (Join-Path $BasePath $ChildPath)
+  }
+
   $providerMeta = switch ($ProviderName) {
     'aws' {
       [ordered]@{
         Command = 'aws'
         Paths   = @(
-          (Join-Path $env:ProgramFiles 'Amazon\AWSCLIV2\aws.exe')
+          (Join-PathSafe $env:ProgramFiles 'Amazon\AWSCLIV2\aws.exe')
         )
       }
     }
@@ -253,7 +266,7 @@ function Resolve-ProviderCli {
       [ordered]@{
         Command = 'az'
         Paths   = @(
-          (Join-Path $env:ProgramFiles 'Microsoft SDKs\Azure\CLI2\wbin\az.cmd')
+          (Join-PathSafe $env:ProgramFiles 'Microsoft SDKs\Azure\CLI2\wbin\az.cmd')
         )
       }
     }
@@ -261,9 +274,9 @@ function Resolve-ProviderCli {
       [ordered]@{
         Command = 'gcloud'
         Paths   = @(
-          (Join-Path ${env:ProgramFiles(x86)} 'Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd'),
-          (Join-Path $env:LOCALAPPDATA 'Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd'),
-          (Join-Path $env:ProgramData 'chocolatey\lib\gcloudsdk\tools\google-cloud-sdk\bin\gcloud.cmd')
+          (Join-PathSafe ${env:ProgramFiles(x86)} 'Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd'),
+          (Join-PathSafe $env:LOCALAPPDATA 'Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd'),
+          (Join-PathSafe $env:ProgramData 'chocolatey\lib\gcloudsdk\tools\google-cloud-sdk\bin\gcloud.cmd')
         )
       }
     }
