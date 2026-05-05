@@ -143,14 +143,17 @@ jobs:
       - name: Generate provider catalog drift report (non-blocking)
         shell: pwsh
         run: |
-          ./scripts/Invoke-ProviderCatalogRefresh.ps1 -Providers aws
+          $reportDir = Join-Path $env:RUNNER_TEMP 'provider-catalog-drift-report'
+          New-Item -ItemType Directory -Path $reportDir -Force | Out-Null
+          ./scripts/Invoke-ProviderCatalogRefresh.ps1 -Providers aws -OutputDir $reportDir -SkipGeneratedModuleSync -SkipMcpSync
 
       - name: Add drift summary to workflow report
         if: always()
         shell: bash
         run: |
-          if [ -f "docs/providers/generated/refresh-diff-summary.md" ]; then
-            cat docs/providers/generated/refresh-diff-summary.md >> "$GITHUB_STEP_SUMMARY"
+          REPORT_DIR="$RUNNER_TEMP/provider-catalog-drift-report"
+          if [ -f "$REPORT_DIR/refresh-diff-summary.md" ]; then
+            cat "$REPORT_DIR/refresh-diff-summary.md" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "Provider catalog drift summary was not generated." >> "$GITHUB_STEP_SUMMARY"
           fi
@@ -161,11 +164,11 @@ jobs:
         with:
           name: provider-catalog-drift-report
           path: |
-            docs/providers/generated/refresh-summary.json
-            docs/providers/generated/refresh-diff-summary.json
-            docs/providers/generated/refresh-diff-summary.md
-            docs/providers/generated/aws-catalog.json
-            docs/providers/generated/aws-summary.md
+            ${{ runner.temp }}/provider-catalog-drift-report/refresh-summary.json
+            ${{ runner.temp }}/provider-catalog-drift-report/refresh-diff-summary.json
+            ${{ runner.temp }}/provider-catalog-drift-report/refresh-diff-summary.md
+            ${{ runner.temp }}/provider-catalog-drift-report/aws-catalog.json
+            ${{ runner.temp }}/provider-catalog-drift-report/aws-summary.md
 
   provider-coverage-buildout-report:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'

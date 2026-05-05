@@ -1,7 +1,5 @@
 # Provider Catalog Diff Summary
 
-Generated: 2026-05-01T18:03:43.2754591Z
-
 | Provider | Status | Resources (+/-/~) | Data Sources (+/-/~) |
 |---|---|---:|---:|
 | aws | unchanged | 0/0/0 | 0/0/0 |

@@ -42,6 +42,12 @@ By default, initialization is skipped when provider cache and lock file already 
 
 .PARAMETER WriteUnchangedCatalogs
 When set, writes catalog files even when no semantic change is detected.
+
+.PARAMETER SkipGeneratedModuleSync
+When set, skips the post-refresh generated module synchronization step.
+
+.PARAMETER SkipMcpSync
+When set, skips the post-refresh MCP enablement synchronization step.
 #>
 [CmdletBinding()]
 param(
@@ -74,7 +80,13 @@ param(
   [switch]$ForceInit,
 
   [Parameter()]
-  [switch]$WriteUnchangedCatalogs
+  [switch]$WriteUnchangedCatalogs,
+
+  [Parameter()]
+  [switch]$SkipGeneratedModuleSync,
+
+  [Parameter()]
+  [switch]$SkipMcpSync
 )
 
 $ErrorActionPreference = 'Stop'
@@ -591,8 +603,6 @@ $diffMarkdownPath = Join-Path $resolvedOutputDir 'refresh-diff-summary.md'
 $lines = New-Object 'System.Collections.Generic.List[string]'
 $lines.Add('# Provider Catalog Diff Summary') | Out-Null
 $lines.Add('') | Out-Null
-$lines.Add("Generated: $((Get-Date).ToUniversalTime().ToString('o'))") | Out-Null
-$lines.Add('') | Out-Null
 $lines.Add('| Provider | Status | Resources (+/-/~) | Data Sources (+/-/~) |') | Out-Null
 $lines.Add('|---|---|---:|---:|') | Out-Null
 
@@ -623,7 +633,10 @@ Write-Host "Diff summary written to $diffSummaryPath"
 Write-Host "Diff markdown written to $diffMarkdownPath"
 
 $syncGeneratedModulesScript = Join-Path $scriptRoot 'Sync-ProviderGeneratedModules.ps1'
-if (Test-Path $syncGeneratedModulesScript) {
+if ($SkipGeneratedModuleSync) {
+  Write-Host 'Skipping generated module sync (-SkipGeneratedModuleSync).' -ForegroundColor Yellow
+}
+elseif (Test-Path $syncGeneratedModulesScript) {
   Write-Host "Regenerating managed provider modules from refreshed settings..." -ForegroundColor Cyan
   & $syncGeneratedModulesScript -IncludeDisabledModules
   if ($LASTEXITCODE -ne 0) {
@@ -632,7 +645,10 @@ if (Test-Path $syncGeneratedModulesScript) {
 }
 
 $syncMcpScript = Join-Path $scriptRoot 'Sync-McpServerEnablement.ps1'
-if (Test-Path $syncMcpScript) {
+if ($SkipMcpSync) {
+  Write-Host 'Skipping MCP enablement sync (-SkipMcpSync).' -ForegroundColor Yellow
+}
+elseif (Test-Path $syncMcpScript) {
   Write-Host "Syncing MCP server enablement from active provider profile..." -ForegroundColor Cyan
   & $syncMcpScript
   if ($LASTEXITCODE -ne 0) {
