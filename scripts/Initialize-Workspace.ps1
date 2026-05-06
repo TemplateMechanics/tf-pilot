@@ -43,7 +43,13 @@ param(
   [switch]$MigrateState,
 
   [Parameter()]
-  [switch]$Compact
+  [switch]$Compact,
+
+  [Parameter()]
+  [switch]$SkipCloudReadiness,
+
+  [Parameter()]
+  [switch]$StrictCloudReadiness
 )
 
 $ErrorActionPreference = 'Stop'
@@ -68,6 +74,19 @@ if ($MigrateState) { $tfArgs += '-migrate-state' }
 if ($BackendConfig) {
   foreach ($cfg in $BackendConfig) {
     $tfArgs += "-backend-config=$cfg"
+  }
+}
+
+$cloudReadinessScript = Join-Path $PSScriptRoot 'Test-CloudCliReadiness.ps1'
+if (-not $SkipCloudReadiness -and (Test-Path $cloudReadinessScript)) {
+  Write-Host "`nCloud CLI Readiness" -ForegroundColor Cyan
+  $cloudReadinessArgs = @{ Path = $resolvedPath }
+  if ($StrictCloudReadiness) {
+    $cloudReadinessArgs['Strict'] = $true
+  }
+  & $cloudReadinessScript @cloudReadinessArgs
+  if ($LASTEXITCODE -ne 0) {
+    exit $LASTEXITCODE
   }
 }
 

@@ -30,6 +30,8 @@ The active codebase now includes, in addition to baseline files:
 - Provider coverage/drift reports under `docs/providers/generated/`.
 - OPA policy checks and additional CI jobs for drift, contracts, cost, and SBOM.
 - MCP launch/install utilities and server enablement synchronization.
+- Multi-cloud free-tier provider stack example with YAML composition across AWS, Azure, and GCP.
+- Canonical YAML token registry resolver pattern (`token_scope` + `token_aware_field_raw` + `templatestring`) for provider stack token references.
 
 ### Maintenance Rule
 

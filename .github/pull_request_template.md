@@ -23,6 +23,7 @@
 - [ ] No direct state file edits.
 - [ ] Plan reviewed before apply.
 - [ ] Cloud adoption guardrails reviewed (`docs/CLOUD-ADOPTION-GUARDRAILS.md`).
+- [ ] YAML token references follow `docs/YAML-TOKEN-REGISTRY.md` (`token_scope` + `token_aware_field_raw` + `templatestring`) with no `token_example_*` or regex token parsers.
 
 ## Impact / Risk
 - Affected providers/modules:

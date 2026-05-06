@@ -849,7 +849,7 @@ output "enabled" {
 }
 output "role_name" {
   description = "IAM role name."
-  value       = var.enabled ? aws_iam_role.this[0].name : null
+  value       = try(aws_iam_role.this[0].name, null)
 }
 output "role_arn" {
   description = "IAM role ARN."
@@ -1304,7 +1304,7 @@ output "enabled" {
 }
 output "resource_group_name" {
   description = "Resource group name."
-  value       = local.resource_group_name
+  value       = try(azurerm_resource_group.this[0].name, local.resource_group_name)
 }
 output "resource_group_id" {
   description = "Resource group ID when created."
@@ -2900,7 +2900,7 @@ output "enabled" {
 }
 output "name" {
   description = "Namespace name."
-  value       = var.enabled ? kubernetes_namespace.this[0].metadata[0].name : null
+  value       = try(kubernetes_namespace.this[0].metadata[0].name, null)
 }
 output "uid" {
   description = "Namespace UID."
@@ -3626,11 +3626,11 @@ output "enabled" {
 }
 output "name" {
   description = "Helm release name."
-  value       = var.enabled ? helm_release.this[0].name : null
+  value       = try(helm_release.this[0].name, null)
 }
 output "namespace" {
   description = "Helm release namespace."
-  value       = var.enabled ? helm_release.this[0].namespace : var.namespace
+  value       = try(helm_release.this[0].namespace, var.namespace)
 }
 output "chart" {
   description = "Helm chart name."

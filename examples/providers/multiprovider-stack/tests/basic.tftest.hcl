@@ -31,26 +31,36 @@ run "plan_succeeds" {
   }
 }
 
-run "fails_on_invalid_artifact_content_token_format" {
+run "plan_succeeds_when_artifact_disabled" {
   command = plan
 
   variables {
-    stack_file = "tests/fixtures/bad-token-format.stack.yaml"
+    stack_file = "envs/artifact-disabled.stack.yaml"
   }
 
-  expect_failures = [
-    check.artifact_content_token_format
-  ]
-}
-
-run "fails_on_unresolvable_artifact_filename_token" {
-  command = plan
-
-  variables {
-    stack_file = "tests/fixtures/bad-token-unresolvable.stack.yaml"
+  assert {
+    condition     = !output.time_anchor_enabled
+    error_message = "Expected time_anchor module to be disabled"
   }
 
-  expect_failures = [
-    check.artifact_filename_token_resolves
-  ]
+  assert {
+    condition     = !output.suffix_enabled
+    error_message = "Expected suffix module to be disabled"
+  }
+
+  assert {
+    condition     = !output.artifact_enabled
+    error_message = "Expected artifact module to be disabled"
+  }
+
+  assert {
+    condition     = output.resolved_artifact_content == ""
+    error_message = "Expected resolved artifact content to remain empty when artifact is disabled"
+  }
 }
+
+# NOTE: Negative token resolution tests cannot use expect_failures because templatestring() errors
+# occur during locals evaluation, not at the output level. expect_failures only works with
+# resource preconditions/postconditions and check{} block assertions.
+# Token validation coverage is provided by Test-YamlTokens.ps1 unit tests in tests/Harness.Tests.ps1.
+

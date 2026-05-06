@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://template-mechanics.local/schemas/multi-cloud.schema.json",
+  "title": "Multi-Cloud Free-Tier Stack Contract",
+  "description": "Schema for multi-cloud YAML contracts that span AWS, Azure, and GCP simultaneously.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "project",
+    "environment",
+    "tags",
+    "clouds"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional schema hint for editor and script validation."
+    },
+    "project": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Project name used as a name prefix across all cloud resources."
+    },
+    "environment": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Deployment environment (e.g. demo, dev, prod)."
+    },
+    "tags": {
+      "type": "object",
+      "description": "Common tags/labels applied to every resource on every cloud.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "clouds": {
+      "type": "object",
+      "description": "Per-cloud configuration blocks. Each key is optional - omit a cloud to skip it entirely.",
+      "additionalProperties": false,
+      "properties": {
+        "aws": { "$ref": "#/$defs/awsCloud" },
+        "azure": { "$ref": "#/$defs/azureCloud" },
+        "gcp": { "$ref": "#/$defs/gcpCloud" }
+      }
+    }
+  },
+  "$defs": {
+    "moduleConfig": {
+      "type": "object",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": { "type": "boolean" }
+      },
+      "propertyNames": {
+        "not": {
+          "pattern": "^token_example_"
+        }
+      },
+      "additionalProperties": true
+    },
+    "awsCloud": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "region"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Set false to skip all AWS resources entirely."
+        },
+        "region": {
+          "type": "string",
+          "description": "AWS region for all resources (e.g. us-east-1).",
+          "examples": ["us-east-1", "us-west-2", "eu-west-1"]
+        },
+        "modules": {
+          "type": "object",
+          "description": "AWS module enables and settings.",
+          "propertyNames": {
+            "not": {
+              "pattern": "^token_example_"
+            }
+          },
+          "additionalProperties": { "$ref": "#/$defs/moduleConfig" }
+        }
+      }
+    },
+    "azureCloud": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "location"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Set false to skip all Azure resources entirely."
+        },
+        "location": {
+          "type": "string",
+          "description": "Azure region for all resources (e.g. eastus).",
+          "examples": ["eastus", "westeurope", "australiaeast"]
+        },
+        "modules": {
+          "type": "object",
+          "description": "Azure module enables and settings.",
+          "propertyNames": {
+            "not": {
+              "pattern": "^token_example_"
+            }
+          },
+          "additionalProperties": { "$ref": "#/$defs/moduleConfig" }
+        }
+      }
+    },
+    "gcpCloud": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "region", "project_id"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Set false to skip all GCP resources entirely."
+        },
+        "region": {
+          "type": "string",
+          "description": "GCP region for all resources (e.g. us-central1).",
+          "examples": ["us-central1", "us-east1", "europe-west1"]
+        },
+        "project_id": {
+          "type": "string",
+          "description": "GCP project ID. Required for all GCP resources."
+        },
+        "modules": {
+          "type": "object",
+          "description": "GCP module enables and settings.",
+          "propertyNames": {
+            "not": {
+              "pattern": "^token_example_"
+            }
+          },
+          "additionalProperties": { "$ref": "#/$defs/moduleConfig" }
+        }
+      }
+    }
+  }
+}

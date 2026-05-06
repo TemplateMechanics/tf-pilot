@@ -39,6 +39,10 @@ param(
 $ErrorActionPreference = 'Stop'
 $global:LASTEXITCODE = 0
 
+# Force UTF-8 encoding for proper table rendering in trivy/tflint output
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$PSDefaultParameterValues['Out-File:Encoding'] = 'UTF8'
+
 function Test-RequiredCommand {
   param([Parameter(Mandatory)][string]$Name)
   $cmd = Get-Command $Name -ErrorAction SilentlyContinue
@@ -165,8 +169,12 @@ try {
 
     try {
       $ErrorActionPreference = 'Continue'
-      $trivyOutput = & $trivy config --severity MEDIUM,HIGH,CRITICAL $resolvedPath 2>&1
-      $trivyOutput | Where-Object { $_ -notmatch '^\d{4}-\d{2}-\d{2}T.*INFO' } | ForEach-Object { Write-Host $_ }
+      $trivyOutput = & $trivy config --severity MEDIUM,HIGH,CRITICAL --skip-version-check --format table $resolvedPath 2>&1
+      $trivyOutput | Where-Object {
+        $_ -notmatch '^\d{4}-\d{2}-\d{2}T.*INFO' -and
+        $_ -notmatch '^System\.Management\.Automation\.RemoteException$' -and
+        $_ -notmatch '^To suppress version checks, run Trivy scans with the --skip-version-check flag$'
+      } | ForEach-Object { Write-Host $_ }
       if ($LASTEXITCODE -ne 0) {
         $results.trivy = $false
       }

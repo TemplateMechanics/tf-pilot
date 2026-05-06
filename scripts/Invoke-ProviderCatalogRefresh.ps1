@@ -42,6 +42,12 @@ By default, initialization is skipped when provider cache and lock file already 
 
 .PARAMETER WriteUnchangedCatalogs
 When set, writes catalog files even when no semantic change is detected.
+
+.PARAMETER SkipGeneratedModuleSync
+When set, skips the post-refresh generated module synchronization step.
+
+.PARAMETER SkipMcpSync
+When set, skips the post-refresh MCP enablement synchronization step.
 #>
 [CmdletBinding()]
 param(
@@ -74,7 +80,13 @@ param(
   [switch]$ForceInit,
 
   [Parameter()]
-  [switch]$WriteUnchangedCatalogs
+  [switch]$WriteUnchangedCatalogs,
+
+  [Parameter()]
+  [switch]$SkipGeneratedModuleSync,
+
+  [Parameter()]
+  [switch]$SkipMcpSync
 )
 
 $ErrorActionPreference = 'Stop'
@@ -293,9 +305,6 @@ function Compare-CatalogEntries {
 
 function Add-DiffSection {
   param(
-    [Parameter()]
-    $Lines,
-
     [Parameter(Mandatory)]
     [string]$Title,
 
@@ -303,31 +312,24 @@ function Add-DiffSection {
     [string[]]$Items
   )
 
-  $lineBuffer = if ($Lines -is [System.Collections.Generic.List[string]]) {
-    $Lines
-  }
-  elseif ($script:lines -is [System.Collections.Generic.List[string]]) {
-    $script:lines
-  }
-  else {
-    New-Object 'System.Collections.Generic.List[string]'
-  }
-
   $itemList = @(
     @($Items) |
       ForEach-Object { [string]$_ } |
       Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
   )
 
-  $lineBuffer.Add("- $Title") | Out-Null
+  $sectionLines = New-Object 'System.Collections.Generic.List[string]'
+  $sectionLines.Add("- $Title") | Out-Null
   if ($itemList.Count -eq 0) {
-    $lineBuffer.Add("  - none") | Out-Null
-    return
+    $sectionLines.Add("  - none") | Out-Null
+    return @($sectionLines)
   }
 
   foreach ($item in $itemList) {
-    $lineBuffer.Add("  - $item") | Out-Null
+    $sectionLines.Add("  - $item") | Out-Null
   }
+
+  return @($sectionLines)
 }
 
 $terraform = Get-RequiredCommand -Name 'terraform'
@@ -588,34 +590,32 @@ $diffSummaryPath = Join-Path $resolvedOutputDir 'refresh-diff-summary.json'
 Write-Utf8NoBom -Path $diffSummaryPath -Content (@($diffResults) | ConvertTo-Json -Depth 16)
 
 $diffMarkdownPath = Join-Path $resolvedOutputDir 'refresh-diff-summary.md'
-$lines = New-Object 'System.Collections.Generic.List[string]'
-$lines.Add('# Provider Catalog Diff Summary') | Out-Null
-$lines.Add('') | Out-Null
-$lines.Add("Generated: $((Get-Date).ToUniversalTime().ToString('o'))") | Out-Null
-$lines.Add('') | Out-Null
-$lines.Add('| Provider | Status | Resources (+/-/~) | Data Sources (+/-/~) |') | Out-Null
-$lines.Add('|---|---|---:|---:|') | Out-Null
+$markdownLines = New-Object 'System.Collections.Generic.List[string]'
+$markdownLines.Add('# Provider Catalog Diff Summary') | Out-Null
+$markdownLines.Add('') | Out-Null
+$markdownLines.Add('| Provider | Status | Resources (+/-/~) | Data Sources (+/-/~) |') | Out-Null
+$markdownLines.Add('|---|---|---:|---:|') | Out-Null
 
 foreach ($item in @($diffResults)) {
   $resourceDelta = "$($item.resourceAddedCount)/$($item.resourceRemovedCount)/$($item.resourceChangedCount)"
   $dataSourceDelta = "$($item.dataSourceAddedCount)/$($item.dataSourceRemovedCount)/$($item.dataSourceChangedCount)"
-  $lines.Add("| $($item.provider) | $($item.status) | $resourceDelta | $dataSourceDelta |") | Out-Null
+  $markdownLines.Add("| $($item.provider) | $($item.status) | $resourceDelta | $dataSourceDelta |") | Out-Null
 }
 
 foreach ($item in @($diffResults | Where-Object { $_.status -ne 'unchanged' })) {
-  $lines.Add('') | Out-Null
-  $lines.Add("## $($item.provider) changes") | Out-Null
-  $lines.Add('') | Out-Null
+  $markdownLines.Add('') | Out-Null
+  $markdownLines.Add("## $($item.provider) changes") | Out-Null
+  $markdownLines.Add('') | Out-Null
 
-  Add-DiffSection -Lines $lines -Title 'Resource types added' -Items @($item.resourceAdded)
-  Add-DiffSection -Lines $lines -Title 'Resource types removed' -Items @($item.resourceRemoved)
-  Add-DiffSection -Lines $lines -Title 'Resource types changed' -Items @($item.resourceChanged)
-  Add-DiffSection -Lines $lines -Title 'Data source types added' -Items @($item.dataSourceAdded)
-  Add-DiffSection -Lines $lines -Title 'Data source types removed' -Items @($item.dataSourceRemoved)
-  Add-DiffSection -Lines $lines -Title 'Data source types changed' -Items @($item.dataSourceChanged)
+  foreach ($sectionLine in (Add-DiffSection -Title 'Resource types added' -Items @($item.resourceAdded))) { $markdownLines.Add($sectionLine) | Out-Null }
+  foreach ($sectionLine in (Add-DiffSection -Title 'Resource types removed' -Items @($item.resourceRemoved))) { $markdownLines.Add($sectionLine) | Out-Null }
+  foreach ($sectionLine in (Add-DiffSection -Title 'Resource types changed' -Items @($item.resourceChanged))) { $markdownLines.Add($sectionLine) | Out-Null }
+  foreach ($sectionLine in (Add-DiffSection -Title 'Data source types added' -Items @($item.dataSourceAdded))) { $markdownLines.Add($sectionLine) | Out-Null }
+  foreach ($sectionLine in (Add-DiffSection -Title 'Data source types removed' -Items @($item.dataSourceRemoved))) { $markdownLines.Add($sectionLine) | Out-Null }
+  foreach ($sectionLine in (Add-DiffSection -Title 'Data source types changed' -Items @($item.dataSourceChanged))) { $markdownLines.Add($sectionLine) | Out-Null }
 }
 
-Write-Utf8NoBom -Path $diffMarkdownPath -Content ($lines -join "`n")
+Write-Utf8NoBom -Path $diffMarkdownPath -Content ($markdownLines -join "`n")
 
 Write-Host "`nProvider catalog refresh complete." -ForegroundColor Green
 Write-Host "Summary written to $summaryPath"
@@ -623,7 +623,10 @@ Write-Host "Diff summary written to $diffSummaryPath"
 Write-Host "Diff markdown written to $diffMarkdownPath"
 
 $syncGeneratedModulesScript = Join-Path $scriptRoot 'Sync-ProviderGeneratedModules.ps1'
-if (Test-Path $syncGeneratedModulesScript) {
+if ($SkipGeneratedModuleSync) {
+  Write-Host 'Skipping generated module sync (-SkipGeneratedModuleSync).' -ForegroundColor Yellow
+}
+elseif (Test-Path $syncGeneratedModulesScript) {
   Write-Host "Regenerating managed provider modules from refreshed settings..." -ForegroundColor Cyan
   & $syncGeneratedModulesScript -IncludeDisabledModules
   if ($LASTEXITCODE -ne 0) {
@@ -632,7 +635,10 @@ if (Test-Path $syncGeneratedModulesScript) {
 }
 
 $syncMcpScript = Join-Path $scriptRoot 'Sync-McpServerEnablement.ps1'
-if (Test-Path $syncMcpScript) {
+if ($SkipMcpSync) {
+  Write-Host 'Skipping MCP enablement sync (-SkipMcpSync).' -ForegroundColor Yellow
+}
+elseif (Test-Path $syncMcpScript) {
   Write-Host "Syncing MCP server enablement from active provider profile..." -ForegroundColor Cyan
   & $syncMcpScript
   if ($LASTEXITCODE -ne 0) {

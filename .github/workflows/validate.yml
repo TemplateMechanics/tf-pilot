@@ -71,12 +71,19 @@ jobs:
           ./scripts/Initialize-Workspace.ps1 -Path ./examples/multi-env-stack
           ./scripts/Initialize-Workspace.ps1 -Path ./examples/providers/aws-stack
           ./scripts/Initialize-Workspace.ps1 -Path ./examples/providers/multiprovider-stack
+          ./scripts/Initialize-Workspace.ps1 -Path ./examples/providers/multi-cloud-free-tier
           ./scripts/Validate-Terraform.ps1 -Path ./examples/hello-world
           ./scripts/Validate-Terraform.ps1 -Path ./examples/module-pattern
           ./scripts/Validate-Terraform.ps1 -Path ./examples/multi-env-stack
           ./scripts/Validate-Terraform.ps1 -Path ./examples/providers/aws-stack
           ./scripts/Validate-Terraform.ps1 -Path ./examples/providers/multiprovider-stack
+          ./scripts/Validate-Terraform.ps1 -Path ./examples/providers/multi-cloud-free-tier
           ./scripts/Validate-StackYaml.ps1 -Path ./examples
+
+      - name: Enforce YAML token anti-pattern guardrails
+        shell: pwsh
+        run: |
+          ./scripts/Test-YamlTokens.ps1 -RootPath .
 
       - name: Run Pester tests
         shell: pwsh
@@ -136,14 +143,17 @@ jobs:
       - name: Generate provider catalog drift report (non-blocking)
         shell: pwsh
         run: |
-          ./scripts/Invoke-ProviderCatalogRefresh.ps1 -Providers aws
+          $reportDir = Join-Path $env:RUNNER_TEMP 'provider-catalog-drift-report'
+          New-Item -ItemType Directory -Path $reportDir -Force | Out-Null
+          ./scripts/Invoke-ProviderCatalogRefresh.ps1 -Providers aws -OutputDir $reportDir -SkipGeneratedModuleSync -SkipMcpSync
 
       - name: Add drift summary to workflow report
         if: always()
         shell: bash
         run: |
-          if [ -f "docs/providers/generated/refresh-diff-summary.md" ]; then
-            cat docs/providers/generated/refresh-diff-summary.md >> "$GITHUB_STEP_SUMMARY"
+          REPORT_DIR="$RUNNER_TEMP/provider-catalog-drift-report"
+          if [ -f "$REPORT_DIR/refresh-diff-summary.md" ]; then
+            cat "$REPORT_DIR/refresh-diff-summary.md" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "Provider catalog drift summary was not generated." >> "$GITHUB_STEP_SUMMARY"
           fi
@@ -154,11 +164,11 @@ jobs:
         with:
           name: provider-catalog-drift-report
           path: |
-            docs/providers/generated/refresh-summary.json
-            docs/providers/generated/refresh-diff-summary.json
-            docs/providers/generated/refresh-diff-summary.md
-            docs/providers/generated/aws-catalog.json
-            docs/providers/generated/aws-summary.md
+            ${{ runner.temp }}/provider-catalog-drift-report/refresh-summary.json
+            ${{ runner.temp }}/provider-catalog-drift-report/refresh-diff-summary.json
+            ${{ runner.temp }}/provider-catalog-drift-report/refresh-diff-summary.md
+            ${{ runner.temp }}/provider-catalog-drift-report/aws-catalog.json
+            ${{ runner.temp }}/provider-catalog-drift-report/aws-summary.md
 
   provider-coverage-buildout-report:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
@@ -358,6 +368,8 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     continue-on-error: true
+    env:
+      INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
     steps:
       - uses: actions/checkout@v4
 
@@ -367,21 +379,17 @@ jobs:
           terraform_version: "1.10.0"
 
       - name: Setup Infracost
-        shell: bash
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
-          echo "$PWD/bin" >> "$GITHUB_PATH"
+        if: env.INFRACOST_API_KEY != ''
+        uses: infracost/actions/setup@v3
+        with:
+          version: latest
+          api-key: ${{ env.INFRACOST_API_KEY }}
 
       - name: Generate optional cost estimate
+        if: env.INFRACOST_API_KEY != ''
         shell: bash
-        env:
-          INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
         run: |
           set -euo pipefail
-          if [ -z "${INFRACOST_API_KEY:-}" ]; then
-            echo "INFRACOST_API_KEY not set. Skipping cost estimate."
-            exit 0
-          fi
           infracost breakdown --path ./examples/hello-world --format json --out-file ./infracost.json
 
       - name: Upload cost artifacts

@@ -1,0 +1,26 @@
+$schema: "../../../../../.vscode/schemas/multi-cloud.schema.json"
+project: tf-pilot-free
+environment: demo
+tags:
+  owner: platform
+  managed_by: terraform
+
+clouds:
+  aws:
+    enabled: true
+    region: us-east-1
+    modules:
+      foundation:
+        enabled: true
+        enable_live_discovery: false
+      storage:
+        enabled: true
+        versioning_enabled: false
+        force_destroy: true
+  azure:
+    enabled: false
+    location: eastus
+  gcp:
+    enabled: false
+    region: us-central1
+    project_id: "placeholder"

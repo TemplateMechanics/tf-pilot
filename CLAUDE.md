@@ -40,8 +40,9 @@ If MCP is unavailable, continue with repository docs plus `Get-TerraformVersion.
 21. **MCP-first behavior:** for read/discovery workflows, use official Terraform MCP tools before ad-hoc shell commands.
 22. **YAML-first composition check:** before authoring many repeated resources, first consider a YAML-driven module composition pattern (`yamldecode(file(...))` + `module` `for_each`) for composable infrastructure.
 23. **State Q&A support:** when asked state questions, answer from state-aware sources (MCP state/workspace context or wrapped `terraform state` workflows) and call out lock/consistency caveats.
-24. **Never manually delete a Terraform-managed resource out-of-band.** Out-of-band deletions leave state orphaned and are the #1 cause of state corruption. Always delete through a normal HCL-remove → plan → apply sequence or a `removed {}` block.
-25. **State drift recovery — when resources were manually deleted and state is now stale:** (a) Always run `Backup-TerraformState.ps1` first. (b) For a single orphaned state reference use a `removed { lifecycle { destroy = false } }` block (Terraform 1.7+) or `terraform state rm <addr>`. (c) For widespread drift, run `Invoke-TerraformPlan.ps1 -RefreshOnly` then apply to sync all state in one pass. (d) For the reverse — resource exists in infra but not state — add an `import {}` block. See `skills/terraform/SKILL.md` **State drift recovery** section for the full decision tree.
+24. **YAML token registry discipline:** for provider stack token references (`${module.<name>.<output>}`), implement only the registry model in `docs/YAML-TOKEN-REGISTRY.md`: `token_scope`, `token_aware_field_raw`, and `resolved_token_fields = templatestring(...)`. Never add decorative `token_example_*` fields and never introduce legacy regex/replace token parsing.
+25. **Never manually delete a Terraform-managed resource out-of-band.** Out-of-band deletions leave state orphaned and are the #1 cause of state corruption. Always delete through a normal HCL-remove → plan → apply sequence or a `removed {}` block.
+26. **State drift recovery — when resources were manually deleted and state is now stale:** (a) Always run `Backup-TerraformState.ps1` first. (b) For a single orphaned state reference use a `removed { lifecycle { destroy = false } }` block (Terraform 1.7+) or `terraform state rm <addr>`. (c) For widespread drift, run `Invoke-TerraformPlan.ps1 -RefreshOnly` then apply to sync all state in one pass. (d) For the reverse — resource exists in infra but not state — add an `import {}` block. See `skills/terraform/SKILL.md` **State drift recovery** section for the full decision tree.
 
 ## File Locations
 
@@ -74,6 +75,29 @@ Use these scripts as the execution path after MCP-guided analysis.
 | **Sync provider lock** for all platforms | `Sync-ProviderLock.ps1` | `./scripts/Sync-ProviderLock.ps1 -Path .` |
 | **Render dependency graph** | `Show-TerraformGraph.ps1` | `./scripts/Show-TerraformGraph.ps1 -Path . -Output graph.png` |
 | **Print versions** of terraform + providers | `Get-TerraformVersion.ps1` | `./scripts/Get-TerraformVersion.ps1` |
+
+## Terminal Expectations
+
+- **Assume Windows PowerShell**, not bash. Use PowerShell-native syntax and cmdlets unless another shell is invoked explicitly.
+- **Execute repo commands from the repository root** and pass explicit `-Path` values to the wrapper scripts. Do not depend on the terminal already being inside a child directory.
+- **Avoid Unix shell commands in PowerShell sessions.** `tail`, `uniq`, `grep`, and `sed` are not reliable defaults here and should be replaced with PowerShell equivalents.
+
+### PowerShell equivalents
+
+- `tail -20` → `Select-Object -Last 20`
+- `tail -f` → `Get-Content -Wait -Tail 10`
+- `grep pattern` → `Select-String pattern`
+- `uniq -c` → `Group-Object | Select-Object Count, Name`
+- `sed 's/old/new/'` → PowerShell `-replace`
+
+### Preferred script invocation pattern
+
+```powershell
+cd c:\LocalCode\systechs\tf-pilot
+./scripts/Invoke-TerraformPlan.ps1 -Path examples/providers/multi-cloud-free-tier -Out tfplan
+./scripts/Invoke-TerraformApply.ps1 -Path examples/providers/multi-cloud-free-tier -PlanFile tfplan
+./scripts/Invoke-TerraformDestroy.ps1 -Path examples/providers/multi-cloud-free-tier -Confirm
+```
 
 ### MANDATORY — the plan-before-apply two-step sequence
 

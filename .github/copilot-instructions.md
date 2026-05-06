@@ -26,8 +26,9 @@ This workspace contains Terraform / OpenTofu configuration. You are working with
 15. **`depends_on` is a last resort.** Prefer implicit dependencies through attribute references.
 16. **YAML-module composition check:** before expanding repetitive resources, evaluate YAML-driven modules (`yamldecode(file(...))` + module `for_each`) for composable infrastructure.
 17. **State Q&A support:** answer state-management questions from state-aware sources (MCP context or wrapped `terraform state` workflows) and surface lock/drift caveats.
-18. **Never manually delete a Terraform-managed resource out-of-band.** Out-of-band deletions leave state orphaned and are the #1 cause of state corruption. Always delete through a normal HCL-remove → plan → apply sequence or a `removed {}` block.
-19. **State drift recovery — when resources were manually deleted and state is now stale:** (a) Always run `Backup-TerraformState.ps1` first. (b) For a single orphaned state reference use a `removed { lifecycle { destroy = false } }` block (Terraform 1.7+) or `terraform state rm <addr>`. (c) For widespread drift, run `Invoke-TerraformPlan.ps1 -RefreshOnly` then apply to sync all state in one pass. See `skills/terraform/SKILL.md` **State drift recovery** section for the full decision tree.
+18. **YAML token registry discipline:** for provider stack token references (`${module.<name>.<output>}`), use the registry pattern from `docs/YAML-TOKEN-REGISTRY.md` only: `token_scope` + `token_aware_field_raw` + `resolved_token_fields = templatestring(...)`. Do not add `token_example_*` fields and do not use legacy regex/replace token parsers.
+19. **Never manually delete a Terraform-managed resource out-of-band.** Out-of-band deletions leave state orphaned and are the #1 cause of state corruption. Always delete through a normal HCL-remove → plan → apply sequence or a `removed {}` block.
+20. **State drift recovery — when resources were manually deleted and state is now stale:** (a) Always run `Backup-TerraformState.ps1` first. (b) For a single orphaned state reference use a `removed { lifecycle { destroy = false } }` block (Terraform 1.7+) or `terraform state rm <addr>`. (c) For widespread drift, run `Invoke-TerraformPlan.ps1 -RefreshOnly` then apply to sync all state in one pass. See `skills/terraform/SKILL.md` **State drift recovery** section for the full decision tree.
 
 ## File Locations
 
@@ -54,6 +55,29 @@ This workspace contains Terraform / OpenTofu configuration. You are working with
 | Lock sync | `./scripts/Sync-ProviderLock.ps1` |
 | Graph render | `./scripts/Show-TerraformGraph.ps1` |
 | Versions | `./scripts/Get-TerraformVersion.ps1` |
+
+## Terminal Expectations
+
+- **This workspace uses Windows PowerShell** for command execution. Prefer PowerShell-native commands and syntax.
+- **Run repo commands from the repository root** (`c:\LocalCode\systechs\tf-pilot`) and pass explicit `-Path` arguments to wrapper scripts. Do not rely on the terminal already being in a nested working directory.
+- **Do not use Unix shell utilities by default** in PowerShell sessions. Commands like `tail`, `uniq`, `grep`, and `sed` are not available unless you explicitly invoke another shell.
+
+### PowerShell equivalents
+
+- `tail -20` → `Select-Object -Last 20`
+- `tail -f` → `Get-Content -Wait -Tail 10`
+- `grep pattern` → `Select-String pattern`
+- `uniq -c` → `Group-Object | Select-Object Count, Name`
+- `sed 's/old/new/'` → PowerShell `-replace`
+
+### Preferred script invocation pattern
+
+```powershell
+cd c:\LocalCode\systechs\tf-pilot
+./scripts/Invoke-TerraformPlan.ps1 -Path examples/providers/multi-cloud-free-tier -Out tfplan
+./scripts/Invoke-TerraformApply.ps1 -Path examples/providers/multi-cloud-free-tier -PlanFile tfplan
+./scripts/Invoke-TerraformDestroy.ps1 -Path examples/providers/multi-cloud-free-tier -Confirm
+```
 
 ### MANDATORY plan → apply sequence
 

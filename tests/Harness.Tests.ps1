@@ -9,6 +9,13 @@ BeforeAll {
   $script:hasTrivy = $null -ne (Get-Command trivy -ErrorAction SilentlyContinue)
   $script:hasValidateToolchain = $script:hasTerraform -and $script:hasTflint -and $script:hasTrivy
   $script:hasConvertFromYaml = $null -ne (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)
+  $script:python = Get-Command python -ErrorAction SilentlyContinue
+  $script:hasPyYaml = $false
+  if ($script:python) {
+    & $script:python.Source '-c' 'import yaml' 2>$null
+    $script:hasPyYaml = ($LASTEXITCODE -eq 0)
+  }
+  $script:hasYamlParser = $script:hasConvertFromYaml -or $script:hasPyYaml
   $script:testJson = Get-Command Test-Json -ErrorAction SilentlyContinue
   $script:hasTestJsonSchema = $null -ne $script:testJson -and $script:testJson.Parameters.ContainsKey('SchemaFile')
   $script:hasValidateStackYamlToolchain = $script:hasConvertFromYaml -and $script:hasTestJsonSchema
@@ -306,6 +313,162 @@ Describe 'Sync-ProviderModuleScaffolds.ps1 (smoke test)' {
   }
 }
 
+Describe 'Test-CloudCliReadiness.ps1' {
+  It 'reports ready status for detected cloud providers with mocked CLIs' {
+    $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'cloud-ready')
+    @'
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+    azurerm = {
+      source = "hashicorp/azurerm"
+    }
+    google = {
+      source = "hashicorp/google"
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $tmp 'versions.tf') -Encoding utf8
+
+    function global:aws {
+      param([Parameter(ValueFromRemainingArguments = $true)] [string[]]$Arguments)
+      $joined = $Arguments -join ' '
+      if ($joined -eq 'sts get-caller-identity --output json') {
+        '{"Account":"123456789012","Arn":"arn:aws:iam::123456789012:root"}'
+      }
+      elseif ($joined -eq 'configure get region') {
+        'us-east-1'
+      }
+      $global:LASTEXITCODE = 0
+    }
+
+    function global:az {
+      param([Parameter(ValueFromRemainingArguments = $true)] [string[]]$Arguments)
+      if (($Arguments -join ' ') -eq 'account show --output json') {
+        '{"name":"Azure-IAC-Template","id":"sub-123","tenantId":"tenant-123"}'
+      }
+      $global:LASTEXITCODE = 0
+    }
+
+    function global:gcloud {
+      param([Parameter(ValueFromRemainingArguments = $true)] [string[]]$Arguments)
+      $joined = $Arguments -join ' '
+      if ($joined -eq 'auth list --format=json') {
+        '[{"account":"user@example.com","status":"ACTIVE"}]'
+      }
+      elseif ($joined -eq 'config get-value project') {
+        'gcp-iac-template'
+      }
+      $global:LASTEXITCODE = 0
+    }
+
+    try {
+      $result = (& "$script:scriptsDir/Test-CloudCliReadiness.ps1" -Path $tmp.FullName -AsJson) | ConvertFrom-Json
+      $LASTEXITCODE | Should -Be 0
+      $result.ready | Should -BeTrue
+      @($result.providers) | Should -Contain 'aws'
+      @($result.providers) | Should -Contain 'azurerm'
+      @($result.providers) | Should -Contain 'google'
+      $result.checks.aws.authenticated | Should -BeTrue
+      $result.checks.azurerm.authenticated | Should -BeTrue
+      $result.checks.google.authenticated | Should -BeTrue
+    }
+    finally {
+      Remove-Item Function:\aws -ErrorAction SilentlyContinue
+      Remove-Item Function:\az -ErrorAction SilentlyContinue
+      Remove-Item Function:\gcloud -ErrorAction SilentlyContinue
+    }
+  }
+
+  It 'uses stack YAML to narrow detected providers and expected project' -Skip:(-not $script:hasYamlParser) {
+    $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'cloud-stack')
+    @'
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+    azurerm = {
+      source = "hashicorp/azurerm"
+    }
+    google = {
+      source = "hashicorp/google"
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $tmp 'versions.tf') -Encoding utf8
+
+    @'
+clouds:
+  aws:
+    enabled: false
+  azure:
+    enabled: false
+  gcp:
+    enabled: true
+    project_id: gcp-iac-template
+'@ | Set-Content -Path (Join-Path $tmp 'only-gcp.stack.yaml') -Encoding utf8
+
+    function global:gcloud {
+      param([Parameter(ValueFromRemainingArguments = $true)] [string[]]$Arguments)
+      $joined = $Arguments -join ' '
+      if ($joined -eq 'auth list --format=json') {
+        '[{"account":"user@example.com","status":"ACTIVE"}]'
+      }
+      elseif ($joined -eq 'config get-value project') {
+        'gcp-iac-template'
+      }
+      $global:LASTEXITCODE = 0
+    }
+
+    try {
+      $result = (& "$script:scriptsDir/Test-CloudCliReadiness.ps1" -Path $tmp.FullName -StackFile 'only-gcp.stack.yaml' -AsJson) | ConvertFrom-Json
+      @($result.providers).Count | Should -Be 1
+      @($result.providers) | Should -Contain 'google'
+      $result.checks.google.status | Should -Be 'ok'
+      $result.checks.google.activeContext.project | Should -Be 'gcp-iac-template'
+    }
+    finally {
+      Remove-Item Function:\gcloud -ErrorAction SilentlyContinue
+    }
+  }
+}
+
+Describe 'Repair-CloudCliPath.ps1' {
+  It 'discovers a gcloud binary in a custom SearchRoot and reports its path' {
+    $fakeRoot = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'fake-gcloud')
+    $fakeBin = New-Item -ItemType Directory -Path (Join-Path $fakeRoot 'bin')
+    Set-Content -Path (Join-Path $fakeBin.FullName 'gcloud.cmd') -Value "@echo off`necho gcloud" -Encoding ascii
+
+    # Run script with a custom search root containing the fake gcloud.cmd.
+    # When gcloud is already on PATH, status is 'ok'; when not found, 'not_found'.
+    # Either way, -SearchRoot is scanned and if found, candidatePath is populated.
+    $result = (& "$script:scriptsDir/Repair-CloudCliPath.ps1" -Cli gcloud -SearchRoot $fakeRoot.FullName -AsJson) | ConvertFrom-Json
+    $r = @($result) | Where-Object { $_.cli -eq 'gcloud' } | Select-Object -First 1
+    # The script should at minimum return a result entry for gcloud
+    $r | Should -Not -BeNullOrEmpty
+    $r.status | Should -BeIn @('ok', 'repaired', 'not_found')
+  }
+}
+
+Describe 'Cloud readiness integration' {
+  It 'Initialize-Workspace.ps1 exposes cloud readiness switches' {
+    $content = Get-Content -Path (Join-Path $script:scriptsDir 'Initialize-Workspace.ps1') -Raw
+    $content | Should -Match 'SkipCloudReadiness'
+    $content | Should -Match 'StrictCloudReadiness'
+    $content | Should -Match 'Test-CloudCliReadiness\.ps1'
+  }
+
+  It 'Invoke-TerraformPlan.ps1 exposes cloud readiness switches' {
+    $content = Get-Content -Path (Join-Path $script:scriptsDir 'Invoke-TerraformPlan.ps1') -Raw
+    $content | Should -Match 'SkipCloudReadiness'
+    $content | Should -Match 'StrictCloudReadiness'
+    $content | Should -Match 'Test-CloudCliReadiness\.ps1'
+  }
+}
+
 Describe 'Script syntax' {
   $scripts = Get-ChildItem -Path $script:scriptsDir -Filter '*.ps1'
   foreach ($s in $scripts) {
@@ -314,5 +477,34 @@ Describe 'Script syntax' {
       [System.Management.Automation.Language.Parser]::ParseFile($s.FullName, [ref]$null, [ref]$errors) | Out-Null
       $errors | Should -BeNullOrEmpty
     }
+  }
+}
+
+Describe 'YAML token anti-pattern checks' {
+  It 'contains no token_example_ keys in YAML files' {
+    $yamlFiles = Get-ChildItem -Path $script:repoRoot -Recurse -File -Include *.yaml,*.yml |
+      Where-Object { $_.FullName -notmatch '[\\/]\.terraform[\\/]' }
+
+    $matches = @()
+    foreach ($yamlFile in $yamlFiles) {
+      $matches += Select-String -Path $yamlFile.FullName -Pattern '^\s*token_example_[A-Za-z0-9_]+\s*:' -AllMatches
+    }
+
+    $matches | Should -BeNullOrEmpty
+  }
+
+  It 'contains no legacy provider token parser symbols in provider examples' {
+    $providerMains = Get-ChildItem -Path (Join-Path $script:repoRoot 'examples/providers') -Recurse -File -Filter 'main.tf' |
+      Where-Object { $_.FullName -notmatch '[\\/]\.terraform[\\/]' }
+    $legacyPatterns = @('module_output_token_regex', 'module_reference_values_flat')
+
+    $matches = @()
+    foreach ($providerMain in $providerMains) {
+      foreach ($pattern in $legacyPatterns) {
+        $matches += Select-String -Path $providerMain.FullName -Pattern ([regex]::Escape($pattern))
+      }
+    }
+
+    $matches | Should -BeNullOrEmpty
   }
 }

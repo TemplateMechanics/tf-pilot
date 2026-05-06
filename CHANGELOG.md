@@ -6,6 +6,21 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Added
+- Added `examples/providers/multi-cloud-free-tier` with YAML-driven composition across AWS, Azure, and GCP plus provider-stack schema support.
+- Added `docs/YAML-TOKEN-REGISTRY.md` as the canonical implementation reference for provider-stack token resolution.
+- Added `scripts/Test-YamlTokens.ps1` for anti-pattern enforcement (`token_example_*`, legacy regex token parsers).
+- Added `docs/AUTHENTICATION.md` covering AWS, Azure, and GCP credential setup paths used by `examples/providers/multi-cloud-free-tier`.
+- Added `scripts/Test-CloudCliReadiness.ps1` and `scripts/Repair-CloudCliPath.ps1` for pre-plan/apply cloud-CLI preflight.
+
+### Changed
+- Migrated `examples/providers/aws-stack` and `examples/providers/multiprovider-stack` from regex/check token parsing to registry-based `templatestring` resolution (`token_scope`, `token_aware_field_raw`, `resolved_token_fields`).
+- Updated Terraform harness docs/instructions to require token registry discipline and forbid decorative token fields.
+- Added CI and Pester guardrails to enforce YAML token anti-pattern checks.
+- Hardened `Invoke-TerraformPlan.ps1`, `Invoke-TerraformApply.ps1`, and `Invoke-TerraformDestroy.ps1` with multi-cloud preflight checks, AWS session-expiry guidance, and provider-process cleanup on destroy.
+- Added orphan-provider cleanup and terminal guidance in destroy workflows; updated `CLAUDE.md` and `.github/copilot-instructions.md` with destroy-cleanup expectations.
+- Tightened CI `validate.yml` cloud-readiness gating (Infracost only when API key configured).
+
 ### Fixed
 - Restored missing artifact `path` input in `.github/workflows/validate.yml` and removed stray YAML content from MCP sync step.
 - Updated `.gitignore` to exclude `.state-backups/`, `tfdestroy.plan`, `provider-schema.json`, and archived plan artifacts.
@@ -16,6 +31,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Fixed provider/module JSON enumeration paths to avoid PSCustomObject member-name pollution in generated module trees.
 - Removed invalid pseudo-provider directories accidentally generated under `modules/providers/`.
 - Updated provider catalog and MCP sync writers to emit UTF-8 (no BOM) outputs for JSON/Markdown artifacts.
+- Made outputs drift-safe in `aws/identity`, `azurerm/foundation`, `helm/release`, and `kubernetes/namespace` so module outputs no longer error when their resources are absent.
 
 ### Changed
 - `Invoke-TerraformApply.ps1` now archives consumed plan files instead of deleting them.

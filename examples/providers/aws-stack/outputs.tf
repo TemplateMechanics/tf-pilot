@@ -40,5 +40,5 @@ output "network_internet_gateway_id" {
 
 output "available_module_reference_values" {
   description = "Token keys and currently resolved values available for YAML reference substitution."
-  value       = local.module_reference_values
+  value       = local.token_scope.module
 }

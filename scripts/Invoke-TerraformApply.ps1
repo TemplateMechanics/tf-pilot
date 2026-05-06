@@ -18,8 +18,14 @@ Passes -auto-approve when explicitly requested.
 
 .PARAMETER Force
 Allows apply even when plan file is older than 30 minutes.
+
+.PARAMETER SkipCloudReadiness
+Skips cloud CLI/auth readiness checks before apply.
+
+.PARAMETER StrictCloudReadiness
+Fails apply when any detected cloud is not ready.
 #>
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
 param(
   [Parameter(Mandatory)]
   [string]$PlanFile,
@@ -31,11 +37,132 @@ param(
   [switch]$AutoApprove,
 
   [Parameter()]
-  [switch]$Force
+  [switch]$Force,
+
+  [Parameter()]
+  [switch]$SkipCloudReadiness,
+
+  [Parameter()]
+  [switch]$StrictCloudReadiness
 )
 
 $ErrorActionPreference = 'Stop'
 $global:LASTEXITCODE = 0
+
+# Force UTF-8 encoding for consistent tool output rendering.
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$PSDefaultParameterValues['Out-File:Encoding'] = 'UTF8'
+
+function Test-AwsExpectedEnabled {
+  param([Parameter(Mandatory)] [string]$WorkingPath)
+
+  $stackCandidates = Get-ChildItem -Path $WorkingPath -Filter '*.stack.yaml' -Recurse -File -ErrorAction SilentlyContinue |
+    Where-Object { $_.FullName -notmatch '[\\/]tests[\\/]fixtures[\\/]' -and $_.FullName -notmatch '[\\/]\.terraform[\\/]' }
+
+  if (-not $stackCandidates) {
+    return $false
+  }
+
+  $stackFile = $stackCandidates | Select-Object -First 1
+  $canUseYaml = $null -ne (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)
+
+  if ($canUseYaml) {
+    try {
+      $stackObject = ConvertFrom-Yaml -Yaml (Get-Content -Path $stackFile.FullName -Raw)
+      if ($null -ne $stackObject -and $stackObject.PSObject.Properties.Name -contains 'clouds') {
+        return [bool]$stackObject.clouds.aws.enabled
+      }
+    }
+    catch {
+      # Fall back to text pattern matching below.
+    }
+  }
+
+  $content = Get-Content -Path $stackFile.FullName -Raw
+  return ($content -match '(?ms)clouds\s*:\s*.*?aws\s*:\s*.*?enabled\s*:\s*true')
+}
+
+function Initialize-AwsCredentialEnvironment {
+  [CmdletBinding()]
+  param()
+
+  $result = [ordered]@{
+    Success = $false
+    Source  = $null
+    Message = $null
+  }
+
+  function Test-AwsCredentialSet {
+    param([Parameter(Mandatory)] [System.Management.Automation.CommandInfo]$AwsCommand)
+
+    $previousCliErrorActionPreference = $ErrorActionPreference
+    $previousNativeErrPref = $null
+    if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
+      $previousNativeErrPref = $PSNativeCommandUseErrorActionPreference
+      $PSNativeCommandUseErrorActionPreference = $false
+    }
+
+    try {
+      $ErrorActionPreference = 'Continue'
+      $identityJson = & $AwsCommand.Source 'sts' 'get-caller-identity' '--output' 'json' 2>$null
+    }
+    finally {
+      $ErrorActionPreference = $previousCliErrorActionPreference
+      if ($null -ne $previousNativeErrPref) {
+        $PSNativeCommandUseErrorActionPreference = $previousNativeErrPref
+      }
+    }
+
+    return ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace(($identityJson | Out-String)))
+  }
+
+  $aws = Get-Command 'aws' -ErrorAction SilentlyContinue | Select-Object -First 1
+  if (-not $aws) {
+    $result.Message = "AWS CLI not found on PATH; cannot bootstrap Terraform credential environment."
+    return [pscustomobject]$result
+  }
+
+  if (-not [string]::IsNullOrWhiteSpace($env:AWS_ACCESS_KEY_ID) -and -not [string]::IsNullOrWhiteSpace($env:AWS_SECRET_ACCESS_KEY)) {
+    if (Test-AwsCredentialSet -AwsCommand $aws) {
+      $result.Success = $true
+      $result.Source = 'environment'
+      $result.Message = 'Using existing AWS credential environment variables.'
+      return [pscustomobject]$result
+    }
+
+    Remove-Item Env:AWS_ACCESS_KEY_ID -ErrorAction SilentlyContinue
+    Remove-Item Env:AWS_SECRET_ACCESS_KEY -ErrorAction SilentlyContinue
+    Remove-Item Env:AWS_SESSION_TOKEN -ErrorAction SilentlyContinue
+    Remove-Item Env:AWS_SECURITY_TOKEN -ErrorAction SilentlyContinue
+  }
+
+  $exportLines = & $aws.Source configure export-credentials --format env 2>$null
+  if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace(($exportLines | Out-String))) {
+    $result.Message = "AWS CLI could not export credentials from the active profile/session."
+    return [pscustomobject]$result
+  }
+
+  foreach ($line in $exportLines) {
+    if ($line -match '^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$') {
+      $name = $matches[1]
+      $value = $matches[2].Trim()
+      if (($value.StartsWith('"') -and $value.EndsWith('"')) -or ($value.StartsWith("'") -and $value.EndsWith("'"))) {
+        $value = $value.Substring(1, $value.Length - 2)
+      }
+      [System.Environment]::SetEnvironmentVariable($name, $value, 'Process')
+    }
+  }
+
+  if (-not [string]::IsNullOrWhiteSpace($env:AWS_ACCESS_KEY_ID) -and -not [string]::IsNullOrWhiteSpace($env:AWS_SECRET_ACCESS_KEY) -and (Test-AwsCredentialSet -AwsCommand $aws)) {
+    $result.Success = $true
+    $result.Source = 'aws-cli-export'
+    $result.Message = 'Bootstrapped AWS credential environment variables from AWS CLI profile/session.'
+    return [pscustomobject]$result
+  }
+
+  $result.Message = 'AWS credential export completed but required environment variables were not populated.'
+  return [pscustomobject]$result
+}
 
 $terraform = Get-Command 'terraform' -ErrorAction SilentlyContinue
 if (-not $terraform) {
@@ -44,10 +171,57 @@ if (-not $terraform) {
 }
 
 $resolvedPath = (Resolve-Path -Path $Path).Path
-$planPath = if ([System.IO.Path]::IsPathRooted($PlanFile)) { $PlanFile } else { Join-Path $resolvedPath $PlanFile }
-if (-not (Test-Path $planPath)) {
-  Write-Error "Plan file not found: $planPath"
+if ([System.IO.Path]::IsPathRooted($PlanFile)) {
+  $planPath = $PlanFile
+}
+else {
+  $planCandidates = @(
+    (Join-Path $resolvedPath $PlanFile),
+    $PlanFile
+  )
+
+  $planPath = $null
+  foreach ($candidate in $planCandidates) {
+    if (-not [string]::IsNullOrWhiteSpace($candidate) -and (Test-Path -Path $candidate -PathType Leaf)) {
+      $planPath = (Resolve-Path -Path $candidate).Path
+      break
+    }
+  }
+
+  if (-not $planPath) {
+    $planPath = Join-Path $resolvedPath $PlanFile
+  }
+}
+
+if (-not (Test-Path -Path $planPath -PathType Leaf)) {
+  Write-Error "Plan file not found. Tried: '$planPath'."
   exit 1
+}
+
+$cloudReadinessScript = Join-Path (Split-Path -Parent $PSCommandPath) 'Test-CloudCliReadiness.ps1'
+if (-not $SkipCloudReadiness -and (Test-Path $cloudReadinessScript)) {
+  Write-Host "`nCloud CLI Readiness" -ForegroundColor Cyan
+  $cloudReadinessArgs = @{ Path = $resolvedPath; AutoRepair = $true }
+  if ($StrictCloudReadiness) {
+    $cloudReadinessArgs['Strict'] = $true
+  }
+  & $cloudReadinessScript @cloudReadinessArgs
+  if ($LASTEXITCODE -ne 0) {
+    exit $LASTEXITCODE
+  }
+}
+
+$awsExpected = Test-AwsExpectedEnabled -WorkingPath $resolvedPath
+if ($awsExpected) {
+  Write-Host "`nAWS Credential Preflight" -ForegroundColor Cyan
+  $awsBootstrap = Initialize-AwsCredentialEnvironment
+  if ($awsBootstrap.Success) {
+    Write-Host $awsBootstrap.Message -ForegroundColor Gray
+  }
+  else {
+    Write-Error "AWS is enabled for this stack, but Terraform credentials are not ready. $($awsBootstrap.Message) Run 'aws login' and re-run apply."
+    exit 1
+  }
 }
 
 # Use an isolated Helm cache/config inside the working directory to avoid
@@ -84,6 +258,11 @@ if ($AutoApprove) {
 $applyArgs += $planPath
 
 Write-Host "`nTerraform Apply" -ForegroundColor Cyan
+
+if (-not $PSCmdlet.ShouldProcess($planPath, 'terraform apply saved plan')) {
+  Write-Host 'Apply skipped due to WhatIf/Confirm response.' -ForegroundColor Yellow
+  exit 0
+}
 
 # Clean up any orphaned provider processes from previous interrupted operations.
 # These hold port bindings and cause RPC/EOF errors for new provider instances.

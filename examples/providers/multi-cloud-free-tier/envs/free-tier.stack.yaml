@@ -1,0 +1,170 @@
+# yaml-language-server: $schema=../../../../.vscode/schemas/multi-cloud.schema.json
+$schema: "../../../../.vscode/schemas/multi-cloud.schema.json"
+
+# ----------------------------------------------------------------------------
+# Multi-Cloud Free-Tier Demo Stack
+#
+# Provisions a free-tier baseline stack per cloud simultaneously.
+# All resources remain within each provider's always-free or 12-month free tier.
+#
+# Free-tier resources in this stack:
+#   AWS   - IAM role, VPC/subnet, CloudWatch log group, S3 bucket
+#   Azure - Resource group, user-assigned identity, VNet/subnet/NSG,
+#           Log Analytics + Application Insights, Storage Account
+#   GCP   - Service account, VPC/subnet/firewall, logging metric, GCS bucket
+#
+# Prerequisites (fill in before deploying):
+#   - AWS credentials:   AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY (or OIDC)
+#   - Azure credentials: ARM_CLIENT_ID + ARM_CLIENT_SECRET + ARM_TENANT_ID + ARM_SUBSCRIPTION_ID
+#   - GCP credentials:   GOOGLE_CREDENTIALS or gcloud auth application-default login
+#                        Set clouds.gcp.project_id to your GCP project ID below.
+#
+# YAML token references (resolved at plan time)
+#
+# Token format:  ${module.<block_name>.<output_name>}
+#
+# All outputs of any module instantiated by this stack are reachable as
+# tokens — see token_scope in main.tf for the registry. Currently
+# token-aware YAML fields:
+#   clouds.gcp.modules.observability.filter
+#
+# Adding a new field to the registry: see docs/YAML-TOKEN-REGISTRY.md.
+# ----------------------------------------------------------------------------
+
+project: tf-pilot-free
+environment: demo
+
+tags:
+  owner: platform
+  managed_by: terraform
+  demo: free-tier
+  cost_center: none
+
+clouds:
+
+  # -- AWS ------------------------------------------------------------------
+  aws:
+    enabled: true
+    region: us-east-1
+
+    modules:
+      foundation:
+        enabled: true
+        # Disable live discovery (caller-identity API call) for offline plan/test.
+        # Set to true once real AWS credentials are configured.
+        enable_live_discovery: false
+
+      identity:
+        enabled: true
+        # Trust EC2 service only; no broad cross-account trust by default.
+        trusted_principals:
+          - type: Service
+            identifiers:
+              - ec2.amazonaws.com
+        managed_policy_arns: []
+        inline_policies: {}
+        create_instance_profile: false
+
+      network:
+        enabled: true
+        cidr_block: "10.42.0.0/16"
+        availability_zones:
+          - us-east-1a
+        public_subnet_cidrs:
+          - "10.42.1.0/24"
+        # Keep false to avoid extra internet exposure in baseline demo.
+        create_internet_gateway: false
+
+      observability:
+        enabled: true
+        # Short retention to minimize billed retention if logs are ingested.
+        retention_in_days: 7
+        create_dashboard: false
+
+      storage:
+        enabled: true
+        # Versioning off: each PUT to a versioned bucket counts as two S3 requests.
+        versioning_enabled: false
+        # Allow Terraform to empty and delete the bucket on destroy.
+        force_destroy: true
+
+  # -- Azure ----------------------------------------------------------------
+  azure:
+    enabled: true
+    location: eastus
+
+    modules:
+      foundation:
+        enabled: true
+        create_resource_group: true
+
+      identity:
+        enabled: true
+        # Leave null to skip role assignment; creates identity only.
+        scope: null
+        role_definition_name: null
+
+      network:
+        enabled: true
+        address_space:
+          - "10.52.0.0/16"
+        subnet_cidrs:
+          - "10.52.1.0/24"
+
+      observability:
+        enabled: false
+        workspace_sku: PerGB2018
+        retention_in_days: 30
+        application_type: web
+
+      storage:
+        enabled: true
+        # Standard LRS = lowest-cost tier; qualifies for 12-month free 5 GB allowance.
+        account_tier: Standard
+        replication_type: LRS
+        container_name: artifacts
+
+  # -- GCP ------------------------------------------------------------------
+  gcp:
+    enabled: true
+    region: us-central1
+    # NOTE: Replace with your real GCP project ID before running terraform apply.
+    # You can also pass it as: -var="gcp_project_id=<your-project>"
+    project_id: "gcp-iac-template"
+
+    modules:
+      foundation:
+        enabled: true
+        # Enable the Cloud Storage API. Only charged for API calls above the free tier.
+        services:
+          - storage.googleapis.com
+        # Keep API enabled after destroy so re-apply doesn't need to re-enable it.
+        disable_services_on_destroy: false
+
+      identity:
+        enabled: true
+        display_name: "tf-pilot free demo"
+        roles: []
+
+      network:
+        enabled: true
+        subnet_cidr: "10.62.0.0/24"
+        allow_ingress_cidrs:
+          - "0.0.0.0/0"
+
+      observability:
+        enabled: true
+        # Scopes the log metric to the GCS bucket this stack creates. The token
+        # resolves at plan time to the actual bucket name. If you change the
+        # storage block above, the metric automatically follows it.
+        filter: "resource.type=\"gcs_bucket\" AND resource.labels.bucket_name=\"${module.gcp_storage.bucket_name}\""
+        metric_kind: DELTA
+        value_type: INT64
+
+      storage:
+        enabled: true
+        # US multi-region - qualifies for the always-free 5 GB/month tier.
+        location: US
+        storage_class: STANDARD
+        versioning_enabled: false
+        force_destroy: true

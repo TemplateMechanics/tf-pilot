@@ -1,0 +1,16 @@
+$schema: ../../../../.vscode/schemas/provider-stack.schema.json
+
+project: tf-pilot
+environment: dev
+provider: multi
+region: local
+tags:
+  owner: platform
+  managed_by: terraform
+modules:
+  time_anchor:
+    enabled: false
+  suffix:
+    enabled: false
+  artifact:
+    enabled: false
