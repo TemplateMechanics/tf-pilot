@@ -115,6 +115,7 @@ Describe 'Sync-ProviderGeneratedModules.ps1' {
   It 'generates managed module files from settings into a temporary modules root' {
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
     $modulesRoot = Join-Path $TestDrive 'modules'
+    $providerWorkspace = Join-Path $TestDrive 'helm'
     @'
 {
   "providers": {
@@ -138,6 +139,20 @@ Describe 'Sync-ProviderGeneratedModules.ps1' {
 }
 '@ | Set-Content -Path $settingsPath -Encoding utf8
 
+    New-Item -ItemType Directory -Path $providerWorkspace -Force | Out-Null
+    @'
+terraform {
+  required_version = ">= 1.10.0, < 2.0.0"
+
+  required_providers {
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 9.9"
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $providerWorkspace 'versions.tf') -Encoding utf8
+
     $summaryDir = Join-Path $TestDrive 'summaries'
     & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -SummaryDir $summaryDir -IncludeDisabledModules
     $LASTEXITCODE | Should -Be 0
@@ -155,11 +170,16 @@ Describe 'Sync-ProviderGeneratedModules.ps1' {
     $content = Get-Content -Path $generatedMain -Raw
     $content | Should -Match '# GENERATED FILE - DO NOT EDIT\.'
     $content | Should -Match 'resource "helm_release" "this"'
+
+    $generatedVersions = Get-Content -Path (Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'release') 'versions.tf') -Raw
+    $generatedVersions | Should -Match 'source = "hashicorp/helm"'
+    $generatedVersions | Should -Match 'version = "~> 9.9"'
   }
 
   It 'returns a non-zero exit code in check mode when generated content is stale' {
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
     $modulesRoot = Join-Path $TestDrive 'modules'
+    $providerWorkspace = Join-Path $TestDrive 'helm'
     @'
 {
   "providers": {
@@ -178,6 +198,20 @@ Describe 'Sync-ProviderGeneratedModules.ps1' {
 }
 '@ | Set-Content -Path $settingsPath -Encoding utf8
 
+    New-Item -ItemType Directory -Path $providerWorkspace -Force | Out-Null
+    @'
+terraform {
+  required_version = ">= 1.10.0, < 2.0.0"
+
+  required_providers {
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 9.9"
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $providerWorkspace 'versions.tf') -Encoding utf8
+
     $summaryDir = Join-Path $TestDrive 'summaries'
     & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -SummaryDir $summaryDir -IncludeDisabledModules
     $LASTEXITCODE | Should -Be 0
@@ -187,6 +221,79 @@ Describe 'Sync-ProviderGeneratedModules.ps1' {
 
     & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -SummaryDir $summaryDir -IncludeDisabledModules -Check
     $LASTEXITCODE | Should -Be 1
+  }
+}
+
+Describe 'Sync-ProviderResourceCoverage.ps1' {
+  It 'avoids collisions with schema attributes named enabled' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogDir = Join-Path $TestDrive 'catalogs'
+    $modulesRoot = Join-Path $TestDrive 'modules'
+    $providerWorkspace = Join-Path $TestDrive 'demo'
+
+    @'
+{
+  "providers": {
+    "demo": {
+      "enabled": true,
+      "workspace": "demo",
+      "modules": {
+        "core": {
+          "enabled": true,
+          "resourceTypePrefixes": ["demo_toggle"],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    New-Item -ItemType Directory -Path $providerWorkspace -Force | Out-Null
+    @'
+terraform {
+  required_version = ">= 1.10.0, < 2.0.0"
+
+  required_providers {
+    demo = {
+      source  = "example/demo"
+      version = "~> 1.2"
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $providerWorkspace 'versions.tf') -Encoding utf8
+
+    New-Item -ItemType Directory -Path $catalogDir -Force | Out-Null
+    @'
+{
+  "provider": "demo",
+  "resources": [
+    {
+      "type": "demo_toggle",
+      "options": {
+        "requiredAttributes": ["enabled"],
+        "optionalAttributes": ["name"],
+        "nestedBlocks": []
+      }
+    }
+  ],
+  "dataSources": []
+}
+'@ | Set-Content -Path (Join-Path $catalogDir 'demo-catalog.json') -Encoding utf8
+
+    & "$script:scriptsDir/Sync-ProviderResourceCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot
+    $LASTEXITCODE | Should -Be 0
+
+    $variablesPath = Join-Path $modulesRoot 'demo/core/resources/demo_toggle/variables.tf'
+    $mainPath = Join-Path $modulesRoot 'demo/core/resources/demo_toggle/main.tf'
+
+    $variablesContent = Get-Content -Path $variablesPath -Raw
+    $mainContent = Get-Content -Path $mainPath -Raw
+
+    ([regex]::Matches($variablesContent, 'variable "enabled" \{')).Count | Should -Be 1
+    $variablesContent | Should -Match 'variable "resource_enabled" \{'
+    $mainContent | Should -Match 'count\s*=\s*var.enabled \? 1 : 0'
+    $mainContent | Should -Match 'enabled = var.resource_enabled'
   }
 }
 

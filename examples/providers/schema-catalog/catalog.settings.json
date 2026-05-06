@@ -413,6 +413,71 @@
                                                                                                    ]
                                                                     }
                                                  }
-                                 }
+                                 },
+                      "dynatrace":  {
+                                        "enabled":  true,
+                                        "workspace":  "dynatrace",
+                                        "modules":  {
+                                                        "foundation":  {
+                                                                           "enabled":  true,
+                                                                           "resourceTypePrefixes":  [
+                                                                                                        "dynatrace_management_zone",
+                                                                                                        "dynatrace_user",
+                                                                                                        "dynatrace_iam_",
+                                                                                                        "dynatrace_token_settings"
+                                                                                                    ],
+                                                                           "dataSourceTypePrefixes":  [
+                                                                                                          "dynatrace_management_zone",
+                                                                                                          "dynatrace_iam_",
+                                                                                                          "dynatrace_api_token",
+                                                                                                          "dynatrace_tenant"
+                                                                                                      ]
+                                                                       },
+                                                        "observability":  {
+                                                                              "enabled":  true,
+                                                                              "resourceTypePrefixes":  [
+                                                                                                           "dynatrace_alerting_",
+                                                                                                           "dynatrace_dashboard",
+                                                                                                           "dynatrace_json_dashboard",
+                                                                                                           "dynatrace_report",
+                                                                                                           "dynatrace_metric_",
+                                                                                                           "dynatrace_slo",
+                                                                                                           "dynatrace_platform_slo",
+                                                                                                           "dynatrace_autotag",
+                                                                                                           "dynatrace_custom_tags",
+                                                                                                           "dynatrace_synthetic_",
+                                                                                                           "dynatrace_browser_monitor",
+                                                                                                           "dynatrace_http_monitor_",
+                                                                                                           "dynatrace_email_notification",
+                                                                                                           "dynatrace_jira_notification",
+                                                                                                           "dynatrace_trello_notification"
+                                                                                                       ],
+                                                                              "dataSourceTypePrefixes":  [
+                                                                                                             "dynatrace_alerting_",
+                                                                                                             "dynatrace_dashboard",
+                                                                                                             "dynatrace_slo",
+                                                                                                             "dynatrace_autotag",
+                                                                                                             "dynatrace_platform_slo_",
+                                                                                                             "dynatrace_synthetic_",
+                                                                                                             "dynatrace_geo_"
+                                                                                                         ]
+                                                                          },
+                                                        "automation":  {
+                                                                           "enabled":  true,
+                                                                           "resourceTypePrefixes":  [
+                                                                                                        "dynatrace_automation_",
+                                                                                                        "dynatrace_openpipeline_",
+                                                                                                        "dynatrace_document",
+                                                                                                        "dynatrace_direct_shares",
+                                                                                                        "dynatrace_problem_record_"
+                                                                                                    ],
+                                                                           "dataSourceTypePrefixes":  [
+                                                                                                          "dynatrace_documents",
+                                                                                                          "dynatrace_dql",
+                                                                                                          "dynatrace_generic_setting"
+                                                                                                      ]
+                                                                       }
+                                                    }
+                                    }
                   }
 }

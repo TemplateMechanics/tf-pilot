@@ -49,46 +49,6 @@ param(
 $ErrorActionPreference = 'Stop'
 $global:LASTEXITCODE = 0
 
-$providerSourceMap = @{
-  aws        = 'hashicorp/aws'
-  azurerm    = 'hashicorp/azurerm'
-  google     = 'hashicorp/google'
-  kubernetes = 'hashicorp/kubernetes'
-  helm       = 'hashicorp/helm'
-  github     = 'integrations/github'
-  azuredevops = 'microsoft/azuredevops'
-  gitlab     = 'gitlabhq/gitlab'
-  random     = 'hashicorp/random'
-  tls        = 'hashicorp/tls'
-  time       = 'hashicorp/time'
-  local      = 'hashicorp/local'
-  null       = 'hashicorp/null'
-  external   = 'hashicorp/external'
-  http       = 'hashicorp/http'
-  cloudinit  = 'hashicorp/cloudinit'
-  archive    = 'hashicorp/archive'
-}
-
-$providerVersionMap = @{
-  aws        = '~> 5.0'
-  azurerm    = '~> 4.0'
-  google     = '~> 6.0'
-  kubernetes = '~> 2.0'
-  helm       = '~> 3.0'
-  github     = '~> 6.0'
-  azuredevops = '~> 1.0'
-  gitlab     = '~> 17.0'
-  random     = '~> 3.0'
-  tls        = '~> 4.0'
-  time       = '~> 0.11'
-  local      = '~> 2.0'
-  null       = '~> 3.0'
-  external   = '~> 2.0'
-  http       = '~> 3.0'
-  cloudinit  = '~> 2.0'
-  archive    = '~> 2.0'
-}
-
 function Resolve-RepoPath {
   param([Parameter(Mandatory)][string]$Path)
 
@@ -193,21 +153,56 @@ function Get-GeneratedHeader {
 
 function Get-VersionsTf {
   param(
-    [Parameter(Mandatory)][string]$ProviderName
+    [Parameter(Mandatory)][string]$ProviderName,
+    [Parameter()][string]$WorkspaceName,
+    [Parameter(Mandatory)][string]$SettingsRoot
   )
 
-  $providerSource = if ($providerSourceMap.ContainsKey($ProviderName)) { $providerSourceMap[$ProviderName] } else { "hashicorp/$ProviderName" }
-  $providerVersion = if ($providerVersionMap.ContainsKey($ProviderName)) { $providerVersionMap[$ProviderName] } else { '~> 1.0' }
+  $providerMeta = Get-ProviderSourceVersion -ProviderName $ProviderName -WorkspaceName $WorkspaceName -SettingsRoot $SettingsRoot
 
   return @"
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 
   required_providers {
-    $ProviderName = { source = "$providerSource", version = "$providerVersion" }
+    $ProviderName = { source = "$($providerMeta.source)", version = "$($providerMeta.version)" }
   }
 }
 "@
+}
+
+function Get-ProviderSourceVersion {
+  param(
+    [Parameter(Mandatory)][string]$ProviderName,
+    [Parameter()][string]$WorkspaceName,
+    [Parameter(Mandatory)][string]$SettingsRoot
+  )
+
+  $resolvedWorkspaceName = if ([string]::IsNullOrWhiteSpace($WorkspaceName)) { $ProviderName } else { $WorkspaceName }
+  $versionsPath = Join-Path (Join-Path $SettingsRoot $resolvedWorkspaceName) 'versions.tf'
+
+  if (Test-Path $versionsPath) {
+    $content = Get-Content -Path $versionsPath -Raw
+    $providerBlockPattern = '(?ms)' + [regex]::Escape($ProviderName) + '\s*=\s*\{(?<body>.*?)\}'
+    $providerMatch = [regex]::Match($content, $providerBlockPattern)
+    if ($providerMatch.Success) {
+      $providerBody = $providerMatch.Groups['body'].Value
+      $sourceMatch = [regex]::Match($providerBody, 'source\s*=\s*"(?<value>[^"]+)"')
+      $versionMatch = [regex]::Match($providerBody, 'version\s*=\s*"(?<value>[^"]+)"')
+
+      if ($sourceMatch.Success -and $versionMatch.Success) {
+        return @{
+          source = $sourceMatch.Groups['value'].Value
+          version = $versionMatch.Groups['value'].Value
+        }
+      }
+    }
+  }
+
+  return @{
+    source = "hashicorp/$ProviderName"
+    version = '~> 1.0'
+  }
 }
 
 function Get-CommonOutputs {
@@ -4634,6 +4629,7 @@ function Get-ModuleTemplate {
 }
 
 $settingsPath = Resolve-RepoPath -Path $SettingsFile
+$settingsRoot = Split-Path -Parent $settingsPath
 $modulesRootPath = Resolve-RepoPath -Path $ModulesRoot
 $summaryDir = if ($SummaryDir) {
   Resolve-RepoPath -Path $SummaryDir
@@ -4666,6 +4662,7 @@ $hasDrift = $false
 
 foreach ($providerName in (Get-JsonObjectPropertyNames -InputObject $settings.providers)) {
   $providerConfig = $settings.providers.$providerName
+  $providerWorkspace = if ($providerConfig.workspace) { [string]$providerConfig.workspace } else { $providerName }
 
   $providerDir = Join-Path $effectiveModulesRoot $providerName
   if (-not (Test-Path $providerDir)) {
@@ -4693,7 +4690,7 @@ Manual edits inside generated files will be overwritten by scripts/Sync-Provider
     New-Item -ItemType Directory -Path $testsPath -Force | Out-Null
 
     $template = Get-ModuleTemplate -ProviderName $providerName -ModuleName $moduleName -ModuleConfig $moduleConfig
-    $versionsTf = (Get-GeneratedHeader -ProviderName $providerName -ModuleName $moduleName -FileName 'versions.tf') + "`n" + (Get-VersionsTf -ProviderName $providerName)
+    $versionsTf = (Get-GeneratedHeader -ProviderName $providerName -ModuleName $moduleName -FileName 'versions.tf') + "`n" + (Get-VersionsTf -ProviderName $providerName -WorkspaceName $providerWorkspace -SettingsRoot $settingsRoot)
     $variablesTf = (Get-GeneratedHeader -ProviderName $providerName -ModuleName $moduleName -FileName 'variables.tf') + "`n" + $template.variables
     $mainTf = (Get-GeneratedHeader -ProviderName $providerName -ModuleName $moduleName -FileName 'main.tf') + "`n" + $template.main
     $outputsTf = (Get-GeneratedHeader -ProviderName $providerName -ModuleName $moduleName -FileName 'outputs.tf') + "`n" + $template.outputs

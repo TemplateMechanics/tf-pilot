@@ -41,6 +41,9 @@ Coverage targets are sourced from examples/providers/schema-catalog/provider-cov
 | gitlab | foundation | done | 27 | 14 |
 | gitlab | repository | done | 31 | 22 |
 | gitlab | automation | done | 4 | 3 |
+| dynatrace | foundation | done | 17 | 13 |
+| dynatrace | observability | done | 32 | 13 |
+| dynatrace | automation | done | 76 | 4 |
 
 ## Reflection-Driven Upkeep
 

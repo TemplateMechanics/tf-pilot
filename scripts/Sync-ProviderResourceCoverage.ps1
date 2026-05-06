@@ -90,21 +90,31 @@ function Get-GeneratedHeader {
 }
 
 function Get-ProviderSourceVersion {
-  param([Parameter(Mandatory)][string]$ProviderName)
+  param(
+    [Parameter(Mandatory)][string]$ProviderName,
+    [Parameter()][string]$WorkspaceName,
+    [Parameter(Mandatory)][string]$SettingsRoot
+  )
 
-  $map = @{
-    aws = @{ source = 'hashicorp/aws'; version = '~> 5.100' }
-    azurerm = @{ source = 'hashicorp/azurerm'; version = '~> 4.0' }
-    google = @{ source = 'hashicorp/google'; version = '~> 6.0' }
-    kubernetes = @{ source = 'hashicorp/kubernetes'; version = '~> 2.0' }
-    helm = @{ source = 'hashicorp/helm'; version = '~> 3.0' }
-    github = @{ source = 'integrations/github'; version = '~> 6.0' }
-    azuredevops = @{ source = 'microsoft/azuredevops'; version = '~> 1.0' }
-    gitlab = @{ source = 'gitlabhq/gitlab'; version = '~> 17.0' }
-  }
+  $resolvedWorkspaceName = if ([string]::IsNullOrWhiteSpace($WorkspaceName)) { $ProviderName } else { $WorkspaceName }
+  $versionsPath = Join-Path (Join-Path $SettingsRoot $resolvedWorkspaceName) 'versions.tf'
 
-  if ($map.ContainsKey($ProviderName)) {
-    return $map[$ProviderName]
+  if (Test-Path $versionsPath) {
+    $content = Get-Content -Path $versionsPath -Raw
+    $providerBlockPattern = '(?ms)' + [regex]::Escape($ProviderName) + '\s*=\s*\{(?<body>.*?)\}'
+    $providerMatch = [regex]::Match($content, $providerBlockPattern)
+    if ($providerMatch.Success) {
+      $providerBody = $providerMatch.Groups['body'].Value
+      $sourceMatch = [regex]::Match($providerBody, 'source\s*=\s*"(?<value>[^"]+)"')
+      $versionMatch = [regex]::Match($providerBody, 'version\s*=\s*"(?<value>[^"]+)"')
+
+      if ($sourceMatch.Success -and $versionMatch.Success) {
+        return @{
+          source = $sourceMatch.Groups['value'].Value
+          version = $versionMatch.Groups['value'].Value
+        }
+      }
+    }
   }
 
   return @{ source = "hashicorp/$ProviderName"; version = '>= 0.0.0' }
@@ -194,6 +204,9 @@ function Get-NestedBlockNames {
 function Convert-AttributeToVarName {
   param([Parameter(Mandatory)][string]$AttributeName)
   $name = ($AttributeName -replace '[^A-Za-z0-9_]', '_')
+  if ($name -eq 'enabled') {
+    return 'resource_enabled'
+  }
   if ($name -match '^[0-9]') {
     return "attr_$name"
   }
@@ -351,6 +364,7 @@ output "result" {
 }
 
 $settingsPath = Resolve-RepoPath -Path $SettingsFile
+$settingsRoot = Split-Path -Parent $settingsPath
 $catalogPathRoot = Resolve-RepoPath -Path $CatalogDir
 $modulesPathRoot = Resolve-RepoPath -Path $ModulesRoot
 
@@ -387,7 +401,7 @@ foreach ($providerName in $targetProviders) {
   }
 
   $catalog = Get-Content -Path $catalogFile -Raw | ConvertFrom-Json
-  $providerMeta = Get-ProviderSourceVersion -ProviderName $providerName
+  $providerMeta = Get-ProviderSourceVersion -ProviderName $providerName -WorkspaceName $providerCfg.workspace -SettingsRoot $settingsRoot
 
   $providerResourceCount = 0
   $providerDataCount = 0

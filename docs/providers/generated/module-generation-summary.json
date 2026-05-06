@@ -427,5 +427,44 @@
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
+    },
+    {
+        "provider":  "dynatrace",
+        "module":  "foundation",
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\dynatrace\\foundation",
+        "files":  {
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
+                  }
+    },
+    {
+        "provider":  "dynatrace",
+        "module":  "observability",
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\dynatrace\\observability",
+        "files":  {
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
+                  }
+    },
+    {
+        "provider":  "dynatrace",
+        "module":  "automation",
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\dynatrace\\automation",
+        "files":  {
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
+                  }
     }
 ]
