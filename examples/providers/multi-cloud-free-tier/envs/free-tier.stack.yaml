@@ -112,7 +112,7 @@ clouds:
           - "10.52.1.0/24"
 
       observability:
-        enabled: true
+        enabled: false
         workspace_sku: PerGB2018
         retention_in_days: 30
         application_type: web

@@ -168,10 +168,98 @@ if (-not $terraform) {
   exit 1
 }
 
+function Remove-AzureOrphanedResources {
+  param(
+    [Parameter(Mandatory)] [string]$WorkingPath,
+    [Parameter(Mandatory)] [System.Management.Automation.CommandInfo]$TerraformCmd
+  )
+
+  $az = Get-Command 'az' -ErrorAction SilentlyContinue | Select-Object -First 1
+  if (-not $az) { return }
+
+  # Collect Terraform-managed Azure resource IDs and RG names from state.
+  $stateRaw = & $TerraformCmd.Source show -json 2>$null | Out-String
+  if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($stateRaw)) { return }
+
+  try { $state = $stateRaw | ConvertFrom-Json -ErrorAction Stop }
+  catch { return }
+
+  $managedIds   = [System.Collections.Generic.HashSet[string]]([System.StringComparer]::OrdinalIgnoreCase)
+  $managedRgIds = [System.Collections.Generic.HashSet[string]]([System.StringComparer]::OrdinalIgnoreCase)
+
+  function Collect-StateResources ($node) {
+    if ($null -eq $node) { return }
+    if ($node.PSObject.Properties['resources']) {
+      foreach ($r in $node.resources) {
+        foreach ($inst in $r.instances) {
+          $id = $inst.attributes.id
+          if (-not [string]::IsNullOrWhiteSpace($id)) {
+            [void]$managedIds.Add($id)
+            if ($r.type -eq 'azurerm_resource_group') {
+              [void]$managedRgIds.Add($id)
+            }
+          }
+        }
+      }
+    }
+    if ($node.PSObject.Properties['child_modules']) {
+      foreach ($child in $node.child_modules) { Collect-StateResources $child }
+    }
+  }
+  Collect-StateResources $state.values.root_module
+
+  if ($managedRgIds.Count -eq 0) { return }
+
+  Write-Host "`nAzure Pre-Destroy Cleanup" -ForegroundColor Cyan
+
+  foreach ($rgId in $managedRgIds) {
+    if ($rgId -notmatch '/resourceGroups/([^/]+)') { continue }
+    $rgName = $matches[1]
+
+    $existsRaw = & $az.Source group exists --name $rgName 2>$null | Out-String
+    if ($existsRaw.Trim() -ne 'true') {
+      Write-Host "  $rgName not found in Azure (already deleted)." -ForegroundColor Gray
+      continue
+    }
+
+    Write-Host "  Scanning $rgName for Azure-created resources..." -ForegroundColor Gray
+
+    $resourcesRaw = & $az.Source resource list --resource-group $rgName --output json 2>$null | Out-String
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($resourcesRaw)) { continue }
+
+    try { $resources = $resourcesRaw | ConvertFrom-Json -ErrorAction Stop }
+    catch { continue }
+
+    $orphans = @($resources | Where-Object { -not $managedIds.Contains($_.id) })
+
+    if ($orphans.Count -eq 0) {
+      Write-Host "    No Azure-created orphans found." -ForegroundColor Gray
+      continue
+    }
+
+    foreach ($orphan in $orphans) {
+      Write-Host "    Removing Azure-created: $($orphan.name) ($($orphan.type))" -ForegroundColor DarkYellow
+      & $az.Source resource delete --ids $orphan.id --yes 2>$null | Out-Null
+      if ($LASTEXITCODE -eq 0) {
+        Write-Host "    Removed." -ForegroundColor Gray
+      }
+      else {
+        Write-Warning ("    Could not remove {0} - RG delete will proceed and Azure will attempt cleanup." -f $orphan.name)
+      }
+    }
+  }
+}
+
 $resolvedPath = (Resolve-Path -Path $Path).Path
 $destroyPlan = Join-Path $resolvedPath 'tfdestroy.plan'
 $planArgs = @('plan', '-destroy', '-no-color', '-out', $destroyPlan)
 if ($VarFile) { foreach ($vf in $VarFile) { $planArgs += "-var-file=$vf" } }
+
+if (-not $terraform) {
+  Write-Error "Required command 'terraform' is not available on PATH."
+  exit 1
+}
+
 
 $cloudReadinessScript = Join-Path $PSScriptRoot 'Test-CloudCliReadiness.ps1'
 if (-not $SkipCloudReadiness -and (Test-Path $cloudReadinessScript)) {
@@ -224,6 +312,8 @@ try {
     Write-Host "Clearing orphaned provider processes..." -ForegroundColor Gray
     & $cleanupScript -Force -ErrorAction Continue | ForEach-Object { Write-Host "  $_" }
   }
+
+  Remove-AzureOrphanedResources -WorkingPath $resolvedPath -TerraformCmd $terraform
 
   Write-Host "`nTerraform Destroy Plan" -ForegroundColor Cyan
   & $terraform.Source @planArgs

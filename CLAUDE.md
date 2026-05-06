@@ -76,6 +76,29 @@ Use these scripts as the execution path after MCP-guided analysis.
 | **Render dependency graph** | `Show-TerraformGraph.ps1` | `./scripts/Show-TerraformGraph.ps1 -Path . -Output graph.png` |
 | **Print versions** of terraform + providers | `Get-TerraformVersion.ps1` | `./scripts/Get-TerraformVersion.ps1` |
 
+## Terminal Expectations
+
+- **Assume Windows PowerShell**, not bash. Use PowerShell-native syntax and cmdlets unless another shell is invoked explicitly.
+- **Execute repo commands from the repository root** and pass explicit `-Path` values to the wrapper scripts. Do not depend on the terminal already being inside a child directory.
+- **Avoid Unix shell commands in PowerShell sessions.** `tail`, `uniq`, `grep`, and `sed` are not reliable defaults here and should be replaced with PowerShell equivalents.
+
+### PowerShell equivalents
+
+- `tail -20` → `Select-Object -Last 20`
+- `tail -f` → `Get-Content -Wait -Tail 10`
+- `grep pattern` → `Select-String pattern`
+- `uniq -c` → `Group-Object | Select-Object Count, Name`
+- `sed 's/old/new/'` → PowerShell `-replace`
+
+### Preferred script invocation pattern
+
+```powershell
+cd c:\LocalCode\systechs\tf-pilot
+./scripts/Invoke-TerraformPlan.ps1 -Path examples/providers/multi-cloud-free-tier -Out tfplan
+./scripts/Invoke-TerraformApply.ps1 -Path examples/providers/multi-cloud-free-tier -PlanFile tfplan
+./scripts/Invoke-TerraformDestroy.ps1 -Path examples/providers/multi-cloud-free-tier -Confirm
+```
+
 ### MANDATORY — the plan-before-apply two-step sequence
 
 > **WARNING**: `terraform apply` without a saved plan file is **forbidden** in this harness. You MUST run BOTH steps every time. Do NOT stop after step 1. Do NOT call apply without showing the plan to the user and getting confirmation.

@@ -56,6 +56,29 @@ This workspace contains Terraform / OpenTofu configuration. You are working with
 | Graph render | `./scripts/Show-TerraformGraph.ps1` |
 | Versions | `./scripts/Get-TerraformVersion.ps1` |
 
+## Terminal Expectations
+
+- **This workspace uses Windows PowerShell** for command execution. Prefer PowerShell-native commands and syntax.
+- **Run repo commands from the repository root** (`c:\LocalCode\systechs\tf-pilot`) and pass explicit `-Path` arguments to wrapper scripts. Do not rely on the terminal already being in a nested working directory.
+- **Do not use Unix shell utilities by default** in PowerShell sessions. Commands like `tail`, `uniq`, `grep`, and `sed` are not available unless you explicitly invoke another shell.
+
+### PowerShell equivalents
+
+- `tail -20` → `Select-Object -Last 20`
+- `tail -f` → `Get-Content -Wait -Tail 10`
+- `grep pattern` → `Select-String pattern`
+- `uniq -c` → `Group-Object | Select-Object Count, Name`
+- `sed 's/old/new/'` → PowerShell `-replace`
+
+### Preferred script invocation pattern
+
+```powershell
+cd c:\LocalCode\systechs\tf-pilot
+./scripts/Invoke-TerraformPlan.ps1 -Path examples/providers/multi-cloud-free-tier -Out tfplan
+./scripts/Invoke-TerraformApply.ps1 -Path examples/providers/multi-cloud-free-tier -PlanFile tfplan
+./scripts/Invoke-TerraformDestroy.ps1 -Path examples/providers/multi-cloud-free-tier -Confirm
+```
+
 ### MANDATORY plan → apply sequence
 
 1. `./scripts/Invoke-TerraformPlan.ps1 -Path . -VarFile envs/<env>.tfvars -Out tfplan`
