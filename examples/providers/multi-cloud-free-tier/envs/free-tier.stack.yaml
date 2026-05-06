@@ -130,7 +130,7 @@ clouds:
     region: us-central1
     # NOTE: Replace with your real GCP project ID before running terraform apply.
     # You can also pass it as: -var="gcp_project_id=<your-project>"
-    project_id: "your-gcp-project-id"
+    project_id: "gcp-iac-template"
 
     modules:
       foundation:

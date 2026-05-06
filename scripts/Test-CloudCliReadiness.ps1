@@ -22,6 +22,9 @@ Exit non-zero when any required provider is not ready.
 
 .PARAMETER AsJson
 Emit structured JSON instead of a formatted table.
+
+.PARAMETER AutoRepair
+Automatically repair missing cloud CLI paths (session only; use Repair-CloudCliPath.ps1 -PersistUserPath to persist).
 #>
 [CmdletBinding()]
 param(
@@ -35,7 +38,10 @@ param(
   [switch]$Strict,
 
   [Parameter()]
-  [switch]$AsJson
+  [switch]$AsJson,
+
+  [Parameter()]
+  [switch]$AutoRepair
 )
 
 $ErrorActionPreference = 'Stop'
@@ -240,6 +246,47 @@ function Get-ExpectedContext {
 function Resolve-ProviderCli {
   param([Parameter(Mandatory)] [string]$ProviderName)
 
+  function Resolve-PreferredInvokeTarget {
+    param(
+      [Parameter()] [string]$ExecutablePath,
+      [Parameter(Mandatory)] [string]$CommandName,
+      [Parameter()] [string[]]$PreferredLeafNames
+    )
+
+    if ([string]::IsNullOrWhiteSpace($ExecutablePath)) {
+      return $CommandName
+    }
+
+    $normalizedPath = $ExecutablePath
+    if (Test-Path -Path $ExecutablePath -PathType Leaf) {
+      try {
+        $normalizedPath = (Resolve-Path -Path $ExecutablePath).Path
+      }
+      catch {
+        $normalizedPath = $ExecutablePath
+      }
+    }
+
+    $pathExt = [System.IO.Path]::GetExtension($normalizedPath)
+    if ($pathExt -and ($pathExt -ieq '.ps1')) {
+      $candidateNames = @()
+      if ($PreferredLeafNames) {
+        $candidateNames += $PreferredLeafNames
+      }
+      $candidateNames += @("$CommandName.cmd", "$CommandName.exe", "$CommandName.bat")
+
+      $parentDir = Split-Path -Parent $normalizedPath
+      foreach ($candidateName in ($candidateNames | Select-Object -Unique)) {
+        $candidatePath = Join-Path $parentDir $candidateName
+        if (Test-Path -Path $candidatePath -PathType Leaf) {
+          return $candidatePath
+        }
+      }
+    }
+
+    return $normalizedPath
+  }
+
   function Join-PathSafe {
     param(
       [Parameter()] [string]$BasePath,
@@ -273,7 +320,10 @@ function Resolve-ProviderCli {
     'google' {
       [ordered]@{
         Command = 'gcloud'
+        PreferredLeafNames = @('gcloud.cmd', 'gcloud.exe')
         Paths   = @(
+          $(if (Test-MeaningfulValue $env:CLOUDSDK_ROOT_DIR) { Join-PathSafe $env:CLOUDSDK_ROOT_DIR 'bin\gcloud.cmd' } else { $null }),
+          $(if (Test-MeaningfulValue $env:CLOUDSDK_ROOT_DIR) { Join-PathSafe $env:CLOUDSDK_ROOT_DIR 'bin\gcloud.exe' } else { $null }),
           (Join-PathSafe ${env:ProgramFiles(x86)} 'Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd'),
           (Join-PathSafe $env:LOCALAPPDATA 'Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd'),
           (Join-PathSafe $env:ProgramData 'chocolatey\lib\gcloudsdk\tools\google-cloud-sdk\bin\gcloud.cmd')
@@ -284,21 +334,24 @@ function Resolve-ProviderCli {
 
   $command = Get-Command $providerMeta.Command -ErrorAction SilentlyContinue | Select-Object -First 1
   if ($command) {
+    $discoveredPath = if ($command.Source) { $command.Source } else { $command.Definition }
+    $invokeTarget = Resolve-PreferredInvokeTarget -ExecutablePath $discoveredPath -CommandName $providerMeta.Command -PreferredLeafNames $providerMeta.PreferredLeafNames
     return [pscustomobject]@{
       Name           = $providerMeta.Command
       OnPath         = $true
-      ExecutablePath = if ($command.Source) { $command.Source } else { $command.Definition }
-      InvokeTarget   = $command.Name
+      ExecutablePath = $invokeTarget
+      InvokeTarget   = $invokeTarget
     }
   }
 
   $candidate = $providerMeta.Paths | Where-Object { $_ -and (Test-Path -Path $_ -PathType Leaf) } | Select-Object -First 1
   if ($candidate) {
+    $invokeTarget = Resolve-PreferredInvokeTarget -ExecutablePath $candidate -CommandName $providerMeta.Command -PreferredLeafNames $providerMeta.PreferredLeafNames
     return [pscustomobject]@{
       Name           = $providerMeta.Command
       OnPath         = $false
-      ExecutablePath = $candidate
-      InvokeTarget   = $candidate
+      ExecutablePath = $invokeTarget
+      InvokeTarget   = $invokeTarget
     }
   }
 
@@ -356,7 +409,25 @@ function Invoke-ProviderCheck {
 
   if (-not $result.cliOnPath) {
     $result.messages += 'CLI found on disk but not currently available on PATH.'
-    $result.suggestedCommands += ".\\scripts\\Repair-CloudCliPath.ps1 -Cli $($cli.Name)"
+    
+    if ($AutoRepair) {
+      # Auto-repair: add to PATH for this session
+      Write-Host "Auto-repairing PATH for $($cli.Name)..." -ForegroundColor Cyan
+      $cliDir = Split-Path -Parent $cli.ExecutablePath
+      $env:PATH = "$cliDir;$env:PATH"
+      
+      # Verify it's now on PATH
+      $cli_check = Get-Command $($cli.Name) -ErrorAction SilentlyContinue
+      if ($cli_check) {
+        $result.messages = @()  # Clear error message since we fixed it
+        $result.cliOnPath = $true
+        $result.status = 'ready'
+        $result.suggestedCommands += "To persist this path change across sessions, run: .\\scripts\\Repair-CloudCliPath.ps1 -Cli $($cli.Name) -PersistUserPath"
+      }
+    }
+    else {
+      $result.suggestedCommands += ".\\scripts\\Repair-CloudCliPath.ps1 -Cli $($cli.Name) -PersistUserPath"
+    }
   }
 
   switch ($ProviderName) {

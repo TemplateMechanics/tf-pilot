@@ -67,22 +67,34 @@ function Get-KnownCliCandidatePaths {
     [Parameter()] [string[]]$AdditionalSearchRoots
   )
 
+  function Test-HasText {
+    param([Parameter()] [string]$Value)
+    return -not [string]::IsNullOrWhiteSpace(([string]$Value).Trim())
+  }
+
   $directCandidates = switch ($CliName) {
     'aws' {
       @(
-        (Join-Path $env:ProgramFiles 'Amazon\AWSCLIV2\aws.exe')
+        (Join-Path $env:ProgramFiles 'Amazon\AWSCLIV2\aws.exe'),
+        $(if (Test-HasText $env:ChocolateyInstall) { Join-Path $env:ChocolateyInstall 'bin\aws.exe' } else { $null })
       )
     }
     'az' {
       @(
-        (Join-Path $env:ProgramFiles 'Microsoft SDKs\Azure\CLI2\wbin\az.cmd')
+        (Join-Path $env:ProgramFiles 'Microsoft SDKs\Azure\CLI2\wbin\az.cmd'),
+        $(if (Test-HasText $env:ChocolateyInstall) { Join-Path $env:ChocolateyInstall 'bin\az.cmd' } else { $null })
       )
     }
     'gcloud' {
       @(
+        $(if (Test-HasText $env:CLOUDSDK_ROOT_DIR) { Join-Path $env:CLOUDSDK_ROOT_DIR 'bin\gcloud.cmd' } else { $null }),
+        $(if (Test-HasText $env:CLOUDSDK_ROOT_DIR) { Join-Path $env:CLOUDSDK_ROOT_DIR 'bin\gcloud.exe' } else { $null }),
         (Join-Path ${env:ProgramFiles(x86)} 'Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd'),
         (Join-Path $env:LOCALAPPDATA 'Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd'),
-        (Join-Path $env:ProgramData 'chocolatey\lib\gcloudsdk\tools\google-cloud-sdk\bin\gcloud.cmd')
+        (Join-Path $env:ProgramData 'chocolatey\lib\gcloudsdk\tools\google-cloud-sdk\bin\gcloud.cmd'),
+        $(if (Test-HasText $env:ChocolateyInstall) { Join-Path $env:ChocolateyInstall 'lib\gcloudsdk\tools\google-cloud-sdk\bin\gcloud.cmd' } else { $null }),
+        (Join-Path $env:USERPROFILE 'scoop\apps\gcloud\current\google-cloud-sdk\bin\gcloud.cmd'),
+        (Join-Path $env:USERPROFILE 'scoop\shims\gcloud.cmd')
       )
     }
   }
@@ -94,14 +106,48 @@ function Get-KnownCliCandidatePaths {
     }
   }
 
+  $searchRoots = @()
   if ($AdditionalSearchRoots) {
+    $searchRoots += $AdditionalSearchRoots
+  }
+  $searchRoots += switch ($CliName) {
+    'aws' {
+      @(
+        (Join-Path $env:ProgramFiles 'Amazon'),
+        $(if (Test-HasText $env:ChocolateyInstall) { Join-Path $env:ChocolateyInstall 'bin' } else { $null }),
+        (Join-Path $env:USERPROFILE 'scoop\shims')
+      )
+    }
+    'az' {
+      @(
+        (Join-Path $env:ProgramFiles 'Microsoft SDKs\Azure'),
+        $(if (Test-HasText $env:ChocolateyInstall) { Join-Path $env:ChocolateyInstall 'bin' } else { $null }),
+        (Join-Path $env:USERPROFILE 'scoop\shims')
+      )
+    }
+    'gcloud' {
+      @(
+        $(if (Test-HasText $env:CLOUDSDK_ROOT_DIR) { $env:CLOUDSDK_ROOT_DIR } else { $null }),
+        (Join-Path ${env:ProgramFiles(x86)} 'Google\Cloud SDK'),
+        (Join-Path $env:LOCALAPPDATA 'Google\Cloud SDK'),
+        (Join-Path $env:ProgramData 'chocolatey\lib\gcloudsdk'),
+        $(if (Test-HasText $env:ChocolateyInstall) { Join-Path $env:ChocolateyInstall 'lib\gcloudsdk' } else { $null }),
+        (Join-Path $env:USERPROFILE 'scoop\apps\gcloud'),
+        (Join-Path $env:USERPROFILE 'scoop\shims')
+      )
+    }
+  }
+
+  $searchRoots = Get-UniquePathEntries -Entries $searchRoots
+
+  if ($searchRoots) {
     $filePatterns = switch ($CliName) {
       'aws' { @('aws.exe') }
       'az' { @('az.cmd', 'az.exe') }
       'gcloud' { @('gcloud.cmd', 'gcloud.exe') }
     }
 
-    foreach ($root in $AdditionalSearchRoots) {
+    foreach ($root in $searchRoots) {
       if (-not (Test-Path -Path $root -PathType Container)) {
         continue
       }
