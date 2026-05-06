@@ -92,17 +92,48 @@ function Initialize-AwsCredentialEnvironment {
     Message = $null
   }
 
-  if (-not [string]::IsNullOrWhiteSpace($env:AWS_ACCESS_KEY_ID) -and -not [string]::IsNullOrWhiteSpace($env:AWS_SECRET_ACCESS_KEY)) {
-    $result.Success = $true
-    $result.Source = 'environment'
-    $result.Message = 'Using existing AWS credential environment variables.'
-    return [pscustomobject]$result
+  function Test-AwsCredentialSet {
+    param([Parameter(Mandatory)] [System.Management.Automation.CommandInfo]$AwsCommand)
+
+    $previousCliErrorActionPreference = $ErrorActionPreference
+    $previousNativeErrPref = $null
+    if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
+      $previousNativeErrPref = $PSNativeCommandUseErrorActionPreference
+      $PSNativeCommandUseErrorActionPreference = $false
+    }
+
+    try {
+      $ErrorActionPreference = 'Continue'
+      $identityJson = & $AwsCommand.Source 'sts' 'get-caller-identity' '--output' 'json' 2>$null
+    }
+    finally {
+      $ErrorActionPreference = $previousCliErrorActionPreference
+      if ($null -ne $previousNativeErrPref) {
+        $PSNativeCommandUseErrorActionPreference = $previousNativeErrPref
+      }
+    }
+
+    return ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace(($identityJson | Out-String)))
   }
 
   $aws = Get-Command 'aws' -ErrorAction SilentlyContinue | Select-Object -First 1
   if (-not $aws) {
     $result.Message = "AWS CLI not found on PATH; cannot bootstrap Terraform credential environment."
     return [pscustomobject]$result
+  }
+
+  if (-not [string]::IsNullOrWhiteSpace($env:AWS_ACCESS_KEY_ID) -and -not [string]::IsNullOrWhiteSpace($env:AWS_SECRET_ACCESS_KEY)) {
+    if (Test-AwsCredentialSet -AwsCommand $aws) {
+      $result.Success = $true
+      $result.Source = 'environment'
+      $result.Message = 'Using existing AWS credential environment variables.'
+      return [pscustomobject]$result
+    }
+
+    Remove-Item Env:AWS_ACCESS_KEY_ID -ErrorAction SilentlyContinue
+    Remove-Item Env:AWS_SECRET_ACCESS_KEY -ErrorAction SilentlyContinue
+    Remove-Item Env:AWS_SESSION_TOKEN -ErrorAction SilentlyContinue
+    Remove-Item Env:AWS_SECURITY_TOKEN -ErrorAction SilentlyContinue
   }
 
   $exportLines = & $aws.Source configure export-credentials --format env 2>$null
@@ -122,7 +153,7 @@ function Initialize-AwsCredentialEnvironment {
     }
   }
 
-  if (-not [string]::IsNullOrWhiteSpace($env:AWS_ACCESS_KEY_ID) -and -not [string]::IsNullOrWhiteSpace($env:AWS_SECRET_ACCESS_KEY)) {
+  if (-not [string]::IsNullOrWhiteSpace($env:AWS_ACCESS_KEY_ID) -and -not [string]::IsNullOrWhiteSpace($env:AWS_SECRET_ACCESS_KEY) -and (Test-AwsCredentialSet -AwsCommand $aws)) {
     $result.Success = $true
     $result.Source = 'aws-cli-export'
     $result.Message = 'Bootstrapped AWS credential environment variables from AWS CLI profile/session.'
