@@ -442,16 +442,38 @@ function Invoke-ProviderCheck {
     }
   }
 
-  switch ($ProviderName) {
-    'aws' {
-      $identityJson = & $cli.InvokeTarget 'sts' 'get-caller-identity' '--output' 'json' 2>$null
-      if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace(($identityJson | Out-String))) {
+  $previousNativeErrPref = $null
+  if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
+    $previousNativeErrPref = $PSNativeCommandUseErrorActionPreference
+    $PSNativeCommandUseErrorActionPreference = $false
+  }
+
+  try {
+    switch ($ProviderName) {
+      'aws' {
+      $previousCliErrorActionPreference = $ErrorActionPreference
+      try {
+        $ErrorActionPreference = 'Continue'
+        $identityOutput = & $cli.InvokeTarget 'sts' 'get-caller-identity' '--output' 'json' 2>&1
+      }
+      finally {
+        $ErrorActionPreference = $previousCliErrorActionPreference
+      }
+
+      $identityText = ($identityOutput | Out-String).Trim()
+      if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($identityText)) {
         $result.messages += 'AWS CLI is not authenticated.'
+
+        if ($identityText -match 'expired|invalid|sso session|token') {
+          $result.messages += 'AWS session appears expired. Re-authenticate, then re-run readiness.'
+          $result.messages += 'If session expiry is frequent, ask your AWS admin to increase IAM Identity Center permission set session duration and role max session duration.'
+        }
+
         $result.suggestedCommands += 'aws login'
         return $result
       }
 
-      $identity = (($identityJson | Out-String).Trim() | ConvertFrom-Json)
+      $identity = ($identityText | ConvertFrom-Json)
       $result.authenticated = $true
       $region = if (Test-MeaningfulValue $env:AWS_REGION) {
         $env:AWS_REGION
@@ -460,7 +482,14 @@ function Invoke-ProviderCheck {
         $env:AWS_DEFAULT_REGION
       }
       else {
-        (& $cli.InvokeTarget 'configure' 'get' 'region' 2>$null | Out-String).Trim()
+        $previousRegionErrorActionPreference = $ErrorActionPreference
+        try {
+          $ErrorActionPreference = 'Continue'
+          (& $cli.InvokeTarget 'configure' 'get' 'region' 2>$null | Out-String).Trim()
+        }
+        finally {
+          $ErrorActionPreference = $previousRegionErrorActionPreference
+        }
       }
 
       $result.activeContext = [ordered]@{
@@ -479,10 +508,17 @@ function Invoke-ProviderCheck {
 
       $result.status = if ($contextMatches) { 'ok' } else { 'action_required' }
       return $result
-    }
+      }
 
-    'azurerm' {
-      $accountJson = & $cli.InvokeTarget 'account' 'show' '--output' 'json' 2>$null
+      'azurerm' {
+      $previousAzErrorActionPreference = $ErrorActionPreference
+      try {
+        $ErrorActionPreference = 'Continue'
+        $accountJson = & $cli.InvokeTarget 'account' 'show' '--output' 'json' 2>$null
+      }
+      finally {
+        $ErrorActionPreference = $previousAzErrorActionPreference
+      }
       if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace(($accountJson | Out-String))) {
         $result.messages += 'Azure CLI is not authenticated.'
         $result.suggestedCommands += 'az login'
@@ -515,10 +551,17 @@ function Invoke-ProviderCheck {
 
       $result.status = if ($contextMatches) { 'ok' } else { 'action_required' }
       return $result
-    }
+      }
 
-    'google' {
-      $accountsJson = & $cli.InvokeTarget 'auth' 'list' '--format=json' 2>$null
+      'google' {
+      $previousGcloudErrorActionPreference = $ErrorActionPreference
+      try {
+        $ErrorActionPreference = 'Continue'
+        $accountsJson = & $cli.InvokeTarget 'auth' 'list' '--format=json' 2>$null
+      }
+      finally {
+        $ErrorActionPreference = $previousGcloudErrorActionPreference
+      }
       if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace(($accountsJson | Out-String))) {
         $result.messages += 'Google Cloud CLI is not authenticated.'
         $result.suggestedCommands += 'gcloud auth login'
@@ -533,7 +576,14 @@ function Invoke-ProviderCheck {
         return $result
       }
 
-      $project = (& $cli.InvokeTarget 'config' 'get-value' 'project' 2>$null | Out-String).Trim()
+      $previousGcloudProjectErrorActionPreference = $ErrorActionPreference
+      try {
+        $ErrorActionPreference = 'Continue'
+        $project = (& $cli.InvokeTarget 'config' 'get-value' 'project' 2>$null | Out-String).Trim()
+      }
+      finally {
+        $ErrorActionPreference = $previousGcloudProjectErrorActionPreference
+      }
       if ($project -eq '(unset)') { $project = $null }
 
       $result.authenticated = $true
@@ -561,6 +611,12 @@ function Invoke-ProviderCheck {
 
       $result.status = if ($contextMatches) { 'ok' } else { 'action_required' }
       return $result
+      }
+    }
+  }
+  finally {
+    if ($null -ne $previousNativeErrPref) {
+      $PSNativeCommandUseErrorActionPreference = $previousNativeErrPref
     }
   }
 
