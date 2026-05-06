@@ -34,7 +34,7 @@ output "enabled" {
 }
 output "name" {
   description = "Namespace name."
-  value       = var.enabled ? kubernetes_namespace.this[0].metadata[0].name : null
+  value       = try(kubernetes_namespace.this[0].metadata[0].name, null)
 }
 output "uid" {
   description = "Namespace UID."

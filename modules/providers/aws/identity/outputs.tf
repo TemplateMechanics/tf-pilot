@@ -34,7 +34,7 @@ output "enabled" {
 }
 output "role_name" {
   description = "IAM role name."
-  value       = var.enabled ? aws_iam_role.this[0].name : null
+  value       = try(aws_iam_role.this[0].name, null)
 }
 output "role_arn" {
   description = "IAM role ARN."

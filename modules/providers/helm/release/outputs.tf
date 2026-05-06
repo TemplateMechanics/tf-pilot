@@ -34,11 +34,11 @@ output "enabled" {
 }
 output "name" {
   description = "Helm release name."
-  value       = var.enabled ? helm_release.this[0].name : null
+  value       = try(helm_release.this[0].name, null)
 }
 output "namespace" {
   description = "Helm release namespace."
-  value       = var.enabled ? helm_release.this[0].namespace : var.namespace
+  value       = try(helm_release.this[0].namespace, var.namespace)
 }
 output "chart" {
   description = "Helm chart name."
