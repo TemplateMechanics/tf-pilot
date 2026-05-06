@@ -25,6 +25,7 @@ Use Terraform schema reflection to keep module option coverage current with prov
 
 1. Configure enablement in `examples/providers/schema-catalog/catalog.settings.json`:
   - provider enabled/disabled
+  - provider coverage mode (`prefix` by default, `all` for full-schema generation)
   - module family enabled/disabled
 2. Run selective refresh:
   `./scripts/Invoke-ProviderCatalogRefresh.ps1`
@@ -41,6 +42,11 @@ Diff model and transfer minimization:
 - Init is skipped when lock and provider cache are already present (unless forced).
 - Provider lock sync is skipped unless explicitly requested.
 - This avoids unnecessary provider pulls and reduces data movement.
+
+Coverage modes:
+- `prefix` preserves the current behavior: only types matching configured prefixes are generated.
+- `all` keeps curated families first and auto-injects `misc` as a catch-all so every provider schema type gets a generated module path.
+- Prefixes ending in `_` also match the bare family name, so `dynatrace_alerting_` matches both `dynatrace_alerting_profile` and `dynatrace_alerting`.
 
 Commit generated catalogs when provider versions change in `examples/providers/schema-catalog/versions.tf`.
 

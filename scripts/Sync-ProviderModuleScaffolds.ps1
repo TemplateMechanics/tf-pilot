@@ -110,6 +110,42 @@ function Get-JsonObjectPropertyNames {
   )
 }
 
+function Get-ProviderMode {
+  param([Parameter(Mandatory)]$ProviderConfig)
+
+  if ($null -ne $ProviderConfig.PSObject.Properties['mode']) {
+    $mode = [string]$ProviderConfig.mode
+    if ($mode -eq 'all') {
+      return 'all'
+    }
+  }
+
+  return 'prefix'
+}
+
+function New-CatchAllModuleConfig {
+  return [pscustomobject]@{
+    enabled                = $true
+    resourceTypePrefixes   = @('*')
+    dataSourceTypePrefixes = @('*')
+  }
+}
+
+function Get-EffectiveProviderModules {
+  param([Parameter(Mandatory)]$ProviderConfig)
+
+  $modules = [ordered]@{}
+  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $ProviderConfig.modules)) {
+    $modules[$moduleName] = $ProviderConfig.modules.$moduleName
+  }
+
+  if ((Get-ProviderMode -ProviderConfig $ProviderConfig) -eq 'all' -and -not $modules.Contains('misc')) {
+    $modules['misc'] = New-CatchAllModuleConfig
+  }
+
+  return $modules
+}
+
 function Write-Utf8NoBom {
   param(
     [Parameter(Mandatory)][string]$Path,
@@ -284,6 +320,7 @@ run "plan_without_credentials" {
 $results = @()
 foreach ($providerName in (Get-JsonObjectPropertyNames -InputObject $settings.providers)) {
   $providerConfig = $settings.providers.$providerName
+  $effectiveModules = Get-EffectiveProviderModules -ProviderConfig $providerConfig
 
   $providerDir = Join-Path $resolvedModulesRoot $providerName
   if (-not (Test-Path $providerDir)) {
@@ -299,8 +336,8 @@ Provider module families for $providerName generated from reflection settings.
 "@
   }
 
-  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $providerConfig.modules)) {
-    $moduleConfig = $providerConfig.modules.$moduleName
+  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $effectiveModules)) {
+    $moduleConfig = $effectiveModules[$moduleName]
 
     if (-not $IncludeDisabledModules -and $moduleConfig.enabled -ne $true) {
       continue

@@ -197,6 +197,7 @@ foreach ($providerProp in (Get-ObjectEntries -InputObject $yaml.providers)) {
   $settingsProviders[$providerName] = [ordered]@{
     enabled   = [bool]$providerCfg.enabled
     workspace = $workspaceName
+    mode      = if ($providerCfg.mode) { [string]$providerCfg.mode } else { 'prefix' }
     modules   = $modules
   }
 

@@ -188,6 +188,111 @@ Describe 'Sync-ProviderGeneratedModules.ps1' {
     & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -SummaryDir $summaryDir -IncludeDisabledModules -Check
     $LASTEXITCODE | Should -Be 1
   }
+
+  It 'auto-injects misc family wrappers when provider mode is all' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $modulesRoot = Join-Path $TestDrive 'modules'
+    @'
+{
+  "providers": {
+    "helm": {
+      "enabled": true,
+      "workspace": "helm",
+      "mode": "all",
+      "modules": {
+        "release": {
+          "enabled": true,
+          "resourceTypePrefixes": ["helm_release"],
+          "dataSourceTypePrefixes": ["helm_template"]
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    $summaryDir = Join-Path $TestDrive 'summaries'
+    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -SummaryDir $summaryDir -IncludeDisabledModules
+    $LASTEXITCODE | Should -Be 0
+
+    Test-Path (Join-Path $modulesRoot 'helm/misc/main.tf') | Should -BeTrue
+  }
+}
+
+Describe 'Sync-ProviderSettingsFromYaml.ps1' {
+  It 'persists provider mode from YAML into derived settings JSON' {
+    $yamlPath = Join-Path $TestDrive 'provider-coverage.yaml'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogRoot = Join-Path $TestDrive 'catalog-root'
+
+    @'
+providers:
+  demo:
+    enabled: true
+    source: example/demo
+    version: "~> 1.0"
+    workspace: demo
+    mode: all
+    modules:
+      core:
+        enabled: true
+        resourceTypePrefixes: [demo_]
+        dataSourceTypePrefixes: []
+'@ | Set-Content -Path $yamlPath -Encoding utf8
+
+    & "$script:scriptsDir/Sync-ProviderSettingsFromYaml.ps1" -YamlFile $yamlPath -SettingsFile $settingsPath -CatalogRoot $catalogRoot
+    $LASTEXITCODE | Should -Be 0
+
+    $settings = Get-Content -Path $settingsPath -Raw | ConvertFrom-Json
+    $settings.providers.demo.mode | Should -Be 'all'
+  }
+}
+
+Describe 'Sync-ProviderResourceCoverage.ps1' {
+  It 'assigns unmatched types to misc and matches bare-form prefixes in all mode' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogDir = Join-Path $TestDrive 'catalogs'
+    $modulesRoot = Join-Path $TestDrive 'modules'
+
+    @'
+{
+  "providers": {
+    "demo": {
+      "enabled": true,
+      "workspace": "demo",
+      "mode": "all",
+      "modules": {
+        "alerts": {
+          "enabled": true,
+          "resourceTypePrefixes": ["demo_alerting_"],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    New-Item -ItemType Directory -Path $catalogDir -Force | Out-Null
+    @'
+{
+  "provider": "demo",
+  "resources": [
+    { "type": "demo_alerting", "options": { "requiredAttributes": [], "optionalAttributes": [], "nestedBlocks": [] } },
+    { "type": "demo_alerting_profile", "options": { "requiredAttributes": [], "optionalAttributes": [], "nestedBlocks": [] } },
+    { "type": "demo_other", "options": { "requiredAttributes": [], "optionalAttributes": [], "nestedBlocks": [] } }
+  ],
+  "dataSources": []
+}
+'@ | Set-Content -Path (Join-Path $catalogDir 'demo-catalog.json') -Encoding utf8
+
+    & "$script:scriptsDir/Sync-ProviderResourceCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot
+    $LASTEXITCODE | Should -Be 0
+
+    Test-Path (Join-Path $modulesRoot 'demo/alerts/resources/demo_alerting/main.tf') | Should -BeTrue
+    Test-Path (Join-Path $modulesRoot 'demo/alerts/resources/demo_alerting_profile/main.tf') | Should -BeTrue
+    Test-Path (Join-Path $modulesRoot 'demo/misc/resources/demo_other/main.tf') | Should -BeTrue
+  }
 }
 
 Describe 'Sync-McpServerEnablement.ps1' {
@@ -310,6 +415,35 @@ Describe 'Sync-ProviderModuleScaffolds.ps1 (smoke test)' {
         Remove-Item -Path $trackedSummary -Force
       }
     }
+  }
+
+  It 'adds a misc family scaffold when provider mode is all' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $modulesRoot = Join-Path $TestDrive 'modules'
+    @'
+{
+  "providers": {
+    "random": {
+      "enabled": true,
+      "workspace": "random",
+      "mode": "all",
+      "modules": {
+        "core": {
+          "enabled": true,
+          "resourceTypePrefixes": ["random_"],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    {
+      & "$script:scriptsDir/Sync-ProviderModuleScaffolds.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot
+    } | Should -Not -Throw
+
+    Test-Path (Join-Path $modulesRoot 'random/misc/main.tf') | Should -BeTrue
   }
 }
 
