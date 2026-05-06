@@ -368,6 +368,8 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     continue-on-error: true
+    env:
+      INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
     steps:
       - uses: actions/checkout@v4
 
@@ -377,21 +379,17 @@ jobs:
           terraform_version: "1.10.0"
 
       - name: Setup Infracost
-        shell: bash
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
-          echo "$PWD/bin" >> "$GITHUB_PATH"
+        if: env.INFRACOST_API_KEY != ''
+        uses: infracost/actions/setup@v3
+        with:
+          version: latest
+          api-key: ${{ env.INFRACOST_API_KEY }}
 
       - name: Generate optional cost estimate
+        if: env.INFRACOST_API_KEY != ''
         shell: bash
-        env:
-          INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
         run: |
           set -euo pipefail
-          if [ -z "${INFRACOST_API_KEY:-}" ]; then
-            echo "INFRACOST_API_KEY not set. Skipping cost estimate."
-            exit 0
-          fi
           infracost breakdown --path ./examples/hello-world --format json --out-file ./infracost.json
 
       - name: Upload cost artifacts

@@ -334,12 +334,24 @@ function Resolve-ProviderCli {
 
   $command = Get-Command $providerMeta.Command -ErrorAction SilentlyContinue | Select-Object -First 1
   if ($command) {
-    $discoveredPath = if ($command.Source) { $command.Source } else { $command.Definition }
-    $invokeTarget = Resolve-PreferredInvokeTarget -ExecutablePath $discoveredPath -CommandName $providerMeta.Command -PreferredLeafNames $providerMeta.PreferredLeafNames
+    $discoveredPath = $null
+    if ($command.CommandType -in @([System.Management.Automation.CommandTypes]::Application, [System.Management.Automation.CommandTypes]::ExternalScript)) {
+      $discoveredPath = if ($command.Source) { $command.Source } elseif ($command.Path) { $command.Path } else { $command.Definition }
+    }
+
+    $invokeTarget = if ($discoveredPath) {
+      Resolve-PreferredInvokeTarget -ExecutablePath $discoveredPath -CommandName $providerMeta.Command -PreferredLeafNames $providerMeta.PreferredLeafNames
+    }
+    else {
+      # For mocked/test functions and aliases, invoke by command name.
+      $providerMeta.Command
+    }
+
+    $executablePath = if ($discoveredPath) { $invokeTarget } else { $null }
     return [pscustomobject]@{
       Name           = $providerMeta.Command
       OnPath         = $true
-      ExecutablePath = $invokeTarget
+      ExecutablePath = $executablePath
       InvokeTarget   = $invokeTarget
     }
   }
