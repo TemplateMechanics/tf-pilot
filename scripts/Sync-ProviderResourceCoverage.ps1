@@ -181,9 +181,26 @@ function Resolve-ModuleNameForType {
     [Parameter(Mandatory)][ValidateSet('resource', 'data')][string]$Kind
   )
 
-  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $Modules)) {
+  $moduleNames = @(Get-JsonObjectPropertyNames -InputObject $Modules)
+
+  # Always prefer specific family prefixes over wildcard catch-alls.
+  foreach ($moduleName in $moduleNames) {
     $moduleConfig = $Modules[$moduleName]
     $prefixes = if ($Kind -eq 'resource') { @($moduleConfig.resourceTypePrefixes) } else { @($moduleConfig.dataSourceTypePrefixes) }
+    if ($prefixes -contains '*') {
+      continue
+    }
+    if (Matches-Prefix -TypeName $TypeName -Prefixes $prefixes) {
+      return $moduleName
+    }
+  }
+
+  foreach ($moduleName in $moduleNames) {
+    $moduleConfig = $Modules[$moduleName]
+    $prefixes = if ($Kind -eq 'resource') { @($moduleConfig.resourceTypePrefixes) } else { @($moduleConfig.dataSourceTypePrefixes) }
+    if (-not ($prefixes -contains '*')) {
+      continue
+    }
     if (Matches-Prefix -TypeName $TypeName -Prefixes $prefixes) {
       return $moduleName
     }
