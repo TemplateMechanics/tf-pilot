@@ -45,4 +45,12 @@ resource "aws_s3_object_copy" "this" {
   tags                          = var.tags
   tags_all                      = var.tags_all
   website_redirect              = var.website_redirect
+  dynamic "grant" {
+    for_each = var.grant == null ? [] : (can(tolist(var.grant)) ? tolist(var.grant) : [var.grant])
+    content {}
+  }
+  dynamic "override_provider" {
+    for_each = var.override_provider == null ? [] : (can(tolist(var.override_provider)) ? tolist(var.override_provider) : [var.override_provider])
+    content {}
+  }
 }

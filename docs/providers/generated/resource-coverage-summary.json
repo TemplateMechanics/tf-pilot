@@ -1,5 +1,5 @@
 {
-    "provider":  "azurerm",
-    "resourcesGenerated":  1132,
-    "dataSourcesGenerated":  396
+    "provider":  "aws",
+    "resourcesGenerated":  1526,
+    "dataSourcesGenerated":  608
 }

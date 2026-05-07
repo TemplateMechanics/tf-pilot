@@ -98,3 +98,21 @@ variable "vpc_endpoint_type" {
   type        = any
   default     = null
 }
+
+variable "dns_options" {
+  description = "Top-level nested block 'dns_options' payload for type 'aws_vpc_endpoint'."
+  type        = any
+  default     = null
+}
+
+variable "subnet_configuration" {
+  description = "Top-level nested block 'subnet_configuration' payload for type 'aws_vpc_endpoint'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_endpoint'."
+  type        = any
+  default     = null
+}

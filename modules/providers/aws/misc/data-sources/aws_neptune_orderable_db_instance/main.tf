@@ -1,0 +1,15 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: misc/data-sources/aws_neptune_orderable_db_instance
+# File: main.tf
+# SPDX-License-Identifier: MIT
+data "aws_neptune_orderable_db_instance" "this" {
+  count                      = var.enabled ? 1 : 0
+  engine                     = var.engine
+  engine_version             = var.engine_version
+  instance_class             = var.instance_class
+  license_model              = var.license_model
+  preferred_instance_classes = var.preferred_instance_classes
+  vpc                        = var.vpc
+}

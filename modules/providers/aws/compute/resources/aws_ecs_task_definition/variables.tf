@@ -97,3 +97,39 @@ variable "track_latest" {
   type        = any
   default     = null
 }
+
+variable "ephemeral_storage" {
+  description = "Top-level nested block 'ephemeral_storage' payload for type 'aws_ecs_task_definition'."
+  type        = any
+  default     = null
+}
+
+variable "inference_accelerator" {
+  description = "Top-level nested block 'inference_accelerator' payload for type 'aws_ecs_task_definition'."
+  type        = any
+  default     = null
+}
+
+variable "placement_constraints" {
+  description = "Top-level nested block 'placement_constraints' payload for type 'aws_ecs_task_definition'."
+  type        = any
+  default     = null
+}
+
+variable "proxy_configuration" {
+  description = "Top-level nested block 'proxy_configuration' payload for type 'aws_ecs_task_definition'."
+  type        = any
+  default     = null
+}
+
+variable "runtime_platform" {
+  description = "Top-level nested block 'runtime_platform' payload for type 'aws_ecs_task_definition'."
+  type        = any
+  default     = null
+}
+
+variable "volume" {
+  description = "Top-level nested block 'volume' payload for type 'aws_ecs_task_definition'."
+  type        = any
+  default     = null
+}

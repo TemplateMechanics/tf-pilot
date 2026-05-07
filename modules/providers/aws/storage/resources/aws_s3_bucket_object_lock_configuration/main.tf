@@ -10,4 +10,8 @@ resource "aws_s3_bucket_object_lock_configuration" "this" {
   expected_bucket_owner = var.expected_bucket_owner
   object_lock_enabled   = var.object_lock_enabled
   token                 = var.token
+  dynamic "rule" {
+    for_each = var.rule == null ? [] : (can(tolist(var.rule)) ? tolist(var.rule) : [var.rule])
+    content {}
+  }
 }

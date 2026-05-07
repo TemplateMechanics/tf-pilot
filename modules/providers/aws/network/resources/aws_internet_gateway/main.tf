@@ -9,4 +9,8 @@ resource "aws_internet_gateway" "this" {
   tags     = var.tags
   tags_all = var.tags_all
   vpc_id   = var.vpc_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

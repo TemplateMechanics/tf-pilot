@@ -10,4 +10,12 @@ resource "aws_cloudwatch_event_connection" "this" {
   name               = var.name
   description        = var.description
   kms_key_identifier = var.kms_key_identifier
+  dynamic "auth_parameters" {
+    for_each = var.auth_parameters == null ? [] : (can(tolist(var.auth_parameters)) ? tolist(var.auth_parameters) : [var.auth_parameters])
+    content {}
+  }
+  dynamic "invocation_connectivity_parameters" {
+    for_each = var.invocation_connectivity_parameters == null ? [] : (can(tolist(var.invocation_connectivity_parameters)) ? tolist(var.invocation_connectivity_parameters) : [var.invocation_connectivity_parameters])
+    content {}
+  }
 }

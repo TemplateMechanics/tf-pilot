@@ -13,4 +13,12 @@ data "aws_ami" "this" {
   owners             = var.owners
   tags               = var.tags
   uefi_data          = var.uefi_data
+  dynamic "filter" {
+    for_each = var.filter == null ? [] : (can(tolist(var.filter)) ? tolist(var.filter) : [var.filter])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

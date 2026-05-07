@@ -219,3 +219,87 @@ variable "vpc_security_group_ids" {
   type        = any
   default     = null
 }
+
+variable "capacity_reservation_specification" {
+  description = "Top-level nested block 'capacity_reservation_specification' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "cpu_options" {
+  description = "Top-level nested block 'cpu_options' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "credit_specification" {
+  description = "Top-level nested block 'credit_specification' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "ebs_block_device" {
+  description = "Top-level nested block 'ebs_block_device' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "enclave_options" {
+  description = "Top-level nested block 'enclave_options' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "ephemeral_block_device" {
+  description = "Top-level nested block 'ephemeral_block_device' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "instance_market_options" {
+  description = "Top-level nested block 'instance_market_options' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "launch_template" {
+  description = "Top-level nested block 'launch_template' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "maintenance_options" {
+  description = "Top-level nested block 'maintenance_options' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "metadata_options" {
+  description = "Top-level nested block 'metadata_options' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "network_interface" {
+  description = "Top-level nested block 'network_interface' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "private_dns_name_options" {
+  description = "Top-level nested block 'private_dns_name_options' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "root_block_device" {
+  description = "Top-level nested block 'root_block_device' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_instance'."
+  type        = any
+  default     = null
+}

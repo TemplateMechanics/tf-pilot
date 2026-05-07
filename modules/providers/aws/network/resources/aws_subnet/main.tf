@@ -24,4 +24,8 @@ resource "aws_subnet" "this" {
   private_dns_hostname_type_on_launch            = var.private_dns_hostname_type_on_launch
   tags                                           = var.tags
   tags_all                                       = var.tags_all
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

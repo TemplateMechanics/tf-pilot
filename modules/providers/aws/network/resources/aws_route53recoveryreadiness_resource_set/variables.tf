@@ -31,3 +31,15 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "resources" {
+  description = "Top-level nested block 'resources' payload for type 'aws_route53recoveryreadiness_resource_set'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route53recoveryreadiness_resource_set'."
+  type        = any
+  default     = null
+}

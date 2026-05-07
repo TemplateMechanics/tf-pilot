@@ -16,4 +16,12 @@ data "aws_vpc_peering_connection" "this" {
   status          = var.status
   tags            = var.tags
   vpc_id          = var.vpc_id
+  dynamic "filter" {
+    for_each = var.filter == null ? [] : (can(tolist(var.filter)) ? tolist(var.filter) : [var.filter])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

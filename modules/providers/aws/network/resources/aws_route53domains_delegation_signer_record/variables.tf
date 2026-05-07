@@ -14,3 +14,15 @@ variable "domain_name" {
   description = "Required attribute 'domain_name' for type 'aws_route53domains_delegation_signer_record'."
   type        = any
 }
+
+variable "signing_attributes" {
+  description = "Top-level nested block 'signing_attributes' payload for type 'aws_route53domains_delegation_signer_record'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route53domains_delegation_signer_record'."
+  type        = any
+  default     = null
+}

@@ -31,3 +31,9 @@ variable "event_bus_name" {
   type        = any
   default     = null
 }
+
+variable "condition" {
+  description = "Top-level nested block 'condition' payload for type 'aws_cloudwatch_event_permission'."
+  type        = any
+  default     = null
+}

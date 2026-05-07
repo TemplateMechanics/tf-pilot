@@ -15,3 +15,9 @@ variable "ipam_ids" {
   type        = any
   default     = null
 }
+
+variable "filter" {
+  description = "Top-level nested block 'filter' payload for type 'aws_vpc_ipams'."
+  type        = any
+  default     = null
+}

@@ -20,3 +20,9 @@ variable "expected_bucket_owner" {
   type        = any
   default     = null
 }
+
+variable "rule" {
+  description = "Top-level nested block 'rule' payload for type 'aws_s3_bucket_server_side_encryption_configuration'."
+  type        = any
+  default     = null
+}

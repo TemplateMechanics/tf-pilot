@@ -10,4 +10,8 @@ resource "aws_vpc_block_public_access_exclusion" "this" {
   subnet_id                       = var.subnet_id
   tags                            = var.tags
   vpc_id                          = var.vpc_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

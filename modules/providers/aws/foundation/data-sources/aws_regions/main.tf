@@ -7,4 +7,8 @@
 data "aws_regions" "this" {
   count       = var.enabled ? 1 : 0
   all_regions = var.all_regions
+  dynamic "filter" {
+    for_each = var.filter == null ? [] : (can(tolist(var.filter)) ? tolist(var.filter) : [var.filter])
+    content {}
+  }
 }

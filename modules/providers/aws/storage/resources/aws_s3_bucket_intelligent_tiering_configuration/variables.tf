@@ -25,3 +25,15 @@ variable "status" {
   type        = any
   default     = null
 }
+
+variable "filter" {
+  description = "Top-level nested block 'filter' payload for type 'aws_s3_bucket_intelligent_tiering_configuration'."
+  type        = any
+  default     = null
+}
+
+variable "tiering" {
+  description = "Top-level nested block 'tiering' payload for type 'aws_s3_bucket_intelligent_tiering_configuration'."
+  type        = any
+  default     = null
+}

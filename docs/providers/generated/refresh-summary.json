@@ -1,6 +1,6 @@
 {
-    "provider":  "azurerm",
-    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\azurerm",
+    "provider":  "aws",
+    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\aws",
     "modules":  [
                     "compute",
                     "foundation",

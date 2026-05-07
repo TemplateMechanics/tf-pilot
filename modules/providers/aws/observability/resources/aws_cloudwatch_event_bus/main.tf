@@ -12,4 +12,8 @@ resource "aws_cloudwatch_event_bus" "this" {
   kms_key_identifier = var.kms_key_identifier
   tags               = var.tags
   tags_all           = var.tags_all
+  dynamic "dead_letter_config" {
+    for_each = var.dead_letter_config == null ? [] : (can(tolist(var.dead_letter_config)) ? tolist(var.dead_letter_config) : [var.dead_letter_config])
+    content {}
+  }
 }

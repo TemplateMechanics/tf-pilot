@@ -26,3 +26,15 @@ variable "transition_default_minimum_object_size" {
   type        = any
   default     = null
 }
+
+variable "rule" {
+  description = "Top-level nested block 'rule' payload for type 'aws_s3_bucket_lifecycle_configuration'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_s3_bucket_lifecycle_configuration'."
+  type        = any
+  default     = null
+}

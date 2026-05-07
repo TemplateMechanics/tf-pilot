@@ -44,3 +44,9 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "dead_letter_config" {
+  description = "Top-level nested block 'dead_letter_config' payload for type 'aws_cloudwatch_event_bus'."
+  type        = any
+  default     = null
+}

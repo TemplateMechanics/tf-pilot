@@ -26,3 +26,9 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "delivery_destination_configuration" {
+  description = "Top-level nested block 'delivery_destination_configuration' payload for type 'aws_cloudwatch_log_delivery_destination'."
+  type        = any
+  default     = null
+}

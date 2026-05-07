@@ -25,3 +25,9 @@ variable "state" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpclattice_auth_policy'."
+  type        = any
+  default     = null
+}

@@ -10,4 +10,8 @@ resource "aws_route53_key_signing_key" "this" {
   key_management_service_arn = var.key_management_service_arn
   name                       = var.name
   status                     = var.status
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

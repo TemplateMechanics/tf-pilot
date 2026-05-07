@@ -9,4 +9,12 @@ resource "aws_s3_bucket_intelligent_tiering_configuration" "this" {
   bucket = var.bucket
   name   = var.name
   status = var.status
+  dynamic "filter" {
+    for_each = var.filter == null ? [] : (can(tolist(var.filter)) ? tolist(var.filter) : [var.filter])
+    content {}
+  }
+  dynamic "tiering" {
+    for_each = var.tiering == null ? [] : (can(tolist(var.tiering)) ? tolist(var.tiering) : [var.tiering])
+    content {}
+  }
 }

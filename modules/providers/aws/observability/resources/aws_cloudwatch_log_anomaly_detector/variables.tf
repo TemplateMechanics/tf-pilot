@@ -10,7 +10,7 @@ variable "enabled" {
   default     = true
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Required attribute 'enabled' for type 'aws_cloudwatch_log_anomaly_detector'."
   type        = any
 }

@@ -9,3 +9,9 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "filter" {
+  description = "Top-level nested block 'filter' payload for type 'aws_vpc_ipam_pools'."
+  type        = any
+  default     = null
+}

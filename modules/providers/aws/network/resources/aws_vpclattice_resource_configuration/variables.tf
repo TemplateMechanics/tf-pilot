@@ -56,3 +56,15 @@ variable "type" {
   type        = any
   default     = null
 }
+
+variable "resource_configuration_definition" {
+  description = "Top-level nested block 'resource_configuration_definition' payload for type 'aws_vpclattice_resource_configuration'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpclattice_resource_configuration'."
+  type        = any
+  default     = null
+}

@@ -19,3 +19,9 @@ variable "route_table_id" {
   description = "Required attribute 'route_table_id' for type 'aws_vpc_route_server_propagation'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_route_server_propagation'."
+  type        = any
+  default     = null
+}

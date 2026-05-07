@@ -14,3 +14,9 @@ variable "autoscaling_group_name" {
   description = "Required attribute 'autoscaling_group_name' for type 'aws_autoscaling_group_tag'."
   type        = any
 }
+
+variable "tag" {
+  description = "Top-level nested block 'tag' payload for type 'aws_autoscaling_group_tag'."
+  type        = any
+  default     = null
+}

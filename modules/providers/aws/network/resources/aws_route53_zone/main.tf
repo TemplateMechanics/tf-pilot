@@ -12,4 +12,12 @@ resource "aws_route53_zone" "this" {
   force_destroy     = var.force_destroy
   tags              = var.tags
   tags_all          = var.tags_all
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
+  dynamic "vpc" {
+    for_each = var.vpc == null ? [] : (can(tolist(var.vpc)) ? tolist(var.vpc) : [var.vpc])
+    content {}
+  }
 }

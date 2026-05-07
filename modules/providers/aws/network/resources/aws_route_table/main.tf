@@ -11,4 +11,8 @@ resource "aws_route_table" "this" {
   route            = var.route
   tags             = var.tags
   tags_all         = var.tags_all
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

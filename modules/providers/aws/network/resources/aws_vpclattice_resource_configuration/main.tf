@@ -14,4 +14,12 @@ resource "aws_vpclattice_resource_configuration" "this" {
   resource_gateway_identifier                    = var.resource_gateway_identifier
   tags                                           = var.tags
   type                                           = var.type
+  dynamic "resource_configuration_definition" {
+    for_each = var.resource_configuration_definition == null ? [] : (can(tolist(var.resource_configuration_definition)) ? tolist(var.resource_configuration_definition) : [var.resource_configuration_definition])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -12,4 +12,8 @@ resource "aws_vpclattice_resource_gateway" "this" {
   ip_address_type    = var.ip_address_type
   security_group_ids = var.security_group_ids
   tags               = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

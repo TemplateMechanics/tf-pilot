@@ -55,3 +55,9 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_iam_server_certificate'."
+  type        = any
+  default     = null
+}

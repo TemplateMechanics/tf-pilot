@@ -7,4 +7,12 @@
 data "aws_vpc_ipam_pool_cidrs" "this" {
   count        = var.enabled ? 1 : 0
   ipam_pool_id = var.ipam_pool_id
+  dynamic "filter" {
+    for_each = var.filter == null ? [] : (can(tolist(var.filter)) ? tolist(var.filter) : [var.filter])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

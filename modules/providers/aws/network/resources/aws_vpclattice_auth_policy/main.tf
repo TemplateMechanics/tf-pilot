@@ -9,4 +9,8 @@ resource "aws_vpclattice_auth_policy" "this" {
   policy              = var.policy
   resource_identifier = var.resource_identifier
   state               = var.state
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

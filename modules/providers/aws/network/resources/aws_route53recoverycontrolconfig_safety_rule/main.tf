@@ -12,4 +12,8 @@ resource "aws_route53recoverycontrolconfig_safety_rule" "this" {
   asserted_controls = var.asserted_controls
   gating_controls   = var.gating_controls
   target_controls   = var.target_controls
+  dynamic "rule_config" {
+    for_each = var.rule_config == null ? [] : (can(tolist(var.rule_config)) ? tolist(var.rule_config) : [var.rule_config])
+    content {}
+  }
 }

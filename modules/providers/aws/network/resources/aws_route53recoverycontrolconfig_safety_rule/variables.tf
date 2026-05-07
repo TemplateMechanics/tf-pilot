@@ -42,3 +42,9 @@ variable "target_controls" {
   type        = any
   default     = null
 }
+
+variable "rule_config" {
+  description = "Top-level nested block 'rule_config' payload for type 'aws_route53recoverycontrolconfig_safety_rule'."
+  type        = any
+  default     = null
+}

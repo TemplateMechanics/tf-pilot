@@ -14,3 +14,15 @@ variable "ipam_pool_id" {
   description = "Required attribute 'ipam_pool_id' for type 'aws_vpc_ipam_pool_cidrs'."
   type        = any
 }
+
+variable "filter" {
+  description = "Top-level nested block 'filter' payload for type 'aws_vpc_ipam_pool_cidrs'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_ipam_pool_cidrs'."
+  type        = any
+  default     = null
+}

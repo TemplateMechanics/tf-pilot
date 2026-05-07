@@ -12,4 +12,8 @@ resource "aws_vpc_ipv6_cidr_block_association" "this" {
   ipv6_ipam_pool_id                = var.ipv6_ipam_pool_id
   ipv6_netmask_length              = var.ipv6_netmask_length
   ipv6_pool                        = var.ipv6_pool
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

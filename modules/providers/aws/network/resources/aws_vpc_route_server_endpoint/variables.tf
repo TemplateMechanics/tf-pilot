@@ -25,3 +25,9 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_route_server_endpoint'."
+  type        = any
+  default     = null
+}

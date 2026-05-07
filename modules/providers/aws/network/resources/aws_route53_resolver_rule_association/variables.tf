@@ -25,3 +25,9 @@ variable "name" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route53_resolver_rule_association'."
+  type        = any
+  default     = null
+}

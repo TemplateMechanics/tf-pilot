@@ -37,3 +37,15 @@ variable "policy" {
   type        = any
   default     = null
 }
+
+variable "public_access_block_configuration" {
+  description = "Top-level nested block 'public_access_block_configuration' payload for type 'aws_s3_access_point'."
+  type        = any
+  default     = null
+}
+
+variable "vpc_configuration" {
+  description = "Top-level nested block 'vpc_configuration' payload for type 'aws_s3_access_point'."
+  type        = any
+  default     = null
+}

@@ -9,4 +9,12 @@ resource "aws_vpc_ipam_resource_discovery" "this" {
   description = var.description
   tags        = var.tags
   tags_all    = var.tags_all
+  dynamic "operating_regions" {
+    for_each = var.operating_regions == null ? [] : (can(tolist(var.operating_regions)) ? tolist(var.operating_regions) : [var.operating_regions])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

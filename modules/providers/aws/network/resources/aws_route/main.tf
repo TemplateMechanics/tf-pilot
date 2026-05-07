@@ -20,4 +20,8 @@ resource "aws_route" "this" {
   transit_gateway_id          = var.transit_gateway_id
   vpc_endpoint_id             = var.vpc_endpoint_id
   vpc_peering_connection_id   = var.vpc_peering_connection_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

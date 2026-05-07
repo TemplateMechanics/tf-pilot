@@ -25,7 +25,7 @@ variable "name" {
   type        = any
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'aws_s3_bucket_inventory'."
   type        = any
   default     = null
@@ -33,6 +33,24 @@ variable "enabled" {
 
 variable "optional_fields" {
   description = "Optional attribute 'optional_fields' for type 'aws_s3_bucket_inventory'."
+  type        = any
+  default     = null
+}
+
+variable "destination" {
+  description = "Top-level nested block 'destination' payload for type 'aws_s3_bucket_inventory'."
+  type        = any
+  default     = null
+}
+
+variable "filter" {
+  description = "Top-level nested block 'filter' payload for type 'aws_s3_bucket_inventory'."
+  type        = any
+  default     = null
+}
+
+variable "schedule" {
+  description = "Top-level nested block 'schedule' payload for type 'aws_s3_bucket_inventory'."
   type        = any
   default     = null
 }

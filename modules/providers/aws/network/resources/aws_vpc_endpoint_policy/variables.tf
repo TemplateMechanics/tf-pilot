@@ -20,3 +20,9 @@ variable "policy" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_endpoint_policy'."
+  type        = any
+  default     = null
+}

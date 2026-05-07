@@ -41,4 +41,60 @@ resource "aws_instance" "this" {
   user_data_replace_on_change          = var.user_data_replace_on_change
   volume_tags                          = var.volume_tags
   vpc_security_group_ids               = var.vpc_security_group_ids
+  dynamic "capacity_reservation_specification" {
+    for_each = var.capacity_reservation_specification == null ? [] : (can(tolist(var.capacity_reservation_specification)) ? tolist(var.capacity_reservation_specification) : [var.capacity_reservation_specification])
+    content {}
+  }
+  dynamic "cpu_options" {
+    for_each = var.cpu_options == null ? [] : (can(tolist(var.cpu_options)) ? tolist(var.cpu_options) : [var.cpu_options])
+    content {}
+  }
+  dynamic "credit_specification" {
+    for_each = var.credit_specification == null ? [] : (can(tolist(var.credit_specification)) ? tolist(var.credit_specification) : [var.credit_specification])
+    content {}
+  }
+  dynamic "ebs_block_device" {
+    for_each = var.ebs_block_device == null ? [] : (can(tolist(var.ebs_block_device)) ? tolist(var.ebs_block_device) : [var.ebs_block_device])
+    content {}
+  }
+  dynamic "enclave_options" {
+    for_each = var.enclave_options == null ? [] : (can(tolist(var.enclave_options)) ? tolist(var.enclave_options) : [var.enclave_options])
+    content {}
+  }
+  dynamic "ephemeral_block_device" {
+    for_each = var.ephemeral_block_device == null ? [] : (can(tolist(var.ephemeral_block_device)) ? tolist(var.ephemeral_block_device) : [var.ephemeral_block_device])
+    content {}
+  }
+  dynamic "instance_market_options" {
+    for_each = var.instance_market_options == null ? [] : (can(tolist(var.instance_market_options)) ? tolist(var.instance_market_options) : [var.instance_market_options])
+    content {}
+  }
+  dynamic "launch_template" {
+    for_each = var.launch_template == null ? [] : (can(tolist(var.launch_template)) ? tolist(var.launch_template) : [var.launch_template])
+    content {}
+  }
+  dynamic "maintenance_options" {
+    for_each = var.maintenance_options == null ? [] : (can(tolist(var.maintenance_options)) ? tolist(var.maintenance_options) : [var.maintenance_options])
+    content {}
+  }
+  dynamic "metadata_options" {
+    for_each = var.metadata_options == null ? [] : (can(tolist(var.metadata_options)) ? tolist(var.metadata_options) : [var.metadata_options])
+    content {}
+  }
+  dynamic "network_interface" {
+    for_each = var.network_interface == null ? [] : (can(tolist(var.network_interface)) ? tolist(var.network_interface) : [var.network_interface])
+    content {}
+  }
+  dynamic "private_dns_name_options" {
+    for_each = var.private_dns_name_options == null ? [] : (can(tolist(var.private_dns_name_options)) ? tolist(var.private_dns_name_options) : [var.private_dns_name_options])
+    content {}
+  }
+  dynamic "root_block_device" {
+    for_each = var.root_block_device == null ? [] : (can(tolist(var.root_block_device)) ? tolist(var.root_block_device) : [var.root_block_device])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

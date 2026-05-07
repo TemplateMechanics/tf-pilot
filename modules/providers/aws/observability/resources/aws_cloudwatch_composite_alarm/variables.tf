@@ -61,3 +61,9 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "actions_suppressor" {
+  description = "Top-level nested block 'actions_suppressor' payload for type 'aws_cloudwatch_composite_alarm'."
+  type        = any
+  default     = null
+}

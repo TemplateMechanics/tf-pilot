@@ -5,6 +5,7 @@ providers:
     source: hashicorp/aws
     version: "~> 5.100"
     workspace: aws
+    mode: all
     modules:
       foundation:
         enabled: true

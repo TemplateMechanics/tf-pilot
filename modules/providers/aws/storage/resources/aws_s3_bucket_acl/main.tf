@@ -9,4 +9,8 @@ resource "aws_s3_bucket_acl" "this" {
   bucket                = var.bucket
   acl                   = var.acl
   expected_bucket_owner = var.expected_bucket_owner
+  dynamic "access_control_policy" {
+    for_each = var.access_control_policy == null ? [] : (can(tolist(var.access_control_policy)) ? tolist(var.access_control_policy) : [var.access_control_policy])
+    content {}
+  }
 }

@@ -15,3 +15,9 @@ variable "all_regions" {
   type        = any
   default     = null
 }
+
+variable "filter" {
+  description = "Top-level nested block 'filter' payload for type 'aws_regions'."
+  type        = any
+  default     = null
+}

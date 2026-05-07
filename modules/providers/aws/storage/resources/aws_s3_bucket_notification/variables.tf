@@ -20,3 +20,21 @@ variable "eventbridge" {
   type        = any
   default     = null
 }
+
+variable "lambda_function" {
+  description = "Top-level nested block 'lambda_function' payload for type 'aws_s3_bucket_notification'."
+  type        = any
+  default     = null
+}
+
+variable "queue" {
+  description = "Top-level nested block 'queue' payload for type 'aws_s3_bucket_notification'."
+  type        = any
+  default     = null
+}
+
+variable "topic" {
+  description = "Top-level nested block 'topic' payload for type 'aws_s3_bucket_notification'."
+  type        = any
+  default     = null
+}

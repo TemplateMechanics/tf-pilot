@@ -74,3 +74,9 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "inline_policy" {
+  description = "Top-level nested block 'inline_policy' payload for type 'aws_iam_role'."
+  type        = any
+  default     = null
+}

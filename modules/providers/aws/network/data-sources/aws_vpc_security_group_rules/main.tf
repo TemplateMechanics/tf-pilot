@@ -7,4 +7,8 @@
 data "aws_vpc_security_group_rules" "this" {
   count = var.enabled ? 1 : 0
   tags  = var.tags
+  dynamic "filter" {
+    for_each = var.filter == null ? [] : (can(tolist(var.filter)) ? tolist(var.filter) : [var.filter])
+    content {}
+  }
 }

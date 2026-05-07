@@ -163,3 +163,9 @@ variable "website_redirect" {
   type        = any
   default     = null
 }
+
+variable "override_provider" {
+  description = "Top-level nested block 'override_provider' payload for type 'aws_s3_object'."
+  type        = any
+  default     = null
+}

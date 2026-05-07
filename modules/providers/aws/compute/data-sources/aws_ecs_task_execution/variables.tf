@@ -85,3 +85,33 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "capacity_provider_strategy" {
+  description = "Top-level nested block 'capacity_provider_strategy' payload for type 'aws_ecs_task_execution'."
+  type        = any
+  default     = null
+}
+
+variable "network_configuration" {
+  description = "Top-level nested block 'network_configuration' payload for type 'aws_ecs_task_execution'."
+  type        = any
+  default     = null
+}
+
+variable "overrides" {
+  description = "Top-level nested block 'overrides' payload for type 'aws_ecs_task_execution'."
+  type        = any
+  default     = null
+}
+
+variable "placement_constraints" {
+  description = "Top-level nested block 'placement_constraints' payload for type 'aws_ecs_task_execution'."
+  type        = any
+  default     = null
+}
+
+variable "placement_strategy" {
+  description = "Top-level nested block 'placement_strategy' payload for type 'aws_ecs_task_execution'."
+  type        = any
+  default     = null
+}

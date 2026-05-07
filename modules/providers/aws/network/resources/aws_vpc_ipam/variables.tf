@@ -45,3 +45,15 @@ variable "tier" {
   type        = any
   default     = null
 }
+
+variable "operating_regions" {
+  description = "Top-level nested block 'operating_regions' payload for type 'aws_vpc_ipam'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_ipam'."
+  type        = any
+  default     = null
+}

@@ -14,3 +14,15 @@ variable "autoscaling_group_name" {
   description = "Required attribute 'autoscaling_group_name' for type 'aws_autoscaling_traffic_source_attachment'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_autoscaling_traffic_source_attachment'."
+  type        = any
+  default     = null
+}
+
+variable "traffic_source" {
+  description = "Top-level nested block 'traffic_source' payload for type 'aws_autoscaling_traffic_source_attachment'."
+  type        = any
+  default     = null
+}

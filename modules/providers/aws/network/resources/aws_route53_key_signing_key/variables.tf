@@ -30,3 +30,9 @@ variable "status" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route53_key_signing_key'."
+  type        = any
+  default     = null
+}

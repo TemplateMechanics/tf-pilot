@@ -32,7 +32,7 @@ variable "cooldown" {
   default     = null
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'aws_autoscaling_policy'."
   type        = any
   default     = null
@@ -64,6 +64,24 @@ variable "policy_type" {
 
 variable "scaling_adjustment" {
   description = "Optional attribute 'scaling_adjustment' for type 'aws_autoscaling_policy'."
+  type        = any
+  default     = null
+}
+
+variable "predictive_scaling_configuration" {
+  description = "Top-level nested block 'predictive_scaling_configuration' payload for type 'aws_autoscaling_policy'."
+  type        = any
+  default     = null
+}
+
+variable "step_adjustment" {
+  description = "Top-level nested block 'step_adjustment' payload for type 'aws_autoscaling_policy'."
+  type        = any
+  default     = null
+}
+
+variable "target_tracking_configuration" {
+  description = "Top-level nested block 'target_tracking_configuration' payload for type 'aws_autoscaling_policy'."
   type        = any
   default     = null
 }

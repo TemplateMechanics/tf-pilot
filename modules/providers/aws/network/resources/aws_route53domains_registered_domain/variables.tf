@@ -62,3 +62,39 @@ variable "transfer_lock" {
   type        = any
   default     = null
 }
+
+variable "admin_contact" {
+  description = "Top-level nested block 'admin_contact' payload for type 'aws_route53domains_registered_domain'."
+  type        = any
+  default     = null
+}
+
+variable "billing_contact" {
+  description = "Top-level nested block 'billing_contact' payload for type 'aws_route53domains_registered_domain'."
+  type        = any
+  default     = null
+}
+
+variable "name_server" {
+  description = "Top-level nested block 'name_server' payload for type 'aws_route53domains_registered_domain'."
+  type        = any
+  default     = null
+}
+
+variable "registrant_contact" {
+  description = "Top-level nested block 'registrant_contact' payload for type 'aws_route53domains_registered_domain'."
+  type        = any
+  default     = null
+}
+
+variable "tech_contact" {
+  description = "Top-level nested block 'tech_contact' payload for type 'aws_route53domains_registered_domain'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route53domains_registered_domain'."
+  type        = any
+  default     = null
+}

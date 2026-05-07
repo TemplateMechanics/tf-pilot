@@ -9,4 +9,8 @@ resource "aws_s3_bucket_versioning" "this" {
   bucket                = var.bucket
   expected_bucket_owner = var.expected_bucket_owner
   mfa                   = var.mfa
+  dynamic "versioning_configuration" {
+    for_each = var.versioning_configuration == null ? [] : (can(tolist(var.versioning_configuration)) ? tolist(var.versioning_configuration) : [var.versioning_configuration])
+    content {}
+  }
 }

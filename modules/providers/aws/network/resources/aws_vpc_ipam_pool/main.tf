@@ -22,4 +22,8 @@ resource "aws_vpc_ipam_pool" "this" {
   source_ipam_pool_id               = var.source_ipam_pool_id
   tags                              = var.tags
   tags_all                          = var.tags_all
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

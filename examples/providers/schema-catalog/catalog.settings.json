@@ -3,7 +3,7 @@
                       "aws":  {
                                   "enabled":  true,
                                   "workspace":  "aws",
-                                  "mode":  "prefix",
+                                  "mode":  "all",
                                   "modules":  {
                                                   "foundation":  {
                                                                      "enabled":  true,

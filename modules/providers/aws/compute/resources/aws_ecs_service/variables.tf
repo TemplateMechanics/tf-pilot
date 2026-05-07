@@ -134,3 +134,81 @@ variable "wait_for_steady_state" {
   type        = any
   default     = null
 }
+
+variable "alarms" {
+  description = "Top-level nested block 'alarms' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "capacity_provider_strategy" {
+  description = "Top-level nested block 'capacity_provider_strategy' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "deployment_circuit_breaker" {
+  description = "Top-level nested block 'deployment_circuit_breaker' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "deployment_controller" {
+  description = "Top-level nested block 'deployment_controller' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "load_balancer" {
+  description = "Top-level nested block 'load_balancer' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "network_configuration" {
+  description = "Top-level nested block 'network_configuration' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "ordered_placement_strategy" {
+  description = "Top-level nested block 'ordered_placement_strategy' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "placement_constraints" {
+  description = "Top-level nested block 'placement_constraints' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "service_connect_configuration" {
+  description = "Top-level nested block 'service_connect_configuration' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "service_registries" {
+  description = "Top-level nested block 'service_registries' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "volume_configuration" {
+  description = "Top-level nested block 'volume_configuration' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}
+
+variable "vpc_lattice_configurations" {
+  description = "Top-level nested block 'vpc_lattice_configurations' payload for type 'aws_ecs_service'."
+  type        = any
+  default     = null
+}

@@ -25,3 +25,15 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "bgp_options" {
+  description = "Top-level nested block 'bgp_options' payload for type 'aws_vpc_route_server_peer'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_route_server_peer'."
+  type        = any
+  default     = null
+}

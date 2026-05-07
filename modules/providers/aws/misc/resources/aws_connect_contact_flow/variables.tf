@@ -1,0 +1,63 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: aws
+# Module: misc/resources/aws_connect_contact_flow
+# File: variables.tf
+# SPDX-License-Identifier: MIT
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "instance_id" {
+  description = "Required attribute 'instance_id' for type 'aws_connect_contact_flow'."
+  type        = any
+}
+
+variable "name" {
+  description = "Required attribute 'name' for type 'aws_connect_contact_flow'."
+  type        = any
+}
+
+variable "content" {
+  description = "Optional attribute 'content' for type 'aws_connect_contact_flow'."
+  type        = any
+  default     = null
+}
+
+variable "content_hash" {
+  description = "Optional attribute 'content_hash' for type 'aws_connect_contact_flow'."
+  type        = any
+  default     = null
+}
+
+variable "description" {
+  description = "Optional attribute 'description' for type 'aws_connect_contact_flow'."
+  type        = any
+  default     = null
+}
+
+variable "filename" {
+  description = "Optional attribute 'filename' for type 'aws_connect_contact_flow'."
+  type        = any
+  default     = null
+}
+
+variable "tags" {
+  description = "Optional attribute 'tags' for type 'aws_connect_contact_flow'."
+  type        = any
+  default     = null
+}
+
+variable "tags_all" {
+  description = "Optional attribute 'tags_all' for type 'aws_connect_contact_flow'."
+  type        = any
+  default     = null
+}
+
+variable "type" {
+  description = "Optional attribute 'type' for type 'aws_connect_contact_flow'."
+  type        = any
+  default     = null
+}

@@ -21,4 +21,28 @@ resource "aws_ecs_task_definition" "this" {
   tags_all                 = var.tags_all
   task_role_arn            = var.task_role_arn
   track_latest             = var.track_latest
+  dynamic "ephemeral_storage" {
+    for_each = var.ephemeral_storage == null ? [] : (can(tolist(var.ephemeral_storage)) ? tolist(var.ephemeral_storage) : [var.ephemeral_storage])
+    content {}
+  }
+  dynamic "inference_accelerator" {
+    for_each = var.inference_accelerator == null ? [] : (can(tolist(var.inference_accelerator)) ? tolist(var.inference_accelerator) : [var.inference_accelerator])
+    content {}
+  }
+  dynamic "placement_constraints" {
+    for_each = var.placement_constraints == null ? [] : (can(tolist(var.placement_constraints)) ? tolist(var.placement_constraints) : [var.placement_constraints])
+    content {}
+  }
+  dynamic "proxy_configuration" {
+    for_each = var.proxy_configuration == null ? [] : (can(tolist(var.proxy_configuration)) ? tolist(var.proxy_configuration) : [var.proxy_configuration])
+    content {}
+  }
+  dynamic "runtime_platform" {
+    for_each = var.runtime_platform == null ? [] : (can(tolist(var.runtime_platform)) ? tolist(var.runtime_platform) : [var.runtime_platform])
+    content {}
+  }
+  dynamic "volume" {
+    for_each = var.volume == null ? [] : (can(tolist(var.volume)) ? tolist(var.volume) : [var.volume])
+    content {}
+  }
 }

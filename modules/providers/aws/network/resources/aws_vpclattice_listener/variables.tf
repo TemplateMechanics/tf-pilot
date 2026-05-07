@@ -49,3 +49,15 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "default_action" {
+  description = "Top-level nested block 'default_action' payload for type 'aws_vpclattice_listener'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpclattice_listener'."
+  type        = any
+  default     = null
+}
