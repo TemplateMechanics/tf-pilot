@@ -23,36 +23,40 @@ We are committed to providing a welcoming and inclusive environment for all cont
 
 ### Adding a Terraform Provider
 
-1. **Update catalog settings** at `examples/providers/schema-catalog/catalog.settings.json`:
-   ```json
-   "providers": {
-     "mycloud": {
-       "enabled": true,
-       "workspace": "mycloud",
-       "modules": {
-         "core": {
-           "enabled": true,
-           "resourceTypePrefixes": ["mycloud_"],
-           "dataSourceTypePrefixes": ["data.mycloud_"]
-         }
-       }
-     }
-   }
+1. **Update provider coverage YAML** at `examples/providers/schema-catalog/provider-coverage.yaml`:
+   ```yaml
+   providers:
+     mycloud:
+       enabled: true
+       source: mycorp/mycloud
+       version: "~> 1.0"
+       workspace: mycloud
+       modules:
+         core:
+           enabled: true
+           resourceTypePrefixes: [mycloud_]
+           dataSourceTypePrefixes: [mycloud_]
    ```
 
-2. **Regenerate modules** (creates scaffolds under `modules/providers/mycloud/`):
+2. **Sync derived settings and workspace versions**:
    ```powershell
+   ./scripts/Sync-ProviderSettingsFromYaml.ps1 -YamlFile examples/providers/schema-catalog/provider-coverage.yaml
+   ```
+
+3. **Refresh catalogs and regenerate modules**:
+   ```powershell
+   ./scripts/Invoke-ProviderCatalogRefresh.ps1 -Providers mycloud
    ./scripts/Sync-ProviderGeneratedModules.ps1 -IncludeDisabledModules
    ```
 
-3. **Review generated module contracts** in `modules/providers/mycloud/*/` — customize if needed:
+4. **Review generated module contracts** in `modules/providers/mycloud/*/` — customize if needed:
    - `versions.tf` — provider version constraints
    - `variables.tf` — input variables for the module
    - `main.tf` — resource composition
    - `outputs.tf` — outputs for downstream consumption
    - `tests/basic.tftest.hcl` — basic smoke test
 
-4. **Commit** the new modules:
+5. **Commit** the new modules:
    ```bash
    git add modules/providers/mycloud/
    git commit -m "feat: add mycloud provider support
@@ -62,7 +66,7 @@ We are committed to providing a welcoming and inclusive environment for all cont
    - Documentation: see docs/PROVIDER-MODULE-BUILDOUT.md"
    ```
 
-5. **Create a pull request** linking to any related issues
+6. **Create a pull request** linking to any related issues
 
 ### Refactoring the Harness (Scripts)
 

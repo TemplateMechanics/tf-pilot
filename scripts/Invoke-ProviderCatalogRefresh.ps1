@@ -169,6 +169,35 @@ function Get-EnabledModuleNames {
   return @($enabledModules)
 }
 
+function Get-ProviderMode {
+  param(
+    [Parameter()]
+    $ProviderConfig
+  )
+
+  if ($null -ne $ProviderConfig -and $null -ne $ProviderConfig.PSObject.Properties['mode']) {
+    return [string]$ProviderConfig.mode
+  }
+
+  return 'prefix'
+}
+
+function Get-EffectiveModuleNames {
+  param(
+    [Parameter()]
+    $ProviderConfig
+  )
+
+  $enabledModules = @(Get-EnabledModuleNames -ModulesNode $ProviderConfig.modules)
+  $providerMode = Get-ProviderMode -ProviderConfig $ProviderConfig
+
+  if ($providerMode -eq 'all' -and -not ($enabledModules -contains 'misc')) {
+    $enabledModules += 'misc'
+  }
+
+  return @($enabledModules | Sort-Object -Unique)
+}
+
 function Get-JsonObjectPropertyNames {
   param([Parameter()]$InputObject)
 
@@ -439,20 +468,29 @@ foreach ($providerName in $targetProviders) {
     continue
   }
 
-  $enabledModuleNames = Get-EnabledModuleNames -ModulesNode $providerConfig.modules
+  $enabledModuleNames = Get-EffectiveModuleNames -ProviderConfig $providerConfig
   if ($enabledModuleNames.Count -eq 0) {
     Write-Host "Skipping provider '$providerName' because no modules are enabled."
     continue
   }
 
+  $providerMode = Get-ProviderMode -ProviderConfig $providerConfig
+
   $resourcePrefixes = Get-CombinedPrefixes -ModulesNode $providerConfig.modules -EnabledModuleNames $enabledModuleNames -PropertyName 'resourceTypePrefixes'
   $dataSourcePrefixes = Get-CombinedPrefixes -ModulesNode $providerConfig.modules -EnabledModuleNames $enabledModuleNames -PropertyName 'dataSourceTypePrefixes'
 
-  if ($resourcePrefixes.Count -eq 0 -and $providerConfig.reflectAllResources -ne $true) {
+  if ($providerMode -eq 'all') {
+    # In all-mode, export full provider schemas and let resource coverage assignment
+    # route each type into curated families or misc catch-all.
+    $resourcePrefixes = @()
+    $dataSourcePrefixes = @()
+  }
+
+  if ($resourcePrefixes.Count -eq 0 -and $providerMode -ne 'all' -and $providerConfig.reflectAllResources -ne $true) {
     $resourcePrefixes = @('__none__')
   }
 
-  if ($dataSourcePrefixes.Count -eq 0 -and $providerConfig.reflectAllDataSources -ne $true) {
+  if ($dataSourcePrefixes.Count -eq 0 -and $providerMode -ne 'all' -and $providerConfig.reflectAllDataSources -ne $true) {
     $dataSourcePrefixes = @('__none__')
   }
 

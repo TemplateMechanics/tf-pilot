@@ -190,6 +190,11 @@ jobs:
         run: |
           ./scripts/Invoke-AutonomousInfraSync.ps1 -IncludeDisabledModules -ProvidersAll
 
+      - name: Generate provider parameter coverage report (non-blocking)
+        shell: pwsh
+        run: |
+          ./scripts/Test-ProviderParameterCoverage.ps1 -IncludeDisabledProviders
+
       - name: Add coverage and drift summary to workflow report
         if: always()
         shell: bash
@@ -221,6 +226,8 @@ jobs:
             docs/providers/generated/refresh-diff-summary.md
             docs/providers/generated/module-generation-summary.json
             docs/providers/generated/module-scaffold-summary.json
+            docs/providers/generated/provider-parameter-coverage-summary.json
+            docs/providers/generated/provider-parameter-coverage-summary.md
 
       - name: Open or update provider drift issue
         if: always()

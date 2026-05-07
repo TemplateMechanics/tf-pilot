@@ -1,0 +1,15 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: dynatrace
+# Module: misc/resources/dynatrace_business_events_metrics
+# File: main.tf
+# SPDX-License-Identifier: MIT
+resource "dynatrace_business_events_metrics" "this" {
+  count             = var.enabled ? 1 : 0
+  enabled           = var.resource_enabled
+  key               = var.key
+  matcher           = var.matcher
+  measure           = var.measure
+  dimensions        = var.dimensions
+  measure_attribute = var.measure_attribute
+}

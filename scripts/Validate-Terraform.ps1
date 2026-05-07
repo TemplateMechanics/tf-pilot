@@ -17,6 +17,12 @@ Prints additional detail from tool output.
 
 .PARAMETER SkipStackYaml
 Skips stack YAML schema validation.
+
+.PARAMETER CheckProviderParameterCoverage
+Runs provider parameter coverage validation via scripts/Test-ProviderParameterCoverage.ps1.
+
+.PARAMETER FailOnProviderParameterCoverageGaps
+When used with -CheckProviderParameterCoverage, fails validation if parameter gaps are found.
 #>
 [CmdletBinding()]
 param(
@@ -31,6 +37,12 @@ param(
 
   [Parameter()]
   [switch]$SkipStackYaml,
+
+  [Parameter()]
+  [switch]$CheckProviderParameterCoverage,
+
+  [Parameter()]
+  [switch]$FailOnProviderParameterCoverageGaps,
 
   [Parameter()]
   [switch]$Detailed
@@ -83,6 +95,7 @@ $results = [ordered]@{
   tflint   = $true
   trivy    = $true
   stackYaml = $true
+  providerParameterCoverage = $true
 }
 
 Push-Location $resolvedPath
@@ -206,6 +219,22 @@ try {
     }
   }
 
+  $parameterCoverageScript = Join-Path $PSScriptRoot 'Test-ProviderParameterCoverage.ps1'
+  if (-not $CheckProviderParameterCoverage) {
+    $results.providerParameterCoverage = $null
+  }
+  elseif (-not (Test-Path $parameterCoverageScript)) {
+    Write-Warning "Provider parameter coverage script not found: $parameterCoverageScript"
+    $results.providerParameterCoverage = $null
+  }
+  else {
+    Write-Host "`nProvider Parameter Coverage" -ForegroundColor Cyan
+    & $parameterCoverageScript -FailOnGaps:$FailOnProviderParameterCoverageGaps
+    if ($LASTEXITCODE -ne 0) {
+      $results.providerParameterCoverage = $false
+    }
+  }
+
   Write-Host "`nValidation Summary" -ForegroundColor Cyan
   $summary = @(
     [pscustomobject]@{ Check = 'terraform fmt -check -recursive -diff'; Passed = $results.fmt }
@@ -234,6 +263,16 @@ try {
   }
   else {
     $summary += [pscustomobject]@{ Check = 'Validate-StackYaml.ps1'; Passed = $results.stackYaml }
+  }
+
+  if (-not $CheckProviderParameterCoverage) {
+    $summary += [pscustomobject]@{ Check = 'Test-ProviderParameterCoverage.ps1'; Passed = 'Skipped' }
+  }
+  elseif ($null -eq $results.providerParameterCoverage) {
+    $summary += [pscustomobject]@{ Check = 'Test-ProviderParameterCoverage.ps1'; Passed = 'Skipped' }
+  }
+  else {
+    $summary += [pscustomobject]@{ Check = 'Test-ProviderParameterCoverage.ps1'; Passed = $results.providerParameterCoverage }
   }
 
   $summary | Format-Table -AutoSize

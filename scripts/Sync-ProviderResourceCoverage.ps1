@@ -90,21 +90,31 @@ function Get-GeneratedHeader {
 }
 
 function Get-ProviderSourceVersion {
-  param([Parameter(Mandatory)][string]$ProviderName)
+  param(
+    [Parameter(Mandatory)][string]$ProviderName,
+    [Parameter()][string]$WorkspaceName,
+    [Parameter(Mandatory)][string]$SettingsRoot
+  )
 
-  $map = @{
-    aws = @{ source = 'hashicorp/aws'; version = '~> 5.100' }
-    azurerm = @{ source = 'hashicorp/azurerm'; version = '~> 4.0' }
-    google = @{ source = 'hashicorp/google'; version = '~> 6.0' }
-    kubernetes = @{ source = 'hashicorp/kubernetes'; version = '~> 2.0' }
-    helm = @{ source = 'hashicorp/helm'; version = '~> 3.0' }
-    github = @{ source = 'integrations/github'; version = '~> 6.0' }
-    azuredevops = @{ source = 'microsoft/azuredevops'; version = '~> 1.0' }
-    gitlab = @{ source = 'gitlabhq/gitlab'; version = '~> 17.0' }
-  }
+  $resolvedWorkspaceName = if ([string]::IsNullOrWhiteSpace($WorkspaceName)) { $ProviderName } else { $WorkspaceName }
+  $versionsPath = Join-Path (Join-Path $SettingsRoot $resolvedWorkspaceName) 'versions.tf'
 
-  if ($map.ContainsKey($ProviderName)) {
-    return $map[$ProviderName]
+  if (Test-Path $versionsPath) {
+    $content = Get-Content -Path $versionsPath -Raw
+    $providerBlockPattern = '(?ms)' + [regex]::Escape($ProviderName) + '\s*=\s*\{(?<body>.*?)\}'
+    $providerMatch = [regex]::Match($content, $providerBlockPattern)
+    if ($providerMatch.Success) {
+      $providerBody = $providerMatch.Groups['body'].Value
+      $sourceMatch = [regex]::Match($providerBody, 'source\s*=\s*"(?<value>[^"]+)"')
+      $versionMatch = [regex]::Match($providerBody, 'version\s*=\s*"(?<value>[^"]+)"')
+
+      if ($sourceMatch.Success -and $versionMatch.Success) {
+        return @{
+          source = $sourceMatch.Groups['value'].Value
+          version = $versionMatch.Groups['value'].Value
+        }
+      }
+    }
   }
 
   return @{ source = "hashicorp/$ProviderName"; version = '>= 0.0.0' }
@@ -278,6 +288,9 @@ function Get-NestedBlockNames {
 function Convert-AttributeToVarName {
   param([Parameter(Mandatory)][string]$AttributeName)
   $name = ($AttributeName -replace '[^A-Za-z0-9_]', '_')
+  if ($name -eq 'enabled') {
+    return 'resource_enabled'
+  }
   if ($name -match '^[0-9]') {
     return "attr_$name"
   }
@@ -293,8 +306,11 @@ function New-VariablesTf {
     [Parameter()][switch]$IncludeEnabled = $true
   )
 
+  $declaredVariableNames = @{}
+
   $lines = @()
   if ($IncludeEnabled) {
+    $declaredVariableNames['enabled'] = $true
     $lines += @(
       'variable "enabled" {',
       '  description = "When false, this module creates no resources."',
@@ -308,6 +324,8 @@ function New-VariablesTf {
   foreach ($attr in @($RequiredAttributes)) {
     if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
+    if ($declaredVariableNames.ContainsKey($varName)) { continue }
+    $declaredVariableNames[$varName] = $true
     $lines += @(
       "variable `"$varName`" {",
       "  description = `"Required attribute '$attr' for type '$TypeName'.`"",
@@ -320,9 +338,26 @@ function New-VariablesTf {
   foreach ($attr in @($OptionalAttributes)) {
     if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
+    if ($declaredVariableNames.ContainsKey($varName)) { continue }
+    $declaredVariableNames[$varName] = $true
     $lines += @(
       "variable `"$varName`" {",
       "  description = `"Optional attribute '$attr' for type '$TypeName'.`"",
+      '  type        = any',
+      '  default     = null',
+      '}',
+      ''
+    )
+  }
+
+  foreach ($blockName in @($NestedBlockNames)) {
+    if ([string]::IsNullOrWhiteSpace($blockName)) { continue }
+    $varName = Convert-AttributeToVarName -AttributeName $blockName
+    if ($declaredVariableNames.ContainsKey($varName)) { continue }
+    $declaredVariableNames[$varName] = $true
+    $lines += @(
+      "variable `"$varName`" {",
+      "  description = `"Top-level nested block '$blockName' payload for type '$TypeName'.`"",
       '  type        = any',
       '  default     = null',
       '}',
@@ -367,6 +402,7 @@ function New-ResourceMainTf {
   )
 
   $attributeLines = @()
+  $nestedBlockLines = @()
   foreach ($attr in @($RequiredAttributes)) {
     if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
@@ -379,7 +415,19 @@ function New-ResourceMainTf {
     $attributeLines += "  $attr = var.$varName"
   }
 
-  $body = if ($attributeLines.Count -gt 0) { ($attributeLines -join "`n") + "`n" } else { '' }
+  foreach ($blockName in @($NestedBlockNames)) {
+    if ([string]::IsNullOrWhiteSpace($blockName)) { continue }
+    $varName = Convert-AttributeToVarName -AttributeName $blockName
+    $nestedBlockLines += @(
+      "  dynamic `"$blockName`" {",
+      "    for_each = var.$varName == null ? [] : (can(tolist(var.$varName)) ? tolist(var.$varName) : [var.$varName])",
+      '    content {}',
+      '  }'
+    )
+  }
+
+  $bodyLines = @($attributeLines + $nestedBlockLines)
+  $body = if ($bodyLines.Count -gt 0) { ($bodyLines -join "`n") + "`n" } else { '' }
 
   return @"
 resource "$ResourceType" "this" {
@@ -408,6 +456,7 @@ function New-DataMainTf {
   )
 
   $attributeLines = @()
+  $nestedBlockLines = @()
   foreach ($attr in @($RequiredAttributes)) {
     if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
@@ -420,7 +469,19 @@ function New-DataMainTf {
     $attributeLines += "  $attr = var.$varName"
   }
 
-  $body = if ($attributeLines.Count -gt 0) { ($attributeLines -join "`n") + "`n" } else { '' }
+  foreach ($blockName in @($NestedBlockNames)) {
+    if ([string]::IsNullOrWhiteSpace($blockName)) { continue }
+    $varName = Convert-AttributeToVarName -AttributeName $blockName
+    $nestedBlockLines += @(
+      "  dynamic `"$blockName`" {",
+      "    for_each = var.$varName == null ? [] : (can(tolist(var.$varName)) ? tolist(var.$varName) : [var.$varName])",
+      '    content {}',
+      '  }'
+    )
+  }
+
+  $bodyLines = @($attributeLines + $nestedBlockLines)
+  $body = if ($bodyLines.Count -gt 0) { ($bodyLines -join "`n") + "`n" } else { '' }
 
   return @"
 data "$DataType" "this" {
@@ -441,6 +502,7 @@ output "result" {
 }
 
 $settingsPath = Resolve-RepoPath -Path $SettingsFile
+$settingsRoot = Split-Path -Parent $settingsPath
 $catalogPathRoot = Resolve-RepoPath -Path $CatalogDir
 $modulesPathRoot = Resolve-RepoPath -Path $ModulesRoot
 
@@ -480,7 +542,7 @@ foreach ($providerName in $targetProviders) {
   }
 
   $catalog = Get-Content -Path $catalogFile -Raw | ConvertFrom-Json
-  $providerMeta = Get-ProviderSourceVersion -ProviderName $providerName
+  $providerMeta = Get-ProviderSourceVersion -ProviderName $providerName -WorkspaceName $providerCfg.workspace -SettingsRoot $settingsRoot
 
   $providerResourceCount = 0
   $providerDataCount = 0
