@@ -24,3 +24,21 @@ variable "target" {
   description = "Required attribute 'target' for type 'github_organization_ruleset'."
   type        = any
 }
+
+variable "bypass_actors" {
+  description = "Top-level nested block 'bypass_actors' payload for type 'github_organization_ruleset'."
+  type        = any
+  default     = null
+}
+
+variable "conditions" {
+  description = "Top-level nested block 'conditions' payload for type 'github_organization_ruleset'."
+  type        = any
+  default     = null
+}
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'github_organization_ruleset'."
+  type        = any
+  default     = null
+}

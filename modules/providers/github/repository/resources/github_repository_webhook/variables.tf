@@ -31,3 +31,9 @@ variable "etag" {
   type        = any
   default     = null
 }
+
+variable "configuration" {
+  description = "Top-level nested block 'configuration' payload for type 'github_repository_webhook'."
+  type        = any
+  default     = null
+}

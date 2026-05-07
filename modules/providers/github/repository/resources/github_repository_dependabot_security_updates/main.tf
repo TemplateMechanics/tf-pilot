@@ -6,6 +6,6 @@
 # SPDX-License-Identifier: MIT
 resource "github_repository_dependabot_security_updates" "this" {
   count      = var.enabled ? 1 : 0
-  enabled    = var.enabled
+  enabled    = var.resource_enabled
   repository = var.repository
 }

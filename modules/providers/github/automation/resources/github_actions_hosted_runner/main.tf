@@ -13,4 +13,12 @@ resource "github_actions_hosted_runner" "this" {
   image_version     = var.image_version
   maximum_runners   = var.maximum_runners
   public_ip_enabled = var.public_ip_enabled
+  dynamic "image" {
+    for_each = var.image == null ? [] : (can(tolist(var.image)) ? tolist(var.image) : [var.image])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

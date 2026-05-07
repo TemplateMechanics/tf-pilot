@@ -37,3 +37,21 @@ variable "require_signed_commits" {
   type        = any
   default     = null
 }
+
+variable "required_pull_request_reviews" {
+  description = "Top-level nested block 'required_pull_request_reviews' payload for type 'github_branch_protection_v3'."
+  type        = any
+  default     = null
+}
+
+variable "required_status_checks" {
+  description = "Top-level nested block 'required_status_checks' payload for type 'github_branch_protection_v3'."
+  type        = any
+  default     = null
+}
+
+variable "restrictions" {
+  description = "Top-level nested block 'restrictions' payload for type 'github_branch_protection_v3'."
+  type        = any
+  default     = null
+}

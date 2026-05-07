@@ -7,4 +7,8 @@
 resource "github_team_members" "this" {
   count   = var.enabled ? 1 : 0
   team_id = var.team_id
+  dynamic "members" {
+    for_each = var.members == null ? [] : (can(tolist(var.members)) ? tolist(var.members) : [var.members])
+    content {}
+  }
 }

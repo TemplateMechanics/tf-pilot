@@ -1,5 +1,5 @@
 {
-    "provider":  "azuredevops",
-    "resourcesGenerated":  130,
-    "dataSourcesGenerated":  44
+    "provider":  "github",
+    "resourcesGenerated":  88,
+    "dataSourcesGenerated":  75
 }

@@ -37,3 +37,15 @@ variable "wait_timer" {
   type        = any
   default     = null
 }
+
+variable "deployment_branch_policy" {
+  description = "Top-level nested block 'deployment_branch_policy' payload for type 'github_repository_environment'."
+  type        = any
+  default     = null
+}
+
+variable "reviewers" {
+  description = "Top-level nested block 'reviewers' payload for type 'github_repository_environment'."
+  type        = any
+  default     = null
+}

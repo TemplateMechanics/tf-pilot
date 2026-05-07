@@ -20,3 +20,9 @@ variable "active" {
   type        = any
   default     = null
 }
+
+variable "configuration" {
+  description = "Top-level nested block 'configuration' payload for type 'github_organization_webhook'."
+  type        = any
+  default     = null
+}

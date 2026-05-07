@@ -286,6 +286,19 @@
                   }
     },
     {
+        "provider":  "kubernetes",
+        "module":  "misc",
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\kubernetes\\misc",
+        "files":  {
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
+                  }
+    },
+    {
         "provider":  "helm",
         "module":  "repository",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\helm\\repository",
@@ -302,6 +315,19 @@
         "provider":  "helm",
         "module":  "release",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\helm\\release",
+        "files":  {
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
+                  }
+    },
+    {
+        "provider":  "helm",
+        "module":  "misc",
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\helm\\misc",
         "files":  {
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
@@ -351,6 +377,19 @@
                   }
     },
     {
+        "provider":  "github",
+        "module":  "misc",
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\github\\misc",
+        "files":  {
+                      "versions.tf":  "created",
+                      "variables.tf":  "created",
+                      "main.tf":  "created",
+                      "outputs.tf":  "created",
+                      "README.md":  "created",
+                      "tests/basic.tftest.hcl":  "created"
+                  }
+    },
+    {
         "provider":  "azuredevops",
         "module":  "foundation",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azuredevops\\foundation",
@@ -380,6 +419,19 @@
         "provider":  "azuredevops",
         "module":  "pipeline",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azuredevops\\pipeline",
+        "files":  {
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
+                  }
+    },
+    {
+        "provider":  "azuredevops",
+        "module":  "misc",
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\azuredevops\\misc",
         "files":  {
                       "versions.tf":  "unchanged",
                       "variables.tf":  "unchanged",
