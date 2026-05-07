@@ -3,6 +3,7 @@
                       "aws":  {
                                   "enabled":  true,
                                   "workspace":  "aws",
+                                  "mode":  "prefix",
                                   "modules":  {
                                                   "foundation":  {
                                                                      "enabled":  true,
@@ -80,6 +81,7 @@
                       "azurerm":  {
                                       "enabled":  true,
                                       "workspace":  "azurerm",
+                                      "mode":  "prefix",
                                       "modules":  {
                                                       "foundation":  {
                                                                          "enabled":  true,
@@ -152,6 +154,7 @@
                       "google":  {
                                      "enabled":  true,
                                      "workspace":  "google",
+                                     "mode":  "prefix",
                                      "modules":  {
                                                      "foundation":  {
                                                                         "enabled":  true,
@@ -223,6 +226,7 @@
                       "kubernetes":  {
                                          "enabled":  true,
                                          "workspace":  "kubernetes",
+                                         "mode":  "prefix",
                                          "modules":  {
                                                          "namespace":  {
                                                                            "enabled":  true,
@@ -273,6 +277,7 @@
                       "helm":  {
                                    "enabled":  true,
                                    "workspace":  "helm",
+                                   "mode":  "prefix",
                                    "modules":  {
                                                    "repository":  {
                                                                       "enabled":  true,
@@ -297,6 +302,7 @@
                       "github":  {
                                      "enabled":  true,
                                      "workspace":  "github",
+                                     "mode":  "prefix",
                                      "modules":  {
                                                      "foundation":  {
                                                                         "enabled":  true,
@@ -336,6 +342,7 @@
                       "azuredevops":  {
                                           "enabled":  true,
                                           "workspace":  "azuredevops",
+                                          "mode":  "prefix",
                                           "modules":  {
                                                           "foundation":  {
                                                                              "enabled":  true,
@@ -376,6 +383,7 @@
                       "gitlab":  {
                                      "enabled":  true,
                                      "workspace":  "gitlab",
+                                     "mode":  "prefix",
                                      "modules":  {
                                                      "foundation":  {
                                                                         "enabled":  true,
@@ -417,6 +425,7 @@
                       "dynatrace":  {
                                         "enabled":  true,
                                         "workspace":  "dynatrace",
+                                        "mode":  "all",
                                         "modules":  {
                                                         "foundation":  {
                                                                            "enabled":  true,

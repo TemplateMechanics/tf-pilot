@@ -1,0 +1,11 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: dynatrace
+# Module: misc/resources/dynatrace_web_app_custom_errors
+# File: main.tf
+# SPDX-License-Identifier: MIT
+resource "dynatrace_web_app_custom_errors" "this" {
+  count                                     = var.enabled ? 1 : 0
+  ignore_custom_errors_in_apdex_calculation = var.ignore_custom_errors_in_apdex_calculation
+  scope                                     = var.scope
+}

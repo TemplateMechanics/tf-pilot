@@ -466,5 +466,18 @@
                       "README.md":  "unchanged",
                       "tests/basic.tftest.hcl":  "unchanged"
                   }
+    },
+    {
+        "provider":  "dynatrace",
+        "module":  "misc",
+        "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\dynatrace\\misc",
+        "files":  {
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
+                  }
     }
 ]

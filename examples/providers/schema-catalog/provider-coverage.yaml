@@ -193,6 +193,7 @@ providers:
     source: dynatrace-oss/dynatrace
     version: "~> 1.0"
     workspace: dynatrace
+    mode: all
     modules:
       foundation:
         enabled: true

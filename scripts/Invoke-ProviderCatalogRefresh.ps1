@@ -445,14 +445,26 @@ foreach ($providerName in $targetProviders) {
     continue
   }
 
+  $providerMode = 'prefix'
+  if ($null -ne $providerConfig.PSObject.Properties['mode']) {
+    $providerMode = [string]$providerConfig.mode
+  }
+
   $resourcePrefixes = Get-CombinedPrefixes -ModulesNode $providerConfig.modules -EnabledModuleNames $enabledModuleNames -PropertyName 'resourceTypePrefixes'
   $dataSourcePrefixes = Get-CombinedPrefixes -ModulesNode $providerConfig.modules -EnabledModuleNames $enabledModuleNames -PropertyName 'dataSourceTypePrefixes'
 
-  if ($resourcePrefixes.Count -eq 0 -and $providerConfig.reflectAllResources -ne $true) {
+  if ($providerMode -eq 'all') {
+    # In all-mode, export full provider schemas and let resource coverage assignment
+    # route each type into curated families or misc catch-all.
+    $resourcePrefixes = @()
+    $dataSourcePrefixes = @()
+  }
+
+  if ($resourcePrefixes.Count -eq 0 -and $providerMode -ne 'all' -and $providerConfig.reflectAllResources -ne $true) {
     $resourcePrefixes = @('__none__')
   }
 
-  if ($dataSourcePrefixes.Count -eq 0 -and $providerConfig.reflectAllDataSources -ne $true) {
+  if ($dataSourcePrefixes.Count -eq 0 -and $providerMode -ne 'all' -and $providerConfig.reflectAllDataSources -ne $true) {
     $dataSourcePrefixes = @('__none__')
   }
 
