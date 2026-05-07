@@ -12,4 +12,8 @@ resource "google_service_account" "this" {
   disabled                     = var.disabled
   display_name                 = var.display_name
   project                      = var.project
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

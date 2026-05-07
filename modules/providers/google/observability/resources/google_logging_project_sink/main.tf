@@ -14,4 +14,12 @@ resource "google_logging_project_sink" "this" {
   filter                 = var.filter
   project                = var.project
   unique_writer_identity = var.unique_writer_identity
+  dynamic "bigquery_options" {
+    for_each = var.bigquery_options == null ? [] : (can(tolist(var.bigquery_options)) ? tolist(var.bigquery_options) : [var.bigquery_options])
+    content {}
+  }
+  dynamic "exclusions" {
+    for_each = var.exclusions == null ? [] : (can(tolist(var.exclusions)) ? tolist(var.exclusions) : [var.exclusions])
+    content {}
+  }
 }

@@ -77,3 +77,21 @@ variable "tls_inspect" {
   type        = any
   default     = null
 }
+
+variable "match" {
+  description = "Top-level nested block 'match' payload for type 'google_compute_network_firewall_policy_rule'."
+  type        = any
+  default     = null
+}
+
+variable "target_secure_tags" {
+  description = "Top-level nested block 'target_secure_tags' payload for type 'google_compute_network_firewall_policy_rule'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_network_firewall_policy_rule'."
+  type        = any
+  default     = null
+}

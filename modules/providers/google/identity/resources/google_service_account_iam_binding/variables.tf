@@ -24,3 +24,9 @@ variable "service_account_id" {
   description = "Required attribute 'service_account_id' for type 'google_service_account_iam_binding'."
   type        = any
 }
+
+variable "condition" {
+  description = "Top-level nested block 'condition' payload for type 'google_service_account_iam_binding'."
+  type        = any
+  default     = null
+}

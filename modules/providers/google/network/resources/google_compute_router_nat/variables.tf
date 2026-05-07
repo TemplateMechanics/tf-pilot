@@ -138,3 +138,33 @@ variable "udp_idle_timeout_sec" {
   type        = any
   default     = null
 }
+
+variable "log_config" {
+  description = "Top-level nested block 'log_config' payload for type 'google_compute_router_nat'."
+  type        = any
+  default     = null
+}
+
+variable "nat64_subnetwork" {
+  description = "Top-level nested block 'nat64_subnetwork' payload for type 'google_compute_router_nat'."
+  type        = any
+  default     = null
+}
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'google_compute_router_nat'."
+  type        = any
+  default     = null
+}
+
+variable "subnetwork" {
+  description = "Top-level nested block 'subnetwork' payload for type 'google_compute_router_nat'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_router_nat'."
+  type        = any
+  default     = null
+}

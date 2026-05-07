@@ -10,4 +10,8 @@ resource "google_compute_instance_group_membership" "this" {
   instance_group = var.instance_group
   project        = var.project
   zone           = var.zone
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

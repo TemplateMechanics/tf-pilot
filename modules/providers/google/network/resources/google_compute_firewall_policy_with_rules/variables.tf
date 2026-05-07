@@ -25,3 +25,15 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "rule" {
+  description = "Top-level nested block 'rule' payload for type 'google_compute_firewall_policy_with_rules'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_firewall_policy_with_rules'."
+  type        = any
+  default     = null
+}

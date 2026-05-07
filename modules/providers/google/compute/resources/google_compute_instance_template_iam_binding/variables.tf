@@ -30,3 +30,9 @@ variable "project" {
   type        = any
   default     = null
 }
+
+variable "condition" {
+  description = "Top-level nested block 'condition' payload for type 'google_compute_instance_template_iam_binding'."
+  type        = any
+  default     = null
+}

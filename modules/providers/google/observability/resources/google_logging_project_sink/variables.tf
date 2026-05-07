@@ -55,3 +55,15 @@ variable "unique_writer_identity" {
   type        = any
   default     = null
 }
+
+variable "bigquery_options" {
+  description = "Top-level nested block 'bigquery_options' payload for type 'google_logging_project_sink'."
+  type        = any
+  default     = null
+}
+
+variable "exclusions" {
+  description = "Top-level nested block 'exclusions' payload for type 'google_logging_project_sink'."
+  type        = any
+  default     = null
+}

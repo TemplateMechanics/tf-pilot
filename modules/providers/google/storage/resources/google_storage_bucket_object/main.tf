@@ -24,4 +24,16 @@ resource "google_storage_bucket_object" "this" {
   source_md5hash           = var.source_md5hash
   storage_class            = var.storage_class
   temporary_hold           = var.temporary_hold
+  dynamic "customer_encryption" {
+    for_each = var.customer_encryption == null ? [] : (can(tolist(var.customer_encryption)) ? tolist(var.customer_encryption) : [var.customer_encryption])
+    content {}
+  }
+  dynamic "retention" {
+    for_each = var.retention == null ? [] : (can(tolist(var.retention)) ? tolist(var.retention) : [var.retention])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

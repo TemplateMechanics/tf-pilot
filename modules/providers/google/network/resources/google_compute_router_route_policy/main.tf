@@ -11,4 +11,12 @@ resource "google_compute_router_route_policy" "this" {
   project = var.project
   region  = var.region
   type    = var.type
+  dynamic "terms" {
+    for_each = var.terms == null ? [] : (can(tolist(var.terms)) ? tolist(var.terms) : [var.terms])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

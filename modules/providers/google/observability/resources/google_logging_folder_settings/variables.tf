@@ -32,3 +32,9 @@ variable "storage_location" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_logging_folder_settings'."
+  type        = any
+  default     = null
+}

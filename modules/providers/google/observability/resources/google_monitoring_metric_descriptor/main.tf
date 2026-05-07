@@ -14,4 +14,16 @@ resource "google_monitoring_metric_descriptor" "this" {
   launch_stage = var.launch_stage
   project      = var.project
   unit         = var.unit
+  dynamic "labels" {
+    for_each = var.labels == null ? [] : (can(tolist(var.labels)) ? tolist(var.labels) : [var.labels])
+    content {}
+  }
+  dynamic "metadata" {
+    for_each = var.metadata == null ? [] : (can(tolist(var.metadata)) ? tolist(var.metadata) : [var.metadata])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

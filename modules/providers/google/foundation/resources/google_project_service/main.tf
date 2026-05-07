@@ -10,4 +10,8 @@ resource "google_project_service" "this" {
   disable_dependent_services = var.disable_dependent_services
   disable_on_destroy         = var.disable_on_destroy
   project                    = var.project
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

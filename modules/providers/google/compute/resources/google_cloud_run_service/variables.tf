@@ -31,3 +31,27 @@ variable "project" {
   type        = any
   default     = null
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'google_cloud_run_service'."
+  type        = any
+  default     = null
+}
+
+variable "template" {
+  description = "Top-level nested block 'template' payload for type 'google_cloud_run_service'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_cloud_run_service'."
+  type        = any
+  default     = null
+}
+
+variable "traffic" {
+  description = "Top-level nested block 'traffic' payload for type 'google_cloud_run_service'."
+  type        = any
+  default     = null
+}

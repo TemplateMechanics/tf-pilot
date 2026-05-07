@@ -10,4 +10,8 @@ resource "google_compute_network_firewall_policy_association" "this" {
   firewall_policy   = var.firewall_policy
   name              = var.name
   project           = var.project
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

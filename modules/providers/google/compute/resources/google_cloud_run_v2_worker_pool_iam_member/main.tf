@@ -11,4 +11,8 @@ resource "google_cloud_run_v2_worker_pool_iam_member" "this" {
   role     = var.role
   location = var.location
   project  = var.project
+  dynamic "condition" {
+    for_each = var.condition == null ? [] : (can(tolist(var.condition)) ? tolist(var.condition) : [var.condition])
+    content {}
+  }
 }

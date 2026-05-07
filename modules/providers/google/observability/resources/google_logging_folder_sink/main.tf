@@ -14,4 +14,12 @@ resource "google_logging_folder_sink" "this" {
   filter             = var.filter
   include_children   = var.include_children
   intercept_children = var.intercept_children
+  dynamic "bigquery_options" {
+    for_each = var.bigquery_options == null ? [] : (can(tolist(var.bigquery_options)) ? tolist(var.bigquery_options) : [var.bigquery_options])
+    content {}
+  }
+  dynamic "exclusions" {
+    for_each = var.exclusions == null ? [] : (can(tolist(var.exclusions)) ? tolist(var.exclusions) : [var.exclusions])
+    content {}
+  }
 }

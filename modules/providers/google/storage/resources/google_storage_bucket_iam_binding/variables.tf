@@ -24,3 +24,9 @@ variable "role" {
   description = "Required attribute 'role' for type 'google_storage_bucket_iam_binding'."
   type        = any
 }
+
+variable "condition" {
+  description = "Top-level nested block 'condition' payload for type 'google_storage_bucket_iam_binding'."
+  type        = any
+  default     = null
+}

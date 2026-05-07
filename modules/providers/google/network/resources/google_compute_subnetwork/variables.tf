@@ -109,3 +109,27 @@ variable "stack_type" {
   type        = any
   default     = null
 }
+
+variable "log_config" {
+  description = "Top-level nested block 'log_config' payload for type 'google_compute_subnetwork'."
+  type        = any
+  default     = null
+}
+
+variable "params" {
+  description = "Top-level nested block 'params' payload for type 'google_compute_subnetwork'."
+  type        = any
+  default     = null
+}
+
+variable "secondary_ip_range" {
+  description = "Top-level nested block 'secondary_ip_range' payload for type 'google_compute_subnetwork'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_subnetwork'."
+  type        = any
+  default     = null
+}

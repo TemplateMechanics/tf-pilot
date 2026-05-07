@@ -25,3 +25,9 @@ variable "role" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_storage_bucket_access_control'."
+  type        = any
+  default     = null
+}

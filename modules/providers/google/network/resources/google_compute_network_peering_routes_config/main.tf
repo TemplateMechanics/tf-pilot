@@ -13,4 +13,8 @@ resource "google_compute_network_peering_routes_config" "this" {
   export_subnet_routes_with_public_ip = var.export_subnet_routes_with_public_ip
   import_subnet_routes_with_public_ip = var.import_subnet_routes_with_public_ip
   project                             = var.project
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

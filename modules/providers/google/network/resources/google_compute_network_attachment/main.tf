@@ -14,4 +14,8 @@ resource "google_compute_network_attachment" "this" {
   producer_reject_lists = var.producer_reject_lists
   project               = var.project
   region                = var.region
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

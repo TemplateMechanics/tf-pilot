@@ -11,4 +11,8 @@ resource "google_compute_subnetwork_iam_binding" "this" {
   subnetwork = var.subnetwork
   project    = var.project
   region     = var.region
+  dynamic "condition" {
+    for_each = var.condition == null ? [] : (can(tolist(var.condition)) ? tolist(var.condition) : [var.condition])
+    content {}
+  }
 }

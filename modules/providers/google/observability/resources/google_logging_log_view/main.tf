@@ -12,4 +12,8 @@ resource "google_logging_log_view" "this" {
   filter      = var.filter
   location    = var.location
   parent      = var.parent
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

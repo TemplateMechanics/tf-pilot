@@ -32,3 +32,15 @@ variable "user_labels" {
   type        = any
   default     = null
 }
+
+variable "basic_service" {
+  description = "Top-level nested block 'basic_service' payload for type 'google_monitoring_service'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_monitoring_service'."
+  type        = any
+  default     = null
+}

@@ -19,3 +19,9 @@ variable "network" {
   description = "Required attribute 'network' for type 'google_compute_network_peering'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_network_peering'."
+  type        = any
+  default     = null
+}

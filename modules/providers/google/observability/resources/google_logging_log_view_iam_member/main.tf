@@ -12,4 +12,8 @@ resource "google_logging_log_view_iam_member" "this" {
   parent   = var.parent
   role     = var.role
   location = var.location
+  dynamic "condition" {
+    for_each = var.condition == null ? [] : (can(tolist(var.condition)) ? tolist(var.condition) : [var.condition])
+    content {}
+  }
 }

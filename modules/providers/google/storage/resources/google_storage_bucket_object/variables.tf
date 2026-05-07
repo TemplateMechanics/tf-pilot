@@ -115,3 +115,21 @@ variable "temporary_hold" {
   type        = any
   default     = null
 }
+
+variable "customer_encryption" {
+  description = "Top-level nested block 'customer_encryption' payload for type 'google_storage_bucket_object'."
+  type        = any
+  default     = null
+}
+
+variable "retention" {
+  description = "Top-level nested block 'retention' payload for type 'google_storage_bucket_object'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_storage_bucket_object'."
+  type        = any
+  default     = null
+}

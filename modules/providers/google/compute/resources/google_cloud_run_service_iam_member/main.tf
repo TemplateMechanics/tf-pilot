@@ -11,4 +11,8 @@ resource "google_cloud_run_service_iam_member" "this" {
   service  = var.service
   location = var.location
   project  = var.project
+  dynamic "condition" {
+    for_each = var.condition == null ? [] : (can(tolist(var.condition)) ? tolist(var.condition) : [var.condition])
+    content {}
+  }
 }

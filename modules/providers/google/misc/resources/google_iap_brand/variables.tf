@@ -1,0 +1,33 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: google
+# Module: misc/resources/google_iap_brand
+# File: variables.tf
+# SPDX-License-Identifier: MIT
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "application_title" {
+  description = "Required attribute 'application_title' for type 'google_iap_brand'."
+  type        = any
+}
+
+variable "support_email" {
+  description = "Required attribute 'support_email' for type 'google_iap_brand'."
+  type        = any
+}
+
+variable "project" {
+  description = "Optional attribute 'project' for type 'google_iap_brand'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_iap_brand'."
+  type        = any
+  default     = null
+}

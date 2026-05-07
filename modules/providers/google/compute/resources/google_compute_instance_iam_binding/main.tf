@@ -11,4 +11,8 @@ resource "google_compute_instance_iam_binding" "this" {
   role          = var.role
   project       = var.project
   zone          = var.zone
+  dynamic "condition" {
+    for_each = var.condition == null ? [] : (can(tolist(var.condition)) ? tolist(var.condition) : [var.condition])
+    content {}
+  }
 }

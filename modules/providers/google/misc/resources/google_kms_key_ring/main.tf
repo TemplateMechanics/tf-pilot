@@ -1,0 +1,16 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: google
+# Module: misc/resources/google_kms_key_ring
+# File: main.tf
+# SPDX-License-Identifier: MIT
+resource "google_kms_key_ring" "this" {
+  count    = var.enabled ? 1 : 0
+  location = var.location
+  name     = var.name
+  project  = var.project
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
+}

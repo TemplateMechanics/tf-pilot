@@ -67,6 +67,7 @@ providers:
     source: hashicorp/google
     version: "~> 6.0"
     workspace: google
+    mode: all
     modules:
       foundation:
         enabled: true

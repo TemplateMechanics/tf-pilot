@@ -1,0 +1,16 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: google
+# Module: misc/resources/google_firebaserules_release
+# File: main.tf
+# SPDX-License-Identifier: MIT
+resource "google_firebaserules_release" "this" {
+  count        = var.enabled ? 1 : 0
+  name         = var.name
+  ruleset_name = var.ruleset_name
+  project      = var.project
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
+}

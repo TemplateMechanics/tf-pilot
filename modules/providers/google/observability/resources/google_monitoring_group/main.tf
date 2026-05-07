@@ -11,4 +11,8 @@ resource "google_monitoring_group" "this" {
   is_cluster   = var.is_cluster
   parent_name  = var.parent_name
   project      = var.project
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -9,4 +9,8 @@ resource "google_project_iam_binding" "this" {
   members = var.members
   project = var.project
   role    = var.role
+  dynamic "condition" {
+    for_each = var.condition == null ? [] : (can(tolist(var.condition)) ? tolist(var.condition) : [var.condition])
+    content {}
+  }
 }

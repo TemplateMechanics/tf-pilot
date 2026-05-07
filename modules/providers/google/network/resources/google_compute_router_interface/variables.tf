@@ -73,3 +73,9 @@ variable "vpn_tunnel" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_router_interface'."
+  type        = any
+  default     = null
+}

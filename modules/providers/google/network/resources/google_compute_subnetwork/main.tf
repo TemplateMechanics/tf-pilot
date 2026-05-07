@@ -23,4 +23,20 @@ resource "google_compute_subnetwork" "this" {
   role                             = var.role
   send_secondary_ip_range_if_empty = var.send_secondary_ip_range_if_empty
   stack_type                       = var.stack_type
+  dynamic "log_config" {
+    for_each = var.log_config == null ? [] : (can(tolist(var.log_config)) ? tolist(var.log_config) : [var.log_config])
+    content {}
+  }
+  dynamic "params" {
+    for_each = var.params == null ? [] : (can(tolist(var.params)) ? tolist(var.params) : [var.params])
+    content {}
+  }
+  dynamic "secondary_ip_range" {
+    for_each = var.secondary_ip_range == null ? [] : (can(tolist(var.secondary_ip_range)) ? tolist(var.secondary_ip_range) : [var.secondary_ip_range])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

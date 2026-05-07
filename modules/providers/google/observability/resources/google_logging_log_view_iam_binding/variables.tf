@@ -40,3 +40,9 @@ variable "location" {
   type        = any
   default     = null
 }
+
+variable "condition" {
+  description = "Top-level nested block 'condition' payload for type 'google_logging_log_view_iam_binding'."
+  type        = any
+  default     = null
+}

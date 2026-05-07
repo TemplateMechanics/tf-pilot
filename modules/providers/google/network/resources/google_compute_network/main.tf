@@ -20,4 +20,12 @@ resource "google_compute_network" "this" {
   network_profile                           = var.network_profile
   project                                   = var.project
   routing_mode                              = var.routing_mode
+  dynamic "params" {
+    for_each = var.params == null ? [] : (can(tolist(var.params)) ? tolist(var.params) : [var.params])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

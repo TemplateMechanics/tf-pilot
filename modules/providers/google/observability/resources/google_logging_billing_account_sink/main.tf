@@ -12,4 +12,12 @@ resource "google_logging_billing_account_sink" "this" {
   description     = var.description
   disabled        = var.disabled
   filter          = var.filter
+  dynamic "bigquery_options" {
+    for_each = var.bigquery_options == null ? [] : (can(tolist(var.bigquery_options)) ? tolist(var.bigquery_options) : [var.bigquery_options])
+    content {}
+  }
+  dynamic "exclusions" {
+    for_each = var.exclusions == null ? [] : (can(tolist(var.exclusions)) ? tolist(var.exclusions) : [var.exclusions])
+    content {}
+  }
 }

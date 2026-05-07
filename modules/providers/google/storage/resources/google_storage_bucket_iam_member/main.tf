@@ -9,4 +9,8 @@ resource "google_storage_bucket_iam_member" "this" {
   bucket = var.bucket
   member = var.member
   role   = var.role
+  dynamic "condition" {
+    for_each = var.condition == null ? [] : (can(tolist(var.condition)) ? tolist(var.condition) : [var.condition])
+    content {}
+  }
 }

@@ -91,3 +91,33 @@ variable "target_tags" {
   type        = any
   default     = null
 }
+
+variable "allow" {
+  description = "Top-level nested block 'allow' payload for type 'google_compute_firewall'."
+  type        = any
+  default     = null
+}
+
+variable "deny" {
+  description = "Top-level nested block 'deny' payload for type 'google_compute_firewall'."
+  type        = any
+  default     = null
+}
+
+variable "log_config" {
+  description = "Top-level nested block 'log_config' payload for type 'google_compute_firewall'."
+  type        = any
+  default     = null
+}
+
+variable "params" {
+  description = "Top-level nested block 'params' payload for type 'google_compute_firewall'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_firewall'."
+  type        = any
+  default     = null
+}

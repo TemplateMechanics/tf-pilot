@@ -26,3 +26,9 @@ variable "project" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_network_firewall_policy'."
+  type        = any
+  default     = null
+}

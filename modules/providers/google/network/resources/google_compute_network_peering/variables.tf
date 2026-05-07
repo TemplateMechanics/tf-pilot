@@ -54,3 +54,9 @@ variable "stack_type" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_network_peering'."
+  type        = any
+  default     = null
+}

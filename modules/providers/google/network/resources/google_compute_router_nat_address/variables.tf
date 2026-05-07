@@ -42,3 +42,9 @@ variable "region" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_router_nat_address'."
+  type        = any
+  default     = null
+}

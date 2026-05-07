@@ -54,3 +54,15 @@ variable "intercept_children" {
   type        = any
   default     = null
 }
+
+variable "bigquery_options" {
+  description = "Top-level nested block 'bigquery_options' payload for type 'google_logging_folder_sink'."
+  type        = any
+  default     = null
+}
+
+variable "exclusions" {
+  description = "Top-level nested block 'exclusions' payload for type 'google_logging_folder_sink'."
+  type        = any
+  default     = null
+}

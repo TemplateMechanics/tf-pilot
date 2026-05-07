@@ -19,3 +19,9 @@ variable "service" {
   description = "Required attribute 'service' for type 'google_project_iam_audit_config'."
   type        = any
 }
+
+variable "audit_log_config" {
+  description = "Top-level nested block 'audit_log_config' payload for type 'google_project_iam_audit_config'."
+  type        = any
+  default     = null
+}

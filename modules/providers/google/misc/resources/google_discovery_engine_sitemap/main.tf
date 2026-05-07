@@ -1,0 +1,17 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: google
+# Module: misc/resources/google_discovery_engine_sitemap
+# File: main.tf
+# SPDX-License-Identifier: MIT
+resource "google_discovery_engine_sitemap" "this" {
+  count         = var.enabled ? 1 : 0
+  data_store_id = var.data_store_id
+  location      = var.location
+  project       = var.project
+  uri           = var.uri
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
+}

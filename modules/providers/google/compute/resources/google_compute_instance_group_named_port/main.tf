@@ -11,4 +11,8 @@ resource "google_compute_instance_group_named_port" "this" {
   port    = var.port
   project = var.project
   zone    = var.zone
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

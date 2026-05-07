@@ -25,3 +25,21 @@ variable "project" {
   type        = any
   default     = null
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'google_cloud_run_domain_mapping'."
+  type        = any
+  default     = null
+}
+
+variable "spec" {
+  description = "Top-level nested block 'spec' payload for type 'google_cloud_run_domain_mapping'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_cloud_run_domain_mapping'."
+  type        = any
+  default     = null
+}

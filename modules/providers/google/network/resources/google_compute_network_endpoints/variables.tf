@@ -26,3 +26,15 @@ variable "zone" {
   type        = any
   default     = null
 }
+
+variable "network_endpoints" {
+  description = "Top-level nested block 'network_endpoints' payload for type 'google_compute_network_endpoints'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_network_endpoints'."
+  type        = any
+  default     = null
+}

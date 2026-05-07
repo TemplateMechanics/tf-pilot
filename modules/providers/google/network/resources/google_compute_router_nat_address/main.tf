@@ -12,4 +12,8 @@ resource "google_compute_router_nat_address" "this" {
   drain_nat_ips = var.drain_nat_ips
   project       = var.project
   region        = var.region
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }
