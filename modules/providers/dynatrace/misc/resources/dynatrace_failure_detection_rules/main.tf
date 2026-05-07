@@ -11,4 +11,8 @@ resource "dynatrace_failure_detection_rules" "this" {
   parameter_id = var.parameter_id
   description  = var.description
   insert_after = var.insert_after
+  dynamic "conditions" {
+    for_each = var.conditions == null ? [] : (can(tolist(var.conditions)) ? tolist(var.conditions) : [var.conditions])
+    content {}
+  }
 }

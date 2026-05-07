@@ -86,3 +86,9 @@ variable "workload_integration_enabled" {
   type        = any
   default     = null
 }
+
+variable "events_field_selectors" {
+  description = "Top-level nested block 'events_field_selectors' payload for type 'dynatrace_k8s_credentials'."
+  type        = any
+  default     = null
+}

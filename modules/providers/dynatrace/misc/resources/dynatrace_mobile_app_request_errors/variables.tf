@@ -14,3 +14,9 @@ variable "scope" {
   description = "Required attribute 'scope' for type 'dynatrace_mobile_app_request_errors'."
   type        = any
 }
+
+variable "error_rules" {
+  description = "Top-level nested block 'error_rules' payload for type 'dynatrace_mobile_app_request_errors'."
+  type        = any
+  default     = null
+}

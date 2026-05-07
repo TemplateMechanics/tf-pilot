@@ -66,3 +66,21 @@ variable "unknowns" {
   type        = any
   default     = null
 }
+
+variable "conditions" {
+  description = "Top-level nested block 'conditions' payload for type 'dynatrace_calculated_service_metric'."
+  type        = any
+  default     = null
+}
+
+variable "dimension_definition" {
+  description = "Top-level nested block 'dimension_definition' payload for type 'dynatrace_calculated_service_metric'."
+  type        = any
+  default     = null
+}
+
+variable "metric_definition" {
+  description = "Top-level nested block 'metric_definition' payload for type 'dynatrace_calculated_service_metric'."
+  type        = any
+  default     = null
+}

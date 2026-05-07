@@ -32,3 +32,9 @@ variable "enable_tenant_aware_data_mining" {
   type        = any
   default     = null
 }
+
+variable "blocklist_entries" {
+  description = "Top-level nested block 'blocklist_entries' payload for type 'dynatrace_davis_copilot'."
+  type        = any
+  default     = null
+}

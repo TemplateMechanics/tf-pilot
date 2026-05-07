@@ -42,3 +42,27 @@ variable "frequency_min" {
   type        = any
   default     = null
 }
+
+variable "outage_handling" {
+  description = "Top-level nested block 'outage_handling' payload for type 'dynatrace_network_monitor'."
+  type        = any
+  default     = null
+}
+
+variable "performance_thresholds" {
+  description = "Top-level nested block 'performance_thresholds' payload for type 'dynatrace_network_monitor'."
+  type        = any
+  default     = null
+}
+
+variable "steps" {
+  description = "Top-level nested block 'steps' payload for type 'dynatrace_network_monitor'."
+  type        = any
+  default     = null
+}
+
+variable "tags" {
+  description = "Top-level nested block 'tags' payload for type 'dynatrace_network_monitor'."
+  type        = any
+  default     = null
+}

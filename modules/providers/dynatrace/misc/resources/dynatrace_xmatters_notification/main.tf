@@ -13,4 +13,8 @@ resource "dynatrace_xmatters_notification" "this" {
   url       = var.url
   insecure  = var.insecure
   legacy_id = var.legacy_id
+  dynamic "headers" {
+    for_each = var.headers == null ? [] : (can(tolist(var.headers)) ? tolist(var.headers) : [var.headers])
+    content {}
+  }
 }

@@ -9,3 +9,9 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "ownership_identifiers" {
+  description = "Top-level nested block 'ownership_identifiers' payload for type 'dynatrace_ownership_config'."
+  type        = any
+  default     = null
+}

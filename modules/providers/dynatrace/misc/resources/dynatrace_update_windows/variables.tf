@@ -24,3 +24,27 @@ variable "recurrence" {
   description = "Required attribute 'recurrence' for type 'dynatrace_update_windows'."
   type        = any
 }
+
+variable "daily_recurrence" {
+  description = "Top-level nested block 'daily_recurrence' payload for type 'dynatrace_update_windows'."
+  type        = any
+  default     = null
+}
+
+variable "monthly_recurrence" {
+  description = "Top-level nested block 'monthly_recurrence' payload for type 'dynatrace_update_windows'."
+  type        = any
+  default     = null
+}
+
+variable "once_recurrence" {
+  description = "Top-level nested block 'once_recurrence' payload for type 'dynatrace_update_windows'."
+  type        = any
+  default     = null
+}
+
+variable "weekly_recurrence" {
+  description = "Top-level nested block 'weekly_recurrence' payload for type 'dynatrace_update_windows'."
+  type        = any
+  default     = null
+}

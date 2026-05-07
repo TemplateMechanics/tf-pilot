@@ -10,4 +10,12 @@ resource "dynatrace_environment" "this" {
   state = var.state
   tags  = var.tags
   trial = var.trial
+  dynamic "quotas" {
+    for_each = var.quotas == null ? [] : (can(tolist(var.quotas)) ? tolist(var.quotas) : [var.quotas])
+    content {}
+  }
+  dynamic "storage" {
+    for_each = var.storage == null ? [] : (can(tolist(var.storage)) ? tolist(var.storage) : [var.storage])
+    content {}
+  }
 }

@@ -20,3 +20,9 @@ variable "access" {
   type        = any
   default     = null
 }
+
+variable "recipients" {
+  description = "Top-level nested block 'recipients' payload for type 'dynatrace_direct_shares'."
+  type        = any
+  default     = null
+}

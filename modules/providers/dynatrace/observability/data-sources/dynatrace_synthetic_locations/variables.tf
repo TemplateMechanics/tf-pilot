@@ -15,3 +15,9 @@ variable "name" {
   type        = any
   default     = null
 }
+
+variable "locations" {
+  description = "Top-level nested block 'locations' payload for type 'dynatrace_synthetic_locations'."
+  type        = any
+  default     = null
+}

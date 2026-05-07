@@ -18,4 +18,12 @@ resource "dynatrace_webhook_notification" "this" {
   url                    = var.url
   url_contains_secret    = var.url_contains_secret
   use_oauth_2            = var.use_oauth_2
+  dynamic "headers" {
+    for_each = var.headers == null ? [] : (can(tolist(var.headers)) ? tolist(var.headers) : [var.headers])
+    content {}
+  }
+  dynamic "oauth_2_credentials" {
+    for_each = var.oauth_2_credentials == null ? [] : (can(tolist(var.oauth_2_credentials)) ? tolist(var.oauth_2_credentials) : [var.oauth_2_credentials])
+    content {}
+  }
 }

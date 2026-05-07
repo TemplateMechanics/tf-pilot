@@ -45,3 +45,15 @@ variable "host_group_id" {
   type        = any
   default     = null
 }
+
+variable "disk_name" {
+  description = "Top-level nested block 'disk_name' payload for type 'dynatrace_disk_anomalies'."
+  type        = any
+  default     = null
+}
+
+variable "tags" {
+  description = "Top-level nested block 'tags' payload for type 'dynatrace_disk_anomalies'."
+  type        = any
+  default     = null
+}

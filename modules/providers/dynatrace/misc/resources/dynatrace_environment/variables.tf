@@ -31,3 +31,15 @@ variable "trial" {
   type        = any
   default     = null
 }
+
+variable "quotas" {
+  description = "Top-level nested block 'quotas' payload for type 'dynatrace_environment'."
+  type        = any
+  default     = null
+}
+
+variable "storage" {
+  description = "Top-level nested block 'storage' payload for type 'dynatrace_environment'."
+  type        = any
+  default     = null
+}

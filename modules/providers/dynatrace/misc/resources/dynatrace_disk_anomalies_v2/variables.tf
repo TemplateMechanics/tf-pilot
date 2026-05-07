@@ -14,3 +14,9 @@ variable "scope" {
   description = "Required attribute 'scope' for type 'dynatrace_disk_anomalies_v2'."
   type        = any
 }
+
+variable "disk" {
+  description = "Top-level nested block 'disk' payload for type 'dynatrace_disk_anomalies_v2'."
+  type        = any
+  default     = null
+}

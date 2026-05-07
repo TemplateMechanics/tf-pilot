@@ -26,3 +26,9 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "ruleset" {
+  description = "Top-level nested block 'ruleset' payload for type 'dynatrace_failure_detection_rule_sets'."
+  type        = any
+  default     = null
+}

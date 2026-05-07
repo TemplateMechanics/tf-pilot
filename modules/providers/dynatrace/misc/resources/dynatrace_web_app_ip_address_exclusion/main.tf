@@ -8,4 +8,8 @@ resource "dynatrace_web_app_ip_address_exclusion" "this" {
   count                        = var.enabled ? 1 : 0
   application_id               = var.application_id
   ip_address_exclusion_include = var.ip_address_exclusion_include
+  dynamic "ip_exclusion_list" {
+    for_each = var.ip_exclusion_list == null ? [] : (can(tolist(var.ip_exclusion_list)) ? tolist(var.ip_exclusion_list) : [var.ip_exclusion_list])
+    content {}
+  }
 }

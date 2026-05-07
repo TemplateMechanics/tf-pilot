@@ -10,4 +10,12 @@ resource "dynatrace_business_events_oneagent_outgoing" "this" {
   rule_name    = var.rule_name
   insert_after = var.insert_after
   scope        = var.scope
+  dynamic "event" {
+    for_each = var.event == null ? [] : (can(tolist(var.event)) ? tolist(var.event) : [var.event])
+    content {}
+  }
+  dynamic "triggers" {
+    for_each = var.triggers == null ? [] : (can(tolist(var.triggers)) ? tolist(var.triggers) : [var.triggers])
+    content {}
+  }
 }

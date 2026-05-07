@@ -20,3 +20,21 @@ variable "legacy_id" {
   type        = any
   default     = null
 }
+
+variable "filters" {
+  description = "Top-level nested block 'filters' payload for type 'dynatrace_maintenance'."
+  type        = any
+  default     = null
+}
+
+variable "general_properties" {
+  description = "Top-level nested block 'general_properties' payload for type 'dynatrace_maintenance'."
+  type        = any
+  default     = null
+}
+
+variable "schedule" {
+  description = "Top-level nested block 'schedule' payload for type 'dynatrace_maintenance'."
+  type        = any
+  default     = null
+}

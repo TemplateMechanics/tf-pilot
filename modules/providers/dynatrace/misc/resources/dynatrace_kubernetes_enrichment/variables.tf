@@ -15,3 +15,9 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'dynatrace_kubernetes_enrichment'."
+  type        = any
+  default     = null
+}

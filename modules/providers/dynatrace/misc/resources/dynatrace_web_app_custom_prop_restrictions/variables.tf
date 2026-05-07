@@ -14,3 +14,15 @@ variable "application_id" {
   description = "Required attribute 'application_id' for type 'dynatrace_web_app_custom_prop_restrictions'."
   type        = any
 }
+
+variable "custom_event_properties_allow_list" {
+  description = "Top-level nested block 'custom_event_properties_allow_list' payload for type 'dynatrace_web_app_custom_prop_restrictions'."
+  type        = any
+  default     = null
+}
+
+variable "custom_session_properties_allow_list" {
+  description = "Top-level nested block 'custom_session_properties_allow_list' payload for type 'dynatrace_web_app_custom_prop_restrictions'."
+  type        = any
+  default     = null
+}

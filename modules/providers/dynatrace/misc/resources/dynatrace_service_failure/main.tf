@@ -8,4 +8,8 @@ resource "dynatrace_service_failure" "this" {
   count      = var.enabled ? 1 : 0
   enabled    = var.resource_enabled
   service_id = var.service_id
+  dynamic "exception_rules" {
+    for_each = var.exception_rules == null ? [] : (can(tolist(var.exception_rules)) ? tolist(var.exception_rules) : [var.exception_rules])
+    content {}
+  }
 }

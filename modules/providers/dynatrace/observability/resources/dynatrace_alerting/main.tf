@@ -9,4 +9,12 @@ resource "dynatrace_alerting" "this" {
   name            = var.name
   legacy_id       = var.legacy_id
   management_zone = var.management_zone
+  dynamic "filters" {
+    for_each = var.filters == null ? [] : (can(tolist(var.filters)) ? tolist(var.filters) : [var.filters])
+    content {}
+  }
+  dynamic "rules" {
+    for_each = var.rules == null ? [] : (can(tolist(var.rules)) ? tolist(var.rules) : [var.rules])
+    content {}
+  }
 }

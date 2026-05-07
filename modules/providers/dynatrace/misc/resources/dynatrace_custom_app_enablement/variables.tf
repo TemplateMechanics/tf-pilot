@@ -15,3 +15,9 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "rum" {
+  description = "Top-level nested block 'rum' payload for type 'dynatrace_custom_app_enablement'."
+  type        = any
+  default     = null
+}

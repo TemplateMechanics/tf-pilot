@@ -31,3 +31,9 @@ variable "persistent_cookie_for_user_tracking" {
   type        = any
   default     = null
 }
+
+variable "session_replay_data_privacy" {
+  description = "Top-level nested block 'session_replay_data_privacy' payload for type 'dynatrace_application_data_privacy'."
+  type        = any
+  default     = null
+}

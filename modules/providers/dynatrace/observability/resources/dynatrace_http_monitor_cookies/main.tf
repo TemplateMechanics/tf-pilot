@@ -8,4 +8,8 @@ resource "dynatrace_http_monitor_cookies" "this" {
   count   = var.enabled ? 1 : 0
   enabled = var.resource_enabled
   scope   = var.scope
+  dynamic "cookies" {
+    for_each = var.cookies == null ? [] : (can(tolist(var.cookies)) ? tolist(var.cookies) : [var.cookies])
+    content {}
+  }
 }

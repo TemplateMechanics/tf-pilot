@@ -43,3 +43,21 @@ variable "no_script" {
   type        = any
   default     = null
 }
+
+variable "anomaly_detection" {
+  description = "Top-level nested block 'anomaly_detection' payload for type 'dynatrace_http_monitor'."
+  type        = any
+  default     = null
+}
+
+variable "script" {
+  description = "Top-level nested block 'script' payload for type 'dynatrace_http_monitor'."
+  type        = any
+  default     = null
+}
+
+variable "tags" {
+  description = "Top-level nested block 'tags' payload for type 'dynatrace_http_monitor'."
+  type        = any
+  default     = null
+}

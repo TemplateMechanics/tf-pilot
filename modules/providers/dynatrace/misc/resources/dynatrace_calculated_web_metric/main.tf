@@ -11,4 +11,16 @@ resource "dynatrace_calculated_web_metric" "this" {
   metric_key     = var.metric_key
   name           = var.name
   description    = var.description
+  dynamic "dimensions" {
+    for_each = var.dimensions == null ? [] : (can(tolist(var.dimensions)) ? tolist(var.dimensions) : [var.dimensions])
+    content {}
+  }
+  dynamic "metric_definition" {
+    for_each = var.metric_definition == null ? [] : (can(tolist(var.metric_definition)) ? tolist(var.metric_definition) : [var.metric_definition])
+    content {}
+  }
+  dynamic "user_action_filter" {
+    for_each = var.user_action_filter == null ? [] : (can(tolist(var.user_action_filter)) ? tolist(var.user_action_filter) : [var.user_action_filter])
+    content {}
+  }
 }

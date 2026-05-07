@@ -31,3 +31,15 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "event" {
+  description = "Top-level nested block 'event' payload for type 'dynatrace_business_events_oneagent'."
+  type        = any
+  default     = null
+}
+
+variable "triggers" {
+  description = "Top-level nested block 'triggers' payload for type 'dynatrace_business_events_oneagent'."
+  type        = any
+  default     = null
+}

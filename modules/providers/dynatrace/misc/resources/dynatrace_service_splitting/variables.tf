@@ -26,3 +26,9 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "rule" {
+  description = "Top-level nested block 'rule' payload for type 'dynatrace_service_splitting'."
+  type        = any
+  default     = null
+}

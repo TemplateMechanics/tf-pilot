@@ -25,3 +25,15 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "includes" {
+  description = "Top-level nested block 'includes' payload for type 'dynatrace_segment'."
+  type        = any
+  default     = null
+}
+
+variable "variables" {
+  description = "Top-level nested block 'variables' payload for type 'dynatrace_segment'."
+  type        = any
+  default     = null
+}

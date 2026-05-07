@@ -11,4 +11,8 @@ resource "dynatrace_rum_provider_breakdown" "this" {
   resource_type             = var.resource_type
   icon_url                  = var.icon_url
   insert_after              = var.insert_after
+  dynamic "domain_name_pattern_list" {
+    for_each = var.domain_name_pattern_list == null ? [] : (can(tolist(var.domain_name_pattern_list)) ? tolist(var.domain_name_pattern_list) : [var.domain_name_pattern_list])
+    content {}
+  }
 }

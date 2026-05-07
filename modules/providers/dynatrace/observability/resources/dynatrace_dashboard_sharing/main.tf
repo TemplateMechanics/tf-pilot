@@ -9,4 +9,12 @@ resource "dynatrace_dashboard_sharing" "this" {
   dashboard_id = var.dashboard_id
   enabled      = var.resource_enabled
   preset       = var.preset
+  dynamic "permissions" {
+    for_each = var.permissions == null ? [] : (can(tolist(var.permissions)) ? tolist(var.permissions) : [var.permissions])
+    content {}
+  }
+  dynamic "public" {
+    for_each = var.public == null ? [] : (can(tolist(var.public)) ? tolist(var.public) : [var.public])
+    content {}
+  }
 }

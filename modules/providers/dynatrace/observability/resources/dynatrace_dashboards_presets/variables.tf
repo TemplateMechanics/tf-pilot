@@ -14,3 +14,9 @@ variable "enable_dashboard_presets" {
   description = "Required attribute 'enable_dashboard_presets' for type 'dynatrace_dashboards_presets'."
   type        = any
 }
+
+variable "dashboard_presets_list" {
+  description = "Top-level nested block 'dashboard_presets_list' payload for type 'dynatrace_dashboards_presets'."
+  type        = any
+  default     = null
+}

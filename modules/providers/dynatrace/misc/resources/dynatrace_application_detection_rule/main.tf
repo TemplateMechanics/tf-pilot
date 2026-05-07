@@ -9,4 +9,8 @@ resource "dynatrace_application_detection_rule" "this" {
   application_identifier = var.application_identifier
   name                   = var.name
   order                  = var.order
+  dynamic "filter_config" {
+    for_each = var.filter_config == null ? [] : (can(tolist(var.filter_config)) ? tolist(var.filter_config) : [var.filter_config])
+    content {}
+  }
 }

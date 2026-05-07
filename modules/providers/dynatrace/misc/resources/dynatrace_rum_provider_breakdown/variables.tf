@@ -36,3 +36,9 @@ variable "insert_after" {
   type        = any
   default     = null
 }
+
+variable "domain_name_pattern_list" {
+  description = "Top-level nested block 'domain_name_pattern_list' payload for type 'dynatrace_rum_provider_breakdown'."
+  type        = any
+  default     = null
+}

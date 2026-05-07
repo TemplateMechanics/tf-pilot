@@ -20,3 +20,21 @@ variable "insert_after" {
   type        = any
   default     = null
 }
+
+variable "group_extraction" {
+  description = "Top-level nested block 'group_extraction' payload for type 'dynatrace_process_group_detection'."
+  type        = any
+  default     = null
+}
+
+variable "instance_extraction" {
+  description = "Top-level nested block 'instance_extraction' payload for type 'dynatrace_process_group_detection'."
+  type        = any
+  default     = null
+}
+
+variable "process_detection" {
+  description = "Top-level nested block 'process_detection' payload for type 'dynatrace_process_group_detection'."
+  type        = any
+  default     = null
+}

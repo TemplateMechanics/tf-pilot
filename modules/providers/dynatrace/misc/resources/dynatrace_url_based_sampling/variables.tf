@@ -60,3 +60,9 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "query_parameters" {
+  description = "Top-level nested block 'query_parameters' payload for type 'dynatrace_url_based_sampling'."
+  type        = any
+  default     = null
+}

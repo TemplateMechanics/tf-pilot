@@ -20,3 +20,21 @@ variable "clusters" {
   type        = any
   default     = null
 }
+
+variable "alias_queues" {
+  description = "Top-level nested block 'alias_queues' payload for type 'dynatrace_queue_manager'."
+  type        = any
+  default     = null
+}
+
+variable "cluster_queues" {
+  description = "Top-level nested block 'cluster_queues' payload for type 'dynatrace_queue_manager'."
+  type        = any
+  default     = null
+}
+
+variable "remote_queues" {
+  description = "Top-level nested block 'remote_queues' payload for type 'dynatrace_queue_manager'."
+  type        = any
+  default     = null
+}

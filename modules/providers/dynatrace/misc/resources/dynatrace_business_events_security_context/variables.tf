@@ -15,3 +15,9 @@ variable "insert_after" {
   type        = any
   default     = null
 }
+
+variable "security_context_rule" {
+  description = "Top-level nested block 'security_context_rule' payload for type 'dynatrace_business_events_security_context'."
+  type        = any
+  default     = null
+}

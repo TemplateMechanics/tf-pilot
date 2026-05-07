@@ -10,4 +10,8 @@ resource "dynatrace_processgroup_naming" "this" {
   format   = var.format
   name     = var.name
   unknowns = var.unknowns
+  dynamic "conditions" {
+    for_each = var.conditions == null ? [] : (can(tolist(var.conditions)) ? tolist(var.conditions) : [var.conditions])
+    content {}
+  }
 }

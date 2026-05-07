@@ -32,3 +32,15 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "objectives" {
+  description = "Top-level nested block 'objectives' payload for type 'dynatrace_site_reliability_guardian'."
+  type        = any
+  default     = null
+}
+
+variable "variables" {
+  description = "Top-level nested block 'variables' payload for type 'dynatrace_site_reliability_guardian'."
+  type        = any
+  default     = null
+}

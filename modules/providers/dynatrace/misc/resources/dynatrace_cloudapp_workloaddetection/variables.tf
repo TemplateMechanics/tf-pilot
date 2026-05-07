@@ -9,3 +9,27 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "cloud_foundry" {
+  description = "Top-level nested block 'cloud_foundry' payload for type 'dynatrace_cloudapp_workloaddetection'."
+  type        = any
+  default     = null
+}
+
+variable "docker" {
+  description = "Top-level nested block 'docker' payload for type 'dynatrace_cloudapp_workloaddetection'."
+  type        = any
+  default     = null
+}
+
+variable "kubernetes" {
+  description = "Top-level nested block 'kubernetes' payload for type 'dynatrace_cloudapp_workloaddetection'."
+  type        = any
+  default     = null
+}
+
+variable "serverless" {
+  description = "Top-level nested block 'serverless' payload for type 'dynatrace_cloudapp_workloaddetection'."
+  type        = any
+  default     = null
+}

@@ -29,3 +29,21 @@ variable "override_slow_writes_and_reads_detection" {
   description = "Required attribute 'override_slow_writes_and_reads_detection' for type 'dynatrace_disk_specific_anomalies_v2'."
   type        = any
 }
+
+variable "disk_low_inodes_detection" {
+  description = "Top-level nested block 'disk_low_inodes_detection' payload for type 'dynatrace_disk_specific_anomalies_v2'."
+  type        = any
+  default     = null
+}
+
+variable "disk_low_space_detection" {
+  description = "Top-level nested block 'disk_low_space_detection' payload for type 'dynatrace_disk_specific_anomalies_v2'."
+  type        = any
+  default     = null
+}
+
+variable "disk_slow_writes_and_reads_detection" {
+  description = "Top-level nested block 'disk_slow_writes_and_reads_detection' payload for type 'dynatrace_disk_specific_anomalies_v2'."
+  type        = any
+  default     = null
+}

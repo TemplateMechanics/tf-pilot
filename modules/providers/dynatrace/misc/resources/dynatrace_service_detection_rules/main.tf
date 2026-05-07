@@ -9,4 +9,8 @@ resource "dynatrace_service_detection_rules" "this" {
   enabled      = var.resource_enabled
   insert_after = var.insert_after
   scope        = var.scope
+  dynamic "rule" {
+    for_each = var.rule == null ? [] : (can(tolist(var.rule)) ? tolist(var.rule) : [var.rule])
+    content {}
+  }
 }

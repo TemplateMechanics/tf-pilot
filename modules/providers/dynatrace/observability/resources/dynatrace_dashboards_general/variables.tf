@@ -14,3 +14,9 @@ variable "enable_public_sharing" {
   description = "Required attribute 'enable_public_sharing' for type 'dynatrace_dashboards_general'."
   type        = any
 }
+
+variable "default_dashboard_list" {
+  description = "Top-level nested block 'default_dashboard_list' payload for type 'dynatrace_dashboards_general'."
+  type        = any
+  default     = null
+}

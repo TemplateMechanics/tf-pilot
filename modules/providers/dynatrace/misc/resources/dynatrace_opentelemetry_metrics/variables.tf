@@ -39,3 +39,15 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "additional_attributes" {
+  description = "Top-level nested block 'additional_attributes' payload for type 'dynatrace_opentelemetry_metrics'."
+  type        = any
+  default     = null
+}
+
+variable "to_drop_attributes" {
+  description = "Top-level nested block 'to_drop_attributes' payload for type 'dynatrace_opentelemetry_metrics'."
+  type        = any
+  default     = null
+}

@@ -26,3 +26,9 @@ variable "federated_attribute_values" {
   type        = any
   default     = null
 }
+
+variable "permissions" {
+  description = "Top-level nested block 'permissions' payload for type 'dynatrace_iam_group'."
+  type        = any
+  default     = null
+}

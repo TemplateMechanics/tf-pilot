@@ -9,3 +9,9 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "group_launchpads" {
+  description = "Top-level nested block 'group_launchpads' payload for type 'dynatrace_default_launchpad'."
+  type        = any
+  default     = null
+}

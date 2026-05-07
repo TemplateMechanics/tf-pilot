@@ -11,4 +11,8 @@ resource "dynatrace_generic_types" "this" {
   enabled      = var.resource_enabled
   name         = var.name
   insert_after = var.insert_after
+  dynamic "rules" {
+    for_each = var.rules == null ? [] : (can(tolist(var.rules)) ? tolist(var.rules) : [var.rules])
+    content {}
+  }
 }

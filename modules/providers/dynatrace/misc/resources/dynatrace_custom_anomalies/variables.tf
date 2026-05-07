@@ -72,3 +72,21 @@ variable "warning_reason" {
   type        = any
   default     = null
 }
+
+variable "dimensions" {
+  description = "Top-level nested block 'dimensions' payload for type 'dynatrace_custom_anomalies'."
+  type        = any
+  default     = null
+}
+
+variable "scopes" {
+  description = "Top-level nested block 'scopes' payload for type 'dynatrace_custom_anomalies'."
+  type        = any
+  default     = null
+}
+
+variable "strategy" {
+  description = "Top-level nested block 'strategy' payload for type 'dynatrace_custom_anomalies'."
+  type        = any
+  default     = null
+}

@@ -29,3 +29,21 @@ variable "title" {
   description = "Required attribute 'title' for type 'dynatrace_davis_anomaly_detectors'."
   type        = any
 }
+
+variable "analyzer" {
+  description = "Top-level nested block 'analyzer' payload for type 'dynatrace_davis_anomaly_detectors'."
+  type        = any
+  default     = null
+}
+
+variable "event_template" {
+  description = "Top-level nested block 'event_template' payload for type 'dynatrace_davis_anomaly_detectors'."
+  type        = any
+  default     = null
+}
+
+variable "execution_settings" {
+  description = "Top-level nested block 'execution_settings' payload for type 'dynatrace_davis_anomaly_detectors'."
+  type        = any
+  default     = null
+}

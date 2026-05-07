@@ -13,4 +13,12 @@ resource "dynatrace_disk_anomaly_rules" "this" {
   tag_filters            = var.tag_filters
   threshold_milliseconds = var.threshold_milliseconds
   threshold_percent      = var.threshold_percent
+  dynamic "disk_name_filter" {
+    for_each = var.disk_name_filter == null ? [] : (can(tolist(var.disk_name_filter)) ? tolist(var.disk_name_filter) : [var.disk_name_filter])
+    content {}
+  }
+  dynamic "sample_limit" {
+    for_each = var.sample_limit == null ? [] : (can(tolist(var.sample_limit)) ? tolist(var.sample_limit) : [var.sample_limit])
+    content {}
+  }
 }

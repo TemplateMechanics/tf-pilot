@@ -10,4 +10,12 @@ resource "dynatrace_request_naming" "this" {
   enabled          = var.resource_enabled
   management_zones = var.management_zones
   unknowns         = var.unknowns
+  dynamic "conditions" {
+    for_each = var.conditions == null ? [] : (can(tolist(var.conditions)) ? tolist(var.conditions) : [var.conditions])
+    content {}
+  }
+  dynamic "placeholders" {
+    for_each = var.placeholders == null ? [] : (can(tolist(var.placeholders)) ? tolist(var.placeholders) : [var.placeholders])
+    content {}
+  }
 }

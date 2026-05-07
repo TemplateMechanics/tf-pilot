@@ -12,4 +12,12 @@ resource "dynatrace_process_availability" "this" {
   minimum_processes = var.minimum_processes
   operating_system  = var.operating_system
   scope             = var.scope
+  dynamic "metadata" {
+    for_each = var.metadata == null ? [] : (can(tolist(var.metadata)) ? tolist(var.metadata) : [var.metadata])
+    content {}
+  }
+  dynamic "rules" {
+    for_each = var.rules == null ? [] : (can(tolist(var.rules)) ? tolist(var.rules) : [var.rules])
+    content {}
+  }
 }

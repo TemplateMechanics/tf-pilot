@@ -10,4 +10,8 @@ resource "dynatrace_application_data_privacy" "this" {
   web_application_id                  = var.web_application_id
   data_capture_opt_in                 = var.data_capture_opt_in
   persistent_cookie_for_user_tracking = var.persistent_cookie_for_user_tracking
+  dynamic "session_replay_data_privacy" {
+    for_each = var.session_replay_data_privacy == null ? [] : (can(tolist(var.session_replay_data_privacy)) ? tolist(var.session_replay_data_privacy) : [var.session_replay_data_privacy])
+    content {}
+  }
 }

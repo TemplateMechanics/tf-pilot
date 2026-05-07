@@ -26,3 +26,27 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "fixed_offset" {
+  description = "Top-level nested block 'fixed_offset' payload for type 'dynatrace_automation_scheduling_rule'."
+  type        = any
+  default     = null
+}
+
+variable "grouping" {
+  description = "Top-level nested block 'grouping' payload for type 'dynatrace_automation_scheduling_rule'."
+  type        = any
+  default     = null
+}
+
+variable "recurrence" {
+  description = "Top-level nested block 'recurrence' payload for type 'dynatrace_automation_scheduling_rule'."
+  type        = any
+  default     = null
+}
+
+variable "relative_offset" {
+  description = "Top-level nested block 'relative_offset' payload for type 'dynatrace_automation_scheduling_rule'."
+  type        = any
+  default     = null
+}

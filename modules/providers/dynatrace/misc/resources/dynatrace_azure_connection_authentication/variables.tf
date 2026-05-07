@@ -24,3 +24,9 @@ variable "directory_id" {
   description = "Required attribute 'directory_id' for type 'dynatrace_azure_connection_authentication'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'dynatrace_azure_connection_authentication'."
+  type        = any
+  default     = null
+}

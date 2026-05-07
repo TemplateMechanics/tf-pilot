@@ -48,3 +48,15 @@ variable "threshold_percent" {
   type        = any
   default     = null
 }
+
+variable "disk_name_filter" {
+  description = "Top-level nested block 'disk_name_filter' payload for type 'dynatrace_disk_anomaly_rules'."
+  type        = any
+  default     = null
+}
+
+variable "sample_limit" {
+  description = "Top-level nested block 'sample_limit' payload for type 'dynatrace_disk_anomaly_rules'."
+  type        = any
+  default     = null
+}

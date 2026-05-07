@@ -7,4 +7,8 @@
 resource "dynatrace_kubernetes_enrichment" "this" {
   count = var.enabled ? 1 : 0
   scope = var.scope
+  dynamic "rules" {
+    for_each = var.rules == null ? [] : (can(tolist(var.rules)) ? tolist(var.rules) : [var.rules])
+    content {}
+  }
 }

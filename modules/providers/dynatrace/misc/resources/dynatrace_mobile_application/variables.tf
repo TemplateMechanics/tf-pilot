@@ -73,3 +73,15 @@ variable "user_session_percentage" {
   type        = any
   default     = null
 }
+
+variable "apdex" {
+  description = "Top-level nested block 'apdex' payload for type 'dynatrace_mobile_application'."
+  type        = any
+  default     = null
+}
+
+variable "properties" {
+  description = "Top-level nested block 'properties' payload for type 'dynatrace_mobile_application'."
+  type        = any
+  default     = null
+}

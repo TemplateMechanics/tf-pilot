@@ -13,4 +13,12 @@ resource "dynatrace_metric_metadata" "this" {
   source_entity_type  = var.source_entity_type
   tags                = var.tags
   unit_display_format = var.unit_display_format
+  dynamic "dimensions" {
+    for_each = var.dimensions == null ? [] : (can(tolist(var.dimensions)) ? tolist(var.dimensions) : [var.dimensions])
+    content {}
+  }
+  dynamic "metric_properties" {
+    for_each = var.metric_properties == null ? [] : (can(tolist(var.metric_properties)) ? tolist(var.metric_properties) : [var.metric_properties])
+    content {}
+  }
 }

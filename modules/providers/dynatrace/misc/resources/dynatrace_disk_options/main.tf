@@ -10,4 +10,8 @@ resource "dynatrace_disk_options" "this" {
   monitor_tmpfs               = var.monitor_tmpfs
   nfs_show_all                = var.nfs_show_all
   scope                       = var.scope
+  dynamic "exclusions" {
+    for_each = var.exclusions == null ? [] : (can(tolist(var.exclusions)) ? tolist(var.exclusions) : [var.exclusions])
+    content {}
+  }
 }

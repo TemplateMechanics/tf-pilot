@@ -631,6 +631,78 @@ terraform {
     $mainContent | Should -Match 'count\s*=\s*var.enabled \? 1 : 0'
     $mainContent | Should -Match 'enabled = var.resource_enabled'
   }
+
+  It 'emits dynamic nested blocks from catalog reflection' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogDir = Join-Path $TestDrive 'catalogs'
+    $modulesRoot = Join-Path $TestDrive 'modules'
+    $providerWorkspace = Join-Path $TestDrive 'demo'
+
+    @'
+{
+  "providers": {
+    "demo": {
+      "enabled": true,
+      "workspace": "demo",
+      "modules": {
+        "core": {
+          "enabled": true,
+          "resourceTypePrefixes": ["demo_nested"],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    New-Item -ItemType Directory -Path $providerWorkspace -Force | Out-Null
+    @'
+terraform {
+  required_version = ">= 1.10.0, < 2.0.0"
+
+  required_providers {
+    demo = {
+      source  = "example/demo"
+      version = "~> 1.2"
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $providerWorkspace 'versions.tf') -Encoding utf8
+
+    New-Item -ItemType Directory -Path $catalogDir -Force | Out-Null
+    @'
+{
+  "provider": "demo",
+  "resources": [
+    {
+      "type": "demo_nested",
+      "options": {
+        "requiredAttributes": ["name"],
+        "optionalAttributes": [],
+        "nestedBlocks": [
+          { "name": "script", "nesting": "list", "min": 0, "max": 1 }
+        ]
+      }
+    }
+  ],
+  "dataSources": []
+}
+'@ | Set-Content -Path (Join-Path $catalogDir 'demo-catalog.json') -Encoding utf8
+
+    & "$script:scriptsDir/Sync-ProviderResourceCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot
+    $LASTEXITCODE | Should -Be 0
+
+    $variablesPath = Join-Path $modulesRoot 'demo/core/resources/demo_nested/variables.tf'
+    $mainPath = Join-Path $modulesRoot 'demo/core/resources/demo_nested/main.tf'
+
+    $variablesContent = Get-Content -Path $variablesPath -Raw
+    $mainContent = Get-Content -Path $mainPath -Raw
+
+    $variablesContent | Should -Match 'variable "script" \{'
+    $mainContent | Should -Match 'dynamic "script" \{'
+    $mainContent | Should -Match 'for_each\s*=\s*var.script == null \? \[\] : \(can\(tolist\(var.script\)\) \? tolist\(var.script\) : \[var.script\]\)'
+  }
 }
 
 Describe 'Sync-McpServerEnablement.ps1' {

@@ -25,3 +25,15 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "context" {
+  description = "Top-level nested block 'context' payload for type 'dynatrace_log_custom_source'."
+  type        = any
+  default     = null
+}
+
+variable "custom_log_source" {
+  description = "Top-level nested block 'custom_log_source' payload for type 'dynatrace_log_custom_source'."
+  type        = any
+  default     = null
+}

@@ -25,3 +25,9 @@ variable "insert_after" {
   type        = any
   default     = null
 }
+
+variable "matches" {
+  description = "Top-level nested block 'matches' payload for type 'dynatrace_span_context_propagation'."
+  type        = any
+  default     = null
+}

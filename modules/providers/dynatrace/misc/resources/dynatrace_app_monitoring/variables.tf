@@ -20,3 +20,9 @@ variable "default_trace_level" {
   type        = any
   default     = null
 }
+
+variable "app_monitoring" {
+  description = "Top-level nested block 'app_monitoring' payload for type 'dynatrace_app_monitoring'."
+  type        = any
+  default     = null
+}

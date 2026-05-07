@@ -25,3 +25,9 @@ variable "insert_after" {
   type        = any
   default     = null
 }
+
+variable "matches" {
+  description = "Top-level nested block 'matches' payload for type 'dynatrace_span_capture_rule'."
+  type        = any
+  default     = null
+}

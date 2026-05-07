@@ -10,4 +10,8 @@ resource "dynatrace_process_monitoring_rule" "this" {
   mode          = var.mode
   host_group_id = var.host_group_id
   insert_after  = var.insert_after
+  dynamic "condition" {
+    for_each = var.condition == null ? [] : (can(tolist(var.condition)) ? tolist(var.condition) : [var.condition])
+    content {}
+  }
 }

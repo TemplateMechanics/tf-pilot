@@ -19,3 +19,15 @@ variable "service_id" {
   description = "Required attribute 'service_id' for type 'dynatrace_service_http_failure'."
   type        = any
 }
+
+variable "broken_links" {
+  description = "Top-level nested block 'broken_links' payload for type 'dynatrace_service_http_failure'."
+  type        = any
+  default     = null
+}
+
+variable "http_response_codes" {
+  description = "Top-level nested block 'http_response_codes' payload for type 'dynatrace_service_http_failure'."
+  type        = any
+  default     = null
+}

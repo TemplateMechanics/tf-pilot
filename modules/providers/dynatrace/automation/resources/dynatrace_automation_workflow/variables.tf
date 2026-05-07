@@ -80,3 +80,15 @@ variable "type" {
   type        = any
   default     = null
 }
+
+variable "tasks" {
+  description = "Top-level nested block 'tasks' payload for type 'dynatrace_automation_workflow'."
+  type        = any
+  default     = null
+}
+
+variable "trigger" {
+  description = "Top-level nested block 'trigger' payload for type 'dynatrace_automation_workflow'."
+  type        = any
+  default     = null
+}

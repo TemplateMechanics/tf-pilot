@@ -26,3 +26,21 @@ variable "unknowns" {
   type        = any
   default     = null
 }
+
+variable "event_type_filters" {
+  description = "Top-level nested block 'event_type_filters' payload for type 'dynatrace_alerting_profile'."
+  type        = any
+  default     = null
+}
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'dynatrace_alerting_profile'."
+  type        = any
+  default     = null
+}
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'dynatrace_alerting_profile'."
+  type        = any
+  default     = null
+}

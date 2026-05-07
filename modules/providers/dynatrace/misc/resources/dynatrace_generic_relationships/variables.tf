@@ -46,3 +46,9 @@ variable "to_role" {
   type        = any
   default     = null
 }
+
+variable "sources" {
+  description = "Top-level nested block 'sources' payload for type 'dynatrace_generic_relationships'."
+  type        = any
+  default     = null
+}

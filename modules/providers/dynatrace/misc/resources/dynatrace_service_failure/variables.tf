@@ -19,3 +19,9 @@ variable "service_id" {
   description = "Required attribute 'service_id' for type 'dynatrace_service_failure'."
   type        = any
 }
+
+variable "exception_rules" {
+  description = "Top-level nested block 'exception_rules' payload for type 'dynatrace_service_failure'."
+  type        = any
+  default     = null
+}

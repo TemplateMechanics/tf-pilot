@@ -31,3 +31,15 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "masking" {
+  description = "Top-level nested block 'masking' payload for type 'dynatrace_log_sensitive_data_masking'."
+  type        = any
+  default     = null
+}
+
+variable "matchers" {
+  description = "Top-level nested block 'matchers' payload for type 'dynatrace_log_sensitive_data_masking'."
+  type        = any
+  default     = null
+}

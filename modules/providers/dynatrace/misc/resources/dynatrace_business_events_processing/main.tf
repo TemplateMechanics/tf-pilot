@@ -11,4 +11,12 @@ resource "dynatrace_business_events_processing" "this" {
   rule_name    = var.rule_name
   script       = var.script
   insert_after = var.insert_after
+  dynamic "rule_testing" {
+    for_each = var.rule_testing == null ? [] : (can(tolist(var.rule_testing)) ? tolist(var.rule_testing) : [var.rule_testing])
+    content {}
+  }
+  dynamic "transformation_fields" {
+    for_each = var.transformation_fields == null ? [] : (can(tolist(var.transformation_fields)) ? tolist(var.transformation_fields) : [var.transformation_fields])
+    content {}
+  }
 }

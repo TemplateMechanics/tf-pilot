@@ -108,3 +108,9 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "event_patterns" {
+  description = "Top-level nested block 'event_patterns' payload for type 'dynatrace_kubernetes'."
+  type        = any
+  default     = null
+}

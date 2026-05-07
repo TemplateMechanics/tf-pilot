@@ -9,4 +9,8 @@ resource "dynatrace_custom_tags" "this" {
   entity_selector  = var.entity_selector
   current_state    = var.current_state
   matched_entities = var.matched_entities
+  dynamic "tags" {
+    for_each = var.tags == null ? [] : (can(tolist(var.tags)) ? tolist(var.tags) : [var.tags])
+    content {}
+  }
 }

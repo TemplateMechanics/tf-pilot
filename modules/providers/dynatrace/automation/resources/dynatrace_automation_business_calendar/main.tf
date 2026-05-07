@@ -12,4 +12,8 @@ resource "dynatrace_automation_business_calendar" "this" {
   valid_to    = var.valid_to
   week_days   = var.week_days
   week_start  = var.week_start
+  dynamic "holidays" {
+    for_each = var.holidays == null ? [] : (can(tolist(var.holidays)) ? tolist(var.holidays) : [var.holidays])
+    content {}
+  }
 }

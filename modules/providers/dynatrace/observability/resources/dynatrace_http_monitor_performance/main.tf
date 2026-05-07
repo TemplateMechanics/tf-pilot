@@ -8,4 +8,8 @@ resource "dynatrace_http_monitor_performance" "this" {
   count   = var.enabled ? 1 : 0
   enabled = var.resource_enabled
   scope   = var.scope
+  dynamic "thresholds" {
+    for_each = var.thresholds == null ? [] : (can(tolist(var.thresholds)) ? tolist(var.thresholds) : [var.thresholds])
+    content {}
+  }
 }

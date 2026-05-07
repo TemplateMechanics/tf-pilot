@@ -19,3 +19,9 @@ variable "scope" {
   description = "Required attribute 'scope' for type 'dynatrace_browser_monitor_performance'."
   type        = any
 }
+
+variable "thresholds" {
+  description = "Top-level nested block 'thresholds' payload for type 'dynatrace_browser_monitor_performance'."
+  type        = any
+  default     = null
+}

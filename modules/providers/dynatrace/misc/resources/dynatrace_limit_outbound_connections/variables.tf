@@ -9,3 +9,9 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "allowed_outbound_connections" {
+  description = "Top-level nested block 'allowed_outbound_connections' payload for type 'dynatrace_limit_outbound_connections'."
+  type        = any
+  default     = null
+}

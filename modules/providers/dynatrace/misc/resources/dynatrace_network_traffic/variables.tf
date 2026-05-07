@@ -14,3 +14,15 @@ variable "host_id" {
   description = "Required attribute 'host_id' for type 'dynatrace_network_traffic'."
   type        = any
 }
+
+variable "exclude_ip" {
+  description = "Top-level nested block 'exclude_ip' payload for type 'dynatrace_network_traffic'."
+  type        = any
+  default     = null
+}
+
+variable "exclude_nic" {
+  description = "Top-level nested block 'exclude_nic' payload for type 'dynatrace_network_traffic'."
+  type        = any
+  default     = null
+}

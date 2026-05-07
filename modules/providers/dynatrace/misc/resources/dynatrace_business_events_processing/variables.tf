@@ -35,3 +35,15 @@ variable "insert_after" {
   type        = any
   default     = null
 }
+
+variable "rule_testing" {
+  description = "Top-level nested block 'rule_testing' payload for type 'dynatrace_business_events_processing'."
+  type        = any
+  default     = null
+}
+
+variable "transformation_fields" {
+  description = "Top-level nested block 'transformation_fields' payload for type 'dynatrace_business_events_processing'."
+  type        = any
+  default     = null
+}

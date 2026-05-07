@@ -17,4 +17,8 @@ resource "dynatrace_slo_v2" "this" {
   custom_description = var.custom_description
   legacy_id          = var.legacy_id
   metric_name        = var.metric_name
+  dynamic "error_budget_burn_rate" {
+    for_each = var.error_budget_burn_rate == null ? [] : (can(tolist(var.error_budget_burn_rate)) ? tolist(var.error_budget_burn_rate) : [var.error_budget_burn_rate])
+    content {}
+  }
 }

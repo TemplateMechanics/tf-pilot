@@ -30,3 +30,15 @@ variable "insert_after" {
   type        = any
   default     = null
 }
+
+variable "processor_definition" {
+  description = "Top-level nested block 'processor_definition' payload for type 'dynatrace_log_processing'."
+  type        = any
+  default     = null
+}
+
+variable "rule_testing" {
+  description = "Top-level nested block 'rule_testing' payload for type 'dynatrace_log_processing'."
+  type        = any
+  default     = null
+}

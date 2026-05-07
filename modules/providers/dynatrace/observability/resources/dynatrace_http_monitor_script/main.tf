@@ -7,4 +7,8 @@
 resource "dynatrace_http_monitor_script" "this" {
   count   = var.enabled ? 1 : 0
   http_id = var.http_id
+  dynamic "script" {
+    for_each = var.script == null ? [] : (can(tolist(var.script)) ? tolist(var.script) : [var.script])
+    content {}
+  }
 }

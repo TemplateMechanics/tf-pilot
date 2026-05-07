@@ -26,3 +26,9 @@ variable "environment" {
   type        = any
   default     = null
 }
+
+variable "policy" {
+  description = "Top-level nested block 'policy' payload for type 'dynatrace_iam_policy_bindings_v2'."
+  type        = any
+  default     = null
+}

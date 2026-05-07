@@ -46,3 +46,9 @@ variable "legacy_id" {
   type        = any
   default     = null
 }
+
+variable "headers" {
+  description = "Top-level nested block 'headers' payload for type 'dynatrace_xmatters_notification'."
+  type        = any
+  default     = null
+}

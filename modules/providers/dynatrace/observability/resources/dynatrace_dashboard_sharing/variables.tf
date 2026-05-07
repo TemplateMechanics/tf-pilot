@@ -26,3 +26,15 @@ variable "preset" {
   type        = any
   default     = null
 }
+
+variable "permissions" {
+  description = "Top-level nested block 'permissions' payload for type 'dynatrace_dashboard_sharing'."
+  type        = any
+  default     = null
+}
+
+variable "public" {
+  description = "Top-level nested block 'public' payload for type 'dynatrace_dashboard_sharing'."
+  type        = any
+  default     = null
+}

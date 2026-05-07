@@ -33,3 +33,15 @@ variable "web_application_id" {
   type        = any
   default     = null
 }
+
+variable "custom_errors" {
+  description = "Top-level nested block 'custom_errors' payload for type 'dynatrace_application_error_rules'."
+  type        = any
+  default     = null
+}
+
+variable "http_errors" {
+  description = "Top-level nested block 'http_errors' payload for type 'dynatrace_application_error_rules'."
+  type        = any
+  default     = null
+}

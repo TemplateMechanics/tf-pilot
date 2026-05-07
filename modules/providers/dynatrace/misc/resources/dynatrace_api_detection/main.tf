@@ -11,4 +11,8 @@ resource "dynatrace_api_detection" "this" {
   third_party_api = var.third_party_api
   insert_after    = var.insert_after
   technology      = var.technology
+  dynamic "conditions" {
+    for_each = var.conditions == null ? [] : (can(tolist(var.conditions)) ? tolist(var.conditions) : [var.conditions])
+    content {}
+  }
 }

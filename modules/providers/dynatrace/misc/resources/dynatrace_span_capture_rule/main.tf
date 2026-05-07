@@ -9,4 +9,8 @@ resource "dynatrace_span_capture_rule" "this" {
   action       = var.action
   name         = var.name
   insert_after = var.insert_after
+  dynamic "matches" {
+    for_each = var.matches == null ? [] : (can(tolist(var.matches)) ? tolist(var.matches) : [var.matches])
+    content {}
+  }
 }

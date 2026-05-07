@@ -16,4 +16,16 @@ resource "dynatrace_calculated_service_metric" "this" {
   management_zones      = var.management_zones
   unit_display_name     = var.unit_display_name
   unknowns              = var.unknowns
+  dynamic "conditions" {
+    for_each = var.conditions == null ? [] : (can(tolist(var.conditions)) ? tolist(var.conditions) : [var.conditions])
+    content {}
+  }
+  dynamic "dimension_definition" {
+    for_each = var.dimension_definition == null ? [] : (can(tolist(var.dimension_definition)) ? tolist(var.dimension_definition) : [var.dimension_definition])
+    content {}
+  }
+  dynamic "metric_definition" {
+    for_each = var.metric_definition == null ? [] : (can(tolist(var.metric_definition)) ? tolist(var.metric_definition) : [var.metric_definition])
+    content {}
+  }
 }

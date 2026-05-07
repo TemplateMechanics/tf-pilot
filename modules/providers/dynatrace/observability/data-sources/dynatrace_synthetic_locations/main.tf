@@ -7,4 +7,8 @@
 data "dynatrace_synthetic_locations" "this" {
   count = var.enabled ? 1 : 0
   name  = var.name
+  dynamic "locations" {
+    for_each = var.locations == null ? [] : (can(tolist(var.locations)) ? tolist(var.locations) : [var.locations])
+    content {}
+  }
 }

@@ -32,3 +32,15 @@ variable "unknowns" {
   type        = any
   default     = null
 }
+
+variable "conditions" {
+  description = "Top-level nested block 'conditions' payload for type 'dynatrace_request_naming'."
+  type        = any
+  default     = null
+}
+
+variable "placeholders" {
+  description = "Top-level nested block 'placeholders' payload for type 'dynatrace_request_naming'."
+  type        = any
+  default     = null
+}

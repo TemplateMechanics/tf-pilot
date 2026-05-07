@@ -19,3 +19,9 @@ variable "role_arn" {
   description = "Required attribute 'role_arn' for type 'dynatrace_aws_connection_role_arn'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'dynatrace_aws_connection_role_arn'."
+  type        = any
+  default     = null
+}

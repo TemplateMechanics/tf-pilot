@@ -36,3 +36,9 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "matchers" {
+  description = "Top-level nested block 'matchers' payload for type 'dynatrace_log_storage'."
+  type        = any
+  default     = null
+}

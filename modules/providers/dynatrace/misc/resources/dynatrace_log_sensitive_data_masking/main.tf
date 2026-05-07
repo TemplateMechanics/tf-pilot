@@ -10,4 +10,12 @@ resource "dynatrace_log_sensitive_data_masking" "this" {
   name         = var.name
   insert_after = var.insert_after
   scope        = var.scope
+  dynamic "masking" {
+    for_each = var.masking == null ? [] : (can(tolist(var.masking)) ? tolist(var.masking) : [var.masking])
+    content {}
+  }
+  dynamic "matchers" {
+    for_each = var.matchers == null ? [] : (can(tolist(var.matchers)) ? tolist(var.matchers) : [var.matchers])
+    content {}
+  }
 }

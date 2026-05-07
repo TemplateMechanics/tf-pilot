@@ -20,3 +20,15 @@ variable "member_pipelines" {
   type        = any
   default     = null
 }
+
+variable "composition" {
+  description = "Top-level nested block 'composition' payload for type 'dynatrace_openpipeline_v2_bizevents_pipelinegroups'."
+  type        = any
+  default     = null
+}
+
+variable "member_stages" {
+  description = "Top-level nested block 'member_stages' payload for type 'dynatrace_openpipeline_v2_bizevents_pipelinegroups'."
+  type        = any
+  default     = null
+}

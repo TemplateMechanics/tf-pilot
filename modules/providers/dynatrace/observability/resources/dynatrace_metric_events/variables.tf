@@ -31,3 +31,21 @@ variable "legacy_id" {
   type        = any
   default     = null
 }
+
+variable "event_template" {
+  description = "Top-level nested block 'event_template' payload for type 'dynatrace_metric_events'."
+  type        = any
+  default     = null
+}
+
+variable "model_properties" {
+  description = "Top-level nested block 'model_properties' payload for type 'dynatrace_metric_events'."
+  type        = any
+  default     = null
+}
+
+variable "query_definition" {
+  description = "Top-level nested block 'query_definition' payload for type 'dynatrace_metric_events'."
+  type        = any
+  default     = null
+}

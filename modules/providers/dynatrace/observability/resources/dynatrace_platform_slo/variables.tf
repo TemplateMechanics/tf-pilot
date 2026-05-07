@@ -26,3 +26,21 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "criteria" {
+  description = "Top-level nested block 'criteria' payload for type 'dynatrace_platform_slo'."
+  type        = any
+  default     = null
+}
+
+variable "custom_sli" {
+  description = "Top-level nested block 'custom_sli' payload for type 'dynatrace_platform_slo'."
+  type        = any
+  default     = null
+}
+
+variable "sli_reference" {
+  description = "Top-level nested block 'sli_reference' payload for type 'dynatrace_platform_slo'."
+  type        = any
+  default     = null
+}

@@ -26,3 +26,9 @@ variable "url_exclusion_pattern_list" {
   type        = any
   default     = null
 }
+
+variable "masking_presets" {
+  description = "Top-level nested block 'masking_presets' payload for type 'dynatrace_session_replay_web_privacy'."
+  type        = any
+  default     = null
+}

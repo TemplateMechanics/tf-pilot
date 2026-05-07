@@ -19,3 +19,15 @@ variable "scope" {
   description = "Required attribute 'scope' for type 'dynatrace_web_app_key_performance_xhr'."
   type        = any
 }
+
+variable "fallback_thresholds" {
+  description = "Top-level nested block 'fallback_thresholds' payload for type 'dynatrace_web_app_key_performance_xhr'."
+  type        = any
+  default     = null
+}
+
+variable "thresholds" {
+  description = "Top-level nested block 'thresholds' payload for type 'dynatrace_web_app_key_performance_xhr'."
+  type        = any
+  default     = null
+}

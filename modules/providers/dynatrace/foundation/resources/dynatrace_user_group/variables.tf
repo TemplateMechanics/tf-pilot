@@ -44,3 +44,9 @@ variable "sso_groups" {
   type        = any
   default     = null
 }
+
+variable "permissions" {
+  description = "Top-level nested block 'permissions' payload for type 'dynatrace_user_group'."
+  type        = any
+  default     = null
+}

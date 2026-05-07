@@ -12,4 +12,12 @@ resource "dynatrace_calculated_synthetic_metric" "this" {
   monitor_identifier = var.monitor_identifier
   name               = var.name
   description        = var.description
+  dynamic "dimensions" {
+    for_each = var.dimensions == null ? [] : (can(tolist(var.dimensions)) ? tolist(var.dimensions) : [var.dimensions])
+    content {}
+  }
+  dynamic "filter" {
+    for_each = var.filter == null ? [] : (can(tolist(var.filter)) ? tolist(var.filter) : [var.filter])
+    content {}
+  }
 }

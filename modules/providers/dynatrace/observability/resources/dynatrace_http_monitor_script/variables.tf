@@ -14,3 +14,9 @@ variable "http_id" {
   description = "Required attribute 'http_id' for type 'dynatrace_http_monitor_script'."
   type        = any
 }
+
+variable "script" {
+  description = "Top-level nested block 'script' payload for type 'dynatrace_http_monitor_script'."
+  type        = any
+  default     = null
+}

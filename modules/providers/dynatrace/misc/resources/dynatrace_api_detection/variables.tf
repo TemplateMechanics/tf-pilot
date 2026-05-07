@@ -36,3 +36,9 @@ variable "technology" {
   type        = any
   default     = null
 }
+
+variable "conditions" {
+  description = "Top-level nested block 'conditions' payload for type 'dynatrace_api_detection'."
+  type        = any
+  default     = null
+}

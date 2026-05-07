@@ -15,3 +15,21 @@ variable "unknowns" {
   type        = any
   default     = null
 }
+
+variable "dashboard_metadata" {
+  description = "Top-level nested block 'dashboard_metadata' payload for type 'dynatrace_dashboard'."
+  type        = any
+  default     = null
+}
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'dynatrace_dashboard'."
+  type        = any
+  default     = null
+}
+
+variable "tile" {
+  description = "Top-level nested block 'tile' payload for type 'dynatrace_dashboard'."
+  type        = any
+  default     = null
+}

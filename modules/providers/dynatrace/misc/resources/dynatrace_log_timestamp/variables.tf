@@ -53,3 +53,21 @@ variable "skip_indented_lines" {
   type        = any
   default     = null
 }
+
+variable "entry_boundary" {
+  description = "Top-level nested block 'entry_boundary' payload for type 'dynatrace_log_timestamp'."
+  type        = any
+  default     = null
+}
+
+variable "json_configuration" {
+  description = "Top-level nested block 'json_configuration' payload for type 'dynatrace_log_timestamp'."
+  type        = any
+  default     = null
+}
+
+variable "matchers" {
+  description = "Top-level nested block 'matchers' payload for type 'dynatrace_log_timestamp'."
+  type        = any
+  default     = null
+}

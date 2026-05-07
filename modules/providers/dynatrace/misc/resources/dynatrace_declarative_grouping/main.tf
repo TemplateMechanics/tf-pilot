@@ -10,4 +10,8 @@ resource "dynatrace_declarative_grouping" "this" {
   name         = var.name
   insert_after = var.insert_after
   scope        = var.scope
+  dynamic "detection" {
+    for_each = var.detection == null ? [] : (can(tolist(var.detection)) ? tolist(var.detection) : [var.detection])
+    content {}
+  }
 }

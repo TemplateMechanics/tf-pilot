@@ -23,4 +23,8 @@ resource "dynatrace_kubernetes" "this" {
   open_metrics_pipeline_enabled      = var.open_metrics_pipeline_enabled
   pvc_monitoring_enabled             = var.pvc_monitoring_enabled
   scope                              = var.scope
+  dynamic "event_patterns" {
+    for_each = var.event_patterns == null ? [] : (can(tolist(var.event_patterns)) ? tolist(var.event_patterns) : [var.event_patterns])
+    content {}
+  }
 }

@@ -67,3 +67,9 @@ variable "metric_name" {
   type        = any
   default     = null
 }
+
+variable "error_budget_burn_rate" {
+  description = "Top-level nested block 'error_budget_burn_rate' payload for type 'dynatrace_slo_v2'."
+  type        = any
+  default     = null
+}

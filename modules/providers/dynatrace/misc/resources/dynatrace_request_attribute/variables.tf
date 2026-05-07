@@ -53,3 +53,9 @@ variable "unknowns" {
   type        = any
   default     = null
 }
+
+variable "data_sources" {
+  description = "Top-level nested block 'data_sources' payload for type 'dynatrace_request_attribute'."
+  type        = any
+  default     = null
+}

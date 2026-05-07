@@ -18,4 +18,16 @@ resource "dynatrace_credentials" "this" {
   scopes                     = var.scopes
   token                      = var.token
   username                   = var.username
+  dynamic "allowed_entities" {
+    for_each = var.allowed_entities == null ? [] : (can(tolist(var.allowed_entities)) ? tolist(var.allowed_entities) : [var.allowed_entities])
+    content {}
+  }
+  dynamic "credential_usage_summary" {
+    for_each = var.credential_usage_summary == null ? [] : (can(tolist(var.credential_usage_summary)) ? tolist(var.credential_usage_summary) : [var.credential_usage_summary])
+    content {}
+  }
+  dynamic "external" {
+    for_each = var.external == null ? [] : (can(tolist(var.external)) ? tolist(var.external) : [var.external])
+    content {}
+  }
 }

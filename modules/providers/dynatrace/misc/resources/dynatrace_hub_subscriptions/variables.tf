@@ -9,3 +9,9 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "token_subscriptions" {
+  description = "Top-level nested block 'token_subscriptions' payload for type 'dynatrace_hub_subscriptions'."
+  type        = any
+  default     = null
+}

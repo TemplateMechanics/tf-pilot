@@ -19,3 +19,21 @@ variable "type" {
   description = "Required attribute 'type' for type 'dynatrace_azure_connection'."
   type        = any
 }
+
+variable "client_secret" {
+  description = "Top-level nested block 'client_secret' payload for type 'dynatrace_azure_connection'."
+  type        = any
+  default     = null
+}
+
+variable "federated_identity_credential" {
+  description = "Top-level nested block 'federated_identity_credential' payload for type 'dynatrace_azure_connection'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'dynatrace_azure_connection'."
+  type        = any
+  default     = null
+}

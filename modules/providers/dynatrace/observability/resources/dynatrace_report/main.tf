@@ -9,4 +9,8 @@ resource "dynatrace_report" "this" {
   dashboard_id        = var.dashboard_id
   type                = var.type
   email_notifications = var.email_notifications
+  dynamic "subscriptions" {
+    for_each = var.subscriptions == null ? [] : (can(tolist(var.subscriptions)) ? tolist(var.subscriptions) : [var.subscriptions])
+    content {}
+  }
 }

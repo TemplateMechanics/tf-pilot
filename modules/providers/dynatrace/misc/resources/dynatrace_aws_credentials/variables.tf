@@ -55,3 +55,21 @@ variable "unknowns" {
   type        = any
   default     = null
 }
+
+variable "authentication_data" {
+  description = "Top-level nested block 'authentication_data' payload for type 'dynatrace_aws_credentials'."
+  type        = any
+  default     = null
+}
+
+variable "supporting_services_to_monitor" {
+  description = "Top-level nested block 'supporting_services_to_monitor' payload for type 'dynatrace_aws_credentials'."
+  type        = any
+  default     = null
+}
+
+variable "tags_to_monitor" {
+  description = "Top-level nested block 'tags_to_monitor' payload for type 'dynatrace_aws_credentials'."
+  type        = any
+  default     = null
+}

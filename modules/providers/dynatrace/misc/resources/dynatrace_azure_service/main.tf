@@ -9,4 +9,8 @@ resource "dynatrace_azure_service" "this" {
   credentials_id          = var.credentials_id
   name                    = var.name
   use_recommended_metrics = var.use_recommended_metrics
+  dynamic "metric" {
+    for_each = var.metric == null ? [] : (can(tolist(var.metric)) ? tolist(var.metric) : [var.metric])
+    content {}
+  }
 }

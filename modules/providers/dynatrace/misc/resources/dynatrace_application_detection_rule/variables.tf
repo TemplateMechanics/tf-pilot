@@ -26,3 +26,9 @@ variable "order" {
   type        = any
   default     = null
 }
+
+variable "filter_config" {
+  description = "Top-level nested block 'filter_config' payload for type 'dynatrace_application_detection_rule'."
+  type        = any
+  default     = null
+}

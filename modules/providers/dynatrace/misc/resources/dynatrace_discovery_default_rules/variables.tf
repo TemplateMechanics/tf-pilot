@@ -9,3 +9,15 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "rule" {
+  description = "Top-level nested block 'rule' payload for type 'dynatrace_discovery_default_rules'."
+  type        = any
+  default     = null
+}
+
+variable "settings" {
+  description = "Top-level nested block 'settings' payload for type 'dynatrace_discovery_default_rules'."
+  type        = any
+  default     = null
+}

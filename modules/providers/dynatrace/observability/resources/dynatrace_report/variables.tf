@@ -25,3 +25,9 @@ variable "email_notifications" {
   type        = any
   default     = null
 }
+
+variable "subscriptions" {
+  description = "Top-level nested block 'subscriptions' payload for type 'dynatrace_report'."
+  type        = any
+  default     = null
+}

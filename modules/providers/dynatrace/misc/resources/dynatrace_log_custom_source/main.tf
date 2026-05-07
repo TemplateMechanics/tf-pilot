@@ -9,4 +9,12 @@ resource "dynatrace_log_custom_source" "this" {
   enabled = var.resource_enabled
   name    = var.name
   scope   = var.scope
+  dynamic "context" {
+    for_each = var.context == null ? [] : (can(tolist(var.context)) ? tolist(var.context) : [var.context])
+    content {}
+  }
+  dynamic "custom_log_source" {
+    for_each = var.custom_log_source == null ? [] : (can(tolist(var.custom_log_source)) ? tolist(var.custom_log_source) : [var.custom_log_source])
+    content {}
+  }
 }

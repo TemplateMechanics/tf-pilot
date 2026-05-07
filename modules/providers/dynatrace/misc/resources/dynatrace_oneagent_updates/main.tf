@@ -10,4 +10,8 @@ resource "dynatrace_oneagent_updates" "this" {
   revision       = var.revision
   scope          = var.scope
   target_version = var.target_version
+  dynamic "maintenance_windows" {
+    for_each = var.maintenance_windows == null ? [] : (can(tolist(var.maintenance_windows)) ? tolist(var.maintenance_windows) : [var.maintenance_windows])
+    content {}
+  }
 }

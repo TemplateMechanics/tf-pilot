@@ -9,3 +9,33 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "events" {
+  description = "Top-level nested block 'events' payload for type 'dynatrace_ddu_pool'."
+  type        = any
+  default     = null
+}
+
+variable "log_monitoring" {
+  description = "Top-level nested block 'log_monitoring' payload for type 'dynatrace_ddu_pool'."
+  type        = any
+  default     = null
+}
+
+variable "metrics" {
+  description = "Top-level nested block 'metrics' payload for type 'dynatrace_ddu_pool'."
+  type        = any
+  default     = null
+}
+
+variable "serverless" {
+  description = "Top-level nested block 'serverless' payload for type 'dynatrace_ddu_pool'."
+  type        = any
+  default     = null
+}
+
+variable "traces" {
+  description = "Top-level nested block 'traces' payload for type 'dynatrace_ddu_pool'."
+  type        = any
+  default     = null
+}

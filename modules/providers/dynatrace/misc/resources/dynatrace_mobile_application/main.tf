@@ -17,4 +17,12 @@ resource "dynatrace_mobile_application" "this" {
   session_replay          = var.session_replay
   session_replay_on_crash = var.session_replay_on_crash
   user_session_percentage = var.user_session_percentage
+  dynamic "apdex" {
+    for_each = var.apdex == null ? [] : (can(tolist(var.apdex)) ? tolist(var.apdex) : [var.apdex])
+    content {}
+  }
+  dynamic "properties" {
+    for_each = var.properties == null ? [] : (can(tolist(var.properties)) ? tolist(var.properties) : [var.properties])
+    content {}
+  }
 }

@@ -35,3 +35,9 @@ variable "insert_after" {
   type        = any
   default     = null
 }
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'dynatrace_generic_types'."
+  type        = any
+  default     = null
+}

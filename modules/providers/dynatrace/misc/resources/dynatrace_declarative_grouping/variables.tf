@@ -31,3 +31,9 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "detection" {
+  description = "Top-level nested block 'detection' payload for type 'dynatrace_declarative_grouping'."
+  type        = any
+  default     = null
+}

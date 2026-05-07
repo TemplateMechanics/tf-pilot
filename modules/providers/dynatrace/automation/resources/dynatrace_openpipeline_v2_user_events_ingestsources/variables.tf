@@ -43,3 +43,21 @@ variable "source_type" {
   type        = any
   default     = null
 }
+
+variable "metadata_list" {
+  description = "Top-level nested block 'metadata_list' payload for type 'dynatrace_openpipeline_v2_user_events_ingestsources'."
+  type        = any
+  default     = null
+}
+
+variable "processing" {
+  description = "Top-level nested block 'processing' payload for type 'dynatrace_openpipeline_v2_user_events_ingestsources'."
+  type        = any
+  default     = null
+}
+
+variable "static_routing" {
+  description = "Top-level nested block 'static_routing' payload for type 'dynatrace_openpipeline_v2_user_events_ingestsources'."
+  type        = any
+  default     = null
+}

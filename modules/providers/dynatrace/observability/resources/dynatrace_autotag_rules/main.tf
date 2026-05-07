@@ -8,4 +8,8 @@ resource "dynatrace_autotag_rules" "this" {
   count         = var.enabled ? 1 : 0
   auto_tag_id   = var.auto_tag_id
   current_state = var.current_state
+  dynamic "rules" {
+    for_each = var.rules == null ? [] : (can(tolist(var.rules)) ? tolist(var.rules) : [var.rules])
+    content {}
+  }
 }

@@ -9,4 +9,8 @@ resource "dynatrace_log_events" "this" {
   enabled = var.resource_enabled
   query   = var.query
   summary = var.summary
+  dynamic "event_template" {
+    for_each = var.event_template == null ? [] : (can(tolist(var.event_template)) ? tolist(var.event_template) : [var.event_template])
+    content {}
+  }
 }

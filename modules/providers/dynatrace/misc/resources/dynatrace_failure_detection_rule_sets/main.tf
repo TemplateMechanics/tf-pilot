@@ -9,4 +9,8 @@ resource "dynatrace_failure_detection_rule_sets" "this" {
   enabled      = var.resource_enabled
   insert_after = var.insert_after
   scope        = var.scope
+  dynamic "ruleset" {
+    for_each = var.ruleset == null ? [] : (can(tolist(var.ruleset)) ? tolist(var.ruleset) : [var.ruleset])
+    content {}
+  }
 }

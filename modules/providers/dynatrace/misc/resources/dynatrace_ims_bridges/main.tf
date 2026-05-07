@@ -7,4 +7,8 @@
 resource "dynatrace_ims_bridges" "this" {
   count = var.enabled ? 1 : 0
   name  = var.name
+  dynamic "queue_managers" {
+    for_each = var.queue_managers == null ? [] : (can(tolist(var.queue_managers)) ? tolist(var.queue_managers) : [var.queue_managers])
+    content {}
+  }
 }

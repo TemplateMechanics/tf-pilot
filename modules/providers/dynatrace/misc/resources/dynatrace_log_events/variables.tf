@@ -24,3 +24,9 @@ variable "summary" {
   description = "Required attribute 'summary' for type 'dynatrace_log_events'."
   type        = any
 }
+
+variable "event_template" {
+  description = "Top-level nested block 'event_template' payload for type 'dynatrace_log_events'."
+  type        = any
+  default     = null
+}

@@ -26,3 +26,9 @@ variable "legacy_id" {
   type        = any
   default     = null
 }
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'dynatrace_management_zone_v2'."
+  type        = any
+  default     = null
+}

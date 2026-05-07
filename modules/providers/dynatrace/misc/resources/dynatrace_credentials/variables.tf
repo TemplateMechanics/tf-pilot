@@ -80,3 +80,21 @@ variable "username" {
   type        = any
   default     = null
 }
+
+variable "allowed_entities" {
+  description = "Top-level nested block 'allowed_entities' payload for type 'dynatrace_credentials'."
+  type        = any
+  default     = null
+}
+
+variable "credential_usage_summary" {
+  description = "Top-level nested block 'credential_usage_summary' payload for type 'dynatrace_credentials'."
+  type        = any
+  default     = null
+}
+
+variable "external" {
+  description = "Top-level nested block 'external' payload for type 'dynatrace_credentials'."
+  type        = any
+  default     = null
+}

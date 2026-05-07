@@ -13,4 +13,12 @@ resource "dynatrace_maintenance_window" "this" {
   enabled                 = var.resource_enabled
   suppress_synth_mon_exec = var.suppress_synth_mon_exec
   unknowns                = var.unknowns
+  dynamic "schedule" {
+    for_each = var.schedule == null ? [] : (can(tolist(var.schedule)) ? tolist(var.schedule) : [var.schedule])
+    content {}
+  }
+  dynamic "scope" {
+    for_each = var.scope == null ? [] : (can(tolist(var.scope)) ? tolist(var.scope) : [var.scope])
+    content {}
+  }
 }

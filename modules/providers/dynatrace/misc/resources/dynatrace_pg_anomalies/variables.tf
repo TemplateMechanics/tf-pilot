@@ -14,3 +14,9 @@ variable "pg_id" {
   description = "Required attribute 'pg_id' for type 'dynatrace_pg_anomalies'."
   type        = any
 }
+
+variable "availability" {
+  description = "Top-level nested block 'availability' payload for type 'dynatrace_pg_anomalies'."
+  type        = any
+  default     = null
+}

@@ -26,3 +26,15 @@ variable "management_zone" {
   type        = any
   default     = null
 }
+
+variable "filters" {
+  description = "Top-level nested block 'filters' payload for type 'dynatrace_alerting'."
+  type        = any
+  default     = null
+}
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'dynatrace_alerting'."
+  type        = any
+  default     = null
+}

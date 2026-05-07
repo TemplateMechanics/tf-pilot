@@ -26,3 +26,9 @@ variable "rules_maintained_externally" {
   type        = any
   default     = null
 }
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'dynatrace_autotag_v2'."
+  type        = any
+  default     = null
+}

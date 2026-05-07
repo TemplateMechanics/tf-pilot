@@ -10,4 +10,12 @@ resource "dynatrace_site_reliability_guardian" "this" {
   description = var.description
   event_kind  = var.event_kind
   tags        = var.tags
+  dynamic "objectives" {
+    for_each = var.objectives == null ? [] : (can(tolist(var.objectives)) ? tolist(var.objectives) : [var.objectives])
+    content {}
+  }
+  dynamic "variables" {
+    for_each = var.variables == null ? [] : (can(tolist(var.variables)) ? tolist(var.variables) : [var.variables])
+    content {}
+  }
 }

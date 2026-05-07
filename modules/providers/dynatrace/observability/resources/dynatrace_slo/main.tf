@@ -19,4 +19,8 @@ resource "dynatrace_slo" "this" {
   metric_name       = var.metric_name
   numerator         = var.numerator
   rate              = var.rate
+  dynamic "error_budget_burn_rate" {
+    for_each = var.error_budget_burn_rate == null ? [] : (can(tolist(var.error_budget_burn_rate)) ? tolist(var.error_budget_burn_rate) : [var.error_budget_burn_rate])
+    content {}
+  }
 }

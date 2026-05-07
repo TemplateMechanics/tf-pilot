@@ -31,3 +31,33 @@ variable "external_id" {
   type        = any
   default     = null
 }
+
+variable "additional_information" {
+  description = "Top-level nested block 'additional_information' payload for type 'dynatrace_ownership_teams'."
+  type        = any
+  default     = null
+}
+
+variable "contact_details" {
+  description = "Top-level nested block 'contact_details' payload for type 'dynatrace_ownership_teams'."
+  type        = any
+  default     = null
+}
+
+variable "links" {
+  description = "Top-level nested block 'links' payload for type 'dynatrace_ownership_teams'."
+  type        = any
+  default     = null
+}
+
+variable "responsibilities" {
+  description = "Top-level nested block 'responsibilities' payload for type 'dynatrace_ownership_teams'."
+  type        = any
+  default     = null
+}
+
+variable "supplementary_identifiers" {
+  description = "Top-level nested block 'supplementary_identifiers' payload for type 'dynatrace_ownership_teams'."
+  type        = any
+  default     = null
+}

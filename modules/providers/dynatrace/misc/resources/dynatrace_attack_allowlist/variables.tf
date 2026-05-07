@@ -26,3 +26,33 @@ variable "rule_name" {
   type        = any
   default     = null
 }
+
+variable "attack_handling" {
+  description = "Top-level nested block 'attack_handling' payload for type 'dynatrace_attack_allowlist'."
+  type        = any
+  default     = null
+}
+
+variable "criteria" {
+  description = "Top-level nested block 'criteria' payload for type 'dynatrace_attack_allowlist'."
+  type        = any
+  default     = null
+}
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'dynatrace_attack_allowlist'."
+  type        = any
+  default     = null
+}
+
+variable "resource_attribute_conditions" {
+  description = "Top-level nested block 'resource_attribute_conditions' payload for type 'dynatrace_attack_allowlist'."
+  type        = any
+  default     = null
+}
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'dynatrace_attack_allowlist'."
+  type        = any
+  default     = null
+}

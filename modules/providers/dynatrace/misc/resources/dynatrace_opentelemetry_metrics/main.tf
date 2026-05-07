@@ -11,4 +11,12 @@ resource "dynatrace_opentelemetry_metrics" "this" {
   meter_name_to_dimension_enabled            = var.meter_name_to_dimension_enabled
   mode                                       = var.mode
   scope                                      = var.scope
+  dynamic "additional_attributes" {
+    for_each = var.additional_attributes == null ? [] : (can(tolist(var.additional_attributes)) ? tolist(var.additional_attributes) : [var.additional_attributes])
+    content {}
+  }
+  dynamic "to_drop_attributes" {
+    for_each = var.to_drop_attributes == null ? [] : (can(tolist(var.to_drop_attributes)) ? tolist(var.to_drop_attributes) : [var.to_drop_attributes])
+    content {}
+  }
 }

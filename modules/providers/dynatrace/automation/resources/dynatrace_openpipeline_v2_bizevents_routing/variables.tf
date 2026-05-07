@@ -9,3 +9,9 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "routing_entries" {
+  description = "Top-level nested block 'routing_entries' payload for type 'dynatrace_openpipeline_v2_bizevents_routing'."
+  type        = any
+  default     = null
+}

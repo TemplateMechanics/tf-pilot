@@ -37,3 +37,15 @@ variable "management_zones" {
   type        = any
   default     = null
 }
+
+variable "conditions" {
+  description = "Top-level nested block 'conditions' payload for type 'dynatrace_service_full_web_request'."
+  type        = any
+  default     = null
+}
+
+variable "id_contributors" {
+  description = "Top-level nested block 'id_contributors' payload for type 'dynatrace_service_full_web_request'."
+  type        = any
+  default     = null
+}

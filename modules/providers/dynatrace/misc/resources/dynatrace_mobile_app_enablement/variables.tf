@@ -15,3 +15,21 @@ variable "application_id" {
   type        = any
   default     = null
 }
+
+variable "experience_analytics" {
+  description = "Top-level nested block 'experience_analytics' payload for type 'dynatrace_mobile_app_enablement'."
+  type        = any
+  default     = null
+}
+
+variable "rum" {
+  description = "Top-level nested block 'rum' payload for type 'dynatrace_mobile_app_enablement'."
+  type        = any
+  default     = null
+}
+
+variable "session_replay" {
+  description = "Top-level nested block 'session_replay' payload for type 'dynatrace_mobile_app_enablement'."
+  type        = any
+  default     = null
+}

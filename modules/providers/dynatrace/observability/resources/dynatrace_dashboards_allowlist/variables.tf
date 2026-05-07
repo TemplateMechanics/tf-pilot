@@ -9,3 +9,9 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "allowlist" {
+  description = "Top-level nested block 'allowlist' payload for type 'dynatrace_dashboards_allowlist'."
+  type        = any
+  default     = null
+}

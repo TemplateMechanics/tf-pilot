@@ -15,3 +15,27 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "error_rate_increase" {
+  description = "Top-level nested block 'error_rate_increase' payload for type 'dynatrace_mobile_app_anomalies'."
+  type        = any
+  default     = null
+}
+
+variable "slow_user_actions" {
+  description = "Top-level nested block 'slow_user_actions' payload for type 'dynatrace_mobile_app_anomalies'."
+  type        = any
+  default     = null
+}
+
+variable "unexpected_high_load" {
+  description = "Top-level nested block 'unexpected_high_load' payload for type 'dynatrace_mobile_app_anomalies'."
+  type        = any
+  default     = null
+}
+
+variable "unexpected_low_load" {
+  description = "Top-level nested block 'unexpected_low_load' payload for type 'dynatrace_mobile_app_anomalies'."
+  type        = any
+  default     = null
+}

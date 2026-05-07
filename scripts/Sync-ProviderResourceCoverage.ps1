@@ -306,8 +306,11 @@ function New-VariablesTf {
     [Parameter()][switch]$IncludeEnabled = $true
   )
 
+  $declaredVariableNames = @{}
+
   $lines = @()
   if ($IncludeEnabled) {
+    $declaredVariableNames['enabled'] = $true
     $lines += @(
       'variable "enabled" {',
       '  description = "When false, this module creates no resources."',
@@ -321,6 +324,8 @@ function New-VariablesTf {
   foreach ($attr in @($RequiredAttributes)) {
     if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
+    if ($declaredVariableNames.ContainsKey($varName)) { continue }
+    $declaredVariableNames[$varName] = $true
     $lines += @(
       "variable `"$varName`" {",
       "  description = `"Required attribute '$attr' for type '$TypeName'.`"",
@@ -333,9 +338,26 @@ function New-VariablesTf {
   foreach ($attr in @($OptionalAttributes)) {
     if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
+    if ($declaredVariableNames.ContainsKey($varName)) { continue }
+    $declaredVariableNames[$varName] = $true
     $lines += @(
       "variable `"$varName`" {",
       "  description = `"Optional attribute '$attr' for type '$TypeName'.`"",
+      '  type        = any',
+      '  default     = null',
+      '}',
+      ''
+    )
+  }
+
+  foreach ($blockName in @($NestedBlockNames)) {
+    if ([string]::IsNullOrWhiteSpace($blockName)) { continue }
+    $varName = Convert-AttributeToVarName -AttributeName $blockName
+    if ($declaredVariableNames.ContainsKey($varName)) { continue }
+    $declaredVariableNames[$varName] = $true
+    $lines += @(
+      "variable `"$varName`" {",
+      "  description = `"Top-level nested block '$blockName' payload for type '$TypeName'.`"",
       '  type        = any',
       '  default     = null',
       '}',
@@ -380,6 +402,7 @@ function New-ResourceMainTf {
   )
 
   $attributeLines = @()
+  $nestedBlockLines = @()
   foreach ($attr in @($RequiredAttributes)) {
     if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
@@ -392,7 +415,19 @@ function New-ResourceMainTf {
     $attributeLines += "  $attr = var.$varName"
   }
 
-  $body = if ($attributeLines.Count -gt 0) { ($attributeLines -join "`n") + "`n" } else { '' }
+  foreach ($blockName in @($NestedBlockNames)) {
+    if ([string]::IsNullOrWhiteSpace($blockName)) { continue }
+    $varName = Convert-AttributeToVarName -AttributeName $blockName
+    $nestedBlockLines += @(
+      "  dynamic `"$blockName`" {",
+      "    for_each = var.$varName == null ? [] : (can(tolist(var.$varName)) ? tolist(var.$varName) : [var.$varName])",
+      '    content {}',
+      '  }'
+    )
+  }
+
+  $bodyLines = @($attributeLines + $nestedBlockLines)
+  $body = if ($bodyLines.Count -gt 0) { ($bodyLines -join "`n") + "`n" } else { '' }
 
   return @"
 resource "$ResourceType" "this" {
@@ -421,6 +456,7 @@ function New-DataMainTf {
   )
 
   $attributeLines = @()
+  $nestedBlockLines = @()
   foreach ($attr in @($RequiredAttributes)) {
     if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
@@ -433,7 +469,19 @@ function New-DataMainTf {
     $attributeLines += "  $attr = var.$varName"
   }
 
-  $body = if ($attributeLines.Count -gt 0) { ($attributeLines -join "`n") + "`n" } else { '' }
+  foreach ($blockName in @($NestedBlockNames)) {
+    if ([string]::IsNullOrWhiteSpace($blockName)) { continue }
+    $varName = Convert-AttributeToVarName -AttributeName $blockName
+    $nestedBlockLines += @(
+      "  dynamic `"$blockName`" {",
+      "    for_each = var.$varName == null ? [] : (can(tolist(var.$varName)) ? tolist(var.$varName) : [var.$varName])",
+      '    content {}',
+      '  }'
+    )
+  }
+
+  $bodyLines = @($attributeLines + $nestedBlockLines)
+  $body = if ($bodyLines.Count -gt 0) { ($bodyLines -join "`n") + "`n" } else { '' }
 
   return @"
 data "$DataType" "this" {

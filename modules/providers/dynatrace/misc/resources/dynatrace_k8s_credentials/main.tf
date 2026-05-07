@@ -19,4 +19,8 @@ resource "dynatrace_k8s_credentials" "this" {
   prometheus_exporters                = var.prometheus_exporters
   unknowns                            = var.unknowns
   workload_integration_enabled        = var.workload_integration_enabled
+  dynamic "events_field_selectors" {
+    for_each = var.events_field_selectors == null ? [] : (can(tolist(var.events_field_selectors)) ? tolist(var.events_field_selectors) : [var.events_field_selectors])
+    content {}
+  }
 }

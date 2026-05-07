@@ -25,3 +25,15 @@ variable "dimensions" {
   type        = any
   default     = null
 }
+
+variable "filters" {
+  description = "Top-level nested block 'filters' payload for type 'dynatrace_user_session_metrics'."
+  type        = any
+  default     = null
+}
+
+variable "value" {
+  description = "Top-level nested block 'value' payload for type 'dynatrace_user_session_metrics'."
+  type        = any
+  default     = null
+}

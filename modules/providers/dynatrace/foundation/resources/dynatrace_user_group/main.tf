@@ -12,4 +12,8 @@ resource "dynatrace_user_group" "this" {
   ldap_groups    = var.ldap_groups
   manage_account = var.manage_account
   sso_groups     = var.sso_groups
+  dynamic "permissions" {
+    for_each = var.permissions == null ? [] : (can(tolist(var.permissions)) ? tolist(var.permissions) : [var.permissions])
+    content {}
+  }
 }

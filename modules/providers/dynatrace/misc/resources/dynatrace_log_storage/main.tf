@@ -11,4 +11,8 @@ resource "dynatrace_log_storage" "this" {
   send_to_storage = var.send_to_storage
   insert_after    = var.insert_after
   scope           = var.scope
+  dynamic "matchers" {
+    for_each = var.matchers == null ? [] : (can(tolist(var.matchers)) ? tolist(var.matchers) : [var.matchers])
+    content {}
+  }
 }

@@ -40,3 +40,15 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "dimensions" {
+  description = "Top-level nested block 'dimensions' payload for type 'dynatrace_calculated_synthetic_metric'."
+  type        = any
+  default     = null
+}
+
+variable "filter" {
+  description = "Top-level nested block 'filter' payload for type 'dynatrace_calculated_synthetic_metric'."
+  type        = any
+  default     = null
+}

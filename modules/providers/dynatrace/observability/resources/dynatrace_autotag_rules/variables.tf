@@ -20,3 +20,9 @@ variable "current_state" {
   type        = any
   default     = null
 }
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'dynatrace_autotag_rules'."
+  type        = any
+  default     = null
+}

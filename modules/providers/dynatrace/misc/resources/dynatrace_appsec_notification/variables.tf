@@ -41,3 +41,57 @@ variable "security_problem_based_alerting_profile" {
   type        = any
   default     = null
 }
+
+variable "attack_candidate_based_email_payload" {
+  description = "Top-level nested block 'attack_candidate_based_email_payload' payload for type 'dynatrace_appsec_notification'."
+  type        = any
+  default     = null
+}
+
+variable "attack_candidate_based_jira_payload" {
+  description = "Top-level nested block 'attack_candidate_based_jira_payload' payload for type 'dynatrace_appsec_notification'."
+  type        = any
+  default     = null
+}
+
+variable "attack_candidate_based_webhook_payload" {
+  description = "Top-level nested block 'attack_candidate_based_webhook_payload' payload for type 'dynatrace_appsec_notification'."
+  type        = any
+  default     = null
+}
+
+variable "email_configuration" {
+  description = "Top-level nested block 'email_configuration' payload for type 'dynatrace_appsec_notification'."
+  type        = any
+  default     = null
+}
+
+variable "jira_configuration" {
+  description = "Top-level nested block 'jira_configuration' payload for type 'dynatrace_appsec_notification'."
+  type        = any
+  default     = null
+}
+
+variable "security_problem_based_email_payload" {
+  description = "Top-level nested block 'security_problem_based_email_payload' payload for type 'dynatrace_appsec_notification'."
+  type        = any
+  default     = null
+}
+
+variable "security_problem_based_jira_payload" {
+  description = "Top-level nested block 'security_problem_based_jira_payload' payload for type 'dynatrace_appsec_notification'."
+  type        = any
+  default     = null
+}
+
+variable "security_problem_based_webhook_payload" {
+  description = "Top-level nested block 'security_problem_based_webhook_payload' payload for type 'dynatrace_appsec_notification'."
+  type        = any
+  default     = null
+}
+
+variable "webhook_configuration" {
+  description = "Top-level nested block 'webhook_configuration' payload for type 'dynatrace_appsec_notification'."
+  type        = any
+  default     = null
+}

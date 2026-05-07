@@ -18,4 +18,12 @@ resource "dynatrace_automation_workflow" "this" {
   private                = var.private
   result                 = var.result
   type                   = var.type
+  dynamic "tasks" {
+    for_each = var.tasks == null ? [] : (can(tolist(var.tasks)) ? tolist(var.tasks) : [var.tasks])
+    content {}
+  }
+  dynamic "trigger" {
+    for_each = var.trigger == null ? [] : (can(tolist(var.trigger)) ? tolist(var.trigger) : [var.trigger])
+    content {}
+  }
 }

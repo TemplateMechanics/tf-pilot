@@ -26,3 +26,9 @@ variable "matched_entities" {
   type        = any
   default     = null
 }
+
+variable "tags" {
+  description = "Top-level nested block 'tags' payload for type 'dynatrace_custom_tags'."
+  type        = any
+  default     = null
+}

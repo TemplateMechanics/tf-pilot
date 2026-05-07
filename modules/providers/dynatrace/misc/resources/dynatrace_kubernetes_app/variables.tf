@@ -15,3 +15,9 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "kubernetes_app_options" {
+  description = "Top-level nested block 'kubernetes_app_options' payload for type 'dynatrace_kubernetes_app'."
+  type        = any
+  default     = null
+}

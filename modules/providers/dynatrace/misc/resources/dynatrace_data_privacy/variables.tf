@@ -15,3 +15,27 @@ variable "application_id" {
   type        = any
   default     = null
 }
+
+variable "data_collection" {
+  description = "Top-level nested block 'data_collection' payload for type 'dynatrace_data_privacy'."
+  type        = any
+  default     = null
+}
+
+variable "do_not_track" {
+  description = "Top-level nested block 'do_not_track' payload for type 'dynatrace_data_privacy'."
+  type        = any
+  default     = null
+}
+
+variable "masking" {
+  description = "Top-level nested block 'masking' payload for type 'dynatrace_data_privacy'."
+  type        = any
+  default     = null
+}
+
+variable "user_tracking" {
+  description = "Top-level nested block 'user_tracking' payload for type 'dynatrace_data_privacy'."
+  type        = any
+  default     = null
+}

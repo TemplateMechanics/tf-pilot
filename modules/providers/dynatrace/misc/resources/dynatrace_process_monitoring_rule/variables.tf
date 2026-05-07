@@ -31,3 +31,9 @@ variable "insert_after" {
   type        = any
   default     = null
 }
+
+variable "condition" {
+  description = "Top-level nested block 'condition' payload for type 'dynatrace_process_monitoring_rule'."
+  type        = any
+  default     = null
+}

@@ -66,3 +66,21 @@ variable "unknowns" {
   type        = any
   default     = null
 }
+
+variable "monitor_only_excluding_tag_pairs" {
+  description = "Top-level nested block 'monitor_only_excluding_tag_pairs' payload for type 'dynatrace_azure_credentials'."
+  type        = any
+  default     = null
+}
+
+variable "monitor_only_tag_pairs" {
+  description = "Top-level nested block 'monitor_only_tag_pairs' payload for type 'dynatrace_azure_credentials'."
+  type        = any
+  default     = null
+}
+
+variable "supporting_services" {
+  description = "Top-level nested block 'supporting_services' payload for type 'dynatrace_azure_credentials'."
+  type        = any
+  default     = null
+}

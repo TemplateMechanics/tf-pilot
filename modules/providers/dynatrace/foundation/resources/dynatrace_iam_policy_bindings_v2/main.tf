@@ -9,4 +9,8 @@ resource "dynatrace_iam_policy_bindings_v2" "this" {
   group       = var.group
   account     = var.account
   environment = var.environment
+  dynamic "policy" {
+    for_each = var.policy == null ? [] : (can(tolist(var.policy)) ? tolist(var.policy) : [var.policy])
+    content {}
+  }
 }

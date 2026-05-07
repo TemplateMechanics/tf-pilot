@@ -7,4 +7,8 @@
 resource "dynatrace_pg_anomalies" "this" {
   count = var.enabled ? 1 : 0
   pg_id = var.pg_id
+  dynamic "availability" {
+    for_each = var.availability == null ? [] : (can(tolist(var.availability)) ? tolist(var.availability) : [var.availability])
+    content {}
+  }
 }

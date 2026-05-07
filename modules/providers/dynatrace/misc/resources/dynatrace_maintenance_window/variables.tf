@@ -48,3 +48,15 @@ variable "unknowns" {
   type        = any
   default     = null
 }
+
+variable "schedule" {
+  description = "Top-level nested block 'schedule' payload for type 'dynatrace_maintenance_window'."
+  type        = any
+  default     = null
+}
+
+variable "scope" {
+  description = "Top-level nested block 'scope' payload for type 'dynatrace_maintenance_window'."
+  type        = any
+  default     = null
+}

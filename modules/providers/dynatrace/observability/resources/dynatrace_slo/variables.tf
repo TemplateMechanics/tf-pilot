@@ -82,3 +82,9 @@ variable "rate" {
   type        = any
   default     = null
 }
+
+variable "error_budget_burn_rate" {
+  description = "Top-level nested block 'error_budget_burn_rate' payload for type 'dynatrace_slo'."
+  type        = any
+  default     = null
+}

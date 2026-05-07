@@ -10,4 +10,12 @@ resource "dynatrace_log_processing" "this" {
   query        = var.query
   rule_name    = var.rule_name
   insert_after = var.insert_after
+  dynamic "processor_definition" {
+    for_each = var.processor_definition == null ? [] : (can(tolist(var.processor_definition)) ? tolist(var.processor_definition) : [var.processor_definition])
+    content {}
+  }
+  dynamic "rule_testing" {
+    for_each = var.rule_testing == null ? [] : (can(tolist(var.rule_testing)) ? tolist(var.rule_testing) : [var.rule_testing])
+    content {}
+  }
 }

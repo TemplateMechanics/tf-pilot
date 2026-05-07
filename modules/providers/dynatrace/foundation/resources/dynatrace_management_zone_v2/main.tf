@@ -9,4 +9,8 @@ resource "dynatrace_management_zone_v2" "this" {
   name        = var.name
   description = var.description
   legacy_id   = var.legacy_id
+  dynamic "rules" {
+    for_each = var.rules == null ? [] : (can(tolist(var.rules)) ? tolist(var.rules) : [var.rules])
+    content {}
+  }
 }

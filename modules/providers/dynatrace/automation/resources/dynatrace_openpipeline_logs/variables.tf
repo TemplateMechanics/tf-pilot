@@ -9,3 +9,21 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "endpoints" {
+  description = "Top-level nested block 'endpoints' payload for type 'dynatrace_openpipeline_logs'."
+  type        = any
+  default     = null
+}
+
+variable "pipelines" {
+  description = "Top-level nested block 'pipelines' payload for type 'dynatrace_openpipeline_logs'."
+  type        = any
+  default     = null
+}
+
+variable "routing" {
+  description = "Top-level nested block 'routing' payload for type 'dynatrace_openpipeline_logs'."
+  type        = any
+  default     = null
+}

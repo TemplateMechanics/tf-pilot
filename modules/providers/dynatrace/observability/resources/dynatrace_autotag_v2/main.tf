@@ -9,4 +9,8 @@ resource "dynatrace_autotag_v2" "this" {
   name                        = var.name
   description                 = var.description
   rules_maintained_externally = var.rules_maintained_externally
+  dynamic "rules" {
+    for_each = var.rules == null ? [] : (can(tolist(var.rules)) ? tolist(var.rules) : [var.rules])
+    content {}
+  }
 }

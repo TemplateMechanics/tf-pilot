@@ -12,4 +12,12 @@ resource "dynatrace_calculated_mobile_metric" "this" {
   metric_type    = var.metric_type
   name           = var.name
   description    = var.description
+  dynamic "dimensions" {
+    for_each = var.dimensions == null ? [] : (can(tolist(var.dimensions)) ? tolist(var.dimensions) : [var.dimensions])
+    content {}
+  }
+  dynamic "user_action_filter" {
+    for_each = var.user_action_filter == null ? [] : (can(tolist(var.user_action_filter)) ? tolist(var.user_action_filter) : [var.user_action_filter])
+    content {}
+  }
 }

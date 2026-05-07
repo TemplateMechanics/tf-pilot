@@ -19,3 +19,9 @@ variable "type" {
   description = "Required attribute 'type' for type 'dynatrace_automation_workflow_aws_connections'."
   type        = any
 }
+
+variable "web_identity" {
+  description = "Top-level nested block 'web_identity' payload for type 'dynatrace_automation_workflow_aws_connections'."
+  type        = any
+  default     = null
+}

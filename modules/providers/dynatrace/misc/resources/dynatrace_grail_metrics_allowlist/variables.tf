@@ -9,3 +9,9 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "allow_rules" {
+  description = "Top-level nested block 'allow_rules' payload for type 'dynatrace_grail_metrics_allowlist'."
+  type        = any
+  default     = null
+}

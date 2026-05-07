@@ -70,3 +70,21 @@ variable "status_condition_windows" {
   type        = any
   default     = null
 }
+
+variable "detection_conditions_linux" {
+  description = "Top-level nested block 'detection_conditions_linux' payload for type 'dynatrace_os_services'."
+  type        = any
+  default     = null
+}
+
+variable "detection_conditions_windows" {
+  description = "Top-level nested block 'detection_conditions_windows' payload for type 'dynatrace_os_services'."
+  type        = any
+  default     = null
+}
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'dynatrace_os_services'."
+  type        = any
+  default     = null
+}

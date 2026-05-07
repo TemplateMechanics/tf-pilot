@@ -43,3 +43,21 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "alerts" {
+  description = "Top-level nested block 'alerts' payload for type 'dynatrace_disk_edge_anomaly_detectors'."
+  type        = any
+  default     = null
+}
+
+variable "detection_conditions" {
+  description = "Top-level nested block 'detection_conditions' payload for type 'dynatrace_disk_edge_anomaly_detectors'."
+  type        = any
+  default     = null
+}
+
+variable "event_properties" {
+  description = "Top-level nested block 'event_properties' payload for type 'dynatrace_disk_edge_anomaly_detectors'."
+  type        = any
+  default     = null
+}

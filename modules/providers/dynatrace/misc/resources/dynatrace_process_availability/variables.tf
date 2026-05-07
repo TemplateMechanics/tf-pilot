@@ -43,3 +43,15 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'dynatrace_process_availability'."
+  type        = any
+  default     = null
+}
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'dynatrace_process_availability'."
+  type        = any
+  default     = null
+}

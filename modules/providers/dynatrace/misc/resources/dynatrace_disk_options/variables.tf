@@ -33,3 +33,9 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "exclusions" {
+  description = "Top-level nested block 'exclusions' payload for type 'dynatrace_disk_options'."
+  type        = any
+  default     = null
+}

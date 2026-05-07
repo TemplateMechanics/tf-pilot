@@ -26,3 +26,9 @@ variable "use_recommended_metrics" {
   type        = any
   default     = null
 }
+
+variable "metric" {
+  description = "Top-level nested block 'metric' payload for type 'dynatrace_azure_service'."
+  type        = any
+  default     = null
+}

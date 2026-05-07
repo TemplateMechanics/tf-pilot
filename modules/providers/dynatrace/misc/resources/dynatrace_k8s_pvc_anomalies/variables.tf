@@ -15,3 +15,15 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "low_disk_space_critical" {
+  description = "Top-level nested block 'low_disk_space_critical' payload for type 'dynatrace_k8s_pvc_anomalies'."
+  type        = any
+  default     = null
+}
+
+variable "low_disk_space_critical_percentage" {
+  description = "Top-level nested block 'low_disk_space_critical_percentage' payload for type 'dynatrace_k8s_pvc_anomalies'."
+  type        = any
+  default     = null
+}

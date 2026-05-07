@@ -20,3 +20,21 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "broken_links" {
+  description = "Top-level nested block 'broken_links' payload for type 'dynatrace_failure_detection_parameters'."
+  type        = any
+  default     = null
+}
+
+variable "exception_rules" {
+  description = "Top-level nested block 'exception_rules' payload for type 'dynatrace_failure_detection_parameters'."
+  type        = any
+  default     = null
+}
+
+variable "http_response_codes" {
+  description = "Top-level nested block 'http_response_codes' payload for type 'dynatrace_failure_detection_parameters'."
+  type        = any
+  default     = null
+}

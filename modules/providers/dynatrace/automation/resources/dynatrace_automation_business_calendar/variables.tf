@@ -44,3 +44,9 @@ variable "week_start" {
   type        = any
   default     = null
 }
+
+variable "holidays" {
+  description = "Top-level nested block 'holidays' payload for type 'dynatrace_automation_business_calendar'."
+  type        = any
+  default     = null
+}

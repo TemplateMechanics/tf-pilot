@@ -9,4 +9,12 @@ resource "dynatrace_segment" "this" {
   is_public   = var.is_public
   name        = var.name
   description = var.description
+  dynamic "includes" {
+    for_each = var.includes == null ? [] : (can(tolist(var.includes)) ? tolist(var.includes) : [var.includes])
+    content {}
+  }
+  dynamic "variables" {
+    for_each = var.variables == null ? [] : (can(tolist(var.variables)) ? tolist(var.variables) : [var.variables])
+    content {}
+  }
 }

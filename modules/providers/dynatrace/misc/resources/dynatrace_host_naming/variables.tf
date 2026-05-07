@@ -30,3 +30,9 @@ variable "unknowns" {
   type        = any
   default     = null
 }
+
+variable "conditions" {
+  description = "Top-level nested block 'conditions' payload for type 'dynatrace_host_naming'."
+  type        = any
+  default     = null
+}

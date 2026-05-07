@@ -77,3 +77,15 @@ variable "use_oauth_2" {
   type        = any
   default     = null
 }
+
+variable "headers" {
+  description = "Top-level nested block 'headers' payload for type 'dynatrace_webhook_notification'."
+  type        = any
+  default     = null
+}
+
+variable "oauth_2_credentials" {
+  description = "Top-level nested block 'oauth_2_credentials' payload for type 'dynatrace_webhook_notification'."
+  type        = any
+  default     = null
+}

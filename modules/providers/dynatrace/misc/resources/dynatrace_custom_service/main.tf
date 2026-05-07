@@ -13,4 +13,8 @@ resource "dynatrace_custom_service" "this" {
   queue_entry_point      = var.queue_entry_point
   queue_entry_point_type = var.queue_entry_point_type
   unknowns               = var.unknowns
+  dynamic "rule" {
+    for_each = var.rule == null ? [] : (can(tolist(var.rule)) ? tolist(var.rule) : [var.rule])
+    content {}
+  }
 }

@@ -14,3 +14,21 @@ variable "application_id" {
   description = "Required attribute 'application_id' for type 'dynatrace_web_app_auto_injection'."
   type        = any
 }
+
+variable "cache_control_headers" {
+  description = "Top-level nested block 'cache_control_headers' payload for type 'dynatrace_web_app_auto_injection'."
+  type        = any
+  default     = null
+}
+
+variable "monitoring_code_source_section" {
+  description = "Top-level nested block 'monitoring_code_source_section' payload for type 'dynatrace_web_app_auto_injection'."
+  type        = any
+  default     = null
+}
+
+variable "snippet_format" {
+  description = "Top-level nested block 'snippet_format' payload for type 'dynatrace_web_app_auto_injection'."
+  type        = any
+  default     = null
+}

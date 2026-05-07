@@ -15,4 +15,8 @@ resource "dynatrace_url_based_sampling" "this" {
   path                 = var.path
   path_comparison_type = var.path_comparison_type
   scope                = var.scope
+  dynamic "query_parameters" {
+    for_each = var.query_parameters == null ? [] : (can(tolist(var.query_parameters)) ? tolist(var.query_parameters) : [var.query_parameters])
+    content {}
+  }
 }

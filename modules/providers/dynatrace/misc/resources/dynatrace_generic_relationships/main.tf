@@ -13,4 +13,8 @@ resource "dynatrace_generic_relationships" "this" {
   type_of_relation = var.type_of_relation
   from_role        = var.from_role
   to_role          = var.to_role
+  dynamic "sources" {
+    for_each = var.sources == null ? [] : (can(tolist(var.sources)) ? tolist(var.sources) : [var.sources])
+    content {}
+  }
 }

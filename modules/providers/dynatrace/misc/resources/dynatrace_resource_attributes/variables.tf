@@ -9,3 +9,9 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "keys" {
+  description = "Top-level nested block 'keys' payload for type 'dynatrace_resource_attributes'."
+  type        = any
+  default     = null
+}

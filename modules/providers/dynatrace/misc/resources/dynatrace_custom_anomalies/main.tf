@@ -17,4 +17,16 @@ resource "dynatrace_custom_anomalies" "this" {
   severity              = var.severity
   unknowns              = var.unknowns
   warning_reason        = var.warning_reason
+  dynamic "dimensions" {
+    for_each = var.dimensions == null ? [] : (can(tolist(var.dimensions)) ? tolist(var.dimensions) : [var.dimensions])
+    content {}
+  }
+  dynamic "scopes" {
+    for_each = var.scopes == null ? [] : (can(tolist(var.scopes)) ? tolist(var.scopes) : [var.scopes])
+    content {}
+  }
+  dynamic "strategy" {
+    for_each = var.strategy == null ? [] : (can(tolist(var.strategy)) ? tolist(var.strategy) : [var.strategy])
+    content {}
+  }
 }

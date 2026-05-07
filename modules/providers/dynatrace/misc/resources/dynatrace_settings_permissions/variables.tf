@@ -20,3 +20,15 @@ variable "all_users" {
   type        = any
   default     = null
 }
+
+variable "groups" {
+  description = "Top-level nested block 'groups' payload for type 'dynatrace_settings_permissions'."
+  type        = any
+  default     = null
+}
+
+variable "users" {
+  description = "Top-level nested block 'users' payload for type 'dynatrace_settings_permissions'."
+  type        = any
+  default     = null
+}

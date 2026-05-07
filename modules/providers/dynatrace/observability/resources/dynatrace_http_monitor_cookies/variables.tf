@@ -19,3 +19,9 @@ variable "scope" {
   description = "Required attribute 'scope' for type 'dynatrace_http_monitor_cookies'."
   type        = any
 }
+
+variable "cookies" {
+  description = "Top-level nested block 'cookies' payload for type 'dynatrace_http_monitor_cookies'."
+  type        = any
+  default     = null
+}

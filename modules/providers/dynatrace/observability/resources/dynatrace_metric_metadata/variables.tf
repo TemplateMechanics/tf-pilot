@@ -49,3 +49,15 @@ variable "unit_display_format" {
   type        = any
   default     = null
 }
+
+variable "dimensions" {
+  description = "Top-level nested block 'dimensions' payload for type 'dynatrace_metric_metadata'."
+  type        = any
+  default     = null
+}
+
+variable "metric_properties" {
+  description = "Top-level nested block 'metric_properties' payload for type 'dynatrace_metric_metadata'."
+  type        = any
+  default     = null
+}

@@ -32,3 +32,9 @@ variable "target_version" {
   type        = any
   default     = null
 }
+
+variable "maintenance_windows" {
+  description = "Top-level nested block 'maintenance_windows' payload for type 'dynatrace_oneagent_updates'."
+  type        = any
+  default     = null
+}

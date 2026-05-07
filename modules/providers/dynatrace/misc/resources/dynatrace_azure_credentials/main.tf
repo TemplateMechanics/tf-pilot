@@ -16,4 +16,16 @@ resource "dynatrace_azure_credentials" "this" {
   remove_defaults                          = var.remove_defaults
   supporting_services_managed_in_dynatrace = var.supporting_services_managed_in_dynatrace
   unknowns                                 = var.unknowns
+  dynamic "monitor_only_excluding_tag_pairs" {
+    for_each = var.monitor_only_excluding_tag_pairs == null ? [] : (can(tolist(var.monitor_only_excluding_tag_pairs)) ? tolist(var.monitor_only_excluding_tag_pairs) : [var.monitor_only_excluding_tag_pairs])
+    content {}
+  }
+  dynamic "monitor_only_tag_pairs" {
+    for_each = var.monitor_only_tag_pairs == null ? [] : (can(tolist(var.monitor_only_tag_pairs)) ? tolist(var.monitor_only_tag_pairs) : [var.monitor_only_tag_pairs])
+    content {}
+  }
+  dynamic "supporting_services" {
+    for_each = var.supporting_services == null ? [] : (can(tolist(var.supporting_services)) ? tolist(var.supporting_services) : [var.supporting_services])
+    content {}
+  }
 }
