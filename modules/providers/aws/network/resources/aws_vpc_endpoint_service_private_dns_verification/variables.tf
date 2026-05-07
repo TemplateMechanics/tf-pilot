@@ -20,3 +20,9 @@ variable "wait_for_verification" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_endpoint_service_private_dns_verification'."
+  type        = any
+  default     = null
+}

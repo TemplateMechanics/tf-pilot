@@ -15,4 +15,8 @@ resource "aws_cloudwatch_composite_alarm" "this" {
   ok_actions                = var.ok_actions
   tags                      = var.tags
   tags_all                  = var.tags_all
+  dynamic "actions_suppressor" {
+    for_each = var.actions_suppressor == null ? [] : (can(tolist(var.actions_suppressor)) ? tolist(var.actions_suppressor) : [var.actions_suppressor])
+    content {}
+  }
 }

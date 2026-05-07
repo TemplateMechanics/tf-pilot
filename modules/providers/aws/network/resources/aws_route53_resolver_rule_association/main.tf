@@ -9,4 +9,8 @@ resource "aws_route53_resolver_rule_association" "this" {
   resolver_rule_id = var.resolver_rule_id
   vpc_id           = var.vpc_id
   name             = var.name
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

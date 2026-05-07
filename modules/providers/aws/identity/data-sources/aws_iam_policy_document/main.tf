@@ -12,4 +12,8 @@ data "aws_iam_policy_document" "this" {
   source_json               = var.source_json
   source_policy_documents   = var.source_policy_documents
   version                   = var.version
+  dynamic "statement" {
+    for_each = var.statement == null ? [] : (can(tolist(var.statement)) ? tolist(var.statement) : [var.statement])
+    content {}
+  }
 }

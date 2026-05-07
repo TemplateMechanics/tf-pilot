@@ -20,3 +20,9 @@ variable "capacity_providers" {
   type        = any
   default     = null
 }
+
+variable "default_capacity_provider_strategy" {
+  description = "Top-level nested block 'default_capacity_provider_strategy' payload for type 'aws_ecs_cluster_capacity_providers'."
+  type        = any
+  default     = null
+}

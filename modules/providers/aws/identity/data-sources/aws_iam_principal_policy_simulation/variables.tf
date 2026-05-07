@@ -61,3 +61,9 @@ variable "resource_policy_json" {
   type        = any
   default     = null
 }
+
+variable "context" {
+  description = "Top-level nested block 'context' payload for type 'aws_iam_principal_policy_simulation'."
+  type        = any
+  default     = null
+}

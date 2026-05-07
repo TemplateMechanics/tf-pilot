@@ -15,3 +15,9 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "filter" {
+  description = "Top-level nested block 'filter' payload for type 'aws_vpc_security_group_rules'."
+  type        = any
+  default     = null
+}

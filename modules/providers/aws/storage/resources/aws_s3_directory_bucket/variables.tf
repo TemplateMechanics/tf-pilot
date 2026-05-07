@@ -32,3 +32,9 @@ variable "type" {
   type        = any
   default     = null
 }
+
+variable "location" {
+  description = "Top-level nested block 'location' payload for type 'aws_s3_directory_bucket'."
+  type        = any
+  default     = null
+}

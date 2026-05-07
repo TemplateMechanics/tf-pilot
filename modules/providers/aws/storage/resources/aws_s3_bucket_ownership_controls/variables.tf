@@ -14,3 +14,9 @@ variable "bucket" {
   description = "Required attribute 'bucket' for type 'aws_s3_bucket_ownership_controls'."
   type        = any
 }
+
+variable "rule" {
+  description = "Top-level nested block 'rule' payload for type 'aws_s3_bucket_ownership_controls'."
+  type        = any
+  default     = null
+}

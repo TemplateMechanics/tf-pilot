@@ -116,3 +116,9 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_subnet'."
+  type        = any
+  default     = null
+}

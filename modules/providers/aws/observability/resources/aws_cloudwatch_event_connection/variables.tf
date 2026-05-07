@@ -31,3 +31,15 @@ variable "kms_key_identifier" {
   type        = any
   default     = null
 }
+
+variable "auth_parameters" {
+  description = "Top-level nested block 'auth_parameters' payload for type 'aws_cloudwatch_event_connection'."
+  type        = any
+  default     = null
+}
+
+variable "invocation_connectivity_parameters" {
+  description = "Top-level nested block 'invocation_connectivity_parameters' payload for type 'aws_cloudwatch_event_connection'."
+  type        = any
+  default     = null
+}

@@ -26,3 +26,15 @@ variable "version" {
   type        = any
   default     = null
 }
+
+variable "configuration" {
+  description = "Top-level nested block 'configuration' payload for type 'aws_cloudwatch_log_data_protection_policy_document'."
+  type        = any
+  default     = null
+}
+
+variable "statement" {
+  description = "Top-level nested block 'statement' payload for type 'aws_cloudwatch_log_data_protection_policy_document'."
+  type        = any
+  default     = null
+}

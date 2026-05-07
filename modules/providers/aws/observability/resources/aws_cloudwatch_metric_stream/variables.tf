@@ -54,3 +54,27 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "exclude_filter" {
+  description = "Top-level nested block 'exclude_filter' payload for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}
+
+variable "include_filter" {
+  description = "Top-level nested block 'include_filter' payload for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}
+
+variable "statistics_configuration" {
+  description = "Top-level nested block 'statistics_configuration' payload for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_cloudwatch_metric_stream'."
+  type        = any
+  default     = null
+}

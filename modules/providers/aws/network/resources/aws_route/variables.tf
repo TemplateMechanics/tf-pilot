@@ -92,3 +92,9 @@ variable "vpc_peering_connection_id" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route'."
+  type        = any
+  default     = null
+}

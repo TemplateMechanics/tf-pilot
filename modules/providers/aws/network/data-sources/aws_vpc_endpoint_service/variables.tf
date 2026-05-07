@@ -39,3 +39,15 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "filter" {
+  description = "Top-level nested block 'filter' payload for type 'aws_vpc_endpoint_service'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_endpoint_service'."
+  type        = any
+  default     = null
+}

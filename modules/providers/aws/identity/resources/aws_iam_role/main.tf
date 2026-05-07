@@ -17,4 +17,8 @@ resource "aws_iam_role" "this" {
   permissions_boundary  = var.permissions_boundary
   tags                  = var.tags
   tags_all              = var.tags_all
+  dynamic "inline_policy" {
+    for_each = var.inline_policy == null ? [] : (can(tolist(var.inline_policy)) ? tolist(var.inline_policy) : [var.inline_policy])
+    content {}
+  }
 }

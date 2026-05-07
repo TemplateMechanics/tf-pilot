@@ -9,4 +9,8 @@ resource "aws_s3_bucket_replication_configuration" "this" {
   bucket = var.bucket
   role   = var.role
   token  = var.token
+  dynamic "rule" {
+    for_each = var.rule == null ? [] : (can(tolist(var.rule)) ? tolist(var.rule) : [var.rule])
+    content {}
+  }
 }

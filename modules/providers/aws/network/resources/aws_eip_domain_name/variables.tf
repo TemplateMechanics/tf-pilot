@@ -19,3 +19,9 @@ variable "domain_name" {
   description = "Required attribute 'domain_name' for type 'aws_eip_domain_name'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_eip_domain_name'."
+  type        = any
+  default     = null
+}

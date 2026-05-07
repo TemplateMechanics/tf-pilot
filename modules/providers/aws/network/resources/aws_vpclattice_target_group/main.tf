@@ -10,4 +10,12 @@ resource "aws_vpclattice_target_group" "this" {
   type     = var.type
   tags     = var.tags
   tags_all = var.tags_all
+  dynamic "config" {
+    for_each = var.config == null ? [] : (can(tolist(var.config)) ? tolist(var.config) : [var.config])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

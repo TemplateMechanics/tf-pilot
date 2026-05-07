@@ -11,4 +11,8 @@ resource "aws_vpclattice_service_network_vpc_association" "this" {
   security_group_ids         = var.security_group_ids
   tags                       = var.tags
   tags_all                   = var.tags_all
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

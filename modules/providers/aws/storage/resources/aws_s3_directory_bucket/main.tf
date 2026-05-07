@@ -10,4 +10,8 @@ resource "aws_s3_directory_bucket" "this" {
   data_redundancy = var.data_redundancy
   force_destroy   = var.force_destroy
   type            = var.type
+  dynamic "location" {
+    for_each = var.location == null ? [] : (can(tolist(var.location)) ? tolist(var.location) : [var.location])
+    content {}
+  }
 }

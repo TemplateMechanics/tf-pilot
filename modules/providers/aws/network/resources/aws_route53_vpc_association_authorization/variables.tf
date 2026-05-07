@@ -25,3 +25,9 @@ variable "vpc_region" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route53_vpc_association_authorization'."
+  type        = any
+  default     = null
+}

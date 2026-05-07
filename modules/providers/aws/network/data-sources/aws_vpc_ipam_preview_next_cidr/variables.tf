@@ -26,3 +26,9 @@ variable "netmask_length" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_ipam_preview_next_cidr'."
+  type        = any
+  default     = null
+}

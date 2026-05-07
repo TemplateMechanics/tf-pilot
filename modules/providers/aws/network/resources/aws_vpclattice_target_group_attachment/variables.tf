@@ -14,3 +14,15 @@ variable "target_group_identifier" {
   description = "Required attribute 'target_group_identifier' for type 'aws_vpclattice_target_group_attachment'."
   type        = any
 }
+
+variable "target" {
+  description = "Top-level nested block 'target' payload for type 'aws_vpclattice_target_group_attachment'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpclattice_target_group_attachment'."
+  type        = any
+  default     = null
+}

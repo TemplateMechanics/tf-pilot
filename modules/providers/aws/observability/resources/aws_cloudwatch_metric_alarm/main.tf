@@ -28,4 +28,8 @@ resource "aws_cloudwatch_metric_alarm" "this" {
   threshold_metric_id                   = var.threshold_metric_id
   treat_missing_data                    = var.treat_missing_data
   unit                                  = var.unit
+  dynamic "metric_query" {
+    for_each = var.metric_query == null ? [] : (can(tolist(var.metric_query)) ? tolist(var.metric_query) : [var.metric_query])
+    content {}
+  }
 }

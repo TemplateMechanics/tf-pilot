@@ -26,3 +26,21 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "configuration" {
+  description = "Top-level nested block 'configuration' payload for type 'aws_ecs_cluster'."
+  type        = any
+  default     = null
+}
+
+variable "service_connect_defaults" {
+  description = "Top-level nested block 'service_connect_defaults' payload for type 'aws_ecs_cluster'."
+  type        = any
+  default     = null
+}
+
+variable "setting" {
+  description = "Top-level nested block 'setting' payload for type 'aws_ecs_cluster'."
+  type        = any
+  default     = null
+}

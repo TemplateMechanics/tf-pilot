@@ -12,4 +12,8 @@ resource "aws_vpclattice_service" "this" {
   custom_domain_name = var.custom_domain_name
   tags               = var.tags
   tags_all           = var.tags_all
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

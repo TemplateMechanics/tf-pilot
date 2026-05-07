@@ -8,4 +8,8 @@ resource "aws_vpc_route_server_vpc_association" "this" {
   count           = var.enabled ? 1 : 0
   route_server_id = var.route_server_id
   vpc_id          = var.vpc_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

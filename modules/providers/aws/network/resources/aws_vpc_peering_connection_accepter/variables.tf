@@ -32,3 +32,21 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "accepter" {
+  description = "Top-level nested block 'accepter' payload for type 'aws_vpc_peering_connection_accepter'."
+  type        = any
+  default     = null
+}
+
+variable "requester" {
+  description = "Top-level nested block 'requester' payload for type 'aws_vpc_peering_connection_accepter'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_peering_connection_accepter'."
+  type        = any
+  default     = null
+}

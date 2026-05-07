@@ -32,3 +32,9 @@ variable "ipv4_netmask_length" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_ipv4_cidr_block_association'."
+  type        = any
+  default     = null
+}

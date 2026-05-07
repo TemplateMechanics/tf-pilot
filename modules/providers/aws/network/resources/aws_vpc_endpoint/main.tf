@@ -21,4 +21,16 @@ resource "aws_vpc_endpoint" "this" {
   tags                       = var.tags
   tags_all                   = var.tags_all
   vpc_endpoint_type          = var.vpc_endpoint_type
+  dynamic "dns_options" {
+    for_each = var.dns_options == null ? [] : (can(tolist(var.dns_options)) ? tolist(var.dns_options) : [var.dns_options])
+    content {}
+  }
+  dynamic "subnet_configuration" {
+    for_each = var.subnet_configuration == null ? [] : (can(tolist(var.subnet_configuration)) ? tolist(var.subnet_configuration) : [var.subnet_configuration])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

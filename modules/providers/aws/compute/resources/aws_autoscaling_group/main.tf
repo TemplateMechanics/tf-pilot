@@ -37,4 +37,48 @@ resource "aws_autoscaling_group" "this" {
   vpc_zone_identifier              = var.vpc_zone_identifier
   wait_for_capacity_timeout        = var.wait_for_capacity_timeout
   wait_for_elb_capacity            = var.wait_for_elb_capacity
+  dynamic "availability_zone_distribution" {
+    for_each = var.availability_zone_distribution == null ? [] : (can(tolist(var.availability_zone_distribution)) ? tolist(var.availability_zone_distribution) : [var.availability_zone_distribution])
+    content {}
+  }
+  dynamic "capacity_reservation_specification" {
+    for_each = var.capacity_reservation_specification == null ? [] : (can(tolist(var.capacity_reservation_specification)) ? tolist(var.capacity_reservation_specification) : [var.capacity_reservation_specification])
+    content {}
+  }
+  dynamic "initial_lifecycle_hook" {
+    for_each = var.initial_lifecycle_hook == null ? [] : (can(tolist(var.initial_lifecycle_hook)) ? tolist(var.initial_lifecycle_hook) : [var.initial_lifecycle_hook])
+    content {}
+  }
+  dynamic "instance_maintenance_policy" {
+    for_each = var.instance_maintenance_policy == null ? [] : (can(tolist(var.instance_maintenance_policy)) ? tolist(var.instance_maintenance_policy) : [var.instance_maintenance_policy])
+    content {}
+  }
+  dynamic "instance_refresh" {
+    for_each = var.instance_refresh == null ? [] : (can(tolist(var.instance_refresh)) ? tolist(var.instance_refresh) : [var.instance_refresh])
+    content {}
+  }
+  dynamic "launch_template" {
+    for_each = var.launch_template == null ? [] : (can(tolist(var.launch_template)) ? tolist(var.launch_template) : [var.launch_template])
+    content {}
+  }
+  dynamic "mixed_instances_policy" {
+    for_each = var.mixed_instances_policy == null ? [] : (can(tolist(var.mixed_instances_policy)) ? tolist(var.mixed_instances_policy) : [var.mixed_instances_policy])
+    content {}
+  }
+  dynamic "tag" {
+    for_each = var.tag == null ? [] : (can(tolist(var.tag)) ? tolist(var.tag) : [var.tag])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
+  dynamic "traffic_source" {
+    for_each = var.traffic_source == null ? [] : (can(tolist(var.traffic_source)) ? tolist(var.traffic_source) : [var.traffic_source])
+    content {}
+  }
+  dynamic "warm_pool" {
+    for_each = var.warm_pool == null ? [] : (can(tolist(var.warm_pool)) ? tolist(var.warm_pool) : [var.warm_pool])
+    content {}
+  }
 }

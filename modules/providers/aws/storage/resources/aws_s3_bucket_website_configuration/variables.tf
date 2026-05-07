@@ -26,3 +26,27 @@ variable "routing_rules" {
   type        = any
   default     = null
 }
+
+variable "error_document" {
+  description = "Top-level nested block 'error_document' payload for type 'aws_s3_bucket_website_configuration'."
+  type        = any
+  default     = null
+}
+
+variable "index_document" {
+  description = "Top-level nested block 'index_document' payload for type 'aws_s3_bucket_website_configuration'."
+  type        = any
+  default     = null
+}
+
+variable "redirect_all_requests_to" {
+  description = "Top-level nested block 'redirect_all_requests_to' payload for type 'aws_s3_bucket_website_configuration'."
+  type        = any
+  default     = null
+}
+
+variable "routing_rule" {
+  description = "Top-level nested block 'routing_rule' payload for type 'aws_s3_bucket_website_configuration'."
+  type        = any
+  default     = null
+}

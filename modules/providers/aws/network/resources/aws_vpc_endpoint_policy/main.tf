@@ -8,4 +8,8 @@ resource "aws_vpc_endpoint_policy" "this" {
   count           = var.enabled ? 1 : 0
   vpc_endpoint_id = var.vpc_endpoint_id
   policy          = var.policy
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

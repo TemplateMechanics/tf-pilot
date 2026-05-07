@@ -55,3 +55,75 @@ variable "target_id" {
   type        = any
   default     = null
 }
+
+variable "appsync_target" {
+  description = "Top-level nested block 'appsync_target' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}
+
+variable "batch_target" {
+  description = "Top-level nested block 'batch_target' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}
+
+variable "dead_letter_config" {
+  description = "Top-level nested block 'dead_letter_config' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}
+
+variable "ecs_target" {
+  description = "Top-level nested block 'ecs_target' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}
+
+variable "http_target" {
+  description = "Top-level nested block 'http_target' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}
+
+variable "input_transformer" {
+  description = "Top-level nested block 'input_transformer' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}
+
+variable "kinesis_target" {
+  description = "Top-level nested block 'kinesis_target' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}
+
+variable "redshift_target" {
+  description = "Top-level nested block 'redshift_target' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}
+
+variable "retry_policy" {
+  description = "Top-level nested block 'retry_policy' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}
+
+variable "run_command_targets" {
+  description = "Top-level nested block 'run_command_targets' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}
+
+variable "sagemaker_pipeline_target" {
+  description = "Top-level nested block 'sagemaker_pipeline_target' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}
+
+variable "sqs_target" {
+  description = "Top-level nested block 'sqs_target' payload for type 'aws_cloudwatch_event_target'."
+  type        = any
+  default     = null
+}

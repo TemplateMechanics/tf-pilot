@@ -45,3 +45,9 @@ variable "version" {
   type        = any
   default     = null
 }
+
+variable "statement" {
+  description = "Top-level nested block 'statement' payload for type 'aws_iam_policy_document'."
+  type        = any
+  default     = null
+}

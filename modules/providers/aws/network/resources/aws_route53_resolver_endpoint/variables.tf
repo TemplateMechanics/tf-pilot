@@ -49,3 +49,15 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "ip_address" {
+  description = "Top-level nested block 'ip_address' payload for type 'aws_route53_resolver_endpoint'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route53_resolver_endpoint'."
+  type        = any
+  default     = null
+}

@@ -19,3 +19,9 @@ variable "vpc_id" {
   description = "Required attribute 'vpc_id' for type 'aws_internet_gateway_attachment'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_internet_gateway_attachment'."
+  type        = any
+  default     = null
+}

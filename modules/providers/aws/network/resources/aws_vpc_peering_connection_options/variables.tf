@@ -14,3 +14,15 @@ variable "vpc_peering_connection_id" {
   description = "Required attribute 'vpc_peering_connection_id' for type 'aws_vpc_peering_connection_options'."
   type        = any
 }
+
+variable "accepter" {
+  description = "Top-level nested block 'accepter' payload for type 'aws_vpc_peering_connection_options'."
+  type        = any
+  default     = null
+}
+
+variable "requester" {
+  description = "Top-level nested block 'requester' payload for type 'aws_vpc_peering_connection_options'."
+  type        = any
+  default     = null
+}

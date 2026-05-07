@@ -10,4 +10,8 @@ resource "aws_route53profiles_association" "this" {
   profile_id  = var.profile_id
   resource_id = var.resource_id
   tags        = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

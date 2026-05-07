@@ -138,3 +138,9 @@ variable "unit" {
   type        = any
   default     = null
 }
+
+variable "metric_query" {
+  description = "Top-level nested block 'metric_query' payload for type 'aws_cloudwatch_metric_alarm'."
+  type        = any
+  default     = null
+}

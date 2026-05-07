@@ -26,3 +26,21 @@ variable "role_arn" {
   type        = any
   default     = null
 }
+
+variable "event_bus" {
+  description = "Top-level nested block 'event_bus' payload for type 'aws_cloudwatch_event_endpoint'."
+  type        = any
+  default     = null
+}
+
+variable "replication_config" {
+  description = "Top-level nested block 'replication_config' payload for type 'aws_cloudwatch_event_endpoint'."
+  type        = any
+  default     = null
+}
+
+variable "routing_config" {
+  description = "Top-level nested block 'routing_config' payload for type 'aws_cloudwatch_event_endpoint'."
+  type        = any
+  default     = null
+}

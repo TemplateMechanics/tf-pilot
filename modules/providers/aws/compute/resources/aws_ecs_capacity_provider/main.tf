@@ -9,4 +9,8 @@ resource "aws_ecs_capacity_provider" "this" {
   name     = var.name
   tags     = var.tags
   tags_all = var.tags_all
+  dynamic "auto_scaling_group_provider" {
+    for_each = var.auto_scaling_group_provider == null ? [] : (can(tolist(var.auto_scaling_group_provider)) ? tolist(var.auto_scaling_group_provider) : [var.auto_scaling_group_provider])
+    content {}
+  }
 }

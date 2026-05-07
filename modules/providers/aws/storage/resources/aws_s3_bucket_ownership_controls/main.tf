@@ -7,4 +7,8 @@
 resource "aws_s3_bucket_ownership_controls" "this" {
   count  = var.enabled ? 1 : 0
   bucket = var.bucket
+  dynamic "rule" {
+    for_each = var.rule == null ? [] : (can(tolist(var.rule)) ? tolist(var.rule) : [var.rule])
+    content {}
+  }
 }

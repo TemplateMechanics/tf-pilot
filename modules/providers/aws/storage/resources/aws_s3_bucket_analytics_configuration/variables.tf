@@ -19,3 +19,15 @@ variable "name" {
   description = "Required attribute 'name' for type 'aws_s3_bucket_analytics_configuration'."
   type        = any
 }
+
+variable "filter" {
+  description = "Top-level nested block 'filter' payload for type 'aws_s3_bucket_analytics_configuration'."
+  type        = any
+  default     = null
+}
+
+variable "storage_class_analysis" {
+  description = "Top-level nested block 'storage_class_analysis' payload for type 'aws_s3_bucket_analytics_configuration'."
+  type        = any
+  default     = null
+}

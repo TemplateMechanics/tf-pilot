@@ -10,4 +10,8 @@ resource "aws_vpc_ipam_resource_discovery_association" "this" {
   ipam_resource_discovery_id = var.ipam_resource_discovery_id
   tags                       = var.tags
   tags_all                   = var.tags_all
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

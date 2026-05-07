@@ -7,4 +7,12 @@
 resource "aws_vpclattice_target_group_attachment" "this" {
   count                   = var.enabled ? 1 : 0
   target_group_identifier = var.target_group_identifier
+  dynamic "target" {
+    for_each = var.target == null ? [] : (can(tolist(var.target)) ? tolist(var.target) : [var.target])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

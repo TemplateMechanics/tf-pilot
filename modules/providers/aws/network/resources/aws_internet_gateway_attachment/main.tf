@@ -8,4 +8,8 @@ resource "aws_internet_gateway_attachment" "this" {
   count               = var.enabled ? 1 : 0
   internet_gateway_id = var.internet_gateway_id
   vpc_id              = var.vpc_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

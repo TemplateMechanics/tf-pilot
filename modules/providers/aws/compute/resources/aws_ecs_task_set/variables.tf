@@ -72,3 +72,33 @@ variable "wait_until_stable_timeout" {
   type        = any
   default     = null
 }
+
+variable "capacity_provider_strategy" {
+  description = "Top-level nested block 'capacity_provider_strategy' payload for type 'aws_ecs_task_set'."
+  type        = any
+  default     = null
+}
+
+variable "load_balancer" {
+  description = "Top-level nested block 'load_balancer' payload for type 'aws_ecs_task_set'."
+  type        = any
+  default     = null
+}
+
+variable "network_configuration" {
+  description = "Top-level nested block 'network_configuration' payload for type 'aws_ecs_task_set'."
+  type        = any
+  default     = null
+}
+
+variable "scale" {
+  description = "Top-level nested block 'scale' payload for type 'aws_ecs_task_set'."
+  type        = any
+  default     = null
+}
+
+variable "service_registries" {
+  description = "Top-level nested block 'service_registries' payload for type 'aws_ecs_task_set'."
+  type        = any
+  default     = null
+}

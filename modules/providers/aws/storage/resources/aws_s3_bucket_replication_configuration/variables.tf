@@ -25,3 +25,9 @@ variable "token" {
   type        = any
   default     = null
 }
+
+variable "rule" {
+  description = "Top-level nested block 'rule' payload for type 'aws_s3_bucket_replication_configuration'."
+  type        = any
+  default     = null
+}

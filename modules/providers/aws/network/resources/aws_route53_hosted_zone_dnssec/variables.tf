@@ -20,3 +20,9 @@ variable "signing_status" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route53_hosted_zone_dnssec'."
+  type        = any
+  default     = null
+}

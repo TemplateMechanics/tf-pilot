@@ -18,4 +18,8 @@ resource "aws_eip" "this" {
   tags                      = var.tags
   tags_all                  = var.tags_all
   vpc                       = var.vpc
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

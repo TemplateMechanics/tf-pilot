@@ -60,3 +60,51 @@ variable "ttl" {
   type        = any
   default     = null
 }
+
+variable "alias" {
+  description = "Top-level nested block 'alias' payload for type 'aws_route53_record'."
+  type        = any
+  default     = null
+}
+
+variable "cidr_routing_policy" {
+  description = "Top-level nested block 'cidr_routing_policy' payload for type 'aws_route53_record'."
+  type        = any
+  default     = null
+}
+
+variable "failover_routing_policy" {
+  description = "Top-level nested block 'failover_routing_policy' payload for type 'aws_route53_record'."
+  type        = any
+  default     = null
+}
+
+variable "geolocation_routing_policy" {
+  description = "Top-level nested block 'geolocation_routing_policy' payload for type 'aws_route53_record'."
+  type        = any
+  default     = null
+}
+
+variable "geoproximity_routing_policy" {
+  description = "Top-level nested block 'geoproximity_routing_policy' payload for type 'aws_route53_record'."
+  type        = any
+  default     = null
+}
+
+variable "latency_routing_policy" {
+  description = "Top-level nested block 'latency_routing_policy' payload for type 'aws_route53_record'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route53_record'."
+  type        = any
+  default     = null
+}
+
+variable "weighted_routing_policy" {
+  description = "Top-level nested block 'weighted_routing_policy' payload for type 'aws_route53_record'."
+  type        = any
+  default     = null
+}

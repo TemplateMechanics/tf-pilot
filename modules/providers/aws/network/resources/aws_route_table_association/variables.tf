@@ -26,3 +26,9 @@ variable "subnet_id" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route_table_association'."
+  type        = any
+  default     = null
+}

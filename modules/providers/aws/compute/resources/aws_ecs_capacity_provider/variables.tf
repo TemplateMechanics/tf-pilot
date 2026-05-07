@@ -26,3 +26,9 @@ variable "tags_all" {
   type        = any
   default     = null
 }
+
+variable "auto_scaling_group_provider" {
+  description = "Top-level nested block 'auto_scaling_group_provider' payload for type 'aws_ecs_capacity_provider'."
+  type        = any
+  default     = null
+}

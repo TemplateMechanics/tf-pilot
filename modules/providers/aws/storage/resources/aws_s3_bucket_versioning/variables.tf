@@ -26,3 +26,9 @@ variable "mfa" {
   type        = any
   default     = null
 }
+
+variable "versioning_configuration" {
+  description = "Top-level nested block 'versioning_configuration' payload for type 'aws_s3_bucket_versioning'."
+  type        = any
+  default     = null
+}

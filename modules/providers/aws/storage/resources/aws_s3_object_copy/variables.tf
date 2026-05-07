@@ -240,3 +240,15 @@ variable "website_redirect" {
   type        = any
   default     = null
 }
+
+variable "grant" {
+  description = "Top-level nested block 'grant' payload for type 'aws_s3_object_copy'."
+  type        = any
+  default     = null
+}
+
+variable "override_provider" {
+  description = "Top-level nested block 'override_provider' payload for type 'aws_s3_object_copy'."
+  type        = any
+  default     = null
+}

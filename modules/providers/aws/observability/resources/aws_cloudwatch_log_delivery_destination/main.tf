@@ -9,4 +9,8 @@ resource "aws_cloudwatch_log_delivery_destination" "this" {
   name          = var.name
   output_format = var.output_format
   tags          = var.tags
+  dynamic "delivery_destination_configuration" {
+    for_each = var.delivery_destination_configuration == null ? [] : (can(tolist(var.delivery_destination_configuration)) ? tolist(var.delivery_destination_configuration) : [var.delivery_destination_configuration])
+    content {}
+  }
 }

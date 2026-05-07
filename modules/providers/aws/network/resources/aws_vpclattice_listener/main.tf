@@ -13,4 +13,12 @@ resource "aws_vpclattice_listener" "this" {
   service_identifier = var.service_identifier
   tags               = var.tags
   tags_all           = var.tags_all
+  dynamic "default_action" {
+    for_each = var.default_action == null ? [] : (can(tolist(var.default_action)) ? tolist(var.default_action) : [var.default_action])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -193,3 +193,69 @@ variable "wait_for_elb_capacity" {
   type        = any
   default     = null
 }
+
+variable "availability_zone_distribution" {
+  description = "Top-level nested block 'availability_zone_distribution' payload for type 'aws_autoscaling_group'."
+  type        = any
+  default     = null
+}
+
+variable "capacity_reservation_specification" {
+  description = "Top-level nested block 'capacity_reservation_specification' payload for type 'aws_autoscaling_group'."
+  type        = any
+  default     = null
+}
+
+variable "initial_lifecycle_hook" {
+  description = "Top-level nested block 'initial_lifecycle_hook' payload for type 'aws_autoscaling_group'."
+  type        = any
+  default     = null
+}
+
+variable "instance_maintenance_policy" {
+  description = "Top-level nested block 'instance_maintenance_policy' payload for type 'aws_autoscaling_group'."
+  type        = any
+  default     = null
+}
+
+variable "instance_refresh" {
+  description = "Top-level nested block 'instance_refresh' payload for type 'aws_autoscaling_group'."
+  type        = any
+  default     = null
+}
+
+variable "launch_template" {
+  description = "Top-level nested block 'launch_template' payload for type 'aws_autoscaling_group'."
+  type        = any
+  default     = null
+}
+
+variable "mixed_instances_policy" {
+  description = "Top-level nested block 'mixed_instances_policy' payload for type 'aws_autoscaling_group'."
+  type        = any
+  default     = null
+}
+
+variable "tag" {
+  description = "Top-level nested block 'tag' payload for type 'aws_autoscaling_group'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_autoscaling_group'."
+  type        = any
+  default     = null
+}
+
+variable "traffic_source" {
+  description = "Top-level nested block 'traffic_source' payload for type 'aws_autoscaling_group'."
+  type        = any
+  default     = null
+}
+
+variable "warm_pool" {
+  description = "Top-level nested block 'warm_pool' payload for type 'aws_autoscaling_group'."
+  type        = any
+  default     = null
+}

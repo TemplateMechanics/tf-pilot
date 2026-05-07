@@ -10,4 +10,12 @@ resource "aws_route53recoveryreadiness_resource_set" "this" {
   resource_set_type = var.resource_set_type
   tags              = var.tags
   tags_all          = var.tags_all
+  dynamic "resources" {
+    for_each = var.resources == null ? [] : (can(tolist(var.resources)) ? tolist(var.resources) : [var.resources])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

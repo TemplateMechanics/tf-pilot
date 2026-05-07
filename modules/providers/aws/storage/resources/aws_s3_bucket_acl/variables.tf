@@ -26,3 +26,9 @@ variable "expected_bucket_owner" {
   type        = any
   default     = null
 }
+
+variable "access_control_policy" {
+  description = "Top-level nested block 'access_control_policy' payload for type 'aws_s3_bucket_acl'."
+  type        = any
+  default     = null
+}

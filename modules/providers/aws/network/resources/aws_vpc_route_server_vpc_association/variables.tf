@@ -19,3 +19,9 @@ variable "vpc_id" {
   description = "Required attribute 'vpc_id' for type 'aws_vpc_route_server_vpc_association'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_route_server_vpc_association'."
+  type        = any
+  default     = null
+}

@@ -7,4 +7,8 @@
 resource "aws_autoscaling_group_tag" "this" {
   count                  = var.enabled ? 1 : 0
   autoscaling_group_name = var.autoscaling_group_name
+  dynamic "tag" {
+    for_each = var.tag == null ? [] : (can(tolist(var.tag)) ? tolist(var.tag) : [var.tag])
+    content {}
+  }
 }

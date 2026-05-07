@@ -123,3 +123,117 @@ variable "vpc_security_group_ids" {
   type        = any
   default     = null
 }
+
+variable "block_device_mappings" {
+  description = "Top-level nested block 'block_device_mappings' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "capacity_reservation_specification" {
+  description = "Top-level nested block 'capacity_reservation_specification' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "cpu_options" {
+  description = "Top-level nested block 'cpu_options' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "credit_specification" {
+  description = "Top-level nested block 'credit_specification' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "elastic_gpu_specifications" {
+  description = "Top-level nested block 'elastic_gpu_specifications' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "elastic_inference_accelerator" {
+  description = "Top-level nested block 'elastic_inference_accelerator' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "enclave_options" {
+  description = "Top-level nested block 'enclave_options' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "hibernation_options" {
+  description = "Top-level nested block 'hibernation_options' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "iam_instance_profile" {
+  description = "Top-level nested block 'iam_instance_profile' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "instance_market_options" {
+  description = "Top-level nested block 'instance_market_options' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "instance_requirements" {
+  description = "Top-level nested block 'instance_requirements' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "license_specification" {
+  description = "Top-level nested block 'license_specification' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "maintenance_options" {
+  description = "Top-level nested block 'maintenance_options' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "metadata_options" {
+  description = "Top-level nested block 'metadata_options' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "monitoring" {
+  description = "Top-level nested block 'monitoring' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "network_interfaces" {
+  description = "Top-level nested block 'network_interfaces' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "placement" {
+  description = "Top-level nested block 'placement' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "private_dns_name_options" {
+  description = "Top-level nested block 'private_dns_name_options' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}
+
+variable "tag_specifications" {
+  description = "Top-level nested block 'tag_specifications' payload for type 'aws_launch_template'."
+  type        = any
+  default     = null
+}

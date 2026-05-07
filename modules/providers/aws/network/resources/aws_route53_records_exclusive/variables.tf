@@ -14,3 +14,15 @@ variable "zone_id" {
   description = "Required attribute 'zone_id' for type 'aws_route53_records_exclusive'."
   type        = any
 }
+
+variable "resource_record_set" {
+  description = "Top-level nested block 'resource_record_set' payload for type 'aws_route53_records_exclusive'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_route53_records_exclusive'."
+  type        = any
+  default     = null
+}

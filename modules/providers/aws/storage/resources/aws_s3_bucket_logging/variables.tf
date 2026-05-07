@@ -30,3 +30,15 @@ variable "expected_bucket_owner" {
   type        = any
   default     = null
 }
+
+variable "target_grant" {
+  description = "Top-level nested block 'target_grant' payload for type 'aws_s3_bucket_logging'."
+  type        = any
+  default     = null
+}
+
+variable "target_object_key_format" {
+  description = "Top-level nested block 'target_object_key_format' payload for type 'aws_s3_bucket_logging'."
+  type        = any
+  default     = null
+}

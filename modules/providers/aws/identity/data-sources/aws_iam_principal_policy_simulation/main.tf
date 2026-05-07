@@ -15,4 +15,8 @@ data "aws_iam_principal_policy_simulation" "this" {
   resource_handling_option           = var.resource_handling_option
   resource_owner_account_id          = var.resource_owner_account_id
   resource_policy_json               = var.resource_policy_json
+  dynamic "context" {
+    for_each = var.context == null ? [] : (can(tolist(var.context)) ? tolist(var.context) : [var.context])
+    content {}
+  }
 }

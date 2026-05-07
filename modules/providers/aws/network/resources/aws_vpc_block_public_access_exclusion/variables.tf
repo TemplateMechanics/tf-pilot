@@ -32,3 +32,9 @@ variable "vpc_id" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'aws_vpc_block_public_access_exclusion'."
+  type        = any
+  default     = null
+}

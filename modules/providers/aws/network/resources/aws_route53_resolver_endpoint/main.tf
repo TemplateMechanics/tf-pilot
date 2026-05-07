@@ -13,4 +13,12 @@ resource "aws_route53_resolver_endpoint" "this" {
   resolver_endpoint_type = var.resolver_endpoint_type
   tags                   = var.tags
   tags_all               = var.tags_all
+  dynamic "ip_address" {
+    for_each = var.ip_address == null ? [] : (can(tolist(var.ip_address)) ? tolist(var.ip_address) : [var.ip_address])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }
