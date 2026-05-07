@@ -23,16 +23,17 @@ Additional providers may exist in the repository for ecosystem coverage, but sho
 
 Use Terraform schema reflection to keep module option coverage current with provider releases.
 
-1. Configure provider source, version, enablement, and module families in `examples/providers/schema-catalog/provider-coverage.yaml`.
-2. Sync the derived settings and schema-catalog workspace pins:
-  `./scripts/Sync-ProviderSettingsFromYaml.ps1 -YamlFile examples/providers/schema-catalog/provider-coverage.yaml`
-3. Run selective refresh:
+1. Configure enablement in `examples/providers/schema-catalog/catalog.settings.json`:
+  - provider enabled/disabled
+  - provider coverage mode (`prefix` by default, `all` for full-schema generation)
+  - module family enabled/disabled
+2. Run selective refresh:
   `./scripts/Invoke-ProviderCatalogRefresh.ps1`
-4. Optionally scope by provider list:
+3. Optionally scope by provider list:
   `./scripts/Invoke-ProviderCatalogRefresh.ps1 -Providers aws,azurerm`
-5. For local speed, default lock is host-platform only (`darwin_arm64`, `windows_amd64`, etc.).
-6. Use `-AllPlatforms` before commits that intentionally update lock coverage across operating systems.
-7. Compare generated catalogs with each module's exposed variables to decide what to add.
+4. For local speed, default lock is host-platform only (`darwin_arm64`, `windows_amd64`, etc.).
+5. Use `-AllPlatforms` before commits that intentionally update lock coverage across operating systems.
+6. Compare generated catalogs with each module's exposed variables to decide what to add.
 
 Diff model and transfer minimization:
 - Refresh is incremental and changed-only by default.
@@ -42,7 +43,12 @@ Diff model and transfer minimization:
 - Provider lock sync is skipped unless explicitly requested.
 - This avoids unnecessary provider pulls and reduces data movement.
 
-Commit generated catalogs when provider versions change in the schema-catalog workspace `versions.tf` files.
+Coverage modes:
+- `prefix` preserves the current behavior: only types matching configured prefixes are generated.
+- `all` keeps curated families first and auto-injects `misc` as a catch-all so every provider schema type gets a generated module path.
+- Prefixes ending in `_` also match the bare family name, so `dynatrace_alerting_` matches both `dynatrace_alerting_profile` and `dynatrace_alerting`.
+
+Commit generated catalogs when provider versions change in `examples/providers/schema-catalog/versions.tf`.
 
 This avoids hand-maintaining long argument lists and creates a repeatable reflection baseline for AWS, Azure, Google, Kubernetes, and Helm.
 

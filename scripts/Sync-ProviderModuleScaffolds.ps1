@@ -58,38 +58,38 @@ if (-not $settings.providers) {
   exit 1
 }
 
-function Get-ProviderSourceVersion {
-  param(
-    [Parameter(Mandatory)][string]$ProviderName,
-    [Parameter()][string]$WorkspaceName,
-    [Parameter(Mandatory)][string]$SettingsRoot
-  )
+$providerSourceMap = @{
+  aws        = 'hashicorp/aws'
+  azurerm    = 'hashicorp/azurerm'
+  google     = 'hashicorp/google'
+  kubernetes = 'hashicorp/kubernetes'
+  helm       = 'hashicorp/helm'
+  random     = 'hashicorp/random'
+  tls        = 'hashicorp/tls'
+  time       = 'hashicorp/time'
+  local      = 'hashicorp/local'
+  null       = 'hashicorp/null'
+  external   = 'hashicorp/external'
+  http       = 'hashicorp/http'
+  cloudinit  = 'hashicorp/cloudinit'
+  archive    = 'hashicorp/archive'
+}
 
-  $resolvedWorkspaceName = if ([string]::IsNullOrWhiteSpace($WorkspaceName)) { $ProviderName } else { $WorkspaceName }
-  $versionsPath = Join-Path (Join-Path $SettingsRoot $resolvedWorkspaceName) 'versions.tf'
-
-  if (Test-Path $versionsPath) {
-    $content = Get-Content -Path $versionsPath -Raw
-    $providerBlockPattern = '(?ms)' + [regex]::Escape($ProviderName) + '\s*=\s*\{(?<body>.*?)\}'
-    $providerMatch = [regex]::Match($content, $providerBlockPattern)
-    if ($providerMatch.Success) {
-      $providerBody = $providerMatch.Groups['body'].Value
-      $sourceMatch = [regex]::Match($providerBody, 'source\s*=\s*"(?<value>[^"]+)"')
-      $versionMatch = [regex]::Match($providerBody, 'version\s*=\s*"(?<value>[^"]+)"')
-
-      if ($sourceMatch.Success -and $versionMatch.Success) {
-        return @{
-          source = $sourceMatch.Groups['value'].Value
-          version = $versionMatch.Groups['value'].Value
-        }
-      }
-    }
-  }
-
-  return @{
-    source = "hashicorp/$ProviderName"
-    version = '~> 1.0'
-  }
+$providerVersionMap = @{
+  aws        = '~> 5.0'
+  azurerm    = '~> 4.0'
+  google     = '~> 6.0'
+  kubernetes = '~> 2.0'
+  helm       = '~> 3.0'
+  random     = '~> 3.0'
+  tls        = '~> 4.0'
+  time       = '~> 0.11'
+  local      = '~> 2.0'
+  null       = '~> 3.0'
+  external   = '~> 2.0'
+  http       = '~> 3.0'
+  cloudinit  = '~> 2.0'
+  archive    = '~> 2.0'
 }
 
 function Get-JsonObjectPropertyNames {
@@ -108,6 +108,42 @@ function Get-JsonObjectPropertyNames {
       Where-Object { $_.MemberType -eq 'NoteProperty' } |
       ForEach-Object { $_.Name }
   )
+}
+
+function Get-ProviderMode {
+  param([Parameter(Mandatory)]$ProviderConfig)
+
+  if ($null -ne $ProviderConfig.PSObject.Properties['mode']) {
+    $mode = [string]$ProviderConfig.mode
+    if ($mode -eq 'all') {
+      return 'all'
+    }
+  }
+
+  return 'prefix'
+}
+
+function New-CatchAllModuleConfig {
+  return [pscustomobject]@{
+    enabled                = $true
+    resourceTypePrefixes   = @('*')
+    dataSourceTypePrefixes = @('*')
+  }
+}
+
+function Get-EffectiveProviderModules {
+  param([Parameter(Mandatory)]$ProviderConfig)
+
+  $modules = [ordered]@{}
+  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $ProviderConfig.modules)) {
+    $modules[$moduleName] = $ProviderConfig.modules.$moduleName
+  }
+
+  if ((Get-ProviderMode -ProviderConfig $ProviderConfig) -eq 'all' -and -not $modules.Contains('misc')) {
+    $modules['misc'] = New-CatchAllModuleConfig
+  }
+
+  return $modules
 }
 
 function Write-Utf8NoBom {
@@ -144,12 +180,11 @@ function New-ModuleScaffold {
   param(
     [Parameter(Mandatory)][string]$ProviderName,
     [Parameter(Mandatory)][string]$ModuleName,
-    [Parameter(Mandatory)]$ModuleConfig,
-    [Parameter()][string]$WorkspaceName,
-    [Parameter(Mandatory)][string]$SettingsRoot
+    [Parameter(Mandatory)]$ModuleConfig
   )
 
-  $providerMeta = Get-ProviderSourceVersion -ProviderName $ProviderName -WorkspaceName $WorkspaceName -SettingsRoot $SettingsRoot
+  $providerSource = if ($providerSourceMap.ContainsKey($ProviderName)) { $providerSourceMap[$ProviderName] } else { "hashicorp/$ProviderName" }
+  $providerVersion = if ($providerVersionMap.ContainsKey($ProviderName)) { $providerVersionMap[$ProviderName] } else { '~> 1.0' }
 
   $modulePath = Join-Path (Join-Path $resolvedModulesRoot $ProviderName) $ModuleName
   $testsPath = Join-Path $modulePath 'tests'
@@ -166,7 +201,7 @@ terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 
   required_providers {
-    $ProviderName = { source = "$($providerMeta.source)", version = "$($providerMeta.version)" }
+    $ProviderName = { source = "$providerSource", version = "$providerVersion" }
   }
 }
 "@
@@ -285,7 +320,7 @@ run "plan_without_credentials" {
 $results = @()
 foreach ($providerName in (Get-JsonObjectPropertyNames -InputObject $settings.providers)) {
   $providerConfig = $settings.providers.$providerName
-  $providerWorkspace = if ($providerConfig.workspace) { [string]$providerConfig.workspace } else { $providerName }
+  $effectiveModules = Get-EffectiveProviderModules -ProviderConfig $providerConfig
 
   $providerDir = Join-Path $resolvedModulesRoot $providerName
   if (-not (Test-Path $providerDir)) {
@@ -301,14 +336,14 @@ Provider module families for $providerName generated from reflection settings.
 "@
   }
 
-  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $providerConfig.modules)) {
-    $moduleConfig = $providerConfig.modules.$moduleName
+  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $effectiveModules)) {
+    $moduleConfig = $effectiveModules[$moduleName]
 
     if (-not $IncludeDisabledModules -and $moduleConfig.enabled -ne $true) {
       continue
     }
 
-    $results += New-ModuleScaffold -ProviderName $providerName -ModuleName $moduleName -ModuleConfig $moduleConfig -WorkspaceName $providerWorkspace -SettingsRoot (Split-Path -Parent $settingsPath)
+    $results += New-ModuleScaffold -ProviderName $providerName -ModuleName $moduleName -ModuleConfig $moduleConfig
   }
 }
 
