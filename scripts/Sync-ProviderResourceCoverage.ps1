@@ -368,11 +368,13 @@ function New-ResourceMainTf {
 
   $attributeLines = @()
   foreach ($attr in @($RequiredAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $attributeLines += "  $attr = var.$varName"
   }
 
   foreach ($attr in @($OptionalAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $attributeLines += "  $attr = var.$varName"
   }
@@ -407,11 +409,13 @@ function New-DataMainTf {
 
   $attributeLines = @()
   foreach ($attr in @($RequiredAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $attributeLines += "  $attr = var.$varName"
   }
 
   foreach ($attr in @($OptionalAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $attributeLines += "  $attr = var.$varName"
   }
