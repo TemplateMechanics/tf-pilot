@@ -303,9 +303,9 @@ Describe 'Sync-ProviderResourceCoverage.ps1' {
 {
   "provider": "demo",
   "resources": [
-    { "type": "demo_alerting", "options": { "requiredAttributes": [{ "name": "enabled", "type": "bool" }], "optionalAttributes": [], "nestedBlocks": [] } },
-    { "type": "demo_alerting_profile", "options": { "requiredAttributes": [{ "name": "name", "type": "string" }], "optionalAttributes": [], "nestedBlocks": [] } },
-    { "type": "demo_other", "options": { "requiredAttributes": [{ "name": "id", "type": "string" }], "optionalAttributes": [], "nestedBlocks": [] } }
+    { "type": "demo_alerting", "options": { "requiredAttributes": ["enabled"], "optionalAttributes": ["tags"], "nestedBlocks": [] } },
+    { "type": "demo_alerting_profile", "options": { "requiredAttributes": ["name"], "optionalAttributes": ["description"], "nestedBlocks": [] } },
+    { "type": "demo_other", "options": { "requiredAttributes": ["id"], "optionalAttributes": [], "nestedBlocks": [] } }
   ],
   "dataSources": []
 }
@@ -353,8 +353,8 @@ Describe 'Sync-ProviderResourceCoverage.ps1' {
 {
   "provider": "demo",
   "resources": [
-    { "type": "demo_alerting", "options": { "requiredAttributes": [{ "name": "enabled", "type": "bool" }], "optionalAttributes": [], "nestedBlocks": [] } },
-    { "type": "demo_other", "options": { "requiredAttributes": [{ "name": "id", "type": "string" }], "optionalAttributes": [], "nestedBlocks": [] } }
+    { "type": "demo_alerting", "options": { "requiredAttributes": ["enabled"], "optionalAttributes": [], "nestedBlocks": [] } },
+    { "type": "demo_other", "options": { "requiredAttributes": ["id"], "optionalAttributes": [], "nestedBlocks": [] } }
   ],
   "dataSources": []
 }
@@ -401,7 +401,7 @@ Describe 'Sync-ProviderResourceCoverage.ps1' {
 {
   "provider": "demo",
   "resources": [
-    { "type": "demo_alerting", "options": { "requiredAttributes": [{ "name": "enabled", "type": "bool" }], "optionalAttributes": [], "nestedBlocks": [] } }
+    { "type": "demo_alerting", "options": { "requiredAttributes": ["enabled"], "optionalAttributes": [], "nestedBlocks": [] } }
   ],
   "dataSources": []
 }
