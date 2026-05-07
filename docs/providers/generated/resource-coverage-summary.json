@@ -1,5 +1,5 @@
 {
-    "provider":  "dynatrace",
-    "resourcesGenerated":  431,
-    "dataSourcesGenerated":  57
+    "provider":  "helm",
+    "resourcesGenerated":  1,
+    "dataSourcesGenerated":  1
 }

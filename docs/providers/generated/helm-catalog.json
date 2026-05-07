@@ -1,17 +1,18 @@
 {
-    "generatedAt":  "2026-05-01T18:02:37.5629159Z",
+    "generatedAt":  "2026-05-07T03:02:03.3501587Z",
     "generatedFromPath":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\helm",
     "provider":  "helm",
     "providerSchemaKey":  "registry.terraform.io/hashicorp/helm",
     "modules":  [
-                    "repository",
-                    "release"
+                    "misc",
+                    "release",
+                    "repository"
                 ],
     "resourcePrefixes":  [
-                             "helm_release"
+
                          ],
     "dataSourcePrefixes":  [
-                               "helm_template"
+
                            ],
     "resourceCount":  1,
     "dataSourceCount":  1,

@@ -277,7 +277,7 @@
                       "helm":  {
                                    "enabled":  true,
                                    "workspace":  "helm",
-                                   "mode":  "prefix",
+                                   "mode":  "all",
                                    "modules":  {
                                                    "repository":  {
                                                                       "enabled":  true,
