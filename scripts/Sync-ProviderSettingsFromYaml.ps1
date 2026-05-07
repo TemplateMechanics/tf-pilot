@@ -193,10 +193,16 @@ foreach ($providerProp in (Get-ObjectEntries -InputObject $yaml.providers)) {
   $workspaceName = if ($providerCfg.workspace) { [string]$providerCfg.workspace } else { $providerName }
   $source = [string]$providerCfg.source
   $version = [string]$providerCfg.version
+  $mode = if ($providerCfg.mode) { [string]$providerCfg.mode } else { 'prefix' }
+  if ($mode -notin @('prefix', 'all')) {
+    Write-Error "Unsupported mode '$mode' for provider '$providerName'. Supported values are 'prefix' and 'all'."
+    exit 1
+  }
 
   $settingsProviders[$providerName] = [ordered]@{
     enabled   = [bool]$providerCfg.enabled
     workspace = $workspaceName
+    mode      = $mode
     modules   = $modules
   }
 

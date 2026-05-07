@@ -110,6 +110,42 @@ function Get-ProviderSourceVersion {
   return @{ source = "hashicorp/$ProviderName"; version = '>= 0.0.0' }
 }
 
+function Get-ProviderMode {
+  param([Parameter(Mandatory)]$ProviderConfig)
+
+  if ($null -ne $ProviderConfig.PSObject.Properties['mode']) {
+    $mode = [string]$ProviderConfig.mode
+    if ($mode -eq 'all') {
+      return 'all'
+    }
+  }
+
+  return 'prefix'
+}
+
+function New-CatchAllModuleConfig {
+  return [pscustomobject]@{
+    enabled                = $true
+    resourceTypePrefixes   = @('*')
+    dataSourceTypePrefixes = @('*')
+  }
+}
+
+function Get-EffectiveProviderModules {
+  param([Parameter(Mandatory)]$ProviderConfig)
+
+  $modules = [ordered]@{}
+  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $ProviderConfig.modules)) {
+    $modules[$moduleName] = $ProviderConfig.modules.$moduleName
+  }
+
+  if ((Get-ProviderMode -ProviderConfig $ProviderConfig) -eq 'all' -and -not $modules.Contains('misc')) {
+    $modules['misc'] = New-CatchAllModuleConfig
+  }
+
+  return $modules
+}
+
 function Matches-Prefix {
   param(
     [Parameter(Mandatory)][string]$TypeName,
@@ -124,12 +160,60 @@ function Matches-Prefix {
     if ([string]::IsNullOrWhiteSpace($prefix)) {
       continue
     }
+    if ($prefix -eq '*') {
+      return $true
+    }
     if ($TypeName.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+      return $true
+    }
+    if ($prefix.EndsWith('_') -and $TypeName.Equals($prefix.TrimEnd('_'), [System.StringComparison]::OrdinalIgnoreCase)) {
       return $true
     }
   }
 
   return $false
+}
+
+function Resolve-ModuleNameForType {
+  param(
+    [Parameter(Mandatory)][string]$TypeName,
+    [Parameter(Mandatory)]$Modules,
+    [Parameter(Mandatory)][ValidateSet('resource', 'data')][string]$Kind,
+    [Parameter()][switch]$IncludeDisabledModules
+  )
+
+  $moduleNames = @(Get-JsonObjectPropertyNames -InputObject $Modules)
+
+  # Always prefer specific family prefixes over wildcard catch-alls.
+  foreach ($moduleName in $moduleNames) {
+    $moduleConfig = $Modules[$moduleName]
+    if (-not $IncludeDisabledModules -and $moduleConfig.enabled -ne $true) {
+      continue
+    }
+    $prefixes = if ($Kind -eq 'resource') { @($moduleConfig.resourceTypePrefixes) } else { @($moduleConfig.dataSourceTypePrefixes) }
+    if ($prefixes -contains '*') {
+      continue
+    }
+    if (Matches-Prefix -TypeName $TypeName -Prefixes $prefixes) {
+      return $moduleName
+    }
+  }
+
+  foreach ($moduleName in $moduleNames) {
+    $moduleConfig = $Modules[$moduleName]
+    if (-not $IncludeDisabledModules -and $moduleConfig.enabled -ne $true) {
+      continue
+    }
+    $prefixes = if ($Kind -eq 'resource') { @($moduleConfig.resourceTypePrefixes) } else { @($moduleConfig.dataSourceTypePrefixes) }
+    if (-not ($prefixes -contains '*')) {
+      continue
+    }
+    if (Matches-Prefix -TypeName $TypeName -Prefixes $prefixes) {
+      return $moduleName
+    }
+  }
+
+  return $null
 }
 
 function Get-RequiredAttributes {
@@ -222,6 +306,7 @@ function New-VariablesTf {
   }
 
   foreach ($attr in @($RequiredAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $lines += @(
       "variable `"$varName`" {",
@@ -233,6 +318,7 @@ function New-VariablesTf {
   }
 
   foreach ($attr in @($OptionalAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $lines += @(
       "variable `"$varName`" {",
@@ -282,11 +368,13 @@ function New-ResourceMainTf {
 
   $attributeLines = @()
   foreach ($attr in @($RequiredAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $attributeLines += "  $attr = var.$varName"
   }
 
   foreach ($attr in @($OptionalAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $attributeLines += "  $attr = var.$varName"
   }
@@ -321,11 +409,13 @@ function New-DataMainTf {
 
   $attributeLines = @()
   foreach ($attr in @($RequiredAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $attributeLines += "  $attr = var.$varName"
   }
 
   foreach ($attr in @($OptionalAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $attributeLines += "  $attr = var.$varName"
   }
@@ -375,6 +465,9 @@ foreach ($providerName in $targetProviders) {
     continue
   }
 
+  $providerMode = Get-ProviderMode -ProviderConfig $providerCfg
+  $effectiveModules = Get-EffectiveProviderModules -ProviderConfig $providerCfg
+
   if (-not $IncludeDisabledModules -and $providerCfg.enabled -ne $true) {
     Write-Host "Skipping disabled provider '$providerName'."
     continue
@@ -392,34 +485,80 @@ foreach ($providerName in $targetProviders) {
   $providerResourceCount = 0
   $providerDataCount = 0
 
-  foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $providerCfg.modules)) {
-    $moduleCfg = $providerCfg.modules.$moduleName
+  if ($providerMode -eq 'prefix') {
+    foreach ($moduleName in (Get-JsonObjectPropertyNames -InputObject $effectiveModules)) {
+      $moduleCfg = $effectiveModules[$moduleName]
 
-    if (-not $IncludeDisabledModules -and $moduleCfg.enabled -ne $true) {
-      continue
-    }
-
-    $resourcePrefixes = @($moduleCfg.resourceTypePrefixes)
-    $dataPrefixes = @($moduleCfg.dataSourceTypePrefixes)
-
-    $moduleRoot = Join-Path (Join-Path $modulesPathRoot $providerName) $moduleName
-    $resourceRoot = Join-Path $moduleRoot 'resources'
-    $dataRoot = Join-Path $moduleRoot 'data-sources'
-
-    if (-not (Test-Path $resourceRoot)) {
-      New-Item -ItemType Directory -Path $resourceRoot -Force | Out-Null
-    }
-    if (-not (Test-Path $dataRoot)) {
-      New-Item -ItemType Directory -Path $dataRoot -Force | Out-Null
-    }
-
-    foreach ($entry in @($catalog.resources)) {
-      $typeName = [string]$entry.type
-      if (-not (Matches-Prefix -TypeName $typeName -Prefixes $resourcePrefixes)) {
+      if (-not $IncludeDisabledModules -and $moduleCfg.enabled -ne $true) {
         continue
       }
 
-      $targetDir = Join-Path $resourceRoot $typeName
+      $resourcePrefixes = @($moduleCfg.resourceTypePrefixes)
+      $dataPrefixes = @($moduleCfg.dataSourceTypePrefixes)
+
+      $moduleRoot = Join-Path (Join-Path $modulesPathRoot $providerName) $moduleName
+      $resourceRoot = Join-Path $moduleRoot 'resources'
+      $dataRoot = Join-Path $moduleRoot 'data-sources'
+
+      if (-not (Test-Path $resourceRoot)) {
+        New-Item -ItemType Directory -Path $resourceRoot -Force | Out-Null
+      }
+      if (-not (Test-Path $dataRoot)) {
+        New-Item -ItemType Directory -Path $dataRoot -Force | Out-Null
+      }
+
+      foreach ($entry in @($catalog.resources)) {
+        $typeName = [string]$entry.type
+        if (-not (Matches-Prefix -TypeName $typeName -Prefixes $resourcePrefixes)) {
+          continue
+        }
+
+        $targetDir = Join-Path $resourceRoot $typeName
+        New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
+
+        $requiredAttrs = Get-RequiredAttributes -CatalogEntry $entry
+        $optionalAttrs = Get-OptionalAttributes -CatalogEntry $entry
+        $nestedBlocks = Get-NestedBlockNames -CatalogEntry $entry
+
+        Write-Utf8NoBom -Path (Join-Path $targetDir 'versions.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/resources/$typeName" -FileName 'versions.tf') + "`n" + (New-VersionsTf -ProviderName $providerName -ProviderSource $providerMeta.source -ProviderVersion $providerMeta.version))
+        Write-Utf8NoBom -Path (Join-Path $targetDir 'variables.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/resources/$typeName" -FileName 'variables.tf') + "`n" + (New-VariablesTf -TypeName $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks))
+        Write-Utf8NoBom -Path (Join-Path $targetDir 'main.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/resources/$typeName" -FileName 'main.tf') + "`n" + (New-ResourceMainTf -ResourceType $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks))
+        Write-Utf8NoBom -Path (Join-Path $targetDir 'outputs.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/resources/$typeName" -FileName 'outputs.tf') + "`n" + (New-ResourceOutputsTf -ResourceType $typeName))
+
+        $providerResourceCount++
+      }
+
+      foreach ($entry in @($catalog.dataSources)) {
+        $typeName = [string]$entry.type
+        if (-not (Matches-Prefix -TypeName $typeName -Prefixes $dataPrefixes)) {
+          continue
+        }
+
+        $targetDir = Join-Path $dataRoot $typeName
+        New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
+
+        $requiredAttrs = Get-RequiredAttributes -CatalogEntry $entry
+        $optionalAttrs = Get-OptionalAttributes -CatalogEntry $entry
+        $nestedBlocks = Get-NestedBlockNames -CatalogEntry $entry
+
+        Write-Utf8NoBom -Path (Join-Path $targetDir 'versions.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/data-sources/$typeName" -FileName 'versions.tf') + "`n" + (New-VersionsTf -ProviderName $providerName -ProviderSource $providerMeta.source -ProviderVersion $providerMeta.version))
+        Write-Utf8NoBom -Path (Join-Path $targetDir 'variables.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/data-sources/$typeName" -FileName 'variables.tf') + "`n" + (New-VariablesTf -TypeName $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks))
+        Write-Utf8NoBom -Path (Join-Path $targetDir 'main.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/data-sources/$typeName" -FileName 'main.tf') + "`n" + (New-DataMainTf -DataType $typeName -RequiredAttributes $requiredAttrs -OptionalAttributes $optionalAttrs -NestedBlockNames $nestedBlocks))
+        Write-Utf8NoBom -Path (Join-Path $targetDir 'outputs.tf') -Content ((Get-GeneratedHeader -ProviderName $providerName -ModuleName "$moduleName/data-sources/$typeName" -FileName 'outputs.tf') + "`n" + (New-DataOutputsTf -DataType $typeName))
+
+        $providerDataCount++
+      }
+    }
+  }
+  else {
+    foreach ($entry in @($catalog.resources)) {
+      $typeName = [string]$entry.type
+      $moduleName = Resolve-ModuleNameForType -TypeName $typeName -Modules $effectiveModules -Kind resource -IncludeDisabledModules:$IncludeDisabledModules
+      if ([string]::IsNullOrWhiteSpace($moduleName)) {
+        throw "Provider '$providerName' is configured for mode 'all', but resource type '$typeName' could not be mapped to any enabled module family. Update the settings to include a matching family or add an enabled catch-all family (for example, 'misc' with prefix '*')."
+      }
+
+      $targetDir = Join-Path (Join-Path (Join-Path (Join-Path $modulesPathRoot $providerName) $moduleName) 'resources') $typeName
       New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
 
       $requiredAttrs = Get-RequiredAttributes -CatalogEntry $entry
@@ -436,11 +575,12 @@ foreach ($providerName in $targetProviders) {
 
     foreach ($entry in @($catalog.dataSources)) {
       $typeName = [string]$entry.type
-      if (-not (Matches-Prefix -TypeName $typeName -Prefixes $dataPrefixes)) {
-        continue
+      $moduleName = Resolve-ModuleNameForType -TypeName $typeName -Modules $effectiveModules -Kind data -IncludeDisabledModules:$IncludeDisabledModules
+      if ([string]::IsNullOrWhiteSpace($moduleName)) {
+        throw "Provider '$providerName' is configured for mode 'all', but data source type '$typeName' could not be mapped to any enabled module family. Update the settings to include a matching family or add an enabled catch-all family (for example, 'misc' with prefix '*')."
       }
 
-      $targetDir = Join-Path $dataRoot $typeName
+      $targetDir = Join-Path (Join-Path (Join-Path (Join-Path $modulesPathRoot $providerName) $moduleName) 'data-sources') $typeName
       New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
 
       $requiredAttrs = Get-RequiredAttributes -CatalogEntry $entry

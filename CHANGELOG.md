@@ -17,6 +17,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Migrated `examples/providers/aws-stack` and `examples/providers/multiprovider-stack` from regex/check token parsing to registry-based `templatestring` resolution (`token_scope`, `token_aware_field_raw`, `resolved_token_fields`).
 - Updated Terraform harness docs/instructions to require token registry discipline and forbid decorative token fields.
 - Added CI and Pester guardrails to enforce YAML token anti-pattern checks.
+- Added provider coverage engine support for `mode: "all"`, automatic `misc` family scaffolding, and bare-form prefix matching for future 100% coverage branches.
 - Hardened `Invoke-TerraformPlan.ps1`, `Invoke-TerraformApply.ps1`, and `Invoke-TerraformDestroy.ps1` with multi-cloud preflight checks, AWS session-expiry guidance, and provider-process cleanup on destroy.
 - Added orphan-provider cleanup and terminal guidance in destroy workflows; updated `CLAUDE.md` and `.github/copilot-instructions.md` with destroy-cleanup expectations.
 - Tightened CI `validate.yml` cloud-readiness gating (Infracost only when API key configured).
