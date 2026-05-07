@@ -7,13 +7,16 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- Added `scripts/Test-ProviderParameterCoverage.ps1` and CI/report wiring to validate that reflected modules expose provider-schema parameters (top-level attributes and top-level nested blocks).
 - Added `examples/providers/multi-cloud-free-tier` with YAML-driven composition across AWS, Azure, and GCP plus provider-stack schema support.
 - Added `docs/YAML-TOKEN-REGISTRY.md` as the canonical implementation reference for provider-stack token resolution.
 - Added `scripts/Test-YamlTokens.ps1` for anti-pattern enforcement (`token_example_*`, legacy regex token parsers).
 - Added `docs/AUTHENTICATION.md` covering AWS, Azure, and GCP credential setup paths used by `examples/providers/multi-cloud-free-tier`.
 - Added `scripts/Test-CloudCliReadiness.ps1` and `scripts/Repair-CloudCliPath.ps1` for pre-plan/apply cloud-CLI preflight.
+- Added nested-block reflected parameter generation for dynatrace modules so generated families mirror full top-level HCL surface, not only scalar attributes.
 
 ### Changed
+- Switched `examples/providers/schema-catalog/catalog.settings.json` provider `dynatrace` to `mode: "all"`, delivering 100% dynatrace resource/data-source type coverage with engine-managed `misc` family auto-injection.
 - Migrated `examples/providers/aws-stack` and `examples/providers/multiprovider-stack` from regex/check token parsing to registry-based `templatestring` resolution (`token_scope`, `token_aware_field_raw`, `resolved_token_fields`).
 - Updated Terraform harness docs/instructions to require token registry discipline and forbid decorative token fields.
 - Added CI and Pester guardrails to enforce YAML token anti-pattern checks.

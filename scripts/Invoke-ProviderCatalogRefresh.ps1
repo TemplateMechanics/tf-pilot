@@ -169,6 +169,35 @@ function Get-EnabledModuleNames {
   return @($enabledModules)
 }
 
+function Get-ProviderMode {
+  param(
+    [Parameter()]
+    $ProviderConfig
+  )
+
+  if ($null -ne $ProviderConfig -and $null -ne $ProviderConfig.PSObject.Properties['mode']) {
+    return [string]$ProviderConfig.mode
+  }
+
+  return 'prefix'
+}
+
+function Get-EffectiveModuleNames {
+  param(
+    [Parameter()]
+    $ProviderConfig
+  )
+
+  $enabledModules = @(Get-EnabledModuleNames -ModulesNode $ProviderConfig.modules)
+  $providerMode = Get-ProviderMode -ProviderConfig $ProviderConfig
+
+  if ($providerMode -eq 'all' -and -not ($enabledModules -contains 'misc')) {
+    $enabledModules += 'misc'
+  }
+
+  return @($enabledModules | Sort-Object -Unique)
+}
+
 function Get-JsonObjectPropertyNames {
   param([Parameter()]$InputObject)
 
@@ -439,16 +468,13 @@ foreach ($providerName in $targetProviders) {
     continue
   }
 
-  $enabledModuleNames = Get-EnabledModuleNames -ModulesNode $providerConfig.modules
+  $enabledModuleNames = Get-EffectiveModuleNames -ProviderConfig $providerConfig
   if ($enabledModuleNames.Count -eq 0) {
     Write-Host "Skipping provider '$providerName' because no modules are enabled."
     continue
   }
 
-  $providerMode = 'prefix'
-  if ($null -ne $providerConfig.PSObject.Properties['mode']) {
-    $providerMode = [string]$providerConfig.mode
-  }
+  $providerMode = Get-ProviderMode -ProviderConfig $providerConfig
 
   $resourcePrefixes = Get-CombinedPrefixes -ModulesNode $providerConfig.modules -EnabledModuleNames $enabledModuleNames -PropertyName 'resourceTypePrefixes'
   $dataSourcePrefixes = Get-CombinedPrefixes -ModulesNode $providerConfig.modules -EnabledModuleNames $enabledModuleNames -PropertyName 'dataSourceTypePrefixes'

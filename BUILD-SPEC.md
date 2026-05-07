@@ -28,6 +28,7 @@ The active codebase now includes, in addition to baseline files:
 - Autonomous infrastructure sync orchestration.
 - Generated provider module trees under `modules/providers/`.
 - Provider coverage/drift reports under `docs/providers/generated/`.
+- Provider parameter-coverage validation (`scripts/Test-ProviderParameterCoverage.ps1`) with CI/report integration for reflected module surface checks.
 - OPA policy checks and additional CI jobs for drift, contracts, cost, and SBOM.
 - MCP launch/install utilities and server enablement synchronization.
 - Multi-cloud free-tier provider stack example with YAML composition across AWS, Azure, and GCP.
