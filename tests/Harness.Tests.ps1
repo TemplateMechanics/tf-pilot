@@ -341,6 +341,53 @@ Describe 'Sync-ProviderResourceCoverage.ps1' {
     Test-Path (Join-Path $modulesRoot 'demo/alerts/resources/demo_alerting/main.tf') | Should -BeTrue
     Test-Path (Join-Path $modulesRoot 'demo/misc/resources/demo_other/main.tf') | Should -BeTrue
   }
+
+  It 'skips disabled families in all mode unless include-disabled is requested' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogDir = Join-Path $TestDrive 'catalogs'
+    $modulesRoot = Join-Path $TestDrive 'modules-disabled-filter'
+
+    @'
+{
+  "providers": {
+    "demo": {
+      "enabled": true,
+      "workspace": "demo",
+      "mode": "all",
+      "modules": {
+        "alerts": {
+          "enabled": false,
+          "resourceTypePrefixes": ["demo_alerting_"],
+          "dataSourceTypePrefixes": []
+        },
+        "misc": {
+          "enabled": true,
+          "resourceTypePrefixes": ["*"],
+          "dataSourceTypePrefixes": ["*"]
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    New-Item -ItemType Directory -Path $catalogDir -Force | Out-Null
+    @'
+{
+  "provider": "demo",
+  "resources": [
+    { "type": "demo_alerting", "options": { "requiredAttributes": [], "optionalAttributes": [], "nestedBlocks": [] } }
+  ],
+  "dataSources": []
+}
+'@ | Set-Content -Path (Join-Path $catalogDir 'demo-catalog.json') -Encoding utf8
+
+    & "$script:scriptsDir/Sync-ProviderResourceCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot
+    $LASTEXITCODE | Should -Be 0
+
+    Test-Path (Join-Path $modulesRoot 'demo/alerts/resources/demo_alerting/main.tf') | Should -BeFalse
+    Test-Path (Join-Path $modulesRoot 'demo/misc/resources/demo_alerting/main.tf') | Should -BeTrue
+  }
 }
 
 Describe 'Sync-McpServerEnablement.ps1' {

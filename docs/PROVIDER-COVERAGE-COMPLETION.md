@@ -54,7 +54,8 @@ The exact "Provider total" numbers are produced by:
 ```powershell
 cd examples/providers/schema-catalog/<provider>
 terraform init -backend=false -input=false
-terraform providers schema -json > /tmp/schema.json
+$schemaPath = Join-Path $env:TEMP 'schema.json'
+terraform providers schema -json > $schemaPath
 # Then count resource_schemas + data_source_schemas keys.
 ```
 

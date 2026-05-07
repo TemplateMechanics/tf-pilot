@@ -178,7 +178,8 @@ function Resolve-ModuleNameForType {
   param(
     [Parameter(Mandatory)][string]$TypeName,
     [Parameter(Mandatory)]$Modules,
-    [Parameter(Mandatory)][ValidateSet('resource', 'data')][string]$Kind
+    [Parameter(Mandatory)][ValidateSet('resource', 'data')][string]$Kind,
+    [Parameter()][switch]$IncludeDisabledModules
   )
 
   $moduleNames = @(Get-JsonObjectPropertyNames -InputObject $Modules)
@@ -186,6 +187,9 @@ function Resolve-ModuleNameForType {
   # Always prefer specific family prefixes over wildcard catch-alls.
   foreach ($moduleName in $moduleNames) {
     $moduleConfig = $Modules[$moduleName]
+    if (-not $IncludeDisabledModules -and $moduleConfig.enabled -ne $true) {
+      continue
+    }
     $prefixes = if ($Kind -eq 'resource') { @($moduleConfig.resourceTypePrefixes) } else { @($moduleConfig.dataSourceTypePrefixes) }
     if ($prefixes -contains '*') {
       continue
@@ -197,6 +201,9 @@ function Resolve-ModuleNameForType {
 
   foreach ($moduleName in $moduleNames) {
     $moduleConfig = $Modules[$moduleName]
+    if (-not $IncludeDisabledModules -and $moduleConfig.enabled -ne $true) {
+      continue
+    }
     $prefixes = if ($Kind -eq 'resource') { @($moduleConfig.resourceTypePrefixes) } else { @($moduleConfig.dataSourceTypePrefixes) }
     if (-not ($prefixes -contains '*')) {
       continue
@@ -540,7 +547,7 @@ foreach ($providerName in $targetProviders) {
   else {
     foreach ($entry in @($catalog.resources)) {
       $typeName = [string]$entry.type
-      $moduleName = Resolve-ModuleNameForType -TypeName $typeName -Modules $effectiveModules -Kind resource
+      $moduleName = Resolve-ModuleNameForType -TypeName $typeName -Modules $effectiveModules -Kind resource -IncludeDisabledModules:$IncludeDisabledModules
       if ([string]::IsNullOrWhiteSpace($moduleName)) {
         continue
       }
@@ -562,7 +569,7 @@ foreach ($providerName in $targetProviders) {
 
     foreach ($entry in @($catalog.dataSources)) {
       $typeName = [string]$entry.type
-      $moduleName = Resolve-ModuleNameForType -TypeName $typeName -Modules $effectiveModules -Kind data
+      $moduleName = Resolve-ModuleNameForType -TypeName $typeName -Modules $effectiveModules -Kind data -IncludeDisabledModules:$IncludeDisabledModules
       if ([string]::IsNullOrWhiteSpace($moduleName)) {
         continue
       }
