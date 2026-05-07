@@ -549,7 +549,7 @@ foreach ($providerName in $targetProviders) {
       $typeName = [string]$entry.type
       $moduleName = Resolve-ModuleNameForType -TypeName $typeName -Modules $effectiveModules -Kind resource -IncludeDisabledModules:$IncludeDisabledModules
       if ([string]::IsNullOrWhiteSpace($moduleName)) {
-        continue
+        throw "Provider '$providerName' is configured for mode 'all', but resource type '$typeName' could not be mapped to any enabled module family. Update the settings to include a matching family or add an enabled catch-all family (for example, 'misc' with prefix '*')."
       }
 
       $targetDir = Join-Path (Join-Path (Join-Path (Join-Path $modulesPathRoot $providerName) $moduleName) 'resources') $typeName
@@ -571,7 +571,7 @@ foreach ($providerName in $targetProviders) {
       $typeName = [string]$entry.type
       $moduleName = Resolve-ModuleNameForType -TypeName $typeName -Modules $effectiveModules -Kind data -IncludeDisabledModules:$IncludeDisabledModules
       if ([string]::IsNullOrWhiteSpace($moduleName)) {
-        continue
+        throw "Provider '$providerName' is configured for mode 'all', but data source type '$typeName' could not be mapped to any enabled module family. Update the settings to include a matching family or add an enabled catch-all family (for example, 'misc' with prefix '*')."
       }
 
       $targetDir = Join-Path (Join-Path (Join-Path (Join-Path $modulesPathRoot $providerName) $moduleName) 'data-sources') $typeName

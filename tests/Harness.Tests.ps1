@@ -246,6 +246,31 @@ providers:
     $settings = Get-Content -Path $settingsPath -Raw | ConvertFrom-Json
     $settings.providers.demo.mode | Should -Be 'all'
   }
+
+  It 'fails fast when YAML mode is invalid' {
+    $yamlPath = Join-Path $TestDrive 'provider-coverage-invalid.yaml'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings-invalid.json'
+    $catalogRoot = Join-Path $TestDrive 'catalog-root-invalid'
+
+    @'
+providers:
+  demo:
+    enabled: true
+    source: example/demo
+    version: "~> 1.0"
+    workspace: demo
+    mode: typo
+    modules:
+      core:
+        enabled: true
+        resourceTypePrefixes: [demo_]
+        dataSourceTypePrefixes: []
+'@ | Set-Content -Path $yamlPath -Encoding utf8
+
+    {
+      & "$script:scriptsDir/Sync-ProviderSettingsFromYaml.ps1" -YamlFile $yamlPath -SettingsFile $settingsPath -CatalogRoot $catalogRoot
+    } | Should -Throw
+  }
 }
 
 Describe 'Sync-ProviderResourceCoverage.ps1' {

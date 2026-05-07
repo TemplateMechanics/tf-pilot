@@ -1,6 +1,6 @@
 # Provider Coverage Completion — 100% Reflection Across All Providers
 
-> **Status:** In progress; Phase 0 engine implementation underway.
+> **Status:** In progress; Phase 0 engine landed. Remaining phases are per-provider migrations to full coverage.
 > **Audience:** GitHub Copilot / Claude Code, executing the plan one branch at a time.
 > **Goal:** Every reflected provider in this repo covers **100%** of its provider's resources and data sources, so that future provider releases produce *update-only* PRs (no "add the missing X family" work).
 > **Companion docs:** [`docs/PROVIDER-MODULE-BUILDOUT.md`](PROVIDER-MODULE-BUILDOUT.md) — original buildout doctrine. [`docs/YAML-TOKEN-REGISTRY.md`](YAML-TOKEN-REGISTRY.md) — registry resolver pattern. This doc focuses on **closing the catalog/coverage gap** and making coverage drift impossible from now on.
