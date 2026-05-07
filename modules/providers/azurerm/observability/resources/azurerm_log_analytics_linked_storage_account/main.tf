@@ -11,4 +11,8 @@ resource "azurerm_log_analytics_linked_storage_account" "this" {
   storage_account_ids   = var.storage_account_ids
   workspace_id          = var.workspace_id
   workspace_resource_id = var.workspace_resource_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

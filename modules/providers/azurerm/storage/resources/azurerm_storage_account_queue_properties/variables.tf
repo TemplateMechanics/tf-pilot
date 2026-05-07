@@ -14,3 +14,33 @@ variable "storage_account_id" {
   description = "Required attribute 'storage_account_id' for type 'azurerm_storage_account_queue_properties'."
   type        = any
 }
+
+variable "cors_rule" {
+  description = "Top-level nested block 'cors_rule' payload for type 'azurerm_storage_account_queue_properties'."
+  type        = any
+  default     = null
+}
+
+variable "hour_metrics" {
+  description = "Top-level nested block 'hour_metrics' payload for type 'azurerm_storage_account_queue_properties'."
+  type        = any
+  default     = null
+}
+
+variable "logging" {
+  description = "Top-level nested block 'logging' payload for type 'azurerm_storage_account_queue_properties'."
+  type        = any
+  default     = null
+}
+
+variable "minute_metrics" {
+  description = "Top-level nested block 'minute_metrics' payload for type 'azurerm_storage_account_queue_properties'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_account_queue_properties'."
+  type        = any
+  default     = null
+}

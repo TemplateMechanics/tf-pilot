@@ -16,4 +16,8 @@ resource "azurerm_log_analytics_query_pack_query" "this" {
   resource_types           = var.resource_types
   solutions                = var.solutions
   tags                     = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

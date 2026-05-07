@@ -12,4 +12,16 @@ resource "azurerm_virtual_network_gateway_nat_rule" "this" {
   ip_configuration_id        = var.ip_configuration_id
   mode                       = var.mode
   type                       = var.type
+  dynamic "external_mapping" {
+    for_each = var.external_mapping == null ? [] : (can(tolist(var.external_mapping)) ? tolist(var.external_mapping) : [var.external_mapping])
+    content {}
+  }
+  dynamic "internal_mapping" {
+    for_each = var.internal_mapping == null ? [] : (can(tolist(var.internal_mapping)) ? tolist(var.internal_mapping) : [var.internal_mapping])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

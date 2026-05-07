@@ -12,4 +12,8 @@ resource "azurerm_route_table" "this" {
   bgp_route_propagation_enabled = var.bgp_route_propagation_enabled
   route                         = var.route
   tags                          = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

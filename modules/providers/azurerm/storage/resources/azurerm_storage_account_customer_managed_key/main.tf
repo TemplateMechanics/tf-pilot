@@ -15,4 +15,8 @@ resource "azurerm_storage_account_customer_managed_key" "this" {
   key_version                  = var.key_version
   managed_hsm_key_id           = var.managed_hsm_key_id
   user_assigned_identity_id    = var.user_assigned_identity_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

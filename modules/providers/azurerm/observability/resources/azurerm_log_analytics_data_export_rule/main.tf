@@ -11,5 +11,9 @@ resource "azurerm_log_analytics_data_export_rule" "this" {
   resource_group_name     = var.resource_group_name
   table_names             = var.table_names
   workspace_resource_id   = var.workspace_resource_id
-  enabled                 = var.enabled
+  enabled                 = var.resource_enabled
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -118,3 +118,39 @@ variable "vpn_type" {
   type        = any
   default     = null
 }
+
+variable "bgp_settings" {
+  description = "Top-level nested block 'bgp_settings' payload for type 'azurerm_virtual_network_gateway'."
+  type        = any
+  default     = null
+}
+
+variable "custom_route" {
+  description = "Top-level nested block 'custom_route' payload for type 'azurerm_virtual_network_gateway'."
+  type        = any
+  default     = null
+}
+
+variable "ip_configuration" {
+  description = "Top-level nested block 'ip_configuration' payload for type 'azurerm_virtual_network_gateway'."
+  type        = any
+  default     = null
+}
+
+variable "policy_group" {
+  description = "Top-level nested block 'policy_group' payload for type 'azurerm_virtual_network_gateway'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_virtual_network_gateway'."
+  type        = any
+  default     = null
+}
+
+variable "vpn_client_configuration" {
+  description = "Top-level nested block 'vpn_client_configuration' payload for type 'azurerm_virtual_network_gateway'."
+  type        = any
+  default     = null
+}

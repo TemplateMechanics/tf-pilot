@@ -9,4 +9,8 @@ resource "azurerm_storage_account_static_website" "this" {
   storage_account_id = var.storage_account_id
   error_404_document = var.error_404_document
   index_document     = var.index_document
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

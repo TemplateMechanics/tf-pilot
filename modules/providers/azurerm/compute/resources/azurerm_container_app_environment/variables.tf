@@ -84,3 +84,21 @@ variable "zone_redundancy_enabled" {
   type        = any
   default     = null
 }
+
+variable "identity" {
+  description = "Top-level nested block 'identity' payload for type 'azurerm_container_app_environment'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_container_app_environment'."
+  type        = any
+  default     = null
+}
+
+variable "workload_profile" {
+  description = "Top-level nested block 'workload_profile' payload for type 'azurerm_container_app_environment'."
+  type        = any
+  default     = null
+}

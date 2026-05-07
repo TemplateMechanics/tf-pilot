@@ -11,4 +11,8 @@ resource "azurerm_storage_container_immutability_policy" "this" {
   locked                                = var.locked
   protected_append_writes_all_enabled   = var.protected_append_writes_all_enabled
   protected_append_writes_enabled       = var.protected_append_writes_enabled
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

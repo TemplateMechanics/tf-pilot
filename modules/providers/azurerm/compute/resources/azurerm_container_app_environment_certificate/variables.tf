@@ -37,3 +37,15 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "certificate_key_vault" {
+  description = "Top-level nested block 'certificate_key_vault' payload for type 'azurerm_container_app_environment_certificate'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_container_app_environment_certificate'."
+  type        = any
+  default     = null
+}

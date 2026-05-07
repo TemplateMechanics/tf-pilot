@@ -33,4 +33,56 @@ resource "azurerm_storage_account" "this" {
   shared_access_key_enabled         = var.shared_access_key_enabled
   table_encryption_key_type         = var.table_encryption_key_type
   tags                              = var.tags
+  dynamic "azure_files_authentication" {
+    for_each = var.azure_files_authentication == null ? [] : (can(tolist(var.azure_files_authentication)) ? tolist(var.azure_files_authentication) : [var.azure_files_authentication])
+    content {}
+  }
+  dynamic "blob_properties" {
+    for_each = var.blob_properties == null ? [] : (can(tolist(var.blob_properties)) ? tolist(var.blob_properties) : [var.blob_properties])
+    content {}
+  }
+  dynamic "custom_domain" {
+    for_each = var.custom_domain == null ? [] : (can(tolist(var.custom_domain)) ? tolist(var.custom_domain) : [var.custom_domain])
+    content {}
+  }
+  dynamic "customer_managed_key" {
+    for_each = var.customer_managed_key == null ? [] : (can(tolist(var.customer_managed_key)) ? tolist(var.customer_managed_key) : [var.customer_managed_key])
+    content {}
+  }
+  dynamic "identity" {
+    for_each = var.identity == null ? [] : (can(tolist(var.identity)) ? tolist(var.identity) : [var.identity])
+    content {}
+  }
+  dynamic "immutability_policy" {
+    for_each = var.immutability_policy == null ? [] : (can(tolist(var.immutability_policy)) ? tolist(var.immutability_policy) : [var.immutability_policy])
+    content {}
+  }
+  dynamic "network_rules" {
+    for_each = var.network_rules == null ? [] : (can(tolist(var.network_rules)) ? tolist(var.network_rules) : [var.network_rules])
+    content {}
+  }
+  dynamic "queue_properties" {
+    for_each = var.queue_properties == null ? [] : (can(tolist(var.queue_properties)) ? tolist(var.queue_properties) : [var.queue_properties])
+    content {}
+  }
+  dynamic "routing" {
+    for_each = var.routing == null ? [] : (can(tolist(var.routing)) ? tolist(var.routing) : [var.routing])
+    content {}
+  }
+  dynamic "sas_policy" {
+    for_each = var.sas_policy == null ? [] : (can(tolist(var.sas_policy)) ? tolist(var.sas_policy) : [var.sas_policy])
+    content {}
+  }
+  dynamic "share_properties" {
+    for_each = var.share_properties == null ? [] : (can(tolist(var.share_properties)) ? tolist(var.share_properties) : [var.share_properties])
+    content {}
+  }
+  dynamic "static_website" {
+    for_each = var.static_website == null ? [] : (can(tolist(var.static_website)) ? tolist(var.static_website) : [var.static_website])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

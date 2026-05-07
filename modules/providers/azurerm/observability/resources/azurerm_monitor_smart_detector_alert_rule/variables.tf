@@ -46,7 +46,7 @@ variable "description" {
   default     = null
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'azurerm_monitor_smart_detector_alert_rule'."
   type        = any
   default     = null
@@ -60,6 +60,18 @@ variable "tags" {
 
 variable "throttling_duration" {
   description = "Optional attribute 'throttling_duration' for type 'azurerm_monitor_smart_detector_alert_rule'."
+  type        = any
+  default     = null
+}
+
+variable "action_group" {
+  description = "Top-level nested block 'action_group' payload for type 'azurerm_monitor_smart_detector_alert_rule'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_monitor_smart_detector_alert_rule'."
   type        = any
   default     = null
 }

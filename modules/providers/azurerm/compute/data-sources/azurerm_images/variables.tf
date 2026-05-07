@@ -20,3 +20,9 @@ variable "tags_filter" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_images'."
+  type        = any
+  default     = null
+}

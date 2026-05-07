@@ -12,6 +12,14 @@ resource "azurerm_monitor_scheduled_query_rules_log" "this" {
   resource_group_name     = var.resource_group_name
   authorized_resource_ids = var.authorized_resource_ids
   description             = var.description
-  enabled                 = var.enabled
+  enabled                 = var.resource_enabled
   tags                    = var.tags
+  dynamic "criteria" {
+    for_each = var.criteria == null ? [] : (can(tolist(var.criteria)) ? tolist(var.criteria) : [var.criteria])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

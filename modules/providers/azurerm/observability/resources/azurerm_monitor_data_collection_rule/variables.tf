@@ -48,3 +48,39 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "data_flow" {
+  description = "Top-level nested block 'data_flow' payload for type 'azurerm_monitor_data_collection_rule'."
+  type        = any
+  default     = null
+}
+
+variable "data_sources" {
+  description = "Top-level nested block 'data_sources' payload for type 'azurerm_monitor_data_collection_rule'."
+  type        = any
+  default     = null
+}
+
+variable "destinations" {
+  description = "Top-level nested block 'destinations' payload for type 'azurerm_monitor_data_collection_rule'."
+  type        = any
+  default     = null
+}
+
+variable "identity" {
+  description = "Top-level nested block 'identity' payload for type 'azurerm_monitor_data_collection_rule'."
+  type        = any
+  default     = null
+}
+
+variable "stream_declaration" {
+  description = "Top-level nested block 'stream_declaration' payload for type 'azurerm_monitor_data_collection_rule'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_monitor_data_collection_rule'."
+  type        = any
+  default     = null
+}

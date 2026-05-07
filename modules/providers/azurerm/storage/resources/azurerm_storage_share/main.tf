@@ -13,4 +13,12 @@ resource "azurerm_storage_share" "this" {
   metadata             = var.metadata
   storage_account_id   = var.storage_account_id
   storage_account_name = var.storage_account_name
+  dynamic "acl" {
+    for_each = var.acl == null ? [] : (can(tolist(var.acl)) ? tolist(var.acl) : [var.acl])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

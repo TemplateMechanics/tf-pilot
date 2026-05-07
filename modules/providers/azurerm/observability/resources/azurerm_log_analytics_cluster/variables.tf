@@ -36,3 +36,15 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "identity" {
+  description = "Top-level nested block 'identity' payload for type 'azurerm_log_analytics_cluster'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_log_analytics_cluster'."
+  type        = any
+  default     = null
+}

@@ -14,4 +14,8 @@ resource "azurerm_log_analytics_saved_search" "this" {
   function_alias             = var.function_alias
   function_parameters        = var.function_parameters
   tags                       = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

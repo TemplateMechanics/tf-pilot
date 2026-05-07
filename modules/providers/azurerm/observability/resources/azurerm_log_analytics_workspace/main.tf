@@ -22,4 +22,12 @@ resource "azurerm_log_analytics_workspace" "this" {
   retention_in_days                       = var.retention_in_days
   sku                                     = var.sku
   tags                                    = var.tags
+  dynamic "identity" {
+    for_each = var.identity == null ? [] : (can(tolist(var.identity)) ? tolist(var.identity) : [var.identity])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

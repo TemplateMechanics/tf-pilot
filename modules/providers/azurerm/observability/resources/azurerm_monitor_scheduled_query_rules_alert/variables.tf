@@ -63,7 +63,7 @@ variable "description" {
   default     = null
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'azurerm_monitor_scheduled_query_rules_alert'."
   type        = any
   default     = null
@@ -89,6 +89,24 @@ variable "tags" {
 
 variable "throttling" {
   description = "Optional attribute 'throttling' for type 'azurerm_monitor_scheduled_query_rules_alert'."
+  type        = any
+  default     = null
+}
+
+variable "action" {
+  description = "Top-level nested block 'action' payload for type 'azurerm_monitor_scheduled_query_rules_alert'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_monitor_scheduled_query_rules_alert'."
+  type        = any
+  default     = null
+}
+
+variable "trigger" {
+  description = "Top-level nested block 'trigger' payload for type 'azurerm_monitor_scheduled_query_rules_alert'."
   type        = any
   default     = null
 }

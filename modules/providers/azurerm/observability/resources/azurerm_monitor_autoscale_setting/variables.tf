@@ -30,7 +30,7 @@ variable "target_resource_id" {
   type        = any
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'azurerm_monitor_autoscale_setting'."
   type        = any
   default     = null
@@ -38,6 +38,30 @@ variable "enabled" {
 
 variable "tags" {
   description = "Optional attribute 'tags' for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+  default     = null
+}
+
+variable "notification" {
+  description = "Top-level nested block 'notification' payload for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+  default     = null
+}
+
+variable "predictive" {
+  description = "Top-level nested block 'predictive' payload for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+  default     = null
+}
+
+variable "profile" {
+  description = "Top-level nested block 'profile' payload for type 'azurerm_monitor_autoscale_setting'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_monitor_autoscale_setting'."
   type        = any
   default     = null
 }

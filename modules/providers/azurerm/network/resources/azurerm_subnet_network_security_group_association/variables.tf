@@ -19,3 +19,9 @@ variable "subnet_id" {
   description = "Required attribute 'subnet_id' for type 'azurerm_subnet_network_security_group_association'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_subnet_network_security_group_association'."
+  type        = any
+  default     = null
+}

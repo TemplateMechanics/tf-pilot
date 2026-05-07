@@ -60,3 +60,9 @@ variable "resource_discovery_mode" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_resource_group_policy_remediation'."
+  type        = any
+  default     = null
+}

@@ -13,4 +13,12 @@ resource "azurerm_log_analytics_workspace_table_custom_log" "this" {
   plan                    = var.plan
   retention_in_days       = var.retention_in_days
   total_retention_in_days = var.total_retention_in_days
+  dynamic "column" {
+    for_each = var.column == null ? [] : (can(tolist(var.column)) ? tolist(var.column) : [var.column])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

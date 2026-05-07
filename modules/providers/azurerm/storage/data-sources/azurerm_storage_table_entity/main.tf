@@ -9,4 +9,8 @@ data "azurerm_storage_table_entity" "this" {
   partition_key    = var.partition_key
   row_key          = var.row_key
   storage_table_id = var.storage_table_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

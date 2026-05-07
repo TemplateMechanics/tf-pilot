@@ -1,6 +1,6 @@
 {
-    "provider":  "google",
-    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\google",
+    "provider":  "azurerm",
+    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\azurerm",
     "modules":  [
                     "compute",
                     "foundation",

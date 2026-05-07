@@ -11,4 +11,8 @@ resource "azurerm_monitor_private_link_scope" "this" {
   ingestion_access_mode = var.ingestion_access_mode
   query_access_mode     = var.query_access_mode
   tags                  = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

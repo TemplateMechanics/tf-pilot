@@ -25,3 +25,9 @@ variable "min_tls_version" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}

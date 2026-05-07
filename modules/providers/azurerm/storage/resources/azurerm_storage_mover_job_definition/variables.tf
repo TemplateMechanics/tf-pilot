@@ -58,3 +58,9 @@ variable "target_sub_path" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_mover_job_definition'."
+  type        = any
+  default     = null
+}

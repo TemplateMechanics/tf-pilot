@@ -13,4 +13,8 @@ resource "azurerm_log_analytics_datasource_windows_performance_counter" "this" {
   object_name         = var.object_name
   resource_group_name = var.resource_group_name
   workspace_name      = var.workspace_name
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -66,3 +66,33 @@ variable "parameters" {
   type        = any
   default     = null
 }
+
+variable "identity" {
+  description = "Top-level nested block 'identity' payload for type 'azurerm_resource_group_policy_assignment'."
+  type        = any
+  default     = null
+}
+
+variable "non_compliance_message" {
+  description = "Top-level nested block 'non_compliance_message' payload for type 'azurerm_resource_group_policy_assignment'."
+  type        = any
+  default     = null
+}
+
+variable "overrides" {
+  description = "Top-level nested block 'overrides' payload for type 'azurerm_resource_group_policy_assignment'."
+  type        = any
+  default     = null
+}
+
+variable "resource_selectors" {
+  description = "Top-level nested block 'resource_selectors' payload for type 'azurerm_resource_group_policy_assignment'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_resource_group_policy_assignment'."
+  type        = any
+  default     = null
+}

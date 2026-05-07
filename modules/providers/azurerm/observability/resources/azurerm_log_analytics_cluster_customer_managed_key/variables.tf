@@ -19,3 +19,9 @@ variable "log_analytics_cluster_id" {
   description = "Required attribute 'log_analytics_cluster_id' for type 'azurerm_log_analytics_cluster_customer_managed_key'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_log_analytics_cluster_customer_managed_key'."
+  type        = any
+  default     = null
+}

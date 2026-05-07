@@ -15,4 +15,8 @@ resource "azurerm_resource_group_policy_exemption" "this" {
   expires_on                      = var.expires_on
   metadata                        = var.metadata
   policy_definition_reference_ids = var.policy_definition_reference_ids
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

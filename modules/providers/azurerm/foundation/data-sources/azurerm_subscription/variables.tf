@@ -15,3 +15,9 @@ variable "subscription_id" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_subscription'."
+  type        = any
+  default     = null
+}

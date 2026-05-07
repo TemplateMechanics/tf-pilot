@@ -10,4 +10,12 @@ resource "azurerm_subnet_service_endpoint_storage_policy" "this" {
   name                = var.name
   resource_group_name = var.resource_group_name
   tags                = var.tags
+  dynamic "definition" {
+    for_each = var.definition == null ? [] : (can(tolist(var.definition)) ? tolist(var.definition) : [var.definition])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

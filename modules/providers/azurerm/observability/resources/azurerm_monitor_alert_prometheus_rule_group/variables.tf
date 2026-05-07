@@ -59,3 +59,15 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "rule" {
+  description = "Top-level nested block 'rule' payload for type 'azurerm_monitor_alert_prometheus_rule_group'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_monitor_alert_prometheus_rule_group'."
+  type        = any
+  default     = null
+}

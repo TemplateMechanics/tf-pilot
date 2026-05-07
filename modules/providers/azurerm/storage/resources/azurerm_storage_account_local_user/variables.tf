@@ -37,3 +37,21 @@ variable "ssh_password_enabled" {
   type        = any
   default     = null
 }
+
+variable "permission_scope" {
+  description = "Top-level nested block 'permission_scope' payload for type 'azurerm_storage_account_local_user'."
+  type        = any
+  default     = null
+}
+
+variable "ssh_authorized_key" {
+  description = "Top-level nested block 'ssh_authorized_key' payload for type 'azurerm_storage_account_local_user'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_account_local_user'."
+  type        = any
+  default     = null
+}

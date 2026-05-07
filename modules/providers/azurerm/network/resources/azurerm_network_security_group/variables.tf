@@ -36,3 +36,9 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_network_security_group'."
+  type        = any
+  default     = null
+}

@@ -17,4 +17,8 @@ resource "azurerm_role_assignment" "this" {
   role_definition_id                     = var.role_definition_id
   role_definition_name                   = var.role_definition_name
   skip_service_principal_aad_check       = var.skip_service_principal_aad_check
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

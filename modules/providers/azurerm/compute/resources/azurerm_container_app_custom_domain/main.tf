@@ -10,4 +10,8 @@ resource "azurerm_container_app_custom_domain" "this" {
   name                                     = var.name
   certificate_binding_type                 = var.certificate_binding_type
   container_app_environment_certificate_id = var.container_app_environment_certificate_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

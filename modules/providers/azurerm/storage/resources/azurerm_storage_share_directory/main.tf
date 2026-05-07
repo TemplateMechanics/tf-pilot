@@ -10,4 +10,8 @@ resource "azurerm_storage_share_directory" "this" {
   metadata          = var.metadata
   storage_share_id  = var.storage_share_id
   storage_share_url = var.storage_share_url
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

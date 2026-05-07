@@ -166,3 +166,81 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "azure_files_authentication" {
+  description = "Top-level nested block 'azure_files_authentication' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "blob_properties" {
+  description = "Top-level nested block 'blob_properties' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "custom_domain" {
+  description = "Top-level nested block 'custom_domain' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "customer_managed_key" {
+  description = "Top-level nested block 'customer_managed_key' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "identity" {
+  description = "Top-level nested block 'identity' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "immutability_policy" {
+  description = "Top-level nested block 'immutability_policy' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "network_rules" {
+  description = "Top-level nested block 'network_rules' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "queue_properties" {
+  description = "Top-level nested block 'queue_properties' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "routing" {
+  description = "Top-level nested block 'routing' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "sas_policy" {
+  description = "Top-level nested block 'sas_policy' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "share_properties" {
+  description = "Top-level nested block 'share_properties' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "static_website" {
+  description = "Top-level nested block 'static_website' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_account'."
+  type        = any
+  default     = null
+}

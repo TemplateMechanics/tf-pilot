@@ -19,4 +19,16 @@ resource "azurerm_container_app_environment" "this" {
   public_network_access                       = var.public_network_access
   tags                                        = var.tags
   zone_redundancy_enabled                     = var.zone_redundancy_enabled
+  dynamic "identity" {
+    for_each = var.identity == null ? [] : (can(tolist(var.identity)) ? tolist(var.identity) : [var.identity])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
+  dynamic "workload_profile" {
+    for_each = var.workload_profile == null ? [] : (can(tolist(var.workload_profile)) ? tolist(var.workload_profile) : [var.workload_profile])
+    content {}
+  }
 }

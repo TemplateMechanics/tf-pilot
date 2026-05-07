@@ -19,3 +19,9 @@ variable "resource_group_name" {
   description = "Required attribute 'resource_group_name' for type 'azurerm_virtual_network_gateway'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_virtual_network_gateway'."
+  type        = any
+  default     = null
+}

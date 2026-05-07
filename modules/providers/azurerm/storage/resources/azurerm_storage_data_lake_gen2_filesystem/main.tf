@@ -12,4 +12,12 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "this" {
   group                    = var.group
   owner                    = var.owner
   properties               = var.properties
+  dynamic "ace" {
+    for_each = var.ace == null ? [] : (can(tolist(var.ace)) ? tolist(var.ace) : [var.ace])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

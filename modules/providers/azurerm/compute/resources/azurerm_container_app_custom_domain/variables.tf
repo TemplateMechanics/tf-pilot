@@ -31,3 +31,9 @@ variable "container_app_environment_certificate_id" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_container_app_custom_domain'."
+  type        = any
+  default     = null
+}

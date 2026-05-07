@@ -11,4 +11,8 @@ resource "azurerm_storage_sync" "this" {
   resource_group_name     = var.resource_group_name
   incoming_traffic_policy = var.incoming_traffic_policy
   tags                    = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

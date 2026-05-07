@@ -44,3 +44,27 @@ variable "timeframe" {
   description = "Required attribute 'timeframe' for type 'azurerm_resource_group_cost_management_view'."
   type        = any
 }
+
+variable "dataset" {
+  description = "Top-level nested block 'dataset' payload for type 'azurerm_resource_group_cost_management_view'."
+  type        = any
+  default     = null
+}
+
+variable "kpi" {
+  description = "Top-level nested block 'kpi' payload for type 'azurerm_resource_group_cost_management_view'."
+  type        = any
+  default     = null
+}
+
+variable "pivot" {
+  description = "Top-level nested block 'pivot' payload for type 'azurerm_resource_group_cost_management_view'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_resource_group_cost_management_view'."
+  type        = any
+  default     = null
+}

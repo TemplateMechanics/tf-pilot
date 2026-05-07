@@ -1,0 +1,22 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: misc/resources/azurerm_resource_policy_remediation
+# File: main.tf
+# SPDX-License-Identifier: MIT
+resource "azurerm_resource_policy_remediation" "this" {
+  count                          = var.enabled ? 1 : 0
+  name                           = var.name
+  policy_assignment_id           = var.policy_assignment_id
+  resource_id                    = var.resource_id
+  failure_percentage             = var.failure_percentage
+  location_filters               = var.location_filters
+  parallel_deployments           = var.parallel_deployments
+  policy_definition_reference_id = var.policy_definition_reference_id
+  resource_count                 = var.resource_count
+  resource_discovery_mode        = var.resource_discovery_mode
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
+}

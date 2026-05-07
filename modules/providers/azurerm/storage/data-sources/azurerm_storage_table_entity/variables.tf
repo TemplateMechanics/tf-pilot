@@ -24,3 +24,9 @@ variable "storage_table_id" {
   description = "Required attribute 'storage_table_id' for type 'azurerm_storage_table_entity'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_table_entity'."
+  type        = any
+  default     = null
+}

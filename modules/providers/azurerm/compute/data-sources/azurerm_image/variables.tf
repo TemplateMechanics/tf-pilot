@@ -32,3 +32,9 @@ variable "sort_descending" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_image'."
+  type        = any
+  default     = null
+}

@@ -47,3 +47,45 @@ variable "workload_profile_name" {
   type        = any
   default     = null
 }
+
+variable "dapr" {
+  description = "Top-level nested block 'dapr' payload for type 'azurerm_container_app'."
+  type        = any
+  default     = null
+}
+
+variable "identity" {
+  description = "Top-level nested block 'identity' payload for type 'azurerm_container_app'."
+  type        = any
+  default     = null
+}
+
+variable "ingress" {
+  description = "Top-level nested block 'ingress' payload for type 'azurerm_container_app'."
+  type        = any
+  default     = null
+}
+
+variable "registry" {
+  description = "Top-level nested block 'registry' payload for type 'azurerm_container_app'."
+  type        = any
+  default     = null
+}
+
+variable "secret" {
+  description = "Top-level nested block 'secret' payload for type 'azurerm_container_app'."
+  type        = any
+  default     = null
+}
+
+variable "template" {
+  description = "Top-level nested block 'template' payload for type 'azurerm_container_app'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_container_app'."
+  type        = any
+  default     = null
+}

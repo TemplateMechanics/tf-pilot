@@ -8,4 +8,8 @@ resource "azurerm_virtual_network_dns_servers" "this" {
   count              = var.enabled ? 1 : 0
   virtual_network_id = var.virtual_network_id
   dns_servers        = var.dns_servers
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

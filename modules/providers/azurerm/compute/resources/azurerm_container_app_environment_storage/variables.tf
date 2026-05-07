@@ -47,3 +47,9 @@ variable "nfs_server_url" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_container_app_environment_storage'."
+  type        = any
+  default     = null
+}

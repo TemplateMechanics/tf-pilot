@@ -37,3 +37,9 @@ variable "protected_append_writes_enabled" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_container_immutability_policy'."
+  type        = any
+  default     = null
+}

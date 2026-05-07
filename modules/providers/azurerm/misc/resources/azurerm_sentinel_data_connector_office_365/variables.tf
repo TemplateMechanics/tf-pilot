@@ -1,0 +1,51 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azurerm
+# Module: misc/resources/azurerm_sentinel_data_connector_office_365
+# File: variables.tf
+# SPDX-License-Identifier: MIT
+variable "enabled" {
+  description = "When false, this module creates no resources."
+  type        = bool
+  default     = true
+}
+
+variable "log_analytics_workspace_id" {
+  description = "Required attribute 'log_analytics_workspace_id' for type 'azurerm_sentinel_data_connector_office_365'."
+  type        = any
+}
+
+variable "name" {
+  description = "Required attribute 'name' for type 'azurerm_sentinel_data_connector_office_365'."
+  type        = any
+}
+
+variable "exchange_enabled" {
+  description = "Optional attribute 'exchange_enabled' for type 'azurerm_sentinel_data_connector_office_365'."
+  type        = any
+  default     = null
+}
+
+variable "sharepoint_enabled" {
+  description = "Optional attribute 'sharepoint_enabled' for type 'azurerm_sentinel_data_connector_office_365'."
+  type        = any
+  default     = null
+}
+
+variable "teams_enabled" {
+  description = "Optional attribute 'teams_enabled' for type 'azurerm_sentinel_data_connector_office_365'."
+  type        = any
+  default     = null
+}
+
+variable "tenant_id" {
+  description = "Optional attribute 'tenant_id' for type 'azurerm_sentinel_data_connector_office_365'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_sentinel_data_connector_office_365'."
+  type        = any
+  default     = null
+}

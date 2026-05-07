@@ -29,3 +29,9 @@ variable "dns_suffix" {
   description = "Required attribute 'dns_suffix' for type 'azurerm_container_app_environment_custom_domain'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_container_app_environment_custom_domain'."
+  type        = any
+  default     = null
+}

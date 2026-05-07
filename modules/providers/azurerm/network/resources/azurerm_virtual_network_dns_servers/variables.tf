@@ -20,3 +20,9 @@ variable "dns_servers" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_virtual_network_dns_servers'."
+  type        = any
+  default     = null
+}

@@ -72,3 +72,27 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "ddos_protection_plan" {
+  description = "Top-level nested block 'ddos_protection_plan' payload for type 'azurerm_virtual_network'."
+  type        = any
+  default     = null
+}
+
+variable "encryption" {
+  description = "Top-level nested block 'encryption' payload for type 'azurerm_virtual_network'."
+  type        = any
+  default     = null
+}
+
+variable "ip_address_pool" {
+  description = "Top-level nested block 'ip_address_pool' payload for type 'azurerm_virtual_network'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_virtual_network'."
+  type        = any
+  default     = null
+}

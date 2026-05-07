@@ -40,3 +40,15 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "plan" {
+  description = "Top-level nested block 'plan' payload for type 'azurerm_log_analytics_solution'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_log_analytics_solution'."
+  type        = any
+  default     = null
+}

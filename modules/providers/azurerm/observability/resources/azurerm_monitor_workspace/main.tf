@@ -11,4 +11,8 @@ resource "azurerm_monitor_workspace" "this" {
   resource_group_name           = var.resource_group_name
   public_network_access_enabled = var.public_network_access_enabled
   tags                          = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

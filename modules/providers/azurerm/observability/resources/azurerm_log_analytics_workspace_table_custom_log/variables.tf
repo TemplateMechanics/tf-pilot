@@ -49,3 +49,15 @@ variable "total_retention_in_days" {
   type        = any
   default     = null
 }
+
+variable "column" {
+  description = "Top-level nested block 'column' payload for type 'azurerm_log_analytics_workspace_table_custom_log'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_log_analytics_workspace_table_custom_log'."
+  type        = any
+  default     = null
+}

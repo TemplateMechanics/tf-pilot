@@ -14,3 +14,9 @@ variable "name" {
   description = "Required attribute 'name' for type 'azurerm_subscription_template_deployment'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_subscription_template_deployment'."
+  type        = any
+  default     = null
+}

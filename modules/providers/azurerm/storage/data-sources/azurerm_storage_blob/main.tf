@@ -10,4 +10,8 @@ data "azurerm_storage_blob" "this" {
   storage_account_name   = var.storage_account_name
   storage_container_name = var.storage_container_name
   metadata               = var.metadata
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -11,4 +11,8 @@ resource "azurerm_monitor_data_collection_rule_association" "this" {
   data_collection_rule_id     = var.data_collection_rule_id
   description                 = var.description
   name                        = var.name
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }
