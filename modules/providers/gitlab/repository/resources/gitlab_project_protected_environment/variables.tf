@@ -25,3 +25,9 @@ variable "approval_rules" {
   type        = any
   default     = null
 }
+
+variable "deploy_access_levels" {
+  description = "Top-level nested block 'deploy_access_levels' payload for type 'gitlab_project_protected_environment'."
+  type        = any
+  default     = null
+}

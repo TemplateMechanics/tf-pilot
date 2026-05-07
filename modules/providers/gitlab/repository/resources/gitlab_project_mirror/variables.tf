@@ -26,7 +26,7 @@ variable "auth_method" {
   default     = null
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'gitlab_project_mirror'."
   type        = any
   default     = null

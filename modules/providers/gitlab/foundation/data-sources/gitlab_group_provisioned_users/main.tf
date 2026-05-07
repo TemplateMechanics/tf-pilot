@@ -13,4 +13,8 @@ data "gitlab_group_provisioned_users" "this" {
   created_before = var.created_before
   search         = var.search
   username       = var.username
+  dynamic "provisioned_users" {
+    for_each = var.provisioned_users == null ? [] : (can(tolist(var.provisioned_users)) ? tolist(var.provisioned_users) : [var.provisioned_users])
+    content {}
+  }
 }

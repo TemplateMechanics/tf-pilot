@@ -1,6 +1,6 @@
 {
-    "provider":  "github",
-    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\github",
+    "provider":  "gitlab",
+    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\gitlab",
     "modules":  [
                     "automation",
                     "foundation",

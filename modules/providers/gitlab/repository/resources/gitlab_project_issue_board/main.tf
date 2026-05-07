@@ -12,4 +12,8 @@ resource "gitlab_project_issue_board" "this" {
   labels       = var.labels
   milestone_id = var.milestone_id
   weight       = var.weight
+  dynamic "lists" {
+    for_each = var.lists == null ? [] : (can(tolist(var.lists)) ? tolist(var.lists) : [var.lists])
+    content {}
+  }
 }

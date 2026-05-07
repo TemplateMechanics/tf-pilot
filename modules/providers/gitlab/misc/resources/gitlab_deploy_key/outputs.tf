@@ -1,0 +1,10 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: gitlab
+# Module: misc/resources/gitlab_deploy_key
+# File: outputs.tf
+# SPDX-License-Identifier: MIT
+output "id" {
+  description = "ID of the managed gitlab_deploy_key resource."
+  value       = try(gitlab_deploy_key.this[0].id, null)
+}

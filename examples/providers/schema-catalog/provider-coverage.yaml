@@ -178,6 +178,7 @@ providers:
     source: gitlabhq/gitlab
     version: "~> 17.0"
     workspace: gitlab
+    mode: all
     modules:
       foundation:
         enabled: true

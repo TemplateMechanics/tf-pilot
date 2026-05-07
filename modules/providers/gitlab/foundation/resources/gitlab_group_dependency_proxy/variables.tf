@@ -15,7 +15,7 @@ variable "group" {
   type        = any
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'gitlab_group_dependency_proxy'."
   type        = any
   default     = null

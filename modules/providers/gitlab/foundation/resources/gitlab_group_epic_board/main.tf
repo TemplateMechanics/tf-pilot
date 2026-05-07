@@ -8,4 +8,8 @@ resource "gitlab_group_epic_board" "this" {
   count = var.enabled ? 1 : 0
   group = var.group
   name  = var.name
+  dynamic "lists" {
+    for_each = var.lists == null ? [] : (can(tolist(var.lists)) ? tolist(var.lists) : [var.lists])
+    content {}
+  }
 }

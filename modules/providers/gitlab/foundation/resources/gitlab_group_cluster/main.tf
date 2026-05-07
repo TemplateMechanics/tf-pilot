@@ -11,7 +11,7 @@ resource "gitlab_group_cluster" "this" {
   kubernetes_token              = var.kubernetes_token
   name                          = var.name
   domain                        = var.domain
-  enabled                       = var.enabled
+  enabled                       = var.resource_enabled
   environment_scope             = var.environment_scope
   kubernetes_authorization_type = var.kubernetes_authorization_type
   kubernetes_ca_cert            = var.kubernetes_ca_cert

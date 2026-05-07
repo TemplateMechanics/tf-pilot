@@ -1,5 +1,5 @@
 {
-    "provider":  "github",
-    "resourcesGenerated":  88,
-    "dataSourcesGenerated":  75
+    "provider":  "gitlab",
+    "resourcesGenerated":  106,
+    "dataSourcesGenerated":  57
 }

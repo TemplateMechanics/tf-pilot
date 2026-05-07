@@ -9,7 +9,7 @@ resource "gitlab_project_mirror" "this" {
   project                 = var.project
   url                     = var.url
   auth_method             = var.auth_method
-  enabled                 = var.enabled
+  enabled                 = var.resource_enabled
   keep_divergent_refs     = var.keep_divergent_refs
   mirror_branch_regex     = var.mirror_branch_regex
   only_protected_branches = var.only_protected_branches

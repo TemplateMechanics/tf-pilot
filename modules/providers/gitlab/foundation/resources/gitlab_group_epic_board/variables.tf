@@ -19,3 +19,9 @@ variable "name" {
   description = "Required attribute 'name' for type 'gitlab_group_epic_board'."
   type        = any
 }
+
+variable "lists" {
+  description = "Top-level nested block 'lists' payload for type 'gitlab_group_epic_board'."
+  type        = any
+  default     = null
+}

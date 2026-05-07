@@ -1,7 +1,7 @@
 {
-    "provider":  "github",
-    "resourceTypes":  88,
-    "dataSourceTypes":  75,
+    "provider":  "gitlab",
+    "resourceTypes":  106,
+    "dataSourceTypes":  57,
     "resourceTypesWithGaps":  0,
     "dataSourceTypesWithGaps":  0,
     "totalTypesWithGaps":  0,

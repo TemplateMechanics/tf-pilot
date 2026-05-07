@@ -50,3 +50,9 @@ variable "username" {
   type        = any
   default     = null
 }
+
+variable "provisioned_users" {
+  description = "Top-level nested block 'provisioned_users' payload for type 'gitlab_group_provisioned_users'."
+  type        = any
+  default     = null
+}

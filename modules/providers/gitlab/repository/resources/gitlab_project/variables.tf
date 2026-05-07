@@ -602,3 +602,21 @@ variable "wiki_enabled" {
   type        = any
   default     = null
 }
+
+variable "container_expiration_policy" {
+  description = "Top-level nested block 'container_expiration_policy' payload for type 'gitlab_project'."
+  type        = any
+  default     = null
+}
+
+variable "push_rules" {
+  description = "Top-level nested block 'push_rules' payload for type 'gitlab_project'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'gitlab_project'."
+  type        = any
+  default     = null
+}

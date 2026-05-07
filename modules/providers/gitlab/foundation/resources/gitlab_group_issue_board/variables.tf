@@ -31,3 +31,9 @@ variable "milestone_id" {
   type        = any
   default     = null
 }
+
+variable "lists" {
+  description = "Top-level nested block 'lists' payload for type 'gitlab_group_issue_board'."
+  type        = any
+  default     = null
+}

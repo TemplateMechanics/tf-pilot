@@ -36,7 +36,7 @@ variable "domain" {
   default     = null
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'gitlab_project_cluster'."
   type        = any
   default     = null

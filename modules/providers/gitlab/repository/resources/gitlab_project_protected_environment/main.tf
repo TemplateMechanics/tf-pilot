@@ -9,4 +9,8 @@ resource "gitlab_project_protected_environment" "this" {
   environment    = var.environment
   project        = var.project
   approval_rules = var.approval_rules
+  dynamic "deploy_access_levels" {
+    for_each = var.deploy_access_levels == null ? [] : (can(tolist(var.deploy_access_levels)) ? tolist(var.deploy_access_levels) : [var.deploy_access_levels])
+    content {}
+  }
 }
