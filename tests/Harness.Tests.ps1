@@ -251,8 +251,8 @@ providers:
 Describe 'Sync-ProviderResourceCoverage.ps1' {
   It 'assigns unmatched types to misc and matches bare-form prefixes in all mode' {
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
-    $catalogDir = Join-Path $TestDrive 'catalogs'
-    $modulesRoot = Join-Path $TestDrive 'modules'
+    $catalogDir = Join-Path $TestDrive 'catalogs-all-mode'
+    $modulesRoot = Join-Path $TestDrive 'modules-all-mode'
 
     @'
 {
@@ -296,8 +296,8 @@ Describe 'Sync-ProviderResourceCoverage.ps1' {
 
   It 'prefers specific family prefixes over wildcard catch-all families' {
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
-    $catalogDir = Join-Path $TestDrive 'catalogs'
-    $modulesRoot = Join-Path $TestDrive 'modules'
+    $catalogDir = Join-Path $TestDrive 'catalogs-wildcard-precedence'
+    $modulesRoot = Join-Path $TestDrive 'modules-wildcard-precedence'
 
     @'
 {
