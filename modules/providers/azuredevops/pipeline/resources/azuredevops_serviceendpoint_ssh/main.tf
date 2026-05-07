@@ -14,4 +14,8 @@ resource "azuredevops_serviceendpoint_ssh" "this" {
   password              = var.password
   port                  = var.port
   private_key           = var.private_key
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

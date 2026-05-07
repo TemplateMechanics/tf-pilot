@@ -43,3 +43,27 @@ variable "server_url" {
   type        = any
   default     = null
 }
+
+variable "auth_basic" {
+  description = "Top-level nested block 'auth_basic' payload for type 'azuredevops_serviceendpoint_openshift'."
+  type        = any
+  default     = null
+}
+
+variable "auth_none" {
+  description = "Top-level nested block 'auth_none' payload for type 'azuredevops_serviceendpoint_openshift'."
+  type        = any
+  default     = null
+}
+
+variable "auth_token" {
+  description = "Top-level nested block 'auth_token' payload for type 'azuredevops_serviceendpoint_openshift'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_openshift'."
+  type        = any
+  default     = null
+}

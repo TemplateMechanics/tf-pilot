@@ -1,0 +1,10 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: azuredevops
+# Module: misc/resources/azuredevops_elastic_pool
+# File: outputs.tf
+# SPDX-License-Identifier: MIT
+output "id" {
+  description = "ID of the managed azuredevops_elastic_pool resource."
+  value       = try(azuredevops_elastic_pool.this[0].id, null)
+}

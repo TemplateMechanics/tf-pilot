@@ -15,4 +15,12 @@ resource "azuredevops_serviceendpoint_azurecr" "this" {
   description                            = var.description
   resource_group                         = var.resource_group
   service_endpoint_authentication_scheme = var.service_endpoint_authentication_scheme
+  dynamic "credentials" {
+    for_each = var.credentials == null ? [] : (can(tolist(var.credentials)) ? tolist(var.credentials) : [var.credentials])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

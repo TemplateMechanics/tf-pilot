@@ -11,4 +11,8 @@ resource "azuredevops_variable_group_permissions" "this" {
   project_id        = var.project_id
   variable_group_id = var.variable_group_id
   replace           = var.replace
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -11,4 +11,8 @@ resource "azuredevops_serviceendpoint_azure_service_bus" "this" {
   queue_name            = var.queue_name
   service_endpoint_name = var.service_endpoint_name
   description           = var.description
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

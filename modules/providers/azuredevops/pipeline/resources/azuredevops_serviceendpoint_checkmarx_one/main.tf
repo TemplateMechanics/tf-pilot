@@ -14,4 +14,8 @@ resource "azuredevops_serviceendpoint_checkmarx_one" "this" {
   client_id             = var.client_id
   client_secret         = var.client_secret
   description           = var.description
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

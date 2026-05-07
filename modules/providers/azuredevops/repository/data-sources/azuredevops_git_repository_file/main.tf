@@ -10,4 +10,8 @@ data "azuredevops_git_repository_file" "this" {
   repository_id = var.repository_id
   branch        = var.branch
   tag           = var.tag
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -18,4 +18,16 @@ resource "azuredevops_serviceendpoint_azurerm" "this" {
   resource_group                         = var.resource_group
   server_url                             = var.server_url
   service_endpoint_authentication_scheme = var.service_endpoint_authentication_scheme
+  dynamic "credentials" {
+    for_each = var.credentials == null ? [] : (can(tolist(var.credentials)) ? tolist(var.credentials) : [var.credentials])
+    content {}
+  }
+  dynamic "features" {
+    for_each = var.features == null ? [] : (can(tolist(var.features)) ? tolist(var.features) : [var.features])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

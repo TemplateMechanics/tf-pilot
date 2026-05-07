@@ -61,3 +61,9 @@ variable "team" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_checkmarx_sca'."
+  type        = any
+  default     = null
+}

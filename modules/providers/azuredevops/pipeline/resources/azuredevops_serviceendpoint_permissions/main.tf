@@ -11,4 +11,8 @@ resource "azuredevops_serviceendpoint_permissions" "this" {
   project_id         = var.project_id
   replace            = var.replace
   serviceendpoint_id = var.serviceendpoint_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

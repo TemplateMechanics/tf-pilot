@@ -78,3 +78,21 @@ variable "service_endpoint_authentication_scheme" {
   type        = any
   default     = null
 }
+
+variable "credentials" {
+  description = "Top-level nested block 'credentials' payload for type 'azuredevops_serviceendpoint_azurerm'."
+  type        = any
+  default     = null
+}
+
+variable "features" {
+  description = "Top-level nested block 'features' payload for type 'azuredevops_serviceendpoint_azurerm'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_azurerm'."
+  type        = any
+  default     = null
+}

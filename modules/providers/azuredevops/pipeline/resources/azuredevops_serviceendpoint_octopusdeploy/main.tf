@@ -12,4 +12,8 @@ resource "azuredevops_serviceendpoint_octopusdeploy" "this" {
   url                   = var.url
   description           = var.description
   ignore_ssl_error      = var.ignore_ssl_error
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -42,3 +42,9 @@ variable "secret" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_incomingwebhook'."
+  type        = any
+  default     = null
+}

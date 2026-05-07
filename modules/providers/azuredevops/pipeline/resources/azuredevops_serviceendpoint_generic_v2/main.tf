@@ -15,4 +15,8 @@ resource "azuredevops_serviceendpoint_generic_v2" "this" {
   description              = var.description
   parameters               = var.parameters
   shared_project_ids       = var.shared_project_ids
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

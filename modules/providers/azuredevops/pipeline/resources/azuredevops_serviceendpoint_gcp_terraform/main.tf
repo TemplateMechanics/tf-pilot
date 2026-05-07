@@ -14,4 +14,8 @@ resource "azuredevops_serviceendpoint_gcp_terraform" "this" {
   client_email          = var.client_email
   description           = var.description
   scope                 = var.scope
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

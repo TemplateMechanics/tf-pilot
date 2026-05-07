@@ -13,4 +13,8 @@ resource "azuredevops_serviceendpoint_jenkins" "this" {
   username               = var.username
   accept_untrusted_certs = var.accept_untrusted_certs
   description            = var.description
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

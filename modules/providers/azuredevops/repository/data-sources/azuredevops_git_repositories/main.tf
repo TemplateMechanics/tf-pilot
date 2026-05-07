@@ -9,4 +9,8 @@ data "azuredevops_git_repositories" "this" {
   include_hidden = var.include_hidden
   name           = var.name
   project_id     = var.project_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

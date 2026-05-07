@@ -35,3 +35,21 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "authentication_basic" {
+  description = "Top-level nested block 'authentication_basic' payload for type 'azuredevops_serviceendpoint_maven'."
+  type        = any
+  default     = null
+}
+
+variable "authentication_token" {
+  description = "Top-level nested block 'authentication_token' payload for type 'azuredevops_serviceendpoint_maven'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_maven'."
+  type        = any
+  default     = null
+}

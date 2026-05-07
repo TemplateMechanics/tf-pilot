@@ -10,4 +10,8 @@ resource "azuredevops_team_members" "this" {
   project_id = var.project_id
   team_id    = var.team_id
   mode       = var.mode
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -41,3 +41,9 @@ variable "ignore_ssl_error" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_octopusdeploy'."
+  type        = any
+  default     = null
+}

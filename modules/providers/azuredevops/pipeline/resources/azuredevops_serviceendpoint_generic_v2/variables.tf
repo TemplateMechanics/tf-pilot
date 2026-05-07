@@ -58,3 +58,9 @@ variable "shared_project_ids" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_generic_v2'."
+  type        = any
+  default     = null
+}

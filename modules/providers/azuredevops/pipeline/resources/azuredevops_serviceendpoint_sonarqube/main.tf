@@ -11,4 +11,8 @@ resource "azuredevops_serviceendpoint_sonarqube" "this" {
   token                 = var.token
   url                   = var.url
   description           = var.description
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

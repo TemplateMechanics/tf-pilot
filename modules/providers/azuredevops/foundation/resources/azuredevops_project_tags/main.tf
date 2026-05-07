@@ -8,4 +8,8 @@ resource "azuredevops_project_tags" "this" {
   count      = var.enabled ? 1 : 0
   project_id = var.project_id
   tags       = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

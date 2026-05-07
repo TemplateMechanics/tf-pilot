@@ -12,4 +12,8 @@ resource "azuredevops_serviceendpoint_nexus" "this" {
   url                   = var.url
   username              = var.username
   description           = var.description
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

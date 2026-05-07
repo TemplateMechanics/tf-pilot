@@ -14,4 +14,8 @@ resource "azuredevops_serviceendpoint_checkmarx_sast" "this" {
   description           = var.description
   preset                = var.preset
   team                  = var.team
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

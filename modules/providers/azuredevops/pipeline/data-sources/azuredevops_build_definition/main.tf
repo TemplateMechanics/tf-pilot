@@ -9,4 +9,8 @@ data "azuredevops_build_definition" "this" {
   name       = var.name
   project_id = var.project_id
   path       = var.path
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

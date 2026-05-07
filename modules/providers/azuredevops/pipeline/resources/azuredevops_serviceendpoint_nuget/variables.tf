@@ -54,3 +54,9 @@ variable "username" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_nuget'."
+  type        = any
+  default     = null
+}

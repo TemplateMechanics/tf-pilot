@@ -25,3 +25,9 @@ variable "path" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_build_definition'."
+  type        = any
+  default     = null
+}

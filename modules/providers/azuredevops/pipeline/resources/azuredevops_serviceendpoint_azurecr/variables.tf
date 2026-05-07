@@ -57,3 +57,15 @@ variable "service_endpoint_authentication_scheme" {
   type        = any
   default     = null
 }
+
+variable "credentials" {
+  description = "Top-level nested block 'credentials' payload for type 'azuredevops_serviceendpoint_azurecr'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_azurecr'."
+  type        = any
+  default     = null
+}

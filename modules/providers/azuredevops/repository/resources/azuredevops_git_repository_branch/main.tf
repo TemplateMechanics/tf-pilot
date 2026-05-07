@@ -11,4 +11,8 @@ resource "azuredevops_git_repository_branch" "this" {
   ref_branch    = var.ref_branch
   ref_commit_id = var.ref_commit_id
   ref_tag       = var.ref_tag
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

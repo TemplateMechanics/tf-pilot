@@ -1,5 +1,5 @@
 {
-    "provider":  "kubernetes",
-    "resourcesGenerated":  82,
-    "dataSourcesGenerated":  26
+    "provider":  "azuredevops",
+    "resourcesGenerated":  130,
+    "dataSourcesGenerated":  44
 }
