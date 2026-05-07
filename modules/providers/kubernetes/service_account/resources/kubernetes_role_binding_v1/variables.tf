@@ -9,3 +9,21 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'kubernetes_role_binding_v1'."
+  type        = any
+  default     = null
+}
+
+variable "role_ref" {
+  description = "Top-level nested block 'role_ref' payload for type 'kubernetes_role_binding_v1'."
+  type        = any
+  default     = null
+}
+
+variable "subject" {
+  description = "Top-level nested block 'subject' payload for type 'kubernetes_role_binding_v1'."
+  type        = any
+  default     = null
+}

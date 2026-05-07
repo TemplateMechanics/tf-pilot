@@ -15,3 +15,21 @@ variable "wait_for_load_balancer" {
   type        = any
   default     = null
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'kubernetes_service_v1'."
+  type        = any
+  default     = null
+}
+
+variable "spec" {
+  description = "Top-level nested block 'spec' payload for type 'kubernetes_service_v1'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'kubernetes_service_v1'."
+  type        = any
+  default     = null
+}

@@ -1,0 +1,10 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: kubernetes
+# Module: misc/data-sources/kubernetes_storage_class
+# File: outputs.tf
+# SPDX-License-Identifier: MIT
+output "result" {
+  description = "Resolved attributes for data source kubernetes_storage_class."
+  value       = try(data.kubernetes_storage_class.this[0], null)
+}

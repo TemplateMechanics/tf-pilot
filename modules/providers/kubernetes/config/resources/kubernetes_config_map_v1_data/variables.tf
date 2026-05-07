@@ -26,3 +26,9 @@ variable "force" {
   type        = any
   default     = null
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'kubernetes_config_map_v1_data'."
+  type        = any
+  default     = null
+}

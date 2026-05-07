@@ -226,7 +226,7 @@
                       "kubernetes":  {
                                          "enabled":  true,
                                          "workspace":  "kubernetes",
-                                         "mode":  "prefix",
+                                         "mode":  "all",
                                          "modules":  {
                                                          "namespace":  {
                                                                            "enabled":  true,

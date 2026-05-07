@@ -15,3 +15,15 @@ variable "wait_for_default_service_account" {
   type        = any
   default     = null
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'kubernetes_namespace_v1'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'kubernetes_namespace_v1'."
+  type        = any
+  default     = null
+}

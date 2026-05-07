@@ -15,3 +15,27 @@ variable "automount_service_account_token" {
   type        = any
   default     = null
 }
+
+variable "image_pull_secret" {
+  description = "Top-level nested block 'image_pull_secret' payload for type 'kubernetes_service_account'."
+  type        = any
+  default     = null
+}
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'kubernetes_service_account'."
+  type        = any
+  default     = null
+}
+
+variable "secret" {
+  description = "Top-level nested block 'secret' payload for type 'kubernetes_service_account'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'kubernetes_service_account'."
+  type        = any
+  default     = null
+}

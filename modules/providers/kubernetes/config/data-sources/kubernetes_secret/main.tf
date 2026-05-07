@@ -7,4 +7,8 @@
 data "kubernetes_secret" "this" {
   count       = var.enabled ? 1 : 0
   binary_data = var.binary_data
+  dynamic "metadata" {
+    for_each = var.metadata == null ? [] : (can(tolist(var.metadata)) ? tolist(var.metadata) : [var.metadata])
+    content {}
+  }
 }

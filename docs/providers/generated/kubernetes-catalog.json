@@ -1,37 +1,313 @@
-﻿{
-    "generatedAt":  "2026-05-01T02:01:25.9450167Z",
+{
+    "generatedAt":  "2026-05-07T03:15:49.7757712Z",
     "generatedFromPath":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\kubernetes",
     "provider":  "kubernetes",
     "providerSchemaKey":  "registry.terraform.io/hashicorp/kubernetes",
     "modules":  [
+                    "config",
+                    "misc",
                     "namespace",
                     "service_account",
-                    "config",
                     "workload"
                 ],
     "resourcePrefixes":  [
-                             "kubernetes_config_map",
-                             "kubernetes_deployment",
-                             "kubernetes_ingress",
-                             "kubernetes_namespace",
-                             "kubernetes_role",
-                             "kubernetes_role_binding",
-                             "kubernetes_secret",
-                             "kubernetes_service",
-                             "kubernetes_service_account"
+
                          ],
     "dataSourcePrefixes":  [
-                               "kubernetes_config_map",
-                               "kubernetes_ingress",
-                               "kubernetes_namespace",
-                               "kubernetes_role",
-                               "kubernetes_secret",
-                               "kubernetes_service",
-                               "kubernetes_service_account"
+
                            ],
-    "resourceCount":  22,
-    "dataSourceCount":  12,
+    "resourceCount":  82,
+    "dataSourceCount":  26,
     "resources":  [
+                      {
+                          "type":  "kubernetes_annotations",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "api_version",
+                                                                     "kind"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "annotations",
+                                                                     "field_manager",
+                                                                     "force",
+                                                                     "id",
+                                                                     "template_annotations"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_api_service",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_api_service_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_certificate_signing_request",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "auto_approve",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "certificate"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_certificate_signing_request_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "auto_approve",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "certificate"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_cluster_role",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "aggregation_rule",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "rule",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_cluster_role_binding",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "role_ref",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "subject",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_cluster_role_binding_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "role_ref",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "subject",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_cluster_role_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "aggregation_rule",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "rule",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
                       {
                           "type":  "kubernetes_config_map",
                           "options":  {
@@ -107,6 +383,282 @@
                                       }
                       },
                       {
+                          "type":  "kubernetes_cron_job",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_cron_job_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_csi_driver",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_csi_driver_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_daemon_set_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "wait_for_rollout"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_daemonset",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "wait_for_rollout"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_default_service_account",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "automount_service_account_token",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "default_secret_name"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "image_pull_secret",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "secret",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_default_service_account_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "automount_service_account_token",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "default_secret_name"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "image_pull_secret",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "secret",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
                           "type":  "kubernetes_deployment",
                           "options":  {
                                           "requiredAttributes":  [
@@ -172,6 +724,241 @@
                                                                    "nesting":  "single",
                                                                    "min":  null,
                                                                    "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_endpoint_slice_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "address_type"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "endpoint",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1000
+                                                               },
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "port",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  100
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_endpoints",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "subset",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_endpoints_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "subset",
+                                                                   "nesting":  "set",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_env",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "api_version",
+                                                                     "kind"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "container",
+                                                                     "field_manager",
+                                                                     "force",
+                                                                     "id",
+                                                                     "init_container"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "env",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_horizontal_pod_autoscaler",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_horizontal_pod_autoscaler_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_horizontal_pod_autoscaler_v2",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_horizontal_pod_autoscaler_v2beta2",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
                                                                }
                                                            ]
                                       }
@@ -297,6 +1084,250 @@
                                       }
                       },
                       {
+                          "type":  "kubernetes_job",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "wait_for_completion"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_job_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "wait_for_completion"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_labels",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "api_version",
+                                                                     "kind",
+                                                                     "labels"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "field_manager",
+                                                                     "force",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_limit_range",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_limit_range_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_manifest",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "manifest"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "computed_fields",
+                                                                     "object",
+                                                                     "wait_for"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "field_manager",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "wait",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_mutating_webhook_configuration",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "webhook",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_mutating_webhook_configuration_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "webhook",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
                           "type":  "kubernetes_namespace",
                           "options":  {
                                           "requiredAttributes":  [
@@ -343,6 +1374,598 @@
                                                                    "name":  "metadata",
                                                                    "nesting":  "list",
                                                                    "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_network_policy",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_network_policy_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_node_taint",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "field_manager",
+                                                                     "force",
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "taint",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_persistent_volume",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_persistent_volume_claim",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "wait_until_bound"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_persistent_volume_claim_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "wait_until_bound"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_persistent_volume_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_pod",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "target_state"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_pod_disruption_budget",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_pod_disruption_budget_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_pod_security_policy",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_pod_security_policy_v1beta1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_pod_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "target_state"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_priority_class",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "value"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "global_default",
+                                                                     "id",
+                                                                     "preemption_policy"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_priority_class_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "value"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "description",
+                                                                     "global_default",
+                                                                     "id",
+                                                                     "preemption_policy"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_replication_controller",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_replication_controller_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_resource_quota",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_resource_quota_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
                                                                    "max":  1
                                                                },
                                                                {
@@ -474,6 +2097,28 @@
                                                                    "nesting":  "list",
                                                                    "min":  1,
                                                                    "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_runtime_class_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "handler"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
                                                                }
                                                            ]
                                       }
@@ -727,9 +2372,246 @@
                                                                }
                                                            ]
                                       }
+                      },
+                      {
+                          "type":  "kubernetes_stateful_set",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "wait_for_rollout"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_stateful_set_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id",
+                                                                     "wait_for_rollout"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "timeouts",
+                                                                   "nesting":  "single",
+                                                                   "min":  null,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_storage_class",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "storage_provisioner"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allow_volume_expansion",
+                                                                     "id",
+                                                                     "mount_options",
+                                                                     "parameters",
+                                                                     "reclaim_policy",
+                                                                     "volume_binding_mode"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "allowed_topologies",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_storage_class_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+                                                                     "storage_provisioner"
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "allow_volume_expansion",
+                                                                     "id",
+                                                                     "mount_options",
+                                                                     "parameters",
+                                                                     "reclaim_policy",
+                                                                     "volume_binding_mode"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "allowed_topologies",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_token_request_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+                                                                     "token"
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "spec",
+                                                                   "nesting":  "list",
+                                                                   "min":  null,
+                                                                   "max":  1
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_validating_webhook_configuration",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "webhook",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
+                      },
+                      {
+                          "type":  "kubernetes_validating_webhook_configuration_v1",
+                          "options":  {
+                                          "requiredAttributes":  [
+
+                                                                 ],
+                                          "optionalAttributes":  [
+                                                                     "id"
+                                                                 ],
+                                          "computedAttributes":  [
+
+                                                                 ],
+                                          "nestedBlocks":  [
+                                                               {
+                                                                   "name":  "metadata",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  1
+                                                               },
+                                                               {
+                                                                   "name":  "webhook",
+                                                                   "nesting":  "list",
+                                                                   "min":  1,
+                                                                   "max":  null
+                                                               }
+                                                           ]
+                                      }
                       }
                   ],
     "dataSources":  [
+                        {
+                            "type":  "kubernetes_all_namespaces",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "namespaces"
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
                         {
                             "type":  "kubernetes_config_map",
                             "options":  {
@@ -779,6 +2661,34 @@
                                         }
                         },
                         {
+                            "type":  "kubernetes_endpoints_v1",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "metadata",
+                                                                     "nesting":  "list",
+                                                                     "min":  1,
+                                                                     "max":  1
+                                                                 },
+                                                                 {
+                                                                     "name":  "subset",
+                                                                     "nesting":  "set",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
                             "type":  "kubernetes_ingress",
                             "options":  {
                                             "requiredAttributes":  [
@@ -813,6 +2723,28 @@
                                             "computedAttributes":  [
                                                                        "spec",
                                                                        "status"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "metadata",
+                                                                     "nesting":  "list",
+                                                                     "min":  1,
+                                                                     "max":  1
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "kubernetes_mutating_webhook_configuration_v1",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "webhook"
                                                                    ],
                                             "nestedBlocks":  [
                                                                  {
@@ -869,6 +2801,203 @@
                                         }
                         },
                         {
+                            "type":  "kubernetes_nodes",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "nodes"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "metadata",
+                                                                     "nesting":  "list",
+                                                                     "min":  null,
+                                                                     "max":  1
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "kubernetes_persistent_volume_claim",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "metadata",
+                                                                     "nesting":  "list",
+                                                                     "min":  1,
+                                                                     "max":  1
+                                                                 },
+                                                                 {
+                                                                     "name":  "spec",
+                                                                     "nesting":  "list",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "kubernetes_persistent_volume_claim_v1",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "metadata",
+                                                                     "nesting":  "list",
+                                                                     "min":  1,
+                                                                     "max":  1
+                                                                 },
+                                                                 {
+                                                                     "name":  "spec",
+                                                                     "nesting":  "list",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "kubernetes_persistent_volume_v1",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "metadata",
+                                                                     "nesting":  "list",
+                                                                     "min":  1,
+                                                                     "max":  1
+                                                                 },
+                                                                 {
+                                                                     "name":  "spec",
+                                                                     "nesting":  "list",
+                                                                     "min":  null,
+                                                                     "max":  null
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "kubernetes_pod",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "spec",
+                                                                       "status"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "metadata",
+                                                                     "nesting":  "list",
+                                                                     "min":  1,
+                                                                     "max":  1
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "kubernetes_pod_v1",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "spec",
+                                                                       "status"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "metadata",
+                                                                     "nesting":  "list",
+                                                                     "min":  1,
+                                                                     "max":  1
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "kubernetes_resource",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "api_version",
+                                                                       "kind"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "object"
+                                                                   ],
+                                            "computedAttributes":  [
+
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "metadata",
+                                                                     "nesting":  "list",
+                                                                     "min":  1,
+                                                                     "max":  1
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "kubernetes_resources",
+                            "options":  {
+                                            "requiredAttributes":  [
+                                                                       "api_version",
+                                                                       "kind"
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "field_selector",
+                                                                       "label_selector",
+                                                                       "limit",
+                                                                       "namespace",
+                                                                       "objects"
+                                                                   ],
+                                            "computedAttributes":  [
+
+                                                                   ],
+                                            "nestedBlocks":  [
+
+                                                             ]
+                                        }
+                        },
+                        {
                             "type":  "kubernetes_secret",
                             "options":  {
                                             "requiredAttributes":  [
@@ -915,6 +3044,32 @@
                                                                      "min":  1,
                                                                      "max":  1
                                                                  }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "kubernetes_server_version",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "id"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "build_date",
+                                                                       "compiler",
+                                                                       "git_commit",
+                                                                       "git_tree_state",
+                                                                       "git_version",
+                                                                       "go_version",
+                                                                       "major",
+                                                                       "minor",
+                                                                       "platform",
+                                                                       "version"
+                                                                   ],
+                                            "nestedBlocks":  [
+
                                                              ]
                                         }
                         },
@@ -1005,6 +3160,72 @@
                                                                        "status"
                                                                    ],
                                             "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "metadata",
+                                                                     "nesting":  "list",
+                                                                     "min":  1,
+                                                                     "max":  1
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "kubernetes_storage_class",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "allow_volume_expansion",
+                                                                       "id",
+                                                                       "mount_options",
+                                                                       "parameters",
+                                                                       "reclaim_policy",
+                                                                       "volume_binding_mode"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "storage_provisioner"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "allowed_topologies",
+                                                                     "nesting":  "list",
+                                                                     "min":  null,
+                                                                     "max":  1
+                                                                 },
+                                                                 {
+                                                                     "name":  "metadata",
+                                                                     "nesting":  "list",
+                                                                     "min":  1,
+                                                                     "max":  1
+                                                                 }
+                                                             ]
+                                        }
+                        },
+                        {
+                            "type":  "kubernetes_storage_class_v1",
+                            "options":  {
+                                            "requiredAttributes":  [
+
+                                                                   ],
+                                            "optionalAttributes":  [
+                                                                       "allow_volume_expansion",
+                                                                       "id",
+                                                                       "mount_options",
+                                                                       "parameters",
+                                                                       "reclaim_policy",
+                                                                       "volume_binding_mode"
+                                                                   ],
+                                            "computedAttributes":  [
+                                                                       "storage_provisioner"
+                                                                   ],
+                                            "nestedBlocks":  [
+                                                                 {
+                                                                     "name":  "allowed_topologies",
+                                                                     "nesting":  "list",
+                                                                     "min":  null,
+                                                                     "max":  1
+                                                                 },
                                                                  {
                                                                      "name":  "metadata",
                                                                      "nesting":  "list",

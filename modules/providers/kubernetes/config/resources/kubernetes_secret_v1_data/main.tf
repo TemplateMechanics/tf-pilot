@@ -9,4 +9,8 @@ resource "kubernetes_secret_v1_data" "this" {
   data          = var.data
   field_manager = var.field_manager
   force         = var.force
+  dynamic "metadata" {
+    for_each = var.metadata == null ? [] : (can(tolist(var.metadata)) ? tolist(var.metadata) : [var.metadata])
+    content {}
+  }
 }

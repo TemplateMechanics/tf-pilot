@@ -7,4 +7,8 @@
 data "kubernetes_config_map_v1" "this" {
   count     = var.enabled ? 1 : 0
   immutable = var.immutable
+  dynamic "metadata" {
+    for_each = var.metadata == null ? [] : (can(tolist(var.metadata)) ? tolist(var.metadata) : [var.metadata])
+    content {}
+  }
 }
