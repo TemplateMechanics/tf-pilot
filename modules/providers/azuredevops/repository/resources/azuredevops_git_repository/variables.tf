@@ -37,3 +37,15 @@ variable "parent_repository_id" {
   type        = any
   default     = null
 }
+
+variable "initialization" {
+  description = "Top-level nested block 'initialization' payload for type 'azuredevops_git_repository'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_git_repository'."
+  type        = any
+  default     = null
+}

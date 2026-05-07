@@ -342,7 +342,7 @@
                       "azuredevops":  {
                                           "enabled":  true,
                                           "workspace":  "azuredevops",
-                                          "mode":  "prefix",
+                                          "mode":  "all",
                                           "modules":  {
                                                           "foundation":  {
                                                                              "enabled":  true,

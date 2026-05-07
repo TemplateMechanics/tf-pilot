@@ -11,4 +11,8 @@ resource "azuredevops_serviceendpoint_bitbucket" "this" {
   service_endpoint_name = var.service_endpoint_name
   username              = var.username
   description           = var.description
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

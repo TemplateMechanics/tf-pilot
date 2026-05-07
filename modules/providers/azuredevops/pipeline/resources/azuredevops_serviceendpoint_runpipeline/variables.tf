@@ -30,3 +30,15 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "auth_personal" {
+  description = "Top-level nested block 'auth_personal' payload for type 'azuredevops_serviceendpoint_runpipeline'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_runpipeline'."
+  type        = any
+  default     = null
+}

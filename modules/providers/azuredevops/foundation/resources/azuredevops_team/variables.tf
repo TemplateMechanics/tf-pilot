@@ -37,3 +37,9 @@ variable "members" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_team'."
+  type        = any
+  default     = null
+}

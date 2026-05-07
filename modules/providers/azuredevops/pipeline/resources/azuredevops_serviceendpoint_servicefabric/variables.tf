@@ -30,3 +30,27 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "azure_active_directory" {
+  description = "Top-level nested block 'azure_active_directory' payload for type 'azuredevops_serviceendpoint_servicefabric'."
+  type        = any
+  default     = null
+}
+
+variable "certificate" {
+  description = "Top-level nested block 'certificate' payload for type 'azuredevops_serviceendpoint_servicefabric'."
+  type        = any
+  default     = null
+}
+
+variable "none" {
+  description = "Top-level nested block 'none' payload for type 'azuredevops_serviceendpoint_servicefabric'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_servicefabric'."
+  type        = any
+  default     = null
+}

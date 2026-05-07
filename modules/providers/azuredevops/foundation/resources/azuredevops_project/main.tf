@@ -12,4 +12,8 @@ resource "azuredevops_project" "this" {
   version_control    = var.version_control
   visibility         = var.visibility
   work_item_template = var.work_item_template
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

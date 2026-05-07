@@ -16,4 +16,8 @@ resource "azuredevops_git_repository_file" "this" {
   committer_email     = var.committer_email
   committer_name      = var.committer_name
   overwrite_on_create = var.overwrite_on_create
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

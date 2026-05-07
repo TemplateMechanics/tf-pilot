@@ -21,3 +21,9 @@ variable "project_id" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_project'."
+  type        = any
+  default     = null
+}

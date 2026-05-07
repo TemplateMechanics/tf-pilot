@@ -35,3 +35,9 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_azure_service_bus'."
+  type        = any
+  default     = null
+}

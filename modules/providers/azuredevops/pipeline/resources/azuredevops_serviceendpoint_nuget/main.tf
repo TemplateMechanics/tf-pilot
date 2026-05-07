@@ -14,4 +14,8 @@ resource "azuredevops_serviceendpoint_nuget" "this" {
   password              = var.password
   personal_access_token = var.personal_access_token
   username              = var.username
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -12,4 +12,8 @@ resource "azuredevops_serviceendpoint_generic" "this" {
   description           = var.description
   password              = var.password
   username              = var.username
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

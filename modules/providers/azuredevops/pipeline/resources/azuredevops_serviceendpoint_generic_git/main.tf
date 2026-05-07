@@ -13,4 +13,8 @@ resource "azuredevops_serviceendpoint_generic_git" "this" {
   enable_pipelines_access = var.enable_pipelines_access
   password                = var.password
   username                = var.username
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

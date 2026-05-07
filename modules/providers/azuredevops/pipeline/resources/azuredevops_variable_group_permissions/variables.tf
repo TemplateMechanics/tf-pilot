@@ -35,3 +35,9 @@ variable "replace" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_variable_group_permissions'."
+  type        = any
+  default     = null
+}

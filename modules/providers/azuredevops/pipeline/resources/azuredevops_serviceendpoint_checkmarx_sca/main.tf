@@ -16,4 +16,8 @@ resource "azuredevops_serviceendpoint_checkmarx_sca" "this" {
   web_app_url           = var.web_app_url
   description           = var.description
   team                  = var.team
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

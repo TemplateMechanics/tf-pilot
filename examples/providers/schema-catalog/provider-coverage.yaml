@@ -157,6 +157,7 @@ providers:
     source: microsoft/azuredevops
     version: "~> 1.0"
     workspace: azuredevops
+    mode: all
     modules:
       foundation:
         enabled: true

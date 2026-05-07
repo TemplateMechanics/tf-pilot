@@ -31,3 +31,21 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "key_vault" {
+  description = "Top-level nested block 'key_vault' payload for type 'azuredevops_variable_group'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_variable_group'."
+  type        = any
+  default     = null
+}
+
+variable "variable" {
+  description = "Top-level nested block 'variable' payload for type 'azuredevops_variable_group'."
+  type        = any
+  default     = null
+}

@@ -55,3 +55,57 @@ variable "variable_groups" {
   type        = any
   default     = null
 }
+
+variable "build_completion_trigger" {
+  description = "Top-level nested block 'build_completion_trigger' payload for type 'azuredevops_build_definition'."
+  type        = any
+  default     = null
+}
+
+variable "ci_trigger" {
+  description = "Top-level nested block 'ci_trigger' payload for type 'azuredevops_build_definition'."
+  type        = any
+  default     = null
+}
+
+variable "features" {
+  description = "Top-level nested block 'features' payload for type 'azuredevops_build_definition'."
+  type        = any
+  default     = null
+}
+
+variable "jobs" {
+  description = "Top-level nested block 'jobs' payload for type 'azuredevops_build_definition'."
+  type        = any
+  default     = null
+}
+
+variable "pull_request_trigger" {
+  description = "Top-level nested block 'pull_request_trigger' payload for type 'azuredevops_build_definition'."
+  type        = any
+  default     = null
+}
+
+variable "repository" {
+  description = "Top-level nested block 'repository' payload for type 'azuredevops_build_definition'."
+  type        = any
+  default     = null
+}
+
+variable "schedules" {
+  description = "Top-level nested block 'schedules' payload for type 'azuredevops_build_definition'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_build_definition'."
+  type        = any
+  default     = null
+}
+
+variable "variable" {
+  description = "Top-level nested block 'variable' payload for type 'azuredevops_build_definition'."
+  type        = any
+  default     = null
+}

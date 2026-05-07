@@ -12,4 +12,8 @@ resource "azuredevops_serviceendpoint_incomingwebhook" "this" {
   description           = var.description
   http_header           = var.http_header
   secret                = var.secret
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

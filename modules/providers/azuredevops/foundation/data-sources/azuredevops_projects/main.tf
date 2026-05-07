@@ -8,4 +8,8 @@ data "azuredevops_projects" "this" {
   count = var.enabled ? 1 : 0
   name  = var.name
   state = var.state
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

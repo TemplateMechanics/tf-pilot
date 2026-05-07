@@ -25,3 +25,21 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "auth_oauth" {
+  description = "Top-level nested block 'auth_oauth' payload for type 'azuredevops_serviceendpoint_github'."
+  type        = any
+  default     = null
+}
+
+variable "auth_personal" {
+  description = "Top-level nested block 'auth_personal' payload for type 'azuredevops_serviceendpoint_github'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_github'."
+  type        = any
+  default     = null
+}

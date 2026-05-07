@@ -16,4 +16,8 @@ resource "azuredevops_serviceendpoint_aws" "this" {
   secret_access_key     = var.secret_access_key
   session_token         = var.session_token
   use_oidc              = var.use_oidc
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

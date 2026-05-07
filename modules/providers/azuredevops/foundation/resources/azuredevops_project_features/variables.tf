@@ -19,3 +19,9 @@ variable "project_id" {
   description = "Required attribute 'project_id' for type 'azuredevops_project_features'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_project_features'."
+  type        = any
+  default     = null
+}

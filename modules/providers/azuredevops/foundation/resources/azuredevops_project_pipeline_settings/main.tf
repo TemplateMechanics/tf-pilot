@@ -13,4 +13,8 @@ resource "azuredevops_project_pipeline_settings" "this" {
   enforce_settable_var                 = var.enforce_settable_var
   publish_pipeline_metadata            = var.publish_pipeline_metadata
   status_badges_are_private            = var.status_badges_are_private
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

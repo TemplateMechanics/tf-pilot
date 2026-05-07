@@ -10,4 +10,8 @@ resource "azuredevops_project_permissions" "this" {
   principal   = var.principal
   project_id  = var.project_id
   replace     = var.replace
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -11,4 +11,8 @@ resource "azuredevops_variable_group_variable" "this" {
   variable_group_id = var.variable_group_id
   secret_value      = var.secret_value
   value             = var.value
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

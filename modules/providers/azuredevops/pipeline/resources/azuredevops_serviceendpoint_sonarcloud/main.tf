@@ -10,4 +10,8 @@ resource "azuredevops_serviceendpoint_sonarcloud" "this" {
   service_endpoint_name = var.service_endpoint_name
   token                 = var.token
   description           = var.description
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

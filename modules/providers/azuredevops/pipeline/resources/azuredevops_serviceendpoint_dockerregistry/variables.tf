@@ -55,3 +55,9 @@ variable "registry_type" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_dockerregistry'."
+  type        = any
+  default     = null
+}

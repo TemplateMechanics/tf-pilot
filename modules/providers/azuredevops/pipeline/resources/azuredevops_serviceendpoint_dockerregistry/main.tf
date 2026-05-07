@@ -14,4 +14,8 @@ resource "azuredevops_serviceendpoint_dockerregistry" "this" {
   docker_registry       = var.docker_registry
   docker_username       = var.docker_username
   registry_type         = var.registry_type
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

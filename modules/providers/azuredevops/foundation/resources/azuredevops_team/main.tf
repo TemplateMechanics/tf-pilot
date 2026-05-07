@@ -11,4 +11,8 @@ resource "azuredevops_team" "this" {
   administrators = var.administrators
   description    = var.description
   members        = var.members
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

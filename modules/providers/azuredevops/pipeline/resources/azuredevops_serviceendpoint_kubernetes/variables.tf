@@ -35,3 +35,27 @@ variable "description" {
   type        = any
   default     = null
 }
+
+variable "azure_subscription" {
+  description = "Top-level nested block 'azure_subscription' payload for type 'azuredevops_serviceendpoint_kubernetes'."
+  type        = any
+  default     = null
+}
+
+variable "kubeconfig" {
+  description = "Top-level nested block 'kubeconfig' payload for type 'azuredevops_serviceendpoint_kubernetes'."
+  type        = any
+  default     = null
+}
+
+variable "service_account" {
+  description = "Top-level nested block 'service_account' payload for type 'azuredevops_serviceendpoint_kubernetes'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_serviceendpoint_kubernetes'."
+  type        = any
+  default     = null
+}

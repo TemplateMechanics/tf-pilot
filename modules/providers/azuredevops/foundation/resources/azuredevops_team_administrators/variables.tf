@@ -30,3 +30,9 @@ variable "mode" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azuredevops_team_administrators'."
+  type        = any
+  default     = null
+}
