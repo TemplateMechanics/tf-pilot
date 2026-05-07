@@ -249,6 +249,120 @@ terraform {
   }
 }
 
+Describe 'Test-ProviderParameterCoverage.ps1' {
+  It 'reports gaps in advisory mode without failing' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogDir = Join-Path $TestDrive 'catalogs'
+    $modulesRoot = Join-Path $TestDrive 'modules'
+
+    @'
+{
+  "providers": {
+    "demo": {
+      "enabled": true,
+      "workspace": "demo",
+      "mode": "all",
+      "modules": {
+        "core": {
+          "enabled": true,
+          "resourceTypePrefixes": ["demo_"],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    New-Item -ItemType Directory -Path $catalogDir -Force | Out-Null
+    @'
+{
+  "provider": "demo",
+  "resources": [
+    {
+      "type": "demo_widget",
+      "options": {
+        "requiredAttributes": ["name"],
+        "optionalAttributes": ["enabled", "id"],
+        "computedAttributes": [],
+        "nestedBlocks": [{"name":"script","nesting":"list","min":1,"max":1}]
+      }
+    }
+  ],
+  "dataSources": []
+}
+'@ | Set-Content -Path (Join-Path $catalogDir 'demo-catalog.json') -Encoding utf8
+
+    $resourceDir = Join-Path $modulesRoot 'demo/core/resources/demo_widget'
+    New-Item -ItemType Directory -Path $resourceDir -Force | Out-Null
+    @'
+resource "demo_widget" "this" {
+  count = var.enabled ? 1 : 0
+  name  = var.name
+}
+'@ | Set-Content -Path (Join-Path $resourceDir 'main.tf') -Encoding utf8
+
+    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot -Providers demo
+    $LASTEXITCODE | Should -Be 0
+  }
+
+  It 'fails in enforcement mode when gaps are present' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogDir = Join-Path $TestDrive 'catalogs'
+    $modulesRoot = Join-Path $TestDrive 'modules'
+
+    @'
+{
+  "providers": {
+    "demo": {
+      "enabled": true,
+      "workspace": "demo",
+      "mode": "all",
+      "modules": {
+        "core": {
+          "enabled": true,
+          "resourceTypePrefixes": ["demo_"],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    New-Item -ItemType Directory -Path $catalogDir -Force | Out-Null
+    @'
+{
+  "provider": "demo",
+  "resources": [
+    {
+      "type": "demo_widget",
+      "options": {
+        "requiredAttributes": ["name"],
+        "optionalAttributes": ["enabled", "id"],
+        "computedAttributes": [],
+        "nestedBlocks": [{"name":"script","nesting":"list","min":1,"max":1}]
+      }
+    }
+  ],
+  "dataSources": []
+}
+'@ | Set-Content -Path (Join-Path $catalogDir 'demo-catalog.json') -Encoding utf8
+
+    $resourceDir = Join-Path $modulesRoot 'demo/core/resources/demo_widget'
+    New-Item -ItemType Directory -Path $resourceDir -Force | Out-Null
+    @'
+resource "demo_widget" "this" {
+  count = var.enabled ? 1 : 0
+  name  = var.name
+}
+'@ | Set-Content -Path (Join-Path $resourceDir 'main.tf') -Encoding utf8
+
+    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot -Providers demo -FailOnGaps
+    $LASTEXITCODE | Should -Be 1
+  }
+}
+
 Describe 'Sync-ProviderSettingsFromYaml.ps1' {
   It 'persists provider mode from YAML into derived settings JSON' {
     $yamlPath = Join-Path $TestDrive 'provider-coverage.yaml'
@@ -594,7 +708,8 @@ Describe 'Sync-McpServerEnablement.ps1' {
     New-TestMcpConfig -Path $mcpPath
     New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
 
-    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -Check
+    # Check mode intentionally reports out-of-sync state; suppress expected console noise.
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -Check *> $null
     $LASTEXITCODE | Should -Be 1
   }
 }
