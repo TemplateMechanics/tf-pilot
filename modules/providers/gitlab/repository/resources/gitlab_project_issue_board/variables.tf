@@ -43,3 +43,9 @@ variable "weight" {
   type        = any
   default     = null
 }
+
+variable "lists" {
+  description = "Top-level nested block 'lists' payload for type 'gitlab_project_issue_board'."
+  type        = any
+  default     = null
+}

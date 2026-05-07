@@ -175,3 +175,15 @@ variable "wiki_access_level" {
   type        = any
   default     = null
 }
+
+variable "default_branch_protection_defaults" {
+  description = "Top-level nested block 'default_branch_protection_defaults' payload for type 'gitlab_group'."
+  type        = any
+  default     = null
+}
+
+variable "push_rules" {
+  description = "Top-level nested block 'push_rules' payload for type 'gitlab_group'."
+  type        = any
+  default     = null
+}

@@ -1,12 +1,12 @@
-﻿# gitlab Provider Catalog Summary
+# gitlab Provider Catalog Summary
 
-Generated: 2026-05-01T05:06:08.7639560Z
+Generated: 2026-05-07T04:02:49.1124583Z
 
 - Provider schema key: registry.terraform.io/gitlabhq/gitlab
-- Modules reflected: foundation, repository, automation
-- Resource type prefixes: gitlab_branch_protection, gitlab_deploy_token, gitlab_group, gitlab_pipeline_schedule, gitlab_project, gitlab_project_hook, gitlab_project_member, gitlab_user
-- Data source prefixes: gitlab_group, gitlab_pipeline_schedule, gitlab_project, gitlab_project_hooks, gitlab_projects, gitlab_users
-- Resource schemas: 61
-- Data source schemas: 38
+- Modules reflected: automation, foundation, misc, repository
+- Resource type prefixes: 
+- Data source prefixes: 
+- Resource schemas: 106
+- Data source schemas: 57
 
 Top-level option metadata is available in gitlab-catalog.json.

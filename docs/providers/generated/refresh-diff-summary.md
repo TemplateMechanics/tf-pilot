@@ -2,75 +2,80 @@
 
 | Provider | Status | Resources (+/-/~) | Data Sources (+/-/~) |
 |---|---|---:|---:|
-| github | changed | 30/0/0 | 29/0/0 |
+| gitlab | changed | 45/0/0 | 19/0/0 |
 
-## github changes
+## gitlab changes
 
 - Resource types added
-  - github_app_installation_repositories
-  - github_app_installation_repository
-  - github_branch
-  - github_branch_default
-  - github_codespaces_organization_secret
-  - github_codespaces_organization_secret_repositories
-  - github_codespaces_secret
-  - github_codespaces_user_secret
-  - github_dependabot_organization_secret
-  - github_dependabot_organization_secret_repositories
-  - github_dependabot_organization_secret_repository
-  - github_dependabot_secret
-  - github_emu_group_mapping
-  - github_enterprise_actions_permissions
-  - github_enterprise_actions_runner_group
-  - github_enterprise_actions_workflow_permissions
-  - github_enterprise_ip_allow_list_entry
-  - github_enterprise_organization
-  - github_enterprise_security_analysis_settings
-  - github_issue
-  - github_issue_label
-  - github_issue_labels
-  - github_membership
-  - github_project_card
-  - github_project_column
-  - github_release
-  - github_user_gpg_key
-  - github_user_invitation_accepter
-  - github_user_ssh_key
-  - github_workflow_repository_permissions
+  - gitlab_application
+  - gitlab_application_settings
+  - gitlab_branch
+  - gitlab_cluster_agent
+  - gitlab_cluster_agent_token
+  - gitlab_compliance_framework
+  - gitlab_deploy_key
+  - gitlab_deploy_key_enable
+  - gitlab_global_level_notifications
+  - gitlab_instance_cluster
+  - gitlab_instance_service_account
+  - gitlab_instance_variable
+  - gitlab_integration_custom_issue_tracker
+  - gitlab_integration_emails_on_push
+  - gitlab_integration_external_wiki
+  - gitlab_integration_github
+  - gitlab_integration_harbor
+  - gitlab_integration_jenkins
+  - gitlab_integration_jira
+  - gitlab_integration_mattermost
+  - gitlab_integration_microsoft_teams
+  - gitlab_integration_pipelines_email
+  - gitlab_integration_slack
+  - gitlab_integration_telegram
+  - gitlab_label
+  - gitlab_member_role
+  - gitlab_pages_domain
+  - gitlab_personal_access_token
+  - gitlab_pipeline_trigger
+  - gitlab_release
+  - gitlab_release_link
+  - gitlab_repository_file
+  - gitlab_runner
+  - gitlab_service_custom_issue_tracker
+  - gitlab_service_emails_on_push
+  - gitlab_service_external_wiki
+  - gitlab_service_github
+  - gitlab_service_jira
+  - gitlab_service_microsoft_teams
+  - gitlab_service_pipelines_email
+  - gitlab_service_slack
+  - gitlab_system_hook
+  - gitlab_tag_protection
+  - gitlab_topic
+  - gitlab_value_stream_analytics
 - Resource types removed
   - none
 - Resource types changed
   - none
 - Data source types added
-  - github_app
-  - github_app_token
-  - github_branch
-  - github_branch_protection_rules
-  - github_codespaces_organization_public_key
-  - github_codespaces_organization_secrets
-  - github_codespaces_public_key
-  - github_codespaces_secrets
-  - github_codespaces_user_public_key
-  - github_codespaces_user_secrets
-  - github_collaborators
-  - github_dependabot_organization_public_key
-  - github_dependabot_organization_secrets
-  - github_dependabot_public_key
-  - github_dependabot_secrets
-  - github_enterprise
-  - github_external_groups
-  - github_ip_ranges
-  - github_issue_labels
-  - github_membership
-  - github_ref
-  - github_release
-  - github_release_asset
-  - github_rest_api
-  - github_ssh_keys
-  - github_tree
-  - github_user
-  - github_user_external_identity
-  - github_users
+  - gitlab_application
+  - gitlab_branch
+  - gitlab_cluster_agent
+  - gitlab_cluster_agents
+  - gitlab_compliance_framework
+  - gitlab_current_user
+  - gitlab_instance_deploy_keys
+  - gitlab_instance_service_account
+  - gitlab_instance_variable
+  - gitlab_instance_variables
+  - gitlab_metadata
+  - gitlab_release
+  - gitlab_release_link
+  - gitlab_release_links
+  - gitlab_repository_file
+  - gitlab_repository_tree
+  - gitlab_runners
+  - gitlab_user
+  - gitlab_user_sshkeys
 - Data source types removed
   - none
 - Data source types changed

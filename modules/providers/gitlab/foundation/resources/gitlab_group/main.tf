@@ -34,4 +34,12 @@ resource "gitlab_group" "this" {
   two_factor_grace_period            = var.two_factor_grace_period
   visibility_level                   = var.visibility_level
   wiki_access_level                  = var.wiki_access_level
+  dynamic "default_branch_protection_defaults" {
+    for_each = var.default_branch_protection_defaults == null ? [] : (can(tolist(var.default_branch_protection_defaults)) ? tolist(var.default_branch_protection_defaults) : [var.default_branch_protection_defaults])
+    content {}
+  }
+  dynamic "push_rules" {
+    for_each = var.push_rules == null ? [] : (can(tolist(var.push_rules)) ? tolist(var.push_rules) : [var.push_rules])
+    content {}
+  }
 }

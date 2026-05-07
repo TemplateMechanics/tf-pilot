@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: MIT
 resource "gitlab_project_job_token_scopes" "this" {
   count              = var.enabled ? 1 : 0
-  enabled            = var.enabled
+  enabled            = var.resource_enabled
   project            = var.project
   project_id         = var.project_id
   target_group_ids   = var.target_group_ids

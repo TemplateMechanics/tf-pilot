@@ -49,3 +49,21 @@ variable "unprotect_access_level" {
   type        = any
   default     = null
 }
+
+variable "allowed_to_merge" {
+  description = "Top-level nested block 'allowed_to_merge' payload for type 'gitlab_branch_protection'."
+  type        = any
+  default     = null
+}
+
+variable "allowed_to_push" {
+  description = "Top-level nested block 'allowed_to_push' payload for type 'gitlab_branch_protection'."
+  type        = any
+  default     = null
+}
+
+variable "allowed_to_unprotect" {
+  description = "Top-level nested block 'allowed_to_unprotect' payload for type 'gitlab_branch_protection'."
+  type        = any
+  default     = null
+}

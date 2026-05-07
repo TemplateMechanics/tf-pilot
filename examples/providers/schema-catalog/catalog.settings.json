@@ -383,7 +383,7 @@
                       "gitlab":  {
                                      "enabled":  true,
                                      "workspace":  "gitlab",
-                                     "mode":  "prefix",
+                                     "mode":  "all",
                                      "modules":  {
                                                      "foundation":  {
                                                                         "enabled":  true,

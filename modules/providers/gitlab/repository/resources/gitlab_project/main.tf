@@ -105,4 +105,16 @@ resource "gitlab_project" "this" {
   visibility_level                                 = var.visibility_level
   wiki_access_level                                = var.wiki_access_level
   wiki_enabled                                     = var.wiki_enabled
+  dynamic "container_expiration_policy" {
+    for_each = var.container_expiration_policy == null ? [] : (can(tolist(var.container_expiration_policy)) ? tolist(var.container_expiration_policy) : [var.container_expiration_policy])
+    content {}
+  }
+  dynamic "push_rules" {
+    for_each = var.push_rules == null ? [] : (can(tolist(var.push_rules)) ? tolist(var.push_rules) : [var.push_rules])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -10,7 +10,7 @@ variable "enabled" {
   default     = true
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'gitlab_project_job_token_scopes'."
   type        = any
   default     = null
