@@ -523,14 +523,18 @@ Describe 'Sync-ProviderModuleScaffolds.ps1 (smoke test)' {
     # Snapshot the tracked scaffold summary so the repo is clean after the test.
     $trackedSummary = Join-Path (Join-Path (Join-Path (Join-Path (Join-Path $PSScriptRoot '..') 'docs') 'providers') 'generated') 'module-scaffold-summary.json'
     $trackedSummary = [System.IO.Path]::GetFullPath($trackedSummary)
-    $summaryBackup  = if (Test-Path $trackedSummary) { Get-Content -Path $trackedSummary -Raw } else { $null }
+    $backupPath = Join-Path $TestDrive 'module-scaffold-summary.backup.json'
+    $hadTrackedSummary = Test-Path $trackedSummary
+    if ($hadTrackedSummary) {
+      Copy-Item -Path $trackedSummary -Destination $backupPath -Force
+    }
     try {
       {
         & "$script:scriptsDir/Sync-ProviderModuleScaffolds.ps1" -SettingsFile $settingsPath -ModulesRoot (Join-Path $TestDrive 'modules')
       } | Should -Not -Throw
     } finally {
-      if ($null -ne $summaryBackup) {
-        Set-Content -Path $trackedSummary -Value $summaryBackup -Encoding utf8 -NoNewline
+      if ($hadTrackedSummary -and (Test-Path $backupPath)) {
+        Copy-Item -Path $backupPath -Destination $trackedSummary -Force
       } elseif (Test-Path $trackedSummary) {
         Remove-Item -Path $trackedSummary -Force
       }
@@ -559,9 +563,25 @@ Describe 'Sync-ProviderModuleScaffolds.ps1 (smoke test)' {
 }
 '@ | Set-Content -Path $settingsPath -Encoding utf8
 
-    {
-      & "$script:scriptsDir/Sync-ProviderModuleScaffolds.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot
-    } | Should -Not -Throw
+    # Snapshot the tracked scaffold summary so the repo is clean after the test.
+    $trackedSummary = Join-Path (Join-Path (Join-Path (Join-Path (Join-Path $PSScriptRoot '..') 'docs') 'providers') 'generated') 'module-scaffold-summary.json'
+    $trackedSummary = [System.IO.Path]::GetFullPath($trackedSummary)
+    $backupPath = Join-Path $TestDrive 'module-scaffold-summary.backup.json'
+    $hadTrackedSummary = Test-Path $trackedSummary
+    if ($hadTrackedSummary) {
+      Copy-Item -Path $trackedSummary -Destination $backupPath -Force
+    }
+    try {
+      {
+        & "$script:scriptsDir/Sync-ProviderModuleScaffolds.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot
+      } | Should -Not -Throw
+    } finally {
+      if ($hadTrackedSummary -and (Test-Path $backupPath)) {
+        Copy-Item -Path $backupPath -Destination $trackedSummary -Force
+      } elseif (Test-Path $trackedSummary) {
+        Remove-Item -Path $trackedSummary -Force
+      }
+    }
 
     Test-Path (Join-Path $modulesRoot 'random/misc/main.tf') | Should -BeTrue
   }
