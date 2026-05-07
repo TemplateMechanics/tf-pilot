@@ -6,4 +6,8 @@
 # SPDX-License-Identifier: MIT
 data "kubernetes_ingress" "this" {
   count = var.enabled ? 1 : 0
+  dynamic "metadata" {
+    for_each = var.metadata == null ? [] : (can(tolist(var.metadata)) ? tolist(var.metadata) : [var.metadata])
+    content {}
+  }
 }

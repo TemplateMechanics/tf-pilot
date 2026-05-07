@@ -63,3 +63,15 @@ variable "wait_for_service_account_token" {
   type        = any
   default     = null
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'kubernetes_secret'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'kubernetes_secret'."
+  type        = any
+  default     = null
+}

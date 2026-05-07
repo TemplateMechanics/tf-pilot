@@ -9,3 +9,15 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'kubernetes_ingress_class_v1'."
+  type        = any
+  default     = null
+}
+
+variable "spec" {
+  description = "Top-level nested block 'spec' payload for type 'kubernetes_ingress_class_v1'."
+  type        = any
+  default     = null
+}

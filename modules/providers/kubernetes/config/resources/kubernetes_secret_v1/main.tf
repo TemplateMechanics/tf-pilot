@@ -15,4 +15,12 @@ resource "kubernetes_secret_v1" "this" {
   immutable                      = var.immutable
   type                           = var.type
   wait_for_service_account_token = var.wait_for_service_account_token
+  dynamic "metadata" {
+    for_each = var.metadata == null ? [] : (can(tolist(var.metadata)) ? tolist(var.metadata) : [var.metadata])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

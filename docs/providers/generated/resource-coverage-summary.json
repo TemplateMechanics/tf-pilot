@@ -1,5 +1,5 @@
 {
-    "provider":  "helm",
-    "resourcesGenerated":  1,
-    "dataSourcesGenerated":  1
+    "provider":  "kubernetes",
+    "resourcesGenerated":  82,
+    "dataSourcesGenerated":  26
 }

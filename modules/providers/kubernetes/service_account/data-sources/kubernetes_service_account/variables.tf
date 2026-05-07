@@ -9,3 +9,9 @@ variable "enabled" {
   type        = bool
   default     = true
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'kubernetes_service_account'."
+  type        = any
+  default     = null
+}

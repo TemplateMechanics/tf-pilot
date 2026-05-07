@@ -98,6 +98,7 @@ providers:
     source: hashicorp/kubernetes
     version: "~> 2.0"
     workspace: kubernetes
+    mode: all
     modules:
       namespace:
         enabled: true
