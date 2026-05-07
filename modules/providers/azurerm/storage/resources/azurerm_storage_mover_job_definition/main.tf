@@ -15,4 +15,8 @@ resource "azurerm_storage_mover_job_definition" "this" {
   description              = var.description
   source_sub_path          = var.source_sub_path
   target_sub_path          = var.target_sub_path
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

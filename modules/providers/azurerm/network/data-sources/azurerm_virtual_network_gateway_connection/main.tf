@@ -8,4 +8,8 @@ data "azurerm_virtual_network_gateway_connection" "this" {
   count               = var.enabled ? 1 : 0
   name                = var.name
   resource_group_name = var.resource_group_name
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

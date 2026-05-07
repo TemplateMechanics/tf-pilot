@@ -1,7 +1,7 @@
 {
-    "provider":  "google",
-    "resourceTypes":  1096,
-    "dataSourceTypes":  373,
+    "provider":  "azurerm",
+    "resourceTypes":  1132,
+    "dataSourceTypes":  396,
     "resourceTypesWithGaps":  0,
     "dataSourceTypesWithGaps":  0,
     "totalTypesWithGaps":  0,

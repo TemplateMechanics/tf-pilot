@@ -68,3 +68,9 @@ variable "storage_share_url" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_share_file'."
+  type        = any
+  default     = null
+}

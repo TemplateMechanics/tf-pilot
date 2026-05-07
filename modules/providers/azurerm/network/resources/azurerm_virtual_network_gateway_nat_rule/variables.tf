@@ -42,3 +42,21 @@ variable "type" {
   type        = any
   default     = null
 }
+
+variable "external_mapping" {
+  description = "Top-level nested block 'external_mapping' payload for type 'azurerm_virtual_network_gateway_nat_rule'."
+  type        = any
+  default     = null
+}
+
+variable "internal_mapping" {
+  description = "Top-level nested block 'internal_mapping' payload for type 'azurerm_virtual_network_gateway_nat_rule'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_virtual_network_gateway_nat_rule'."
+  type        = any
+  default     = null
+}

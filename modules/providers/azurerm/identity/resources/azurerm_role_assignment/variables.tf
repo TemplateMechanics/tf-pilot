@@ -73,3 +73,9 @@ variable "skip_service_principal_aad_check" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_role_assignment'."
+  type        = any
+  default     = null
+}

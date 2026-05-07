@@ -14,4 +14,8 @@ resource "azurerm_resource_group_template_deployment" "this" {
   tags                     = var.tags
   template_content         = var.template_content
   template_spec_version_id = var.template_spec_version_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

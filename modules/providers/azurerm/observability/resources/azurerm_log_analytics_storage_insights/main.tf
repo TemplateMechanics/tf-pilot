@@ -13,4 +13,8 @@ resource "azurerm_log_analytics_storage_insights" "this" {
   workspace_id         = var.workspace_id
   blob_container_names = var.blob_container_names
   table_names          = var.table_names
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

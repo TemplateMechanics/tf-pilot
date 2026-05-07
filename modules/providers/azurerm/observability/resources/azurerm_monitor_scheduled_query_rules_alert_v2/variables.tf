@@ -63,7 +63,7 @@ variable "display_name" {
   default     = null
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'azurerm_monitor_scheduled_query_rules_alert_v2'."
   type        = any
   default     = null
@@ -101,6 +101,30 @@ variable "target_resource_types" {
 
 variable "workspace_alerts_storage_enabled" {
   description = "Optional attribute 'workspace_alerts_storage_enabled' for type 'azurerm_monitor_scheduled_query_rules_alert_v2'."
+  type        = any
+  default     = null
+}
+
+variable "action" {
+  description = "Top-level nested block 'action' payload for type 'azurerm_monitor_scheduled_query_rules_alert_v2'."
+  type        = any
+  default     = null
+}
+
+variable "criteria" {
+  description = "Top-level nested block 'criteria' payload for type 'azurerm_monitor_scheduled_query_rules_alert_v2'."
+  type        = any
+  default     = null
+}
+
+variable "identity" {
+  description = "Top-level nested block 'identity' payload for type 'azurerm_monitor_scheduled_query_rules_alert_v2'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_monitor_scheduled_query_rules_alert_v2'."
   type        = any
   default     = null
 }

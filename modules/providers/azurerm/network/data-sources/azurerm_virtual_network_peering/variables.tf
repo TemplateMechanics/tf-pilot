@@ -19,3 +19,9 @@ variable "virtual_network_id" {
   description = "Required attribute 'virtual_network_id' for type 'azurerm_virtual_network_peering'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_virtual_network_peering'."
+  type        = any
+  default     = null
+}

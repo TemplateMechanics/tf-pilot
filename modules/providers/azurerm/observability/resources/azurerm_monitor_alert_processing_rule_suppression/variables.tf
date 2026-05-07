@@ -31,7 +31,7 @@ variable "description" {
   default     = null
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'azurerm_monitor_alert_processing_rule_suppression'."
   type        = any
   default     = null
@@ -39,6 +39,24 @@ variable "enabled" {
 
 variable "tags" {
   description = "Optional attribute 'tags' for type 'azurerm_monitor_alert_processing_rule_suppression'."
+  type        = any
+  default     = null
+}
+
+variable "condition" {
+  description = "Top-level nested block 'condition' payload for type 'azurerm_monitor_alert_processing_rule_suppression'."
+  type        = any
+  default     = null
+}
+
+variable "schedule" {
+  description = "Top-level nested block 'schedule' payload for type 'azurerm_monitor_alert_processing_rule_suppression'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_monitor_alert_processing_rule_suppression'."
   type        = any
   default     = null
 }

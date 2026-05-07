@@ -11,4 +11,16 @@ resource "azurerm_storage_account_local_user" "this" {
   home_directory       = var.home_directory
   ssh_key_enabled      = var.ssh_key_enabled
   ssh_password_enabled = var.ssh_password_enabled
+  dynamic "permission_scope" {
+    for_each = var.permission_scope == null ? [] : (can(tolist(var.permission_scope)) ? tolist(var.permission_scope) : [var.permission_scope])
+    content {}
+  }
+  dynamic "ssh_authorized_key" {
+    for_each = var.ssh_authorized_key == null ? [] : (can(tolist(var.ssh_authorized_key)) ? tolist(var.ssh_authorized_key) : [var.ssh_authorized_key])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

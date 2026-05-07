@@ -15,4 +15,12 @@ resource "azurerm_monitor_alert_prometheus_rule_group" "this" {
   interval            = var.interval
   rule_group_enabled  = var.rule_group_enabled
   tags                = var.tags
+  dynamic "rule" {
+    for_each = var.rule == null ? [] : (can(tolist(var.rule)) ? tolist(var.rule) : [var.rule])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

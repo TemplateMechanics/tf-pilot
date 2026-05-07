@@ -21,4 +21,8 @@ resource "azurerm_storage_blob" "this" {
   source                 = var.source
   source_content         = var.source_content
   source_uri             = var.source_uri
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -16,4 +16,16 @@ resource "azurerm_subnet" "this" {
   service_endpoint_policy_ids                   = var.service_endpoint_policy_ids
   service_endpoints                             = var.service_endpoints
   sharing_scope                                 = var.sharing_scope
+  dynamic "delegation" {
+    for_each = var.delegation == null ? [] : (can(tolist(var.delegation)) ? tolist(var.delegation) : [var.delegation])
+    content {}
+  }
+  dynamic "ip_address_pool" {
+    for_each = var.ip_address_pool == null ? [] : (can(tolist(var.ip_address_pool)) ? tolist(var.ip_address_pool) : [var.ip_address_pool])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

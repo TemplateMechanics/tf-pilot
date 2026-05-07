@@ -11,4 +11,8 @@ resource "azurerm_network_security_group" "this" {
   resource_group_name = var.resource_group_name
   security_rule       = var.security_rule
   tags                = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

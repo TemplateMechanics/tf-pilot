@@ -66,3 +66,21 @@ variable "sharing_scope" {
   type        = any
   default     = null
 }
+
+variable "delegation" {
+  description = "Top-level nested block 'delegation' payload for type 'azurerm_subnet'."
+  type        = any
+  default     = null
+}
+
+variable "ip_address_pool" {
+  description = "Top-level nested block 'ip_address_pool' payload for type 'azurerm_subnet'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_subnet'."
+  type        = any
+  default     = null
+}

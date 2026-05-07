@@ -10,4 +10,8 @@ resource "azurerm_resource_group" "this" {
   name       = var.name
   managed_by = var.managed_by
   tags       = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

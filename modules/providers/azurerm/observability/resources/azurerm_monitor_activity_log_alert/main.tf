@@ -11,6 +11,18 @@ resource "azurerm_monitor_activity_log_alert" "this" {
   resource_group_name = var.resource_group_name
   scopes              = var.scopes
   description         = var.description
-  enabled             = var.enabled
+  enabled             = var.resource_enabled
   tags                = var.tags
+  dynamic "action" {
+    for_each = var.action == null ? [] : (can(tolist(var.action)) ? tolist(var.action) : [var.action])
+    content {}
+  }
+  dynamic "criteria" {
+    for_each = var.criteria == null ? [] : (can(tolist(var.criteria)) ? tolist(var.criteria) : [var.criteria])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

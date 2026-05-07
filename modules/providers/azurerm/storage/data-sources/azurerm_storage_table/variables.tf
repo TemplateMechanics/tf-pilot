@@ -19,3 +19,9 @@ variable "storage_account_name" {
   description = "Required attribute 'storage_account_name' for type 'azurerm_storage_table'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_table'."
+  type        = any
+  default     = null
+}

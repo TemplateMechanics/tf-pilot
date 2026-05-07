@@ -14,4 +14,20 @@ resource "azurerm_monitor_diagnostic_setting" "this" {
   log_analytics_workspace_id     = var.log_analytics_workspace_id
   partner_solution_id            = var.partner_solution_id
   storage_account_id             = var.storage_account_id
+  dynamic "enabled_log" {
+    for_each = var.enabled_log == null ? [] : (can(tolist(var.enabled_log)) ? tolist(var.enabled_log) : [var.enabled_log])
+    content {}
+  }
+  dynamic "enabled_metric" {
+    for_each = var.enabled_metric == null ? [] : (can(tolist(var.enabled_metric)) ? tolist(var.enabled_metric) : [var.enabled_metric])
+    content {}
+  }
+  dynamic "metric" {
+    for_each = var.metric == null ? [] : (can(tolist(var.metric)) ? tolist(var.metric) : [var.metric])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -38,3 +38,15 @@ variable "storage_account_id" {
   type        = any
   default     = null
 }
+
+variable "enabled_log" {
+  description = "Top-level nested block 'enabled_log' payload for type 'azurerm_monitor_aad_diagnostic_setting'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_monitor_aad_diagnostic_setting'."
+  type        = any
+  default     = null
+}

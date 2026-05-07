@@ -15,4 +15,8 @@ resource "azurerm_storage_sync_server_endpoint" "this" {
   local_cache_mode           = var.local_cache_mode
   tier_files_older_than_days = var.tier_files_older_than_days
   volume_free_space_percent  = var.volume_free_space_percent
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

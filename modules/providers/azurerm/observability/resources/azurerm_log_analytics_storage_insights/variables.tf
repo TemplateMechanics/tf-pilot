@@ -46,3 +46,9 @@ variable "table_names" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_log_analytics_storage_insights'."
+  type        = any
+  default     = null
+}

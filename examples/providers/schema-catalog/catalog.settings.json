@@ -81,7 +81,7 @@
                       "azurerm":  {
                                       "enabled":  true,
                                       "workspace":  "azurerm",
-                                      "mode":  "prefix",
+                                      "mode":  "all",
                                       "modules":  {
                                                       "foundation":  {
                                                                          "enabled":  true,

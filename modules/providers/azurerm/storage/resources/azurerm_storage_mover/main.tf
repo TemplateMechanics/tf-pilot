@@ -11,4 +11,8 @@ resource "azurerm_storage_mover" "this" {
   resource_group_name = var.resource_group_name
   description         = var.description
   tags                = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

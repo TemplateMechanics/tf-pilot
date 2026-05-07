@@ -59,3 +59,9 @@ variable "policy_definition_reference_ids" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_resource_group_policy_exemption'."
+  type        = any
+  default     = null
+}

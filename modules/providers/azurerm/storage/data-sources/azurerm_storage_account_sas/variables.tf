@@ -42,3 +42,27 @@ variable "signed_version" {
   type        = any
   default     = null
 }
+
+variable "permissions" {
+  description = "Top-level nested block 'permissions' payload for type 'azurerm_storage_account_sas'."
+  type        = any
+  default     = null
+}
+
+variable "resource_types" {
+  description = "Top-level nested block 'resource_types' payload for type 'azurerm_storage_account_sas'."
+  type        = any
+  default     = null
+}
+
+variable "services" {
+  description = "Top-level nested block 'services' payload for type 'azurerm_storage_account_sas'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_account_sas'."
+  type        = any
+  default     = null
+}

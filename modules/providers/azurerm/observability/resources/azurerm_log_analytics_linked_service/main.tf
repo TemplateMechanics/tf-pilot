@@ -10,4 +10,8 @@ resource "azurerm_log_analytics_linked_service" "this" {
   workspace_id        = var.workspace_id
   read_access_id      = var.read_access_id
   write_access_id     = var.write_access_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

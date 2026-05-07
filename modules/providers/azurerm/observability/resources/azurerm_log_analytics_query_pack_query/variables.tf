@@ -66,3 +66,9 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_log_analytics_query_pack_query'."
+  type        = any
+  default     = null
+}

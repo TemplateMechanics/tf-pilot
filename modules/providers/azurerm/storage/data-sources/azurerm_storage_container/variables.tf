@@ -32,3 +32,9 @@ variable "storage_account_name" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_container'."
+  type        = any
+  default     = null
+}

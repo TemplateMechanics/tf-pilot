@@ -13,7 +13,15 @@ resource "azurerm_monitor_smart_detector_alert_rule" "this" {
   scope_resource_ids  = var.scope_resource_ids
   severity            = var.severity
   description         = var.description
-  enabled             = var.enabled
+  enabled             = var.resource_enabled
   tags                = var.tags
   throttling_duration = var.throttling_duration
+  dynamic "action_group" {
+    for_each = var.action_group == null ? [] : (can(tolist(var.action_group)) ? tolist(var.action_group) : [var.action_group])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

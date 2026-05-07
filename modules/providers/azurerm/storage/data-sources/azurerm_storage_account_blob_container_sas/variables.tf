@@ -71,3 +71,15 @@ variable "ip_address" {
   type        = any
   default     = null
 }
+
+variable "permissions" {
+  description = "Top-level nested block 'permissions' payload for type 'azurerm_storage_account_blob_container_sas'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_account_blob_container_sas'."
+  type        = any
+  default     = null
+}

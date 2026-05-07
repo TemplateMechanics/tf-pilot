@@ -15,4 +15,8 @@ resource "azurerm_resource_group_policy_remediation" "this" {
   policy_definition_reference_id = var.policy_definition_reference_id
   resource_count                 = var.resource_count
   resource_discovery_mode        = var.resource_discovery_mode
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

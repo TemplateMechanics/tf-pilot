@@ -17,4 +17,12 @@ data "azurerm_storage_account_blob_container_sas" "this" {
   content_type        = var.content_type
   https_only          = var.https_only
   ip_address          = var.ip_address
+  dynamic "permissions" {
+    for_each = var.permissions == null ? [] : (can(tolist(var.permissions)) ? tolist(var.permissions) : [var.permissions])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

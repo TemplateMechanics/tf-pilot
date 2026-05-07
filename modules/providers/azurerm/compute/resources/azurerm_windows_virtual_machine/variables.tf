@@ -256,3 +256,81 @@ variable "zone" {
   type        = any
   default     = null
 }
+
+variable "additional_capabilities" {
+  description = "Top-level nested block 'additional_capabilities' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "additional_unattend_content" {
+  description = "Top-level nested block 'additional_unattend_content' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "boot_diagnostics" {
+  description = "Top-level nested block 'boot_diagnostics' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "gallery_application" {
+  description = "Top-level nested block 'gallery_application' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "identity" {
+  description = "Top-level nested block 'identity' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "os_disk" {
+  description = "Top-level nested block 'os_disk' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "os_image_notification" {
+  description = "Top-level nested block 'os_image_notification' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "plan" {
+  description = "Top-level nested block 'plan' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "secret" {
+  description = "Top-level nested block 'secret' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "source_image_reference" {
+  description = "Top-level nested block 'source_image_reference' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "termination_notification" {
+  description = "Top-level nested block 'termination_notification' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}
+
+variable "winrm_listener" {
+  description = "Top-level nested block 'winrm_listener' payload for type 'azurerm_windows_virtual_machine'."
+  type        = any
+  default     = null
+}

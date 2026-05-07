@@ -11,4 +11,12 @@ resource "azurerm_log_analytics_cluster" "this" {
   resource_group_name = var.resource_group_name
   size_gb             = var.size_gb
   tags                = var.tags
+  dynamic "identity" {
+    for_each = var.identity == null ? [] : (can(tolist(var.identity)) ? tolist(var.identity) : [var.identity])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

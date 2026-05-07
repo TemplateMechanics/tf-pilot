@@ -36,3 +36,9 @@ variable "key_vault_key_id" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_encryption_scope'."
+  type        = any
+  default     = null
+}

@@ -9,4 +9,8 @@ data "azurerm_storage_table_entities" "this" {
   filter           = var.filter
   storage_table_id = var.storage_table_id
   select           = var.select
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

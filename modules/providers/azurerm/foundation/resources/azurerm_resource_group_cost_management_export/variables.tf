@@ -46,3 +46,21 @@ variable "file_format" {
   type        = any
   default     = null
 }
+
+variable "export_data_options" {
+  description = "Top-level nested block 'export_data_options' payload for type 'azurerm_resource_group_cost_management_export'."
+  type        = any
+  default     = null
+}
+
+variable "export_data_storage_location" {
+  description = "Top-level nested block 'export_data_storage_location' payload for type 'azurerm_resource_group_cost_management_export'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_resource_group_cost_management_export'."
+  type        = any
+  default     = null
+}

@@ -29,4 +29,20 @@ resource "azurerm_virtual_network_gateway_connection" "this" {
   shared_key                         = var.shared_key
   tags                               = var.tags
   use_policy_based_traffic_selectors = var.use_policy_based_traffic_selectors
+  dynamic "custom_bgp_addresses" {
+    for_each = var.custom_bgp_addresses == null ? [] : (can(tolist(var.custom_bgp_addresses)) ? tolist(var.custom_bgp_addresses) : [var.custom_bgp_addresses])
+    content {}
+  }
+  dynamic "ipsec_policy" {
+    for_each = var.ipsec_policy == null ? [] : (can(tolist(var.ipsec_policy)) ? tolist(var.ipsec_policy) : [var.ipsec_policy])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
+  dynamic "traffic_selector_policy" {
+    for_each = var.traffic_selector_policy == null ? [] : (can(tolist(var.traffic_selector_policy)) ? tolist(var.traffic_selector_policy) : [var.traffic_selector_policy])
+    content {}
+  }
 }

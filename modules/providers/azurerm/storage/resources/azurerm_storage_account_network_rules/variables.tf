@@ -37,3 +37,15 @@ variable "virtual_network_subnet_ids" {
   type        = any
   default     = null
 }
+
+variable "private_link_access" {
+  description = "Top-level nested block 'private_link_access' payload for type 'azurerm_storage_account_network_rules'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_account_network_rules'."
+  type        = any
+  default     = null
+}

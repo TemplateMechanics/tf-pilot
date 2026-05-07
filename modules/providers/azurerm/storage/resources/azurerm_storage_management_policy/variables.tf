@@ -14,3 +14,15 @@ variable "storage_account_id" {
   description = "Required attribute 'storage_account_id' for type 'azurerm_storage_management_policy'."
   type        = any
 }
+
+variable "rule" {
+  description = "Top-level nested block 'rule' payload for type 'azurerm_storage_management_policy'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_management_policy'."
+  type        = any
+  default     = null
+}

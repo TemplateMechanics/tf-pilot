@@ -30,3 +30,15 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "definition" {
+  description = "Top-level nested block 'definition' payload for type 'azurerm_subnet_service_endpoint_storage_policy'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_subnet_service_endpoint_storage_policy'."
+  type        = any
+  default     = null
+}

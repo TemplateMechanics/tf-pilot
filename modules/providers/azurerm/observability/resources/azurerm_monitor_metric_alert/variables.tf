@@ -37,7 +37,7 @@ variable "description" {
   default     = null
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'azurerm_monitor_metric_alert'."
   type        = any
   default     = null
@@ -75,6 +75,36 @@ variable "target_resource_type" {
 
 variable "window_size" {
   description = "Optional attribute 'window_size' for type 'azurerm_monitor_metric_alert'."
+  type        = any
+  default     = null
+}
+
+variable "action" {
+  description = "Top-level nested block 'action' payload for type 'azurerm_monitor_metric_alert'."
+  type        = any
+  default     = null
+}
+
+variable "application_insights_web_test_location_availability_criteria" {
+  description = "Top-level nested block 'application_insights_web_test_location_availability_criteria' payload for type 'azurerm_monitor_metric_alert'."
+  type        = any
+  default     = null
+}
+
+variable "criteria" {
+  description = "Top-level nested block 'criteria' payload for type 'azurerm_monitor_metric_alert'."
+  type        = any
+  default     = null
+}
+
+variable "dynamic_criteria" {
+  description = "Top-level nested block 'dynamic_criteria' payload for type 'azurerm_monitor_metric_alert'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_monitor_metric_alert'."
   type        = any
   default     = null
 }

@@ -47,3 +47,21 @@ variable "scopes" {
   type        = any
   default     = null
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'azurerm_container_app_environment_dapr_component'."
+  type        = any
+  default     = null
+}
+
+variable "secret" {
+  description = "Top-level nested block 'secret' payload for type 'azurerm_container_app_environment_dapr_component'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_container_app_environment_dapr_component'."
+  type        = any
+  default     = null
+}

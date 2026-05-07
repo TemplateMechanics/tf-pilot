@@ -36,3 +36,9 @@ variable "workspace_resource_id" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_log_analytics_linked_storage_account'."
+  type        = any
+  default     = null
+}

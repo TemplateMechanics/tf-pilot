@@ -43,3 +43,15 @@ variable "properties" {
   type        = any
   default     = null
 }
+
+variable "ace" {
+  description = "Top-level nested block 'ace' payload for type 'azurerm_storage_data_lake_gen2_filesystem'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_data_lake_gen2_filesystem'."
+  type        = any
+  default     = null
+}

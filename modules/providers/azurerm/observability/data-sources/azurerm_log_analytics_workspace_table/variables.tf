@@ -19,3 +19,9 @@ variable "workspace_id" {
   description = "Required attribute 'workspace_id' for type 'azurerm_log_analytics_workspace_table'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_log_analytics_workspace_table'."
+  type        = any
+  default     = null
+}

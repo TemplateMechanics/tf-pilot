@@ -24,3 +24,9 @@ variable "virtual_network_name" {
   description = "Required attribute 'virtual_network_name' for type 'azurerm_subnet'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_subnet'."
+  type        = any
+  default     = null
+}

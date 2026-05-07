@@ -25,4 +25,28 @@ resource "azurerm_virtual_network_gateway" "this" {
   tags                                  = var.tags
   virtual_wan_traffic_enabled           = var.virtual_wan_traffic_enabled
   vpn_type                              = var.vpn_type
+  dynamic "bgp_settings" {
+    for_each = var.bgp_settings == null ? [] : (can(tolist(var.bgp_settings)) ? tolist(var.bgp_settings) : [var.bgp_settings])
+    content {}
+  }
+  dynamic "custom_route" {
+    for_each = var.custom_route == null ? [] : (can(tolist(var.custom_route)) ? tolist(var.custom_route) : [var.custom_route])
+    content {}
+  }
+  dynamic "ip_configuration" {
+    for_each = var.ip_configuration == null ? [] : (can(tolist(var.ip_configuration)) ? tolist(var.ip_configuration) : [var.ip_configuration])
+    content {}
+  }
+  dynamic "policy_group" {
+    for_each = var.policy_group == null ? [] : (can(tolist(var.policy_group)) ? tolist(var.policy_group) : [var.policy_group])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
+  dynamic "vpn_client_configuration" {
+    for_each = var.vpn_client_configuration == null ? [] : (can(tolist(var.vpn_client_configuration)) ? tolist(var.vpn_client_configuration) : [var.vpn_client_configuration])
+    content {}
+  }
 }

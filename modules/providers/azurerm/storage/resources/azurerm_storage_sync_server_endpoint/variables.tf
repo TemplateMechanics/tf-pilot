@@ -59,3 +59,9 @@ variable "volume_free_space_percent" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_sync_server_endpoint'."
+  type        = any
+  default     = null
+}

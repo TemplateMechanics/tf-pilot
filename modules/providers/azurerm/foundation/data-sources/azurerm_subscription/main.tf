@@ -7,4 +7,8 @@
 data "azurerm_subscription" "this" {
   count           = var.enabled ? 1 : 0
   subscription_id = var.subscription_id
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

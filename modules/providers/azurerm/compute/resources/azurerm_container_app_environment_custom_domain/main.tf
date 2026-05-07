@@ -10,4 +10,8 @@ resource "azurerm_container_app_environment_custom_domain" "this" {
   certificate_password         = var.certificate_password
   container_app_environment_id = var.container_app_environment_id
   dns_suffix                   = var.dns_suffix
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

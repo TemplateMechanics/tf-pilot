@@ -19,4 +19,8 @@ resource "azurerm_virtual_network_peering" "this" {
   remote_subnet_names                    = var.remote_subnet_names
   triggers                               = var.triggers
   use_remote_gateways                    = var.use_remote_gateways
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

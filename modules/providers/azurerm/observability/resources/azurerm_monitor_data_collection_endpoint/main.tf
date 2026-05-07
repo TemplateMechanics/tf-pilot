@@ -13,4 +13,8 @@ resource "azurerm_monitor_data_collection_endpoint" "this" {
   kind                          = var.kind
   public_network_access_enabled = var.public_network_access_enabled
   tags                          = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

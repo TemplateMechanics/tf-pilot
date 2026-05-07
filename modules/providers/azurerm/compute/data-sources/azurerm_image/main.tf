@@ -10,4 +10,8 @@ data "azurerm_image" "this" {
   name                = var.name
   name_regex          = var.name_regex
   sort_descending     = var.sort_descending
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

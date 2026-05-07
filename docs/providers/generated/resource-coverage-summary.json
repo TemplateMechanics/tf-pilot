@@ -1,5 +1,5 @@
 {
-    "provider":  "google",
-    "resourcesGenerated":  1096,
-    "dataSourcesGenerated":  373
+    "provider":  "azurerm",
+    "resourcesGenerated":  1132,
+    "dataSourcesGenerated":  396
 }

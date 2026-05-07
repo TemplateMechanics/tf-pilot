@@ -19,3 +19,15 @@ variable "source_storage_account_id" {
   description = "Required attribute 'source_storage_account_id' for type 'azurerm_storage_object_replication'."
   type        = any
 }
+
+variable "rules" {
+  description = "Top-level nested block 'rules' payload for type 'azurerm_storage_object_replication'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_storage_object_replication'."
+  type        = any
+  default     = null
+}

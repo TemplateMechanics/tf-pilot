@@ -36,6 +36,7 @@ providers:
     source: hashicorp/azurerm
     version: "~> 4.0"
     workspace: azurerm
+    mode: all
     modules:
       foundation:
         enabled: true

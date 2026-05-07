@@ -27,3 +27,9 @@ variable "scope" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_role_definition'."
+  type        = any
+  default     = null
+}

@@ -11,4 +11,8 @@ resource "azurerm_user_assigned_identity" "this" {
   resource_group_name = var.resource_group_name
   isolation_scope     = var.isolation_scope
   tags                = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

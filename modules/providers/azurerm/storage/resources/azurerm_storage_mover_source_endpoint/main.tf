@@ -12,4 +12,8 @@ resource "azurerm_storage_mover_source_endpoint" "this" {
   description      = var.description
   export           = var.export
   nfs_version      = var.nfs_version
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

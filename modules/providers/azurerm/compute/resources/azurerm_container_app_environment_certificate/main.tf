@@ -11,4 +11,12 @@ resource "azurerm_container_app_environment_certificate" "this" {
   certificate_blob_base64      = var.certificate_blob_base64
   certificate_password         = var.certificate_password
   tags                         = var.tags
+  dynamic "certificate_key_vault" {
+    for_each = var.certificate_key_vault == null ? [] : (can(tolist(var.certificate_key_vault)) ? tolist(var.certificate_key_vault) : [var.certificate_key_vault])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -44,4 +44,84 @@ resource "azurerm_windows_virtual_machine_scale_set" "this" {
   vtpm_enabled                                      = var.vtpm_enabled
   zone_balance                                      = var.zone_balance
   zones                                             = var.zones
+  dynamic "additional_capabilities" {
+    for_each = var.additional_capabilities == null ? [] : (can(tolist(var.additional_capabilities)) ? tolist(var.additional_capabilities) : [var.additional_capabilities])
+    content {}
+  }
+  dynamic "additional_unattend_content" {
+    for_each = var.additional_unattend_content == null ? [] : (can(tolist(var.additional_unattend_content)) ? tolist(var.additional_unattend_content) : [var.additional_unattend_content])
+    content {}
+  }
+  dynamic "automatic_instance_repair" {
+    for_each = var.automatic_instance_repair == null ? [] : (can(tolist(var.automatic_instance_repair)) ? tolist(var.automatic_instance_repair) : [var.automatic_instance_repair])
+    content {}
+  }
+  dynamic "automatic_os_upgrade_policy" {
+    for_each = var.automatic_os_upgrade_policy == null ? [] : (can(tolist(var.automatic_os_upgrade_policy)) ? tolist(var.automatic_os_upgrade_policy) : [var.automatic_os_upgrade_policy])
+    content {}
+  }
+  dynamic "boot_diagnostics" {
+    for_each = var.boot_diagnostics == null ? [] : (can(tolist(var.boot_diagnostics)) ? tolist(var.boot_diagnostics) : [var.boot_diagnostics])
+    content {}
+  }
+  dynamic "data_disk" {
+    for_each = var.data_disk == null ? [] : (can(tolist(var.data_disk)) ? tolist(var.data_disk) : [var.data_disk])
+    content {}
+  }
+  dynamic "extension" {
+    for_each = var.extension == null ? [] : (can(tolist(var.extension)) ? tolist(var.extension) : [var.extension])
+    content {}
+  }
+  dynamic "gallery_application" {
+    for_each = var.gallery_application == null ? [] : (can(tolist(var.gallery_application)) ? tolist(var.gallery_application) : [var.gallery_application])
+    content {}
+  }
+  dynamic "identity" {
+    for_each = var.identity == null ? [] : (can(tolist(var.identity)) ? tolist(var.identity) : [var.identity])
+    content {}
+  }
+  dynamic "network_interface" {
+    for_each = var.network_interface == null ? [] : (can(tolist(var.network_interface)) ? tolist(var.network_interface) : [var.network_interface])
+    content {}
+  }
+  dynamic "os_disk" {
+    for_each = var.os_disk == null ? [] : (can(tolist(var.os_disk)) ? tolist(var.os_disk) : [var.os_disk])
+    content {}
+  }
+  dynamic "plan" {
+    for_each = var.plan == null ? [] : (can(tolist(var.plan)) ? tolist(var.plan) : [var.plan])
+    content {}
+  }
+  dynamic "rolling_upgrade_policy" {
+    for_each = var.rolling_upgrade_policy == null ? [] : (can(tolist(var.rolling_upgrade_policy)) ? tolist(var.rolling_upgrade_policy) : [var.rolling_upgrade_policy])
+    content {}
+  }
+  dynamic "scale_in" {
+    for_each = var.scale_in == null ? [] : (can(tolist(var.scale_in)) ? tolist(var.scale_in) : [var.scale_in])
+    content {}
+  }
+  dynamic "secret" {
+    for_each = var.secret == null ? [] : (can(tolist(var.secret)) ? tolist(var.secret) : [var.secret])
+    content {}
+  }
+  dynamic "source_image_reference" {
+    for_each = var.source_image_reference == null ? [] : (can(tolist(var.source_image_reference)) ? tolist(var.source_image_reference) : [var.source_image_reference])
+    content {}
+  }
+  dynamic "spot_restore" {
+    for_each = var.spot_restore == null ? [] : (can(tolist(var.spot_restore)) ? tolist(var.spot_restore) : [var.spot_restore])
+    content {}
+  }
+  dynamic "termination_notification" {
+    for_each = var.termination_notification == null ? [] : (can(tolist(var.termination_notification)) ? tolist(var.termination_notification) : [var.termination_notification])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
+  dynamic "winrm_listener" {
+    for_each = var.winrm_listener == null ? [] : (can(tolist(var.winrm_listener)) ? tolist(var.winrm_listener) : [var.winrm_listener])
+    content {}
+  }
 }

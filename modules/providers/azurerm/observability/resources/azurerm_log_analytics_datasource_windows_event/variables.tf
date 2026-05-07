@@ -34,3 +34,9 @@ variable "workspace_name" {
   description = "Required attribute 'workspace_name' for type 'azurerm_log_analytics_datasource_windows_event'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'azurerm_log_analytics_datasource_windows_event'."
+  type        = any
+  default     = null
+}

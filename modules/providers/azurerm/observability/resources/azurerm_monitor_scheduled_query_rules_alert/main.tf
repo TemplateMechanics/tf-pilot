@@ -16,9 +16,21 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "this" {
   authorized_resource_ids = var.authorized_resource_ids
   auto_mitigation_enabled = var.auto_mitigation_enabled
   description             = var.description
-  enabled                 = var.enabled
+  enabled                 = var.resource_enabled
   query_type              = var.query_type
   severity                = var.severity
   tags                    = var.tags
   throttling              = var.throttling
+  dynamic "action" {
+    for_each = var.action == null ? [] : (can(tolist(var.action)) ? tolist(var.action) : [var.action])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
+  dynamic "trigger" {
+    for_each = var.trigger == null ? [] : (can(tolist(var.trigger)) ? tolist(var.trigger) : [var.trigger])
+    content {}
+  }
 }

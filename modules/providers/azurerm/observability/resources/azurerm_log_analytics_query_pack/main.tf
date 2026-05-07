@@ -10,4 +10,8 @@ resource "azurerm_log_analytics_query_pack" "this" {
   name                = var.name
   resource_group_name = var.resource_group_name
   tags                = var.tags
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

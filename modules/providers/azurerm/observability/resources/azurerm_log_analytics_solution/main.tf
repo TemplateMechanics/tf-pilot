@@ -12,4 +12,12 @@ resource "azurerm_log_analytics_solution" "this" {
   workspace_name        = var.workspace_name
   workspace_resource_id = var.workspace_resource_id
   tags                  = var.tags
+  dynamic "plan" {
+    for_each = var.plan == null ? [] : (can(tolist(var.plan)) ? tolist(var.plan) : [var.plan])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }
