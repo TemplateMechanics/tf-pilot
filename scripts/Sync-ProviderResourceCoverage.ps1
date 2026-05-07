@@ -306,6 +306,7 @@ function New-VariablesTf {
   }
 
   foreach ($attr in @($RequiredAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $lines += @(
       "variable `"$varName`" {",
@@ -317,6 +318,7 @@ function New-VariablesTf {
   }
 
   foreach ($attr in @($OptionalAttributes)) {
+    if ([string]::IsNullOrWhiteSpace($attr)) { continue }
     $varName = Convert-AttributeToVarName -AttributeName $attr
     $lines += @(
       "variable `"$varName`" {",
