@@ -19,3 +19,9 @@ variable "name" {
   description = "Required attribute 'name' for type 'google_monitoring_monitored_project'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_monitoring_monitored_project'."
+  type        = any
+  default     = null
+}

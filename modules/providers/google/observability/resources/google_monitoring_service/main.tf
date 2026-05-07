@@ -10,4 +10,12 @@ resource "google_monitoring_service" "this" {
   display_name = var.display_name
   project      = var.project
   user_labels  = var.user_labels
+  dynamic "basic_service" {
+    for_each = var.basic_service == null ? [] : (can(tolist(var.basic_service)) ? tolist(var.basic_service) : [var.basic_service])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

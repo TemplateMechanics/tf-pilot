@@ -1,0 +1,10 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: google
+# Module: misc/resources/google_pubsub_lite_topic
+# File: outputs.tf
+# SPDX-License-Identifier: MIT
+output "id" {
+  description = "ID of the managed google_pubsub_lite_topic resource."
+  value       = try(google_pubsub_lite_topic.this[0].id, null)
+}

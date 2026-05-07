@@ -54,3 +54,21 @@ variable "unit" {
   type        = any
   default     = null
 }
+
+variable "labels" {
+  description = "Top-level nested block 'labels' payload for type 'google_monitoring_metric_descriptor'."
+  type        = any
+  default     = null
+}
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'google_monitoring_metric_descriptor'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_monitoring_metric_descriptor'."
+  type        = any
+  default     = null
+}

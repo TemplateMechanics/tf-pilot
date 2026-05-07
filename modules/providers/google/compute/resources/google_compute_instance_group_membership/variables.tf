@@ -31,3 +31,9 @@ variable "zone" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_instance_group_membership'."
+  type        = any
+  default     = null
+}

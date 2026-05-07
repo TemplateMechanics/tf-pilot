@@ -37,3 +37,15 @@ variable "parent" {
   type        = any
   default     = null
 }
+
+variable "bigquery_dataset" {
+  description = "Top-level nested block 'bigquery_dataset' payload for type 'google_logging_linked_dataset'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_logging_linked_dataset'."
+  type        = any
+  default     = null
+}

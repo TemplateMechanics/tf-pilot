@@ -1,11 +1,14 @@
 {
-    "provider":  "gitlab",
-    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\gitlab",
+    "provider":  "google",
+    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\google",
     "modules":  [
-                    "automation",
+                    "compute",
                     "foundation",
+                    "identity",
                     "misc",
-                    "repository"
+                    "network",
+                    "observability",
+                    "storage"
                 ],
     "resourcePrefixes":  [
 

@@ -36,3 +36,15 @@ variable "retention_days" {
   type        = any
   default     = null
 }
+
+variable "cmek_settings" {
+  description = "Top-level nested block 'cmek_settings' payload for type 'google_logging_folder_bucket_config'."
+  type        = any
+  default     = null
+}
+
+variable "index_configs" {
+  description = "Top-level nested block 'index_configs' payload for type 'google_logging_folder_bucket_config'."
+  type        = any
+  default     = null
+}

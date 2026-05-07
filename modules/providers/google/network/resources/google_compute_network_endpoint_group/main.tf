@@ -14,4 +14,8 @@ resource "google_compute_network_endpoint_group" "this" {
   project               = var.project
   subnetwork            = var.subnetwork
   zone                  = var.zone
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

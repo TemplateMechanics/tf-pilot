@@ -149,3 +149,33 @@ variable "zero_custom_learned_route_priority" {
   type        = any
   default     = null
 }
+
+variable "advertised_ip_ranges" {
+  description = "Top-level nested block 'advertised_ip_ranges' payload for type 'google_compute_router_peer'."
+  type        = any
+  default     = null
+}
+
+variable "bfd" {
+  description = "Top-level nested block 'bfd' payload for type 'google_compute_router_peer'."
+  type        = any
+  default     = null
+}
+
+variable "custom_learned_ip_ranges" {
+  description = "Top-level nested block 'custom_learned_ip_ranges' payload for type 'google_compute_router_peer'."
+  type        = any
+  default     = null
+}
+
+variable "md5_authentication_key" {
+  description = "Top-level nested block 'md5_authentication_key' payload for type 'google_compute_router_peer'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_router_peer'."
+  type        = any
+  default     = null
+}

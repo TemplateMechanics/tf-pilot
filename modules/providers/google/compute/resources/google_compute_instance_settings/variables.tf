@@ -20,3 +20,15 @@ variable "project" {
   type        = any
   default     = null
 }
+
+variable "metadata" {
+  description = "Top-level nested block 'metadata' payload for type 'google_compute_instance_settings'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_instance_settings'."
+  type        = any
+  default     = null
+}

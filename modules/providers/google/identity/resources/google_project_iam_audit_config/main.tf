@@ -8,4 +8,8 @@ resource "google_project_iam_audit_config" "this" {
   count   = var.enabled ? 1 : 0
   project = var.project
   service = var.service
+  dynamic "audit_log_config" {
+    for_each = var.audit_log_config == null ? [] : (can(tolist(var.audit_log_config)) ? tolist(var.audit_log_config) : [var.audit_log_config])
+    content {}
+  }
 }

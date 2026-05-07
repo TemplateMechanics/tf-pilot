@@ -55,3 +55,45 @@ variable "user_labels" {
   type        = any
   default     = null
 }
+
+variable "content_matchers" {
+  description = "Top-level nested block 'content_matchers' payload for type 'google_monitoring_uptime_check_config'."
+  type        = any
+  default     = null
+}
+
+variable "http_check" {
+  description = "Top-level nested block 'http_check' payload for type 'google_monitoring_uptime_check_config'."
+  type        = any
+  default     = null
+}
+
+variable "monitored_resource" {
+  description = "Top-level nested block 'monitored_resource' payload for type 'google_monitoring_uptime_check_config'."
+  type        = any
+  default     = null
+}
+
+variable "resource_group" {
+  description = "Top-level nested block 'resource_group' payload for type 'google_monitoring_uptime_check_config'."
+  type        = any
+  default     = null
+}
+
+variable "synthetic_monitor" {
+  description = "Top-level nested block 'synthetic_monitor' payload for type 'google_monitoring_uptime_check_config'."
+  type        = any
+  default     = null
+}
+
+variable "tcp_check" {
+  description = "Top-level nested block 'tcp_check' payload for type 'google_monitoring_uptime_check_config'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_monitoring_uptime_check_config'."
+  type        = any
+  default     = null
+}

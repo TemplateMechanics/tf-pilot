@@ -10,4 +10,8 @@ resource "google_compute_instance_template_iam_member" "this" {
   name    = var.name
   role    = var.role
   project = var.project
+  dynamic "condition" {
+    for_each = var.condition == null ? [] : (can(tolist(var.condition)) ? tolist(var.condition) : [var.condition])
+    content {}
+  }
 }

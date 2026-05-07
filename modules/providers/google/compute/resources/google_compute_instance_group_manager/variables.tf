@@ -79,3 +79,75 @@ variable "zone" {
   type        = any
   default     = null
 }
+
+variable "all_instances_config" {
+  description = "Top-level nested block 'all_instances_config' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}
+
+variable "auto_healing_policies" {
+  description = "Top-level nested block 'auto_healing_policies' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}
+
+variable "instance_lifecycle_policy" {
+  description = "Top-level nested block 'instance_lifecycle_policy' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}
+
+variable "named_port" {
+  description = "Top-level nested block 'named_port' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}
+
+variable "resource_policies" {
+  description = "Top-level nested block 'resource_policies' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}
+
+variable "standby_policy" {
+  description = "Top-level nested block 'standby_policy' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}
+
+variable "stateful_disk" {
+  description = "Top-level nested block 'stateful_disk' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}
+
+variable "stateful_external_ip" {
+  description = "Top-level nested block 'stateful_external_ip' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}
+
+variable "stateful_internal_ip" {
+  description = "Top-level nested block 'stateful_internal_ip' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}
+
+variable "update_policy" {
+  description = "Top-level nested block 'update_policy' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}
+
+variable "version" {
+  description = "Top-level nested block 'version' payload for type 'google_compute_instance_group_manager'."
+  type        = any
+  default     = null
+}

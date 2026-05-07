@@ -9,4 +9,8 @@ resource "google_compute_firewall_policy_association" "this" {
   attachment_target = var.attachment_target
   firewall_policy   = var.firewall_policy
   name              = var.name
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

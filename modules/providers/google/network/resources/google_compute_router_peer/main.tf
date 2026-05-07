@@ -30,4 +30,24 @@ resource "google_compute_router_peer" "this" {
   router_appliance_instance          = var.router_appliance_instance
   zero_advertised_route_priority     = var.zero_advertised_route_priority
   zero_custom_learned_route_priority = var.zero_custom_learned_route_priority
+  dynamic "advertised_ip_ranges" {
+    for_each = var.advertised_ip_ranges == null ? [] : (can(tolist(var.advertised_ip_ranges)) ? tolist(var.advertised_ip_ranges) : [var.advertised_ip_ranges])
+    content {}
+  }
+  dynamic "bfd" {
+    for_each = var.bfd == null ? [] : (can(tolist(var.bfd)) ? tolist(var.bfd) : [var.bfd])
+    content {}
+  }
+  dynamic "custom_learned_ip_ranges" {
+    for_each = var.custom_learned_ip_ranges == null ? [] : (can(tolist(var.custom_learned_ip_ranges)) ? tolist(var.custom_learned_ip_ranges) : [var.custom_learned_ip_ranges])
+    content {}
+  }
+  dynamic "md5_authentication_key" {
+    for_each = var.md5_authentication_key == null ? [] : (can(tolist(var.md5_authentication_key)) ? tolist(var.md5_authentication_key) : [var.md5_authentication_key])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

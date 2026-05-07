@@ -28,4 +28,24 @@ resource "google_compute_router_nat" "this" {
   tcp_transitory_idle_timeout_sec      = var.tcp_transitory_idle_timeout_sec
   type                                 = var.type
   udp_idle_timeout_sec                 = var.udp_idle_timeout_sec
+  dynamic "log_config" {
+    for_each = var.log_config == null ? [] : (can(tolist(var.log_config)) ? tolist(var.log_config) : [var.log_config])
+    content {}
+  }
+  dynamic "nat64_subnetwork" {
+    for_each = var.nat64_subnetwork == null ? [] : (can(tolist(var.nat64_subnetwork)) ? tolist(var.nat64_subnetwork) : [var.nat64_subnetwork])
+    content {}
+  }
+  dynamic "rules" {
+    for_each = var.rules == null ? [] : (can(tolist(var.rules)) ? tolist(var.rules) : [var.rules])
+    content {}
+  }
+  dynamic "subnetwork" {
+    for_each = var.subnetwork == null ? [] : (can(tolist(var.subnetwork)) ? tolist(var.subnetwork) : [var.subnetwork])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

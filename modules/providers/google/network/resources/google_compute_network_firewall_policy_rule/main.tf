@@ -18,4 +18,16 @@ resource "google_compute_network_firewall_policy_rule" "this" {
   security_profile_group  = var.security_profile_group
   target_service_accounts = var.target_service_accounts
   tls_inspect             = var.tls_inspect
+  dynamic "match" {
+    for_each = var.match == null ? [] : (can(tolist(var.match)) ? tolist(var.match) : [var.match])
+    content {}
+  }
+  dynamic "target_secure_tags" {
+    for_each = var.target_secure_tags == null ? [] : (can(tolist(var.target_secure_tags)) ? tolist(var.target_secure_tags) : [var.target_secure_tags])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

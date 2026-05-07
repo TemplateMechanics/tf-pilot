@@ -11,4 +11,12 @@ resource "google_logging_billing_account_bucket_config" "this" {
   location        = var.location
   description     = var.description
   retention_days  = var.retention_days
+  dynamic "cmek_settings" {
+    for_each = var.cmek_settings == null ? [] : (can(tolist(var.cmek_settings)) ? tolist(var.cmek_settings) : [var.cmek_settings])
+    content {}
+  }
+  dynamic "index_configs" {
+    for_each = var.index_configs == null ? [] : (can(tolist(var.index_configs)) ? tolist(var.index_configs) : [var.index_configs])
+    content {}
+  }
 }

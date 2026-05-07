@@ -27,7 +27,7 @@ variable "display_name" {
   default     = null
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'google_monitoring_notification_channel'."
   type        = any
   default     = null
@@ -53,6 +53,18 @@ variable "project" {
 
 variable "user_labels" {
   description = "Optional attribute 'user_labels' for type 'google_monitoring_notification_channel'."
+  type        = any
+  default     = null
+}
+
+variable "sensitive_labels" {
+  description = "Top-level nested block 'sensitive_labels' payload for type 'google_monitoring_notification_channel'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_monitoring_notification_channel'."
   type        = any
   default     = null
 }

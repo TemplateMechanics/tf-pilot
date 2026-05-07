@@ -92,3 +92,15 @@ variable "routing_mode" {
   type        = any
   default     = null
 }
+
+variable "params" {
+  description = "Top-level nested block 'params' payload for type 'google_compute_network'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_network'."
+  type        = any
+  default     = null
+}

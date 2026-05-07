@@ -24,3 +24,9 @@ variable "name" {
   description = "Required attribute 'name' for type 'google_compute_firewall_policy_association'."
   type        = any
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_firewall_policy_association'."
+  type        = any
+  default     = null
+}

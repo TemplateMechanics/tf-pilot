@@ -55,3 +55,27 @@ variable "user_labels" {
   type        = any
   default     = null
 }
+
+variable "basic_sli" {
+  description = "Top-level nested block 'basic_sli' payload for type 'google_monitoring_slo'."
+  type        = any
+  default     = null
+}
+
+variable "request_based_sli" {
+  description = "Top-level nested block 'request_based_sli' payload for type 'google_monitoring_slo'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_monitoring_slo'."
+  type        = any
+  default     = null
+}
+
+variable "windows_based_sli" {
+  description = "Top-level nested block 'windows_based_sli' payload for type 'google_monitoring_slo'."
+  type        = any
+  default     = null
+}

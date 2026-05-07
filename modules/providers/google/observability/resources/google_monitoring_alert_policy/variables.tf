@@ -20,7 +20,7 @@ variable "display_name" {
   type        = any
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'google_monitoring_alert_policy'."
   type        = any
   default     = null
@@ -46,6 +46,30 @@ variable "severity" {
 
 variable "user_labels" {
   description = "Optional attribute 'user_labels' for type 'google_monitoring_alert_policy'."
+  type        = any
+  default     = null
+}
+
+variable "alert_strategy" {
+  description = "Top-level nested block 'alert_strategy' payload for type 'google_monitoring_alert_policy'."
+  type        = any
+  default     = null
+}
+
+variable "conditions" {
+  description = "Top-level nested block 'conditions' payload for type 'google_monitoring_alert_policy'."
+  type        = any
+  default     = null
+}
+
+variable "documentation" {
+  description = "Top-level nested block 'documentation' payload for type 'google_monitoring_alert_policy'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_monitoring_alert_policy'."
   type        = any
   default     = null
 }

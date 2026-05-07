@@ -37,3 +37,15 @@ variable "type" {
   type        = any
   default     = null
 }
+
+variable "terms" {
+  description = "Top-level nested block 'terms' payload for type 'google_compute_router_route_policy'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_router_route_policy'."
+  type        = any
+  default     = null
+}

@@ -9,4 +9,8 @@ resource "google_storage_bucket_access_control" "this" {
   bucket = var.bucket
   entity = var.entity
   role   = var.role
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -12,4 +12,8 @@ resource "google_compute_network_endpoint" "this" {
   port                   = var.port
   project                = var.project
   zone                   = var.zone
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

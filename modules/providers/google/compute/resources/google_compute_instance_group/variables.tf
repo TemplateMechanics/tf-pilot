@@ -44,3 +44,15 @@ variable "zone" {
   type        = any
   default     = null
 }
+
+variable "named_port" {
+  description = "Top-level nested block 'named_port' payload for type 'google_compute_instance_group'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_instance_group'."
+  type        = any
+  default     = null
+}

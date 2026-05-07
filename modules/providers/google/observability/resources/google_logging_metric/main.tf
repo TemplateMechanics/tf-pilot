@@ -14,4 +14,16 @@ resource "google_logging_metric" "this" {
   label_extractors = var.label_extractors
   project          = var.project
   value_extractor  = var.value_extractor
+  dynamic "bucket_options" {
+    for_each = var.bucket_options == null ? [] : (can(tolist(var.bucket_options)) ? tolist(var.bucket_options) : [var.bucket_options])
+    content {}
+  }
+  dynamic "metric_descriptor" {
+    for_each = var.metric_descriptor == null ? [] : (can(tolist(var.metric_descriptor)) ? tolist(var.metric_descriptor) : [var.metric_descriptor])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

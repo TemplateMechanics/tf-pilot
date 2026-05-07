@@ -9,4 +9,12 @@ resource "google_compute_firewall_policy_with_rules" "this" {
   parent      = var.parent
   short_name  = var.short_name
   description = var.description
+  dynamic "rule" {
+    for_each = var.rule == null ? [] : (can(tolist(var.rule)) ? tolist(var.rule) : [var.rule])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

@@ -104,3 +104,69 @@ variable "tags" {
   type        = any
   default     = null
 }
+
+variable "advanced_machine_features" {
+  description = "Top-level nested block 'advanced_machine_features' payload for type 'google_compute_instance_template'."
+  type        = any
+  default     = null
+}
+
+variable "confidential_instance_config" {
+  description = "Top-level nested block 'confidential_instance_config' payload for type 'google_compute_instance_template'."
+  type        = any
+  default     = null
+}
+
+variable "disk" {
+  description = "Top-level nested block 'disk' payload for type 'google_compute_instance_template'."
+  type        = any
+  default     = null
+}
+
+variable "guest_accelerator" {
+  description = "Top-level nested block 'guest_accelerator' payload for type 'google_compute_instance_template'."
+  type        = any
+  default     = null
+}
+
+variable "network_interface" {
+  description = "Top-level nested block 'network_interface' payload for type 'google_compute_instance_template'."
+  type        = any
+  default     = null
+}
+
+variable "network_performance_config" {
+  description = "Top-level nested block 'network_performance_config' payload for type 'google_compute_instance_template'."
+  type        = any
+  default     = null
+}
+
+variable "reservation_affinity" {
+  description = "Top-level nested block 'reservation_affinity' payload for type 'google_compute_instance_template'."
+  type        = any
+  default     = null
+}
+
+variable "scheduling" {
+  description = "Top-level nested block 'scheduling' payload for type 'google_compute_instance_template'."
+  type        = any
+  default     = null
+}
+
+variable "service_account" {
+  description = "Top-level nested block 'service_account' payload for type 'google_compute_instance_template'."
+  type        = any
+  default     = null
+}
+
+variable "shielded_instance_config" {
+  description = "Top-level nested block 'shielded_instance_config' payload for type 'google_compute_instance_template'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_instance_template'."
+  type        = any
+  default     = null
+}

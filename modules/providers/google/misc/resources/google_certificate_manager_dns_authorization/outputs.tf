@@ -1,0 +1,10 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: scripts/Sync-ProviderResourceCoverage.ps1
+# Provider: google
+# Module: misc/resources/google_certificate_manager_dns_authorization
+# File: outputs.tf
+# SPDX-License-Identifier: MIT
+output "id" {
+  description = "ID of the managed google_certificate_manager_dns_authorization resource."
+  value       = try(google_certificate_manager_dns_authorization.this[0].id, null)
+}

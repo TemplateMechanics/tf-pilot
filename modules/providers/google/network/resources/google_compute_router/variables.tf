@@ -43,3 +43,21 @@ variable "region" {
   type        = any
   default     = null
 }
+
+variable "bgp" {
+  description = "Top-level nested block 'bgp' payload for type 'google_compute_router'."
+  type        = any
+  default     = null
+}
+
+variable "md5_authentication_keys" {
+  description = "Top-level nested block 'md5_authentication_keys' payload for type 'google_compute_router'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_compute_router'."
+  type        = any
+  default     = null
+}

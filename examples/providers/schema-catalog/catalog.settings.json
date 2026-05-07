@@ -154,7 +154,7 @@
                       "google":  {
                                      "enabled":  true,
                                      "workspace":  "google",
-                                     "mode":  "prefix",
+                                     "mode":  "all",
                                      "modules":  {
                                                      "foundation":  {
                                                                         "enabled":  true,

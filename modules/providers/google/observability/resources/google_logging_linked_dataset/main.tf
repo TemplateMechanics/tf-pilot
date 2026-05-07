@@ -11,4 +11,12 @@ resource "google_logging_linked_dataset" "this" {
   description = var.description
   location    = var.location
   parent      = var.parent
+  dynamic "bigquery_dataset" {
+    for_each = var.bigquery_dataset == null ? [] : (can(tolist(var.bigquery_dataset)) ? tolist(var.bigquery_dataset) : [var.bigquery_dataset])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

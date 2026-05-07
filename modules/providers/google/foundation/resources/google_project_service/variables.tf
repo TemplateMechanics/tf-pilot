@@ -32,3 +32,9 @@ variable "project" {
   type        = any
   default     = null
 }
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_project_service'."
+  type        = any
+  default     = null
+}

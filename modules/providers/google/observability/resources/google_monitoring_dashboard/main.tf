@@ -8,4 +8,8 @@ resource "google_monitoring_dashboard" "this" {
   count          = var.enabled ? 1 : 0
   dashboard_json = var.dashboard_json
   project        = var.project
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

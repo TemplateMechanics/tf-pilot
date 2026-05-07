@@ -79,3 +79,81 @@ variable "uniform_bucket_level_access" {
   type        = any
   default     = null
 }
+
+variable "autoclass" {
+  description = "Top-level nested block 'autoclass' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "cors" {
+  description = "Top-level nested block 'cors' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "custom_placement_config" {
+  description = "Top-level nested block 'custom_placement_config' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "encryption" {
+  description = "Top-level nested block 'encryption' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "hierarchical_namespace" {
+  description = "Top-level nested block 'hierarchical_namespace' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "ip_filter" {
+  description = "Top-level nested block 'ip_filter' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "lifecycle_rule" {
+  description = "Top-level nested block 'lifecycle_rule' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "logging" {
+  description = "Top-level nested block 'logging' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "retention_policy" {
+  description = "Top-level nested block 'retention_policy' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "soft_delete_policy" {
+  description = "Top-level nested block 'soft_delete_policy' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "versioning" {
+  description = "Top-level nested block 'versioning' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}
+
+variable "website" {
+  description = "Top-level nested block 'website' payload for type 'google_storage_bucket'."
+  type        = any
+  default     = null
+}

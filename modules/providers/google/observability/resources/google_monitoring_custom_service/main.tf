@@ -10,4 +10,12 @@ resource "google_monitoring_custom_service" "this" {
   project      = var.project
   service_id   = var.service_id
   user_labels  = var.user_labels
+  dynamic "telemetry" {
+    for_each = var.telemetry == null ? [] : (can(tolist(var.telemetry)) ? tolist(var.telemetry) : [var.telemetry])
+    content {}
+  }
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : (can(tolist(var.timeouts)) ? tolist(var.timeouts) : [var.timeouts])
+    content {}
+  }
 }

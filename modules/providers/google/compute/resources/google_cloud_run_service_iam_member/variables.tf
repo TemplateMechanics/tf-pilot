@@ -36,3 +36,9 @@ variable "project" {
   type        = any
   default     = null
 }
+
+variable "condition" {
+  description = "Top-level nested block 'condition' payload for type 'google_cloud_run_service_iam_member'."
+  type        = any
+  default     = null
+}
