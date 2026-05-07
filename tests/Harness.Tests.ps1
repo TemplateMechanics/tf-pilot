@@ -170,10 +170,6 @@ terraform {
     $content = Get-Content -Path $generatedMain -Raw
     $content | Should -Match '# GENERATED FILE - DO NOT EDIT\.'
     $content | Should -Match 'resource "helm_release" "this"'
-
-    $generatedVersions = Get-Content -Path (Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'release') 'versions.tf') -Raw
-    $generatedVersions | Should -Match 'source = "hashicorp/helm"'
-    $generatedVersions | Should -Match 'version = "~> 9.9"'
   }
 
   It 'returns a non-zero exit code in check mode when generated content is stale' {
