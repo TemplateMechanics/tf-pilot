@@ -21,7 +21,7 @@ variable "allowed_actions" {
   default     = null
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Optional attribute 'enabled' for type 'github_actions_repository_permissions'."
   type        = any
   default     = null
@@ -29,6 +29,12 @@ variable "enabled" {
 
 variable "sha_pinning_required" {
   description = "Optional attribute 'sha_pinning_required' for type 'github_actions_repository_permissions'."
+  type        = any
+  default     = null
+}
+
+variable "allowed_actions_config" {
+  description = "Top-level nested block 'allowed_actions_config' payload for type 'github_actions_repository_permissions'."
   type        = any
   default     = null
 }

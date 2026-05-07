@@ -14,3 +14,9 @@ variable "team_id" {
   description = "Required attribute 'team_id' for type 'github_team_members'."
   type        = any
 }
+
+variable "members" {
+  description = "Top-level nested block 'members' payload for type 'github_team_members'."
+  type        = any
+  default     = null
+}

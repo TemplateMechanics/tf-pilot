@@ -67,3 +67,21 @@ variable "required_linear_history" {
   type        = any
   default     = null
 }
+
+variable "required_pull_request_reviews" {
+  description = "Top-level nested block 'required_pull_request_reviews' payload for type 'github_branch_protection'."
+  type        = any
+  default     = null
+}
+
+variable "required_status_checks" {
+  description = "Top-level nested block 'required_status_checks' payload for type 'github_branch_protection'."
+  type        = any
+  default     = null
+}
+
+variable "restrict_pushes" {
+  description = "Top-level nested block 'restrict_pushes' payload for type 'github_branch_protection'."
+  type        = any
+  default     = null
+}

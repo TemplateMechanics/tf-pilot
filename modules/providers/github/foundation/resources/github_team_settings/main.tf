@@ -8,4 +8,8 @@ resource "github_team_settings" "this" {
   count   = var.enabled ? 1 : 0
   team_id = var.team_id
   notify  = var.notify
+  dynamic "review_request_delegation" {
+    for_each = var.review_request_delegation == null ? [] : (can(tolist(var.review_request_delegation)) ? tolist(var.review_request_delegation) : [var.review_request_delegation])
+    content {}
+  }
 }

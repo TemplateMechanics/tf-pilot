@@ -48,3 +48,15 @@ variable "public_ip_enabled" {
   type        = any
   default     = null
 }
+
+variable "image" {
+  description = "Top-level nested block 'image' payload for type 'github_actions_hosted_runner'."
+  type        = any
+  default     = null
+}
+
+variable "timeouts" {
+  description = "Top-level nested block 'timeouts' payload for type 'github_actions_hosted_runner'."
+  type        = any
+  default     = null
+}

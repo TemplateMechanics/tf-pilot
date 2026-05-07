@@ -42,4 +42,16 @@ resource "github_repository" "this" {
   visibility                              = var.visibility
   vulnerability_alerts                    = var.vulnerability_alerts
   web_commit_signoff_required             = var.web_commit_signoff_required
+  dynamic "pages" {
+    for_each = var.pages == null ? [] : (can(tolist(var.pages)) ? tolist(var.pages) : [var.pages])
+    content {}
+  }
+  dynamic "security_and_analysis" {
+    for_each = var.security_and_analysis == null ? [] : (can(tolist(var.security_and_analysis)) ? tolist(var.security_and_analysis) : [var.security_and_analysis])
+    content {}
+  }
+  dynamic "template" {
+    for_each = var.template == null ? [] : (can(tolist(var.template)) ? tolist(var.template) : [var.template])
+    content {}
+  }
 }

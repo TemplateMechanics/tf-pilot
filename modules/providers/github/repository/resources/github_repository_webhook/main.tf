@@ -10,4 +10,8 @@ resource "github_repository_webhook" "this" {
   repository = var.repository
   active     = var.active
   etag       = var.etag
+  dynamic "configuration" {
+    for_each = var.configuration == null ? [] : (can(tolist(var.configuration)) ? tolist(var.configuration) : [var.configuration])
+    content {}
+  }
 }

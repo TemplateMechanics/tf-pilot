@@ -224,3 +224,21 @@ variable "web_commit_signoff_required" {
   type        = any
   default     = null
 }
+
+variable "pages" {
+  description = "Top-level nested block 'pages' payload for type 'github_repository'."
+  type        = any
+  default     = null
+}
+
+variable "security_and_analysis" {
+  description = "Top-level nested block 'security_and_analysis' payload for type 'github_repository'."
+  type        = any
+  default     = null
+}
+
+variable "template" {
+  description = "Top-level nested block 'template' payload for type 'github_repository'."
+  type        = any
+  default     = null
+}

@@ -302,7 +302,7 @@
                       "github":  {
                                      "enabled":  true,
                                      "workspace":  "github",
-                                     "mode":  "prefix",
+                                     "mode":  "all",
                                      "modules":  {
                                                      "foundation":  {
                                                                         "enabled":  true,

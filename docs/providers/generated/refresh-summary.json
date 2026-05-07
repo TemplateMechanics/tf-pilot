@@ -1,10 +1,11 @@
 {
-    "provider":  "dynatrace",
-    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\dynatrace",
+    "provider":  "github",
+    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\github",
     "modules":  [
+                    "automation",
                     "foundation",
-                    "observability",
-                    "automation"
+                    "misc",
+                    "repository"
                 ],
     "resourcePrefixes":  [
 

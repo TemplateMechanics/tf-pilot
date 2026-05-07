@@ -38,3 +38,9 @@ variable "public" {
   type        = any
   default     = null
 }
+
+variable "source" {
+  description = "Top-level nested block 'source' payload for type 'github_repository_pages'."
+  type        = any
+  default     = null
+}

@@ -10,7 +10,7 @@ variable "enabled" {
   default     = true
 }
 
-variable "enabled" {
+variable "resource_enabled" {
   description = "Required attribute 'enabled' for type 'github_repository_dependabot_security_updates'."
   type        = any
 }

@@ -138,6 +138,7 @@ providers:
     source: integrations/github
     version: "~> 6.0"
     workspace: github
+    mode: all
     modules:
       foundation:
         enabled: true

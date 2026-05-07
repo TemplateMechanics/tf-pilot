@@ -20,3 +20,9 @@ variable "notify" {
   type        = any
   default     = null
 }
+
+variable "review_request_delegation" {
+  description = "Top-level nested block 'review_request_delegation' payload for type 'github_team_settings'."
+  type        = any
+  default     = null
+}
