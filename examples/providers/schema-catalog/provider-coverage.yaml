@@ -121,6 +121,7 @@ providers:
     source: hashicorp/helm
     version: "~> 3.0"
     workspace: helm
+    mode: all
     modules:
       repository:
         enabled: true
