@@ -215,7 +215,8 @@ terraform {
     $driftFile = Join-Path (Join-Path (Join-Path $modulesRoot 'helm') 'repository') 'outputs.tf'
     Add-Content -Path $driftFile -Value '# drift'
 
-    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -SummaryDir $summaryDir -IncludeDisabledModules -Check
+    # Check mode intentionally reports out-of-sync state; suppress expected console noise.
+    & "$script:scriptsDir/Sync-ProviderGeneratedModules.ps1" -SettingsFile $settingsPath -ModulesRoot $modulesRoot -SummaryDir $summaryDir -IncludeDisabledModules -Check *> $null
     $LASTEXITCODE | Should -Be 1
   }
 
