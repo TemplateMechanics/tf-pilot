@@ -69,6 +69,7 @@ User request
 5. Configure MCP via `.vscode/mcp.json` (included). Terraform MCP now uses a script launcher that prefers a local executable and can fall back to Docker.
    Optional cloud/documentation MCP servers are present but disabled by default; enable them explicitly if your workflow requires them.
 6. Sync provider-aware MCP server enablement with `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints` (also run automatically by `Invoke-ProviderCatalogRefresh.ps1`).
+   For chat-driven explicit toggles, use `./scripts/Set-McpServerState.ps1 -Server <name> -Enable|-Disable`.
 7. Before pushing changes, run `./scripts/Pre-Commit.ps1` (or `./scripts/Pre-Commit.ps1 -RunTests -RunSecurity` for the full local gate).
 
 Tip: for local interactive runs, use `./scripts/Initialize-Workspace.ps1 -Path <dir> -Compact` to suppress repetitive Terraform success boilerplate while still surfacing meaningful init output and errors.

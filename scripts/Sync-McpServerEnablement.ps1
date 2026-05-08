@@ -129,6 +129,7 @@ if ($UseModuleDirectoryHints) {
 $serverRules = [ordered]@{
   terraform        = @()
   azure            = @("azurerm")
+  aws              = @("aws")
   awsDocumentation = @("aws")
   context7         = @("google", "kubernetes", "helm")
 }

@@ -11,6 +11,7 @@ Then supplement with cloud-native docs based on provider usage.
 
 - `terraform`: `hashicorp/terraform-mcp-server` (schema, module, state-aware context)
 - `azure`: `@azure/mcp` (Azure resource and guidance tools)
+- `aws`: AWS MCP server (AWS APIs and service operations)
 - `awsDocumentation`: AWS Documentation MCP server (latest AWS docs and API references)
 - `context7`: provider/framework documentation retrieval for additional implementation knowledge
 
@@ -20,6 +21,7 @@ Provider-specific MCP servers are toggled through `disabled` flags in `.vscode/m
 
 - `terraform`: always enabled
 - `azure`: enabled when `azurerm` is active
+- `aws`: enabled when `aws` is active
 - `awsDocumentation`: enabled when `aws` is active
 - `context7`: enabled when `google`, `kubernetes`, or `helm` is active
 
@@ -32,10 +34,25 @@ Manual sync command:
 ## Provider-to-Docs Routing
 
 - `aws`: `terraform` + `awsDocumentation` + AWS Well-Architected and service docs
+- `aws`: `terraform` + `aws` + `awsDocumentation` + AWS Well-Architected and service docs
 - `azurerm`: `terraform` + `azure` + Azure CAF and service docs
 - `google`: `terraform` + `context7` + Google Cloud Architecture Framework and service docs
 - `kubernetes`: `terraform` + `context7` + Kubernetes upstream docs
 - `helm`: `terraform` + `context7` + Helm docs + chart documentation
+
+## Chat-Driven Server Toggling
+
+When users ask to enable or disable a specific MCP server in chat, use:
+
+`./scripts/Set-McpServerState.ps1 -Server <serverName> -Enable`
+
+or
+
+`./scripts/Set-McpServerState.ps1 -Server <serverName> -Disable`
+
+Examples:
+- Enable AWS MCP servers: `./scripts/Set-McpServerState.ps1 -Server aws,awsDocumentation -Enable`
+- Disable Context7 temporarily: `./scripts/Set-McpServerState.ps1 -Server context7 -Disable`
 
 ## Mixed-Provider Routing Decision Table
 
