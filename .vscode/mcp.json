@@ -42,6 +42,21 @@
                                                       ],
                                              "disabled":  false
                                          },
+                    "aws":  {
+                                "type":  "stdio",
+                                "command":  "docker",
+                                "args":  [
+                                             "run",
+                                             "-i",
+                                             "--rm",
+                                             "-e",
+                                             "FASTMCP_LOG_LEVEL=ERROR",
+                                             "-e",
+                                             "AWS_REGION=${input:aws_region}",
+                                             "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:latest"
+                                         ],
+                                "disabled":  false
+                            },
                     "context7":  {
                                      "type":  "stdio",
                                      "command":  "npx",
@@ -65,7 +80,7 @@
                    {
                        "type":  "promptString",
                        "id":  "aws_region",
-                       "description":  "AWS Region (for AWS Documentation MCP server)",
+                       "description":  "AWS Region (for AWS MCP servers)",
                        "password":  false
                    },
                    {

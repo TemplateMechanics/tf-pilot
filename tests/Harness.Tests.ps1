@@ -931,6 +931,7 @@ Describe 'Sync-McpServerEnablement.ps1' {
         servers = [ordered]@{
           terraform = [ordered]@{ command = 'node'; disabled = $false }
           azure = [ordered]@{ command = 'node'; disabled = $false }
+          aws = [ordered]@{ command = 'node'; disabled = $false }
           awsDocumentation = [ordered]@{ command = 'node'; disabled = $false }
           context7 = [ordered]@{ command = 'node'; disabled = $false }
         }
@@ -972,6 +973,7 @@ Describe 'Sync-McpServerEnablement.ps1' {
     $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
     [bool]$mcp.servers.context7.disabled | Should -BeTrue
     [bool]$mcp.servers.azure.disabled | Should -BeFalse
+    [bool]$mcp.servers.aws.disabled | Should -BeFalse
     [bool]$mcp.servers.awsDocumentation.disabled | Should -BeFalse
     [bool]$mcp.servers.terraform.disabled | Should -BeFalse
   }
@@ -988,6 +990,7 @@ Describe 'Sync-McpServerEnablement.ps1' {
     $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
     [bool]$mcp.servers.context7.disabled | Should -BeFalse
     [bool]$mcp.servers.azure.disabled | Should -BeTrue
+    [bool]$mcp.servers.aws.disabled | Should -BeTrue
     [bool]$mcp.servers.awsDocumentation.disabled | Should -BeTrue
     [bool]$mcp.servers.terraform.disabled | Should -BeFalse
   }
@@ -1001,6 +1004,48 @@ Describe 'Sync-McpServerEnablement.ps1' {
     # Check mode intentionally reports out-of-sync state; suppress expected console noise.
     & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -Check *> $null
     $LASTEXITCODE | Should -Be 1
+  }
+}
+
+Describe 'Set-McpServerState.ps1' {
+  It 'enables and disables requested servers by name' {
+    $mcpPath = Join-Path $TestDrive 'mcp.json'
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": false },
+    "aws": { "command": "node", "disabled": true },
+    "awsDocumentation": { "command": "node", "disabled": true },
+    "context7": { "command": "node", "disabled": false }
+  }
+}
+'@ | Set-Content -Path $mcpPath -Encoding utf8
+
+    & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -Server aws,awsDocumentation -Enable
+    $LASTEXITCODE | Should -Be 0
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    [bool]$mcp.servers.aws.disabled | Should -BeFalse
+    [bool]$mcp.servers.awsDocumentation.disabled | Should -BeFalse
+
+    & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -Server context7 -Disable
+    $LASTEXITCODE | Should -Be 0
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    [bool]$mcp.servers.context7.disabled | Should -BeTrue
+  }
+
+  It 'fails when an unknown server name is provided' {
+    $mcpPath = Join-Path $TestDrive 'mcp.json'
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": false }
+  }
+}
+'@ | Set-Content -Path $mcpPath -Encoding utf8
+
+    { & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -Server doesNotExist -Enable } | Should -Throw
   }
 }
 
