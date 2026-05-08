@@ -1049,6 +1049,49 @@ Describe 'Set-McpServerState.ps1' {
   }
 }
 
+Describe 'MCP catalog registry (phase 0)' {
+  It 'has a schema-valid catalog with required top-level keys' -Skip:(-not $script:hasTestJsonSchema) {
+    $catalogPath = Join-Path $script:repoRoot '.vscode/mcp.servers.catalog.json'
+    $schemaPath = Join-Path $script:repoRoot '.vscode/schemas/mcp-servers-catalog.schema.json'
+
+    Test-Path $catalogPath | Should -BeTrue
+    Test-Path $schemaPath | Should -BeTrue
+    Test-Json -Path $catalogPath -SchemaFile $schemaPath | Should -BeTrue
+  }
+
+  It 'contains entries for all servers present in .vscode/mcp.json' {
+    $mcpPath = Join-Path $script:repoRoot '.vscode/mcp.json'
+    $catalogPath = Join-Path $script:repoRoot '.vscode/mcp.servers.catalog.json'
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    $catalog = Get-Content -Path $catalogPath -Raw | ConvertFrom-Json
+
+    $mcpServers = @(
+      $mcp.servers.PSObject.Properties |
+        Where-Object { $_.MemberType -eq 'NoteProperty' } |
+        ForEach-Object { $_.Name }
+    )
+
+    $catalogServers = @(
+      $catalog.servers.PSObject.Properties |
+        Where-Object { $_.MemberType -eq 'NoteProperty' } |
+        ForEach-Object { $_.Name }
+    )
+
+    foreach ($serverName in $mcpServers) {
+      $catalogServers | Should -Contain $serverName
+    }
+  }
+
+  It 'contains dynatrace server metadata' {
+    $catalogPath = Join-Path $script:repoRoot '.vscode/mcp.servers.catalog.json'
+    $catalog = Get-Content -Path $catalogPath -Raw | ConvertFrom-Json
+
+    $catalog.servers.dynatrace | Should -Not -BeNullOrEmpty
+    $catalog.routing.byProvider.dynatrace | Should -Contain 'dynatrace'
+  }
+}
+
 Describe 'Sync-ProviderModuleScaffolds.ps1 (smoke test)' {
   It 'accepts test settings without crashing' {
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'

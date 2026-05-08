@@ -1,0 +1,109 @@
+{
+  "$schema": "./schemas/mcp-servers-catalog.schema.json",
+  "version": "1.0",
+  "defaults": {
+    "transport": "stdio",
+    "disabled": true
+  },
+  "servers": {
+    "terraform": {
+      "displayName": "Terraform Registry and Workspace",
+      "description": "First-party Terraform MCP server used for provider/module/state-aware discovery.",
+      "transport": "stdio",
+      "alwaysEnabled": true,
+      "providersRequired": [],
+      "package": "hashicorp/terraform-mcp-server",
+      "version": "v0.5.2"
+    },
+    "azure": {
+      "displayName": "Azure MCP",
+      "description": "Azure resource and service guidance MCP server.",
+      "transport": "stdio",
+      "providersRequired": [
+        "azurerm"
+      ],
+      "package": "@azure/mcp",
+      "version": "latest"
+    },
+    "awsDocumentation": {
+      "displayName": "AWS Documentation MCP",
+      "description": "AWS documentation MCP server.",
+      "transport": "stdio",
+      "providersRequired": [
+        "aws"
+      ],
+      "package": "awslabs/aws-documentation-mcp-server",
+      "version": "latest"
+    },
+    "aws": {
+      "displayName": "AWS MCP",
+      "description": "AWS API MCP server.",
+      "transport": "stdio",
+      "providersRequired": [
+        "aws"
+      ],
+      "package": "awslabs/aws-api-mcp-server",
+      "version": "latest"
+    },
+    "context7": {
+      "displayName": "Context7 MCP",
+      "description": "Context7 documentation retrieval MCP server.",
+      "transport": "stdio",
+      "providersRequired": [
+        "google",
+        "kubernetes",
+        "helm"
+      ],
+      "package": "@upstash/context7-mcp",
+      "version": "latest"
+    },
+    "dynatrace": {
+      "displayName": "Dynatrace MCP",
+      "description": "Dynatrace observability MCP server.",
+      "transport": "stdio",
+      "providersRequired": [
+        "dynatrace"
+      ],
+      "package": "@dynatrace-oss/dynatrace-mcp",
+      "version": "latest"
+    }
+  },
+  "routing": {
+    "byProvider": {
+      "aws": [
+        "terraform",
+        "aws",
+        "awsDocumentation"
+      ],
+      "azurerm": [
+        "terraform",
+        "azure"
+      ],
+      "google": [
+        "terraform",
+        "context7"
+      ],
+      "kubernetes": [
+        "terraform",
+        "context7"
+      ],
+      "helm": [
+        "terraform",
+        "context7"
+      ],
+      "github": [
+        "terraform"
+      ],
+      "gitlab": [
+        "terraform"
+      ],
+      "azuredevops": [
+        "terraform"
+      ],
+      "dynatrace": [
+        "terraform",
+        "dynatrace"
+      ]
+    }
+  }
+}
