@@ -73,7 +73,7 @@ User request
 3. Install the supporting CLIs (PowerShell 7+, Terraform, [tflint](https://github.com/terraform-linters/tflint), [trivy](https://github.com/aquasecurity/trivy)).
 4. Talk to your AI assistant in natural language. It will read `CLAUDE.md` (or `.github/copilot-instructions.md`) and follow the operational sequence.
 5. Configure MCP via `.vscode/mcp.json` (included). Terraform MCP now uses a script launcher that prefers a local executable and can fall back to Docker.
-   Optional cloud/documentation MCP servers are present but disabled by default; enable them explicitly if your workflow requires them.
+   Optional cloud/documentation MCP servers are also included in the checked-in config; review defaults in `.vscode/mcp.json` and enable/disable them explicitly to match your workflow.
 6. Sync provider-aware MCP server enablement with `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints` (also run automatically by `Invoke-ProviderCatalogRefresh.ps1`).
    For chat-driven explicit toggles, use `./scripts/Set-McpServerState.ps1 -Server <name> -Enable|-Disable`.
 7. Before pushing changes, run `./scripts/Pre-Commit.ps1` (or `./scripts/Pre-Commit.ps1 -RunTests -RunSecurity` for the full local gate).

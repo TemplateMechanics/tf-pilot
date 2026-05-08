@@ -940,13 +940,88 @@ Describe 'Sync-McpServerEnablement.ps1' {
       $config | ConvertTo-Json -Depth 10 | Set-Content -Path $Path -Encoding utf8
     }
 
+    function script:New-TestMcpCatalog {
+      param([Parameter(Mandatory)][string]$Path)
+
+      @'
+{
+  "version": "1.0",
+  "defaults": {
+    "transport": "stdio",
+    "disabled": true
+  },
+  "servers": {
+    "terraform": {
+      "displayName": "Terraform Registry and Workspace",
+      "description": "First-party Terraform MCP server.",
+      "transport": "stdio",
+      "alwaysEnabled": true,
+      "providersRequired": [],
+      "package": "hashicorp/terraform-mcp-server",
+      "version": "v0.5.2"
+    },
+    "azure": {
+      "displayName": "Azure MCP",
+      "description": "Azure guidance server.",
+      "transport": "stdio",
+      "providersRequired": ["azurerm"],
+      "package": "@azure/mcp",
+      "version": "latest"
+    },
+    "aws": {
+      "displayName": "AWS MCP",
+      "description": "AWS API server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-api-mcp-server",
+      "version": "latest"
+    },
+    "awsDocumentation": {
+      "displayName": "AWS Documentation MCP",
+      "description": "AWS docs server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-documentation-mcp-server",
+      "version": "latest"
+    },
+    "context7": {
+      "displayName": "Context7 MCP",
+      "description": "Context retrieval server.",
+      "transport": "stdio",
+      "providersRequired": ["google", "kubernetes", "helm"],
+      "package": "@upstash/context7-mcp",
+      "version": "latest"
+    },
+    "dynatrace": {
+      "displayName": "Dynatrace MCP",
+      "description": "Dynatrace observability server.",
+      "transport": "stdio",
+      "providersRequired": ["dynatrace"],
+      "package": "@dynatrace-oss/dynatrace-mcp",
+      "version": "latest"
+    }
+  },
+  "routing": {
+    "byProvider": {
+      "aws": ["terraform", "aws", "awsDocumentation"],
+      "azurerm": ["terraform", "azure"],
+      "google": ["terraform", "context7"],
+      "kubernetes": ["terraform", "context7"],
+      "helm": ["terraform", "context7"],
+      "dynatrace": ["terraform", "dynatrace"]
+    }
+  }
+}
+'@ | Set-Content -Path $Path -Encoding utf8
+    }
+
     function script:New-TestSettings {
       param(
         [Parameter(Mandatory)][string]$Path,
         [Parameter(Mandatory)][string[]]$EnabledProviders
       )
 
-      $providerNames = @('aws', 'azurerm', 'google', 'kubernetes', 'helm', 'github', 'azuredevops', 'gitlab')
+      $providerNames = @('aws', 'azurerm', 'google', 'kubernetes', 'helm', 'github', 'azuredevops', 'gitlab', 'dynatrace')
       $providers = [ordered]@{}
       foreach ($providerName in $providerNames) {
         $providers[$providerName] = [ordered]@{
@@ -964,10 +1039,12 @@ Describe 'Sync-McpServerEnablement.ps1' {
   It 'disables context7 when only aws and azurerm are enabled' {
     $mcpPath = Join-Path $TestDrive 'mcp.json'
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
     New-TestMcpConfig -Path $mcpPath
     New-TestSettings -Path $settingsPath -EnabledProviders @('aws', 'azurerm')
+    New-TestMcpCatalog -Path $catalogPath
 
-    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath
     $LASTEXITCODE | Should -Be 0
 
     $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
@@ -981,10 +1058,12 @@ Describe 'Sync-McpServerEnablement.ps1' {
   It 'enables context7 and disables azure/awsDocumentation when only helm is enabled' {
     $mcpPath = Join-Path $TestDrive 'mcp.json'
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
     New-TestMcpConfig -Path $mcpPath
     New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
+    New-TestMcpCatalog -Path $catalogPath
 
-    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath
     $LASTEXITCODE | Should -Be 0
 
     $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
@@ -998,12 +1077,34 @@ Describe 'Sync-McpServerEnablement.ps1' {
   It 'returns non-zero in check mode when MCP file is out of sync' {
     $mcpPath = Join-Path $TestDrive 'mcp.json'
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
     New-TestMcpConfig -Path $mcpPath
     New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
+    New-TestMcpCatalog -Path $catalogPath
 
     # Check mode intentionally reports out-of-sync state; suppress expected console noise.
-    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -Check *> $null
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath -Check *> $null
     $LASTEXITCODE | Should -Be 1
+  }
+
+  It 'enables dynatrace when dynatrace provider is active via catalog rules' {
+    $mcpPath = Join-Path $TestDrive 'mcp.json'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+    New-TestMcpConfig -Path $mcpPath
+    New-TestSettings -Path $settingsPath -EnabledProviders @('dynatrace')
+    New-TestMcpCatalog -Path $catalogPath
+
+    # Add dynatrace server to MCP test config to validate catalog-driven toggling.
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    $mcp.servers | Add-Member -NotePropertyName 'dynatrace' -NotePropertyValue ([pscustomobject]@{ command = 'node'; disabled = $true })
+    $mcp | ConvertTo-Json -Depth 10 | Set-Content -Path $mcpPath -Encoding utf8
+
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath
+    $LASTEXITCODE | Should -Be 0
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    [bool]$mcp.servers.dynatrace.disabled | Should -BeFalse
   }
 }
 

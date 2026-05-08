@@ -40,7 +40,7 @@
       "type": "object",
       "minProperties": 1,
       "patternProperties": {
-        "^[A-Za-z][A-Za-z0-9_\-]*$": {
+        "^[A-Za-z][A-Za-z0-9_-]*$": {
           "type": "object",
           "required": [
             "displayName",
@@ -98,7 +98,7 @@
         "byProvider": {
           "type": "object",
           "patternProperties": {
-            "^[A-Za-z][A-Za-z0-9_\-]*$": {
+            "^[A-Za-z][A-Za-z0-9_-]*$": {
               "type": "array",
               "items": {
                 "type": "string",

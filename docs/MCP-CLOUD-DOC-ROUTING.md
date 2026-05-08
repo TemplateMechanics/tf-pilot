@@ -33,7 +33,6 @@ Manual sync command:
 
 ## Provider-to-Docs Routing
 
-- `aws`: `terraform` + `awsDocumentation` + AWS Well-Architected and service docs
 - `aws`: `terraform` + `aws` + `awsDocumentation` + AWS Well-Architected and service docs
 - `azurerm`: `terraform` + `azure` + Azure CAF and service docs
 - `google`: `terraform` + `context7` + Google Cloud Architecture Framework and service docs

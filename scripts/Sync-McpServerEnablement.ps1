@@ -13,6 +13,9 @@ Path to workspace MCP configuration file.
 .PARAMETER SettingsFile
 Path to provider catalog settings file.
 
+.PARAMETER CatalogFile
+Path to MCP server catalog file.
+
 .PARAMETER UseModuleDirectoryHints
 Also consider folders under modules/providers as provider hints.
 
@@ -29,6 +32,9 @@ param(
 
   [Parameter()]
   [string]$SettingsFile = "examples/providers/schema-catalog/catalog.settings.json",
+
+  [Parameter()]
+  [string]$CatalogFile = ".vscode/mcp.servers.catalog.json",
 
   [Parameter()]
   [switch]$UseModuleDirectoryHints,
@@ -102,8 +108,75 @@ function Get-ActiveProvidersFromModuleFolders {
   return @($folders | ForEach-Object { $_.ToLowerInvariant() } | Where-Object { $_ -in $coreProviders } | Sort-Object -Unique)
 }
 
+function Get-ServerRulesFromCatalog {
+  param([Parameter(Mandatory)][string]$CatalogPath)
+
+  $fallbackRules = [ordered]@{
+    terraform        = @()
+    azure            = @("azurerm")
+    aws              = @("aws")
+    awsDocumentation = @("aws")
+    context7         = @("google", "kubernetes", "helm")
+  }
+
+  if (-not (Test-Path $CatalogPath)) {
+    Write-Warning "MCP catalog file not found: $CatalogPath. Using built-in rules."
+    return $fallbackRules
+  }
+
+  $catalog = Get-Content -Path $CatalogPath -Raw | ConvertFrom-Json
+  if (-not $catalog.servers) {
+    Write-Warning "MCP catalog missing 'servers' object: $CatalogPath. Using built-in rules."
+    return $fallbackRules
+  }
+
+  $serverNames = if ($catalog.servers -is [System.Collections.IDictionary]) {
+    @($catalog.servers.Keys | ForEach-Object { [string]$_ })
+  }
+  else {
+    @(
+      $catalog.servers.PSObject.Properties |
+        Where-Object { $_.MemberType -eq 'NoteProperty' } |
+        ForEach-Object { $_.Name }
+    )
+  }
+
+  $rules = [ordered]@{}
+  foreach ($serverName in $serverNames) {
+    $server = $catalog.servers.$serverName
+    if (-not $server) {
+      continue
+    }
+
+    $providersRequired = @()
+    if ($server.providersRequired) {
+      $providersRequired = @($server.providersRequired | ForEach-Object { [string]$_ })
+    }
+
+    $alwaysEnabled = $false
+    if ($null -ne $server.PSObject.Properties['alwaysEnabled']) {
+      $alwaysEnabled = [bool]$server.alwaysEnabled
+    }
+
+    if ($alwaysEnabled) {
+      $rules[$serverName] = @()
+    }
+    else {
+      $rules[$serverName] = @($providersRequired | ForEach-Object { $_.ToLowerInvariant() })
+    }
+  }
+
+  if ($rules.Count -eq 0) {
+    Write-Warning "MCP catalog produced no server rules: $CatalogPath. Using built-in rules."
+    return $fallbackRules
+  }
+
+  return $rules
+}
+
 $mcpPath = Resolve-RepoPath -Path $McpFile
 $settingsPath = Resolve-RepoPath -Path $SettingsFile
+$catalogPath = Resolve-RepoPath -Path $CatalogFile
 
 if (-not (Test-Path $mcpPath)) {
   Write-Error "MCP file not found: $mcpPath"
@@ -126,13 +199,7 @@ if ($UseModuleDirectoryHints) {
   }
 }
 
-$serverRules = [ordered]@{
-  terraform        = @()
-  azure            = @("azurerm")
-  aws              = @("aws")
-  awsDocumentation = @("aws")
-  context7         = @("google", "kubernetes", "helm")
-}
+$serverRules = Get-ServerRulesFromCatalog -CatalogPath $catalogPath
 
 $changes = @()
 $requiresWrite = $false
