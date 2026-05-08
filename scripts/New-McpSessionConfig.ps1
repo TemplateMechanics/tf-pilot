@@ -185,20 +185,23 @@ foreach ($property in $mcp.servers.PSObject.Properties) {
 	$shouldEnable = $false
 
 	$catalogKey = $serverName.ToLowerInvariant()
-	if ($serverMetadata.ContainsKey($catalogKey)) {
-		$meta = $serverMetadata[$catalogKey]
-		if ($meta.alwaysEnabled) {
-			$shouldEnable = $true
-		}
-		elseif ($meta.providersRequired.Count -eq 0) {
-			$shouldEnable = $false
-		}
-		else {
-			foreach ($providerName in $meta.providersRequired) {
-				if ($activeProviders.Contains($providerName)) {
-					$shouldEnable = $true
-					break
-				}
+	if (-not $serverMetadata.ContainsKey($catalogKey)) {
+		# Server is not in the catalog — leave its existing disabled state unchanged.
+		continue
+	}
+
+	$meta = $serverMetadata[$catalogKey]
+	if ($meta.alwaysEnabled) {
+		$shouldEnable = $true
+	}
+	elseif ($meta.providersRequired.Count -eq 0) {
+		$shouldEnable = $false
+	}
+	else {
+		foreach ($providerName in $meta.providersRequired) {
+			if ($activeProviders.Contains($providerName)) {
+				$shouldEnable = $true
+				break
 			}
 		}
 	}

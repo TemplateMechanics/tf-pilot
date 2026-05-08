@@ -73,11 +73,18 @@ function Resolve-RepoPath {
 function Resolve-PreferredMcpFile {
   param([Parameter(Mandatory)][string]$Path)
 
-  if ($Path -ne '.vscode/mcp.json') {
+  $repoRoot = Split-Path -Parent $PSScriptRoot
+  $defaultMcpPath = [System.IO.Path]::GetFullPath((Join-Path $repoRoot '.vscode/mcp.json'))
+  $resolvedPath = if ([System.IO.Path]::IsPathRooted($Path)) {
+    [System.IO.Path]::GetFullPath($Path)
+  } else {
+    [System.IO.Path]::GetFullPath((Join-Path $repoRoot $Path))
+  }
+
+  if ($resolvedPath -ne $defaultMcpPath) {
     return $Path
   }
 
-  $repoRoot = Split-Path -Parent $PSScriptRoot
   $sessionRelativePath = '.vscode/mcp.session.json'
   $sessionPath = Join-Path $repoRoot $sessionRelativePath
   if (Test-Path $sessionPath) {
