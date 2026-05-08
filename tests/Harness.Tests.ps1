@@ -1729,12 +1729,34 @@ Describe 'Test-McpConfigSecrets.ps1' {
     & "$script:scriptsDir/Test-McpConfigSecrets.ps1" -Path $tmp.FullName
     $LASTEXITCODE | Should -Be 1
   }
+
+  It 'supports explicit file list scanning' {
+    $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'mcp-files-mode')
+    $vscodeDir = New-Item -ItemType Directory -Path (Join-Path $tmp.FullName '.vscode')
+
+    @'
+{
+  "servers": {
+    "context7": {
+      "command": "npx",
+      "env": {
+        "CONTEXT7_API_KEY": "${env:CONTEXT7_API_KEY}"
+      }
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $vscodeDir.FullName 'mcp.json') -Encoding utf8
+
+    & "$script:scriptsDir/Test-McpConfigSecrets.ps1" -Path $tmp.FullName -Files '.vscode/mcp.json'
+    $LASTEXITCODE | Should -Be 0
+  }
 }
 
 Describe 'Pre-Commit integration' {
   It 'Pre-Commit.ps1 invokes MCP secret hygiene check' {
     $content = Get-Content -Path (Join-Path $script:scriptsDir 'Pre-Commit.ps1') -Raw
     $content | Should -Match 'Test-McpConfigSecrets\.ps1'
+    $content | Should -Match '-StagedOnly'
   }
 }
 

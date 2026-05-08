@@ -74,7 +74,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "`nValidating MCP secret hygiene" -ForegroundColor Cyan
-& $validateMcpSecretsScript -Path $repoRoot
+& $validateMcpSecretsScript -Path $repoRoot -StagedOnly
 if ($LASTEXITCODE -ne 0) {
   Write-Error 'Test-McpConfigSecrets failed.'
   exit $LASTEXITCODE

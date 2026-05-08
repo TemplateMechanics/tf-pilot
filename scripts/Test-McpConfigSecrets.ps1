@@ -11,6 +11,12 @@ Repository root to scan. Defaults to current workspace root.
 
 .PARAMETER IncludeSessionFiles
 Also scan session-local MCP files (for local troubleshooting use).
+
+.PARAMETER StagedOnly
+Scan only staged MCP JSON files from git index.
+
+.PARAMETER Files
+Explicit list of files to scan (absolute or repo-relative paths).
 #>
 [CmdletBinding()]
 param(
@@ -18,11 +24,22 @@ param(
   [string]$Path = '.',
 
   [Parameter()]
-  [switch]$IncludeSessionFiles
+  [switch]$IncludeSessionFiles,
+
+  [Parameter()]
+  [switch]$StagedOnly,
+
+  [Parameter()]
+  [string[]]$Files
 )
 
 $ErrorActionPreference = 'Stop'
 $global:LASTEXITCODE = 0
+
+if ($StagedOnly -and $Files) {
+  Write-Error 'Specify either -StagedOnly or -Files, not both.'
+  exit 1
+}
 
 function Test-IsPlaceholderValue {
   param([Parameter(Mandatory)][string]$Value)
@@ -98,6 +115,80 @@ function Get-SensitiveValueFindings {
   return $findings
 }
 
+function Resolve-ScanFiles {
+  param(
+    [Parameter(Mandatory)][string]$RepoRoot,
+    [Parameter()][switch]$IncludeSessionFiles,
+    [Parameter()][switch]$StagedOnly,
+    [Parameter()][string[]]$Files
+  )
+
+  $resolved = @()
+
+  if ($Files) {
+    foreach ($file in $Files) {
+      if ([string]::IsNullOrWhiteSpace($file)) {
+        continue
+      }
+
+      $filePath = if ([System.IO.Path]::IsPathRooted($file)) {
+        [System.IO.Path]::GetFullPath($file)
+      }
+      else {
+        [System.IO.Path]::GetFullPath((Join-Path $RepoRoot $file))
+      }
+
+      if ($filePath -match '[\\/]\.vscode[\\/]mcp(\.session[^\\/]*)?\.json$') {
+        $resolved += $filePath
+      }
+    }
+
+    return @($resolved | Sort-Object -Unique)
+  }
+
+  if ($StagedOnly) {
+    $gitCmd = Get-Command git -ErrorAction SilentlyContinue
+    if (-not $gitCmd) {
+      Write-Error 'git is required for -StagedOnly mode.'
+      exit 1
+    }
+
+    $previousLocation = Get-Location
+    try {
+      Set-Location -Path $RepoRoot
+      $stagedRelative = @(git diff --cached --name-only)
+      if ($LASTEXITCODE -ne 0) {
+        Write-Error 'Unable to read staged files from git index.'
+        exit 1
+      }
+    }
+    finally {
+      Set-Location -Path $previousLocation
+    }
+
+    foreach ($relativePath in $stagedRelative) {
+      if ([string]::IsNullOrWhiteSpace($relativePath)) {
+        continue
+      }
+
+      if ($relativePath -match '^[\\/]*\.vscode[\\/]mcp(\.session[^\\/]*)?\.json$') {
+        $resolved += [System.IO.Path]::GetFullPath((Join-Path $RepoRoot $relativePath))
+      }
+    }
+
+    return @($resolved | Sort-Object -Unique)
+  }
+
+  $resolved += (Join-Path $RepoRoot '.vscode/mcp.json')
+  if ($IncludeSessionFiles) {
+    $sessionPattern = Join-Path (Join-Path $RepoRoot '.vscode') 'mcp.session*.json'
+    $sessionFiles = @(Get-ChildItem -Path $sessionPattern -File -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName)
+    $resolved += $sessionFiles
+  }
+
+  return @($resolved | Sort-Object -Unique)
+}
+
 $repoRoot = if ([System.IO.Path]::IsPathRooted($Path)) {
   [System.IO.Path]::GetFullPath($Path)
 }
@@ -105,17 +196,17 @@ else {
   [System.IO.Path]::GetFullPath((Join-Path (Get-Location) $Path))
 }
 
-$filesToScan = @(
-  (Join-Path $repoRoot '.vscode/mcp.json')
-)
+$filesToScan = Resolve-ScanFiles -RepoRoot $repoRoot -IncludeSessionFiles:$IncludeSessionFiles -StagedOnly:$StagedOnly -Files $Files
 
-if ($IncludeSessionFiles) {
-  $sessionPattern = Join-Path (Join-Path $repoRoot '.vscode') 'mcp.session*.json'
-  $sessionFiles = @(Get-ChildItem -Path $sessionPattern -File -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName)
-  $filesToScan += $sessionFiles
+if ($filesToScan.Count -eq 0) {
+  if ($StagedOnly) {
+    Write-Host 'MCP secret hygiene check skipped: no staged MCP JSON files.' -ForegroundColor Green
+  }
+  else {
+    Write-Host 'MCP secret hygiene check passed: no MCP files to scan.' -ForegroundColor Green
+  }
+  exit 0
 }
-
-$filesToScan = @($filesToScan | Sort-Object -Unique)
 
 $allFindings = @()
 foreach ($filePath in $filesToScan) {
