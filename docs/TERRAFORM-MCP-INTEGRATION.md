@@ -62,6 +62,7 @@ This prevents partial/unsafe credential configuration and avoids storing secrets
 - MCP can expose Terraform metadata to the connected model/client.
 - Use only trusted MCP clients and models.
 - Avoid hardcoding tokens; use prompted inputs/environment secrets.
+- Run `./scripts/Test-McpConfigSecrets.ps1` (or `./scripts/Pre-Commit.ps1`) to catch inline secrets in tracked MCP JSON files.
 
 ## Troubleshooting
 

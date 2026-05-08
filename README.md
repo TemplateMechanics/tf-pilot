@@ -77,7 +77,7 @@ User request
 6. Generate a session-local MCP runtime file (gitignored) with `./scripts/New-McpSessionConfig.ps1 -UseModuleDirectoryHints -Force` when you want per-user/per-session MCP state.
 7. Sync provider-aware MCP server enablement with `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints` (also run automatically by `Invoke-ProviderCatalogRefresh.ps1`).
    For chat-driven explicit toggles, use `./scripts/Set-McpServerState.ps1 -Server <name> -Enable|-Disable`.
-8. Before pushing changes, run `./scripts/Pre-Commit.ps1` (or `./scripts/Pre-Commit.ps1 -RunTests -RunSecurity` for the full local gate).
+8. Before pushing changes, run `./scripts/Pre-Commit.ps1` (or `./scripts/Pre-Commit.ps1 -RunTests -RunSecurity` for the full local gate). This now includes MCP secret hygiene checks for tracked MCP config files.
 
 Tip: for local interactive runs, use `./scripts/Initialize-Workspace.ps1 -Path <dir> -Compact` to suppress repetitive Terraform success boilerplate while still surfacing meaningful init output and errors.
 

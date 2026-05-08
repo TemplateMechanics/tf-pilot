@@ -1687,6 +1687,57 @@ Describe 'Cloud readiness integration' {
   }
 }
 
+Describe 'Test-McpConfigSecrets.ps1' {
+  It 'passes when sensitive fields use placeholders' {
+    $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'mcp-safe')
+    $vscodeDir = New-Item -ItemType Directory -Path (Join-Path $tmp.FullName '.vscode')
+
+    @'
+{
+  "servers": {
+    "context7": {
+      "command": "npx",
+      "env": {
+        "CONTEXT7_API_KEY": "${input:context7_api_key}"
+      }
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $vscodeDir.FullName 'mcp.json') -Encoding utf8
+
+    & "$script:scriptsDir/Test-McpConfigSecrets.ps1" -Path $tmp.FullName
+    $LASTEXITCODE | Should -Be 0
+  }
+
+  It 'fails when sensitive fields contain hardcoded values' {
+    $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'mcp-unsafe')
+    $vscodeDir = New-Item -ItemType Directory -Path (Join-Path $tmp.FullName '.vscode')
+
+    @'
+{
+  "servers": {
+    "context7": {
+      "command": "npx",
+      "env": {
+        "CONTEXT7_API_KEY": "super-secret-inline-value"
+      }
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $vscodeDir.FullName 'mcp.json') -Encoding utf8
+
+    & "$script:scriptsDir/Test-McpConfigSecrets.ps1" -Path $tmp.FullName
+    $LASTEXITCODE | Should -Be 1
+  }
+}
+
+Describe 'Pre-Commit integration' {
+  It 'Pre-Commit.ps1 invokes MCP secret hygiene check' {
+    $content = Get-Content -Path (Join-Path $script:scriptsDir 'Pre-Commit.ps1') -Raw
+    $content | Should -Match 'Test-McpConfigSecrets\.ps1'
+  }
+}
+
 Describe 'Script syntax' {
   $scripts = Get-ChildItem -Path $script:scriptsDir -Filter '*.ps1'
   foreach ($s in $scripts) {
