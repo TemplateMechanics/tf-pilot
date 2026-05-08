@@ -1111,6 +1111,7 @@ Describe 'Sync-McpServerEnablement.ps1' {
 Describe 'Set-McpServerState.ps1' {
   It 'enables and disables requested servers by name' {
     $mcpPath = Join-Path $TestDrive 'mcp.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
     @'
 {
   "servers": {
@@ -1122,14 +1123,65 @@ Describe 'Set-McpServerState.ps1' {
 }
 '@ | Set-Content -Path $mcpPath -Encoding utf8
 
-    & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -Server aws,awsDocumentation -Enable
+    @'
+{
+  "version": "1.0",
+  "defaults": {
+    "transport": "stdio",
+    "disabled": true
+  },
+  "servers": {
+    "terraform": {
+      "displayName": "Terraform Registry and Workspace",
+      "description": "First-party Terraform MCP server.",
+      "transport": "stdio",
+      "alwaysEnabled": true,
+      "providersRequired": [],
+      "package": "hashicorp/terraform-mcp-server",
+      "version": "v0.5.2"
+    },
+    "aws": {
+      "displayName": "AWS MCP",
+      "description": "AWS API server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-api-mcp-server",
+      "version": "latest"
+    },
+    "awsDocumentation": {
+      "displayName": "AWS Documentation MCP",
+      "description": "AWS docs server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-documentation-mcp-server",
+      "version": "latest"
+    },
+    "context7": {
+      "displayName": "Context7 MCP",
+      "description": "Context retrieval server.",
+      "transport": "stdio",
+      "providersRequired": ["google", "kubernetes", "helm"],
+      "package": "@upstash/context7-mcp",
+      "version": "latest"
+    }
+  },
+  "routing": {
+    "byProvider": {
+      "aws": ["terraform", "aws", "awsDocumentation"],
+      "google": ["terraform", "context7"]
+    }
+  }
+}
+'@ | Set-Content -Path $catalogPath -Encoding utf8
+
+    & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -CatalogFile $catalogPath -Server aws,awsDocumentation -Enable
     $LASTEXITCODE | Should -Be 0
 
     $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
     [bool]$mcp.servers.aws.disabled | Should -BeFalse
     [bool]$mcp.servers.awsDocumentation.disabled | Should -BeFalse
 
-    & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -Server context7 -Disable
+    & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -CatalogFile $catalogPath -Server context7 -Disable
     $LASTEXITCODE | Should -Be 0
 
     $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
@@ -1147,6 +1199,59 @@ Describe 'Set-McpServerState.ps1' {
 '@ | Set-Content -Path $mcpPath -Encoding utf8
 
     { & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -Server doesNotExist -Enable } | Should -Throw
+  }
+
+  It 'refuses to disable always-enabled servers from catalog' {
+    $mcpPath = Join-Path $TestDrive 'mcp.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": false },
+    "aws": { "command": "node", "disabled": false }
+  }
+}
+'@ | Set-Content -Path $mcpPath -Encoding utf8
+
+    @'
+{
+  "version": "1.0",
+  "defaults": {
+    "transport": "stdio",
+    "disabled": true
+  },
+  "servers": {
+    "terraform": {
+      "displayName": "Terraform Registry and Workspace",
+      "description": "First-party Terraform MCP server.",
+      "transport": "stdio",
+      "alwaysEnabled": true,
+      "providersRequired": [],
+      "package": "hashicorp/terraform-mcp-server",
+      "version": "v0.5.2"
+    },
+    "aws": {
+      "displayName": "AWS MCP",
+      "description": "AWS API server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-api-mcp-server",
+      "version": "latest"
+    }
+  },
+  "routing": {
+    "byProvider": {
+      "aws": ["terraform", "aws"]
+    }
+  }
+}
+'@ | Set-Content -Path $catalogPath -Encoding utf8
+
+    { & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -CatalogFile $catalogPath -Server terraform -Disable } | Should -Throw
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    [bool]$mcp.servers.terraform.disabled | Should -BeFalse
   }
 }
 

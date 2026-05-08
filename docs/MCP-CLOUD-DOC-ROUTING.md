@@ -49,6 +49,9 @@ or
 
 `./scripts/Set-McpServerState.ps1 -Server <serverName> -Disable`
 
+Server constraints are read from `.vscode/mcp.servers.catalog.json`.
+Always-enabled catalog entries (for example `terraform`) cannot be disabled by this command.
+
 Examples:
 - Enable AWS MCP servers: `./scripts/Set-McpServerState.ps1 -Server aws,awsDocumentation -Enable`
 - Disable Context7 temporarily: `./scripts/Set-McpServerState.ps1 -Server context7 -Disable`

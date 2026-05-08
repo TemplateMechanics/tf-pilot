@@ -13,6 +13,9 @@ Path to workspace MCP configuration file.
 .PARAMETER Server
 One or more MCP server names to update.
 
+.PARAMETER CatalogFile
+Path to MCP server catalog file.
+
 .PARAMETER Enable
 Enable the specified server(s) (`disabled = false`).
 
@@ -26,6 +29,9 @@ Show planned changes without writing the file.
 param(
   [Parameter()]
   [string]$McpFile = ".vscode/mcp.json",
+
+  [Parameter()]
+  [string]$CatalogFile = ".vscode/mcp.servers.catalog.json",
 
   [Parameter(Mandatory)]
   [string[]]$Server,
@@ -64,7 +70,54 @@ function Resolve-RepoPath {
   return [System.IO.Path]::GetFullPath((Join-Path $repoRoot $Path))
 }
 
+function Get-ServerCatalogMetadata {
+  param([Parameter(Mandatory)][string]$CatalogPath)
+
+  $metadata = @{}
+
+  $fallbackRules = [ordered]@{
+    terraform        = [ordered]@{ alwaysEnabled = $true }
+    azure            = [ordered]@{ alwaysEnabled = $false }
+    aws              = [ordered]@{ alwaysEnabled = $false }
+    awsDocumentation = [ordered]@{ alwaysEnabled = $false }
+    context7         = [ordered]@{ alwaysEnabled = $false }
+  }
+
+  if (-not (Test-Path $CatalogPath)) {
+    foreach ($serverName in $fallbackRules.Keys) {
+      $metadata[$serverName.ToLowerInvariant()] = [pscustomobject]$fallbackRules[$serverName]
+    }
+    return $metadata
+  }
+
+  $catalog = Get-Content -Path $CatalogPath -Raw | ConvertFrom-Json
+  if (-not $catalog.servers) {
+    foreach ($serverName in $fallbackRules.Keys) {
+      $metadata[$serverName.ToLowerInvariant()] = [pscustomobject]$fallbackRules[$serverName]
+    }
+    return $metadata
+  }
+
+  foreach ($property in $catalog.servers.PSObject.Properties) {
+    if ($property.MemberType -ne 'NoteProperty') {
+      continue
+    }
+
+    $alwaysEnabled = $false
+    if ($null -ne $property.Value -and $null -ne $property.Value.PSObject.Properties['alwaysEnabled']) {
+      $alwaysEnabled = [bool]$property.Value.alwaysEnabled
+    }
+
+    $metadata[$property.Name.ToLowerInvariant()] = [pscustomobject]@{
+      alwaysEnabled = $alwaysEnabled
+    }
+  }
+
+  return $metadata
+}
+
 $mcpPath = Resolve-RepoPath -Path $McpFile
+$catalogPath = Resolve-RepoPath -Path $CatalogFile
 if (-not (Test-Path $mcpPath)) {
   Write-Error "MCP file not found: $mcpPath"
   exit 1
@@ -75,6 +128,8 @@ if (-not $mcpConfig.servers) {
   Write-Error "MCP config has no 'servers' object: $mcpPath"
   exit 1
 }
+
+$serverCatalogMetadata = Get-ServerCatalogMetadata -CatalogPath $catalogPath
 
 $serverNameMap = @{}
 foreach ($property in $mcpConfig.servers.PSObject.Properties) {
@@ -105,6 +160,21 @@ if ($missing.Count -gt 0) {
   $available = @($serverNameMap.Values | Sort-Object -Unique)
   Write-Error ("Unknown MCP server(s): {0}. Available: {1}" -f ($missing -join ', '), ($available -join ', '))
   exit 1
+}
+
+if ($Disable) {
+  $blocked = @()
+  foreach ($serverName in $resolvedServers) {
+    $catalogKey = $serverName.ToLowerInvariant()
+    if ($serverCatalogMetadata.ContainsKey($catalogKey) -and [bool]$serverCatalogMetadata[$catalogKey].alwaysEnabled) {
+      $blocked += $serverName
+    }
+  }
+
+  if ($blocked.Count -gt 0) {
+    Write-Error ("Refusing to disable always-enabled MCP server(s): {0}" -f ($blocked -join ', '))
+    exit 1
+  }
 }
 
 $targetDisabled = [bool]$Disable
