@@ -37,6 +37,35 @@ Manual sync command:
 
 When `.vscode/mcp.session.json` exists, sync and set-state scripts automatically target the session file by default.
 
+## MCP Secret Hygiene Guidance
+
+Use the MCP secret hygiene script to prevent hardcoded credentials from being committed in MCP JSON files.
+
+Primary pre-commit behavior:
+
+- `./scripts/Pre-Commit.ps1` runs `./scripts/Test-McpConfigSecrets.ps1 -StagedOnly`
+- `-StagedOnly` scans only staged MCP JSON files (`.vscode/mcp.json`, optional `.vscode/mcp.session*.json` if staged)
+- If no staged MCP JSON files exist, the check is skipped with a success status
+
+Manual usage patterns:
+
+- Full tracked MCP scan: `./scripts/Test-McpConfigSecrets.ps1`
+- Include local session files in scan: `./scripts/Test-McpConfigSecrets.ps1 -IncludeSessionFiles`
+- Explicit file list scan: `./scripts/Test-McpConfigSecrets.ps1 -Files .vscode/mcp.json`
+
+Pass criteria:
+
+- Sensitive-looking fields (`token`, `secret`, `password`, `api_key`, etc.) must use placeholders
+- Allowed placeholder forms:
+	- `${input:<id>}`
+	- `${env:<NAME>}`
+
+Failure remediation:
+
+1. Replace inline secrets with `${input:...}` or `${env:...}` placeholders.
+2. Move real secret values to local prompt inputs or environment variables.
+3. Re-run `./scripts/Test-McpConfigSecrets.ps1` (or `./scripts/Pre-Commit.ps1`) before pushing.
+
 ## Provider-to-Docs Routing
 
 - `aws`: `terraform` + `aws` + `awsDocumentation` + AWS Well-Architected and service docs
