@@ -13,6 +13,13 @@ This keeps planning and apply controls in one place while improving answer quali
 
 This repository includes a sharable VS Code MCP configuration in `.vscode/mcp.json`.
 
+For per-user/per-session operation, generate a local runtime file:
+
+`./scripts/New-McpSessionConfig.ps1 -UseModuleDirectoryHints -Force`
+
+This writes `.vscode/mcp.session.json` (gitignored), keeping shared defaults in source
+while allowing local enablement state to be session-scoped.
+
 Key points:
 - Uses script launcher: `scripts/Start-TerraformMcpServer.ps1`
 - Prefers local executable and auto-installs via `scripts/Install-TerraformMcpServer.ps1`

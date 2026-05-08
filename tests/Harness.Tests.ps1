@@ -1255,6 +1255,148 @@ Describe 'Set-McpServerState.ps1' {
   }
 }
 
+Describe 'New-McpSessionConfig.ps1' {
+  It 'generates session-local MCP config from catalog and active providers' {
+    $templatePath = Join-Path $TestDrive 'mcp.template.json'
+    $outputPath = Join-Path $TestDrive 'mcp.session.json'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": true },
+    "aws": { "command": "node", "disabled": true },
+    "context7": { "command": "node", "disabled": true }
+  }
+}
+'@ | Set-Content -Path $templatePath -Encoding utf8
+
+    @'
+{
+  "providers": {
+    "aws": { "enabled": true, "workspace": "aws", "modules": {} },
+    "google": { "enabled": false, "workspace": "google", "modules": {} },
+    "helm": { "enabled": false, "workspace": "helm", "modules": {} }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    @'
+{
+  "version": "1.0",
+  "defaults": {
+    "transport": "stdio",
+    "disabled": true
+  },
+  "servers": {
+    "terraform": {
+      "displayName": "Terraform Registry and Workspace",
+      "description": "First-party Terraform MCP server.",
+      "transport": "stdio",
+      "alwaysEnabled": true,
+      "providersRequired": [],
+      "package": "hashicorp/terraform-mcp-server",
+      "version": "v0.5.2"
+    },
+    "aws": {
+      "displayName": "AWS MCP",
+      "description": "AWS API server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-api-mcp-server",
+      "version": "latest"
+    },
+    "context7": {
+      "displayName": "Context7 MCP",
+      "description": "Context retrieval server.",
+      "transport": "stdio",
+      "providersRequired": ["google", "kubernetes", "helm"],
+      "package": "@upstash/context7-mcp",
+      "version": "latest"
+    }
+  },
+  "routing": {
+    "byProvider": {
+      "aws": ["terraform", "aws"],
+      "google": ["terraform", "context7"]
+    }
+  }
+}
+'@ | Set-Content -Path $catalogPath -Encoding utf8
+
+    & "$script:scriptsDir/New-McpSessionConfig.ps1" -TemplateFile $templatePath -OutputFile $outputPath -SettingsFile $settingsPath -CatalogFile $catalogPath
+    $LASTEXITCODE | Should -Be 0
+
+    Test-Path $outputPath | Should -BeTrue
+    $session = Get-Content -Path $outputPath -Raw | ConvertFrom-Json
+    [bool]$session.servers.terraform.disabled | Should -BeFalse
+    [bool]$session.servers.aws.disabled | Should -BeFalse
+    [bool]$session.servers.context7.disabled | Should -BeTrue
+  }
+
+  It 'fails without -Force when output file already exists' {
+    $templatePath = Join-Path $TestDrive 'mcp.template.json'
+    $outputPath = Join-Path $TestDrive 'mcp.session.json'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": false }
+  }
+}
+'@ | Set-Content -Path $templatePath -Encoding utf8
+
+    @'
+{
+  "providers": {
+    "aws": { "enabled": true, "workspace": "aws", "modules": {} }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    @'
+{
+  "version": "1.0",
+  "defaults": {
+    "transport": "stdio",
+    "disabled": true
+  },
+  "servers": {
+    "terraform": {
+      "displayName": "Terraform Registry and Workspace",
+      "description": "First-party Terraform MCP server.",
+      "transport": "stdio",
+      "alwaysEnabled": true,
+      "providersRequired": [],
+      "package": "hashicorp/terraform-mcp-server",
+      "version": "v0.5.2"
+    }
+  },
+  "routing": {
+    "byProvider": {
+      "aws": ["terraform"]
+    }
+  }
+}
+'@ | Set-Content -Path $catalogPath -Encoding utf8
+
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": false }
+  }
+}
+'@ | Set-Content -Path $outputPath -Encoding utf8
+
+    {
+      & "$script:scriptsDir/New-McpSessionConfig.ps1" -TemplateFile $templatePath -OutputFile $outputPath -SettingsFile $settingsPath -CatalogFile $catalogPath
+    } | Should -Throw
+  }
+}
+
 Describe 'MCP catalog registry (phase 0)' {
   It 'has a schema-valid catalog with required top-level keys' -Skip:(-not $script:hasTestJsonSchema) {
     $catalogPath = Join-Path $script:repoRoot '.vscode/mcp.servers.catalog.json'

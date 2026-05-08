@@ -60,6 +60,24 @@ function Resolve-RepoPath {
   return [System.IO.Path]::GetFullPath((Join-Path $repoRoot $Path))
 }
 
+function Resolve-PreferredMcpFile {
+  param([Parameter(Mandatory)][string]$Path)
+
+  if ($Path -ne '.vscode/mcp.json') {
+    return $Path
+  }
+
+  $repoRoot = Split-Path -Parent $PSScriptRoot
+  $sessionRelativePath = '.vscode/mcp.session.json'
+  $sessionPath = Join-Path $repoRoot $sessionRelativePath
+  if (Test-Path $sessionPath) {
+    Write-Host "Using session MCP file: $sessionRelativePath"
+    return $sessionRelativePath
+  }
+
+  return $Path
+}
+
 function Get-ActiveProvidersFromSettings {
   param([Parameter(Mandatory)][string]$SettingsPath)
 
@@ -174,7 +192,8 @@ function Get-ServerRulesFromCatalog {
   return $rules
 }
 
-$mcpPath = Resolve-RepoPath -Path $McpFile
+$effectiveMcpFile = Resolve-PreferredMcpFile -Path $McpFile
+$mcpPath = Resolve-RepoPath -Path $effectiveMcpFile
 $settingsPath = Resolve-RepoPath -Path $SettingsFile
 $catalogPath = Resolve-RepoPath -Path $CatalogFile
 

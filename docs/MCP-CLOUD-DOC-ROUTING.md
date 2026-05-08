@@ -19,6 +19,10 @@ Then supplement with cloud-native docs based on provider usage.
 
 Provider-specific MCP servers are toggled through `disabled` flags in `.vscode/mcp.json`.
 
+For local/session operation, generate `.vscode/mcp.session.json` and use that as runtime state:
+
+`./scripts/New-McpSessionConfig.ps1 -UseModuleDirectoryHints -Force`
+
 - `terraform`: always enabled
 - `azure`: enabled when `azurerm` is active
 - `aws`: enabled when `aws` is active
@@ -30,6 +34,8 @@ Enablement is synced automatically at the end of `scripts/Invoke-ProviderCatalog
 Manual sync command:
 
 `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints`
+
+When `.vscode/mcp.session.json` exists, sync and set-state scripts automatically target the session file by default.
 
 ## Provider-to-Docs Routing
 

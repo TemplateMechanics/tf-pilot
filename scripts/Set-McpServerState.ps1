@@ -70,6 +70,24 @@ function Resolve-RepoPath {
   return [System.IO.Path]::GetFullPath((Join-Path $repoRoot $Path))
 }
 
+function Resolve-PreferredMcpFile {
+  param([Parameter(Mandatory)][string]$Path)
+
+  if ($Path -ne '.vscode/mcp.json') {
+    return $Path
+  }
+
+  $repoRoot = Split-Path -Parent $PSScriptRoot
+  $sessionRelativePath = '.vscode/mcp.session.json'
+  $sessionPath = Join-Path $repoRoot $sessionRelativePath
+  if (Test-Path $sessionPath) {
+    Write-Host "Using session MCP file: $sessionRelativePath"
+    return $sessionRelativePath
+  }
+
+  return $Path
+}
+
 function Get-ServerCatalogMetadata {
   param([Parameter(Mandatory)][string]$CatalogPath)
 
@@ -116,7 +134,8 @@ function Get-ServerCatalogMetadata {
   return $metadata
 }
 
-$mcpPath = Resolve-RepoPath -Path $McpFile
+$effectiveMcpFile = Resolve-PreferredMcpFile -Path $McpFile
+$mcpPath = Resolve-RepoPath -Path $effectiveMcpFile
 $catalogPath = Resolve-RepoPath -Path $CatalogFile
 if (-not (Test-Path $mcpPath)) {
   Write-Error "MCP file not found: $mcpPath"
