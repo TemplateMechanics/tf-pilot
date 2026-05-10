@@ -26,6 +26,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Tightened CI `validate.yml` cloud-readiness gating (Infracost only when API key configured).
 
 ### Fixed
+- Isolated `Test-ProviderParameterCoverage.ps1` Pester runs to write summaries only under `TestDrive`, preventing test runs from mutating committed files in `docs/providers/generated/`.
 - Restored missing artifact `path` input in `.github/workflows/validate.yml` and removed stray YAML content from MCP sync step.
 - Updated `.gitignore` to exclude `.state-backups/`, `tfdestroy.plan`, `provider-schema.json`, and archived plan artifacts.
 - Corrected `Show-TerraformGraph.ps1` graph type validation to supported Terraform values.
