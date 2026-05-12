@@ -228,6 +228,7 @@ jobs:
             docs/providers/generated/module-scaffold-summary.json
             docs/providers/generated/provider-parameter-coverage-summary.json
             docs/providers/generated/provider-parameter-coverage-summary.md
+            docs/providers/generated/*-parameter-coverage.json
 
       - name: Open or update provider drift issue
         if: always()

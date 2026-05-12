@@ -16,6 +16,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Added nested-block reflected parameter generation for dynatrace modules so generated families mirror full top-level HCL surface, not only scalar attributes.
 
 ### Changed
+- Updated provider coverage reporting to emit aggregate multi-provider summaries plus per-provider `docs/providers/generated/*-parameter-coverage.json` artifacts, preserving existing rows on filtered reruns.
 - Switched `examples/providers/schema-catalog/catalog.settings.json` provider `dynatrace` to `mode: "all"`, delivering 100% dynatrace resource/data-source type coverage with engine-managed `misc` family auto-injection.
 - Migrated `examples/providers/aws-stack` and `examples/providers/multiprovider-stack` from regex/check token parsing to registry-based `templatestring` resolution (`token_scope`, `token_aware_field_raw`, `resolved_token_fields`).
 - Updated Terraform harness docs/instructions to require token registry discipline and forbid decorative token fields.

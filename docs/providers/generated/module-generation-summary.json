@@ -82,12 +82,12 @@
         "module":  "misc",
         "path":  "C:\\LocalCode\\systechs\\tf-pilot\\modules\\providers\\aws\\misc",
         "files":  {
-                      "versions.tf":  "created",
-                      "variables.tf":  "created",
-                      "main.tf":  "created",
-                      "outputs.tf":  "created",
-                      "README.md":  "created",
-                      "tests/basic.tftest.hcl":  "created"
+                      "versions.tf":  "unchanged",
+                      "variables.tf":  "unchanged",
+                      "main.tf":  "unchanged",
+                      "outputs.tf":  "unchanged",
+                      "README.md":  "unchanged",
+                      "tests/basic.tftest.hcl":  "unchanged"
                   }
     },
     {
