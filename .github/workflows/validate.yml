@@ -175,8 +175,9 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
-      contents: read
+      contents: write
       issues: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
@@ -229,6 +230,41 @@ jobs:
             docs/providers/generated/provider-parameter-coverage-summary.json
             docs/providers/generated/provider-parameter-coverage-summary.md
             docs/providers/generated/*-parameter-coverage.json
+
+      - name: Detect provider module drift
+        id: drift
+        if: always()
+        shell: pwsh
+        run: |
+          $branchDate = Get-Date -Format 'yyyy-MM-dd'
+          $driftBranch = "chore/provider-drift-$branchDate"
+          $changedLines = @(
+            git status --short -- modules/providers/ docs/providers/generated/ 2>&1 |
+              Where-Object { $_ -match '^[ MADRCU?]' }
+          )
+          $hasDrift = $changedLines.Count -gt 0
+          "branch=$driftBranch" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "date=$branchDate" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "has-drift=$($hasDrift.ToString().ToLower())" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          if ($hasDrift) {
+            Write-Host "Drift detected: $($changedLines.Count) files changed under modules/providers/ or docs/providers/generated/."
+          } else {
+            Write-Host "No provider module drift detected."
+          }
+
+      - name: Open or update provider drift PR
+        if: steps.drift.outputs.has-drift == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.drift.outputs.branch }}
+          title: "chore(provider): refresh reflected modules — ${{ steps.drift.outputs.date }}"
+          body-path: docs/providers/generated/refresh-diff-summary.md
+          commit-message: "chore(provider): refresh reflected modules — ${{ steps.drift.outputs.date }}"
+          labels: provider-drift
+          add-paths: |
+            modules/providers/**
+            docs/providers/generated/**
 
       - name: Open or update provider drift issue
         if: always()

@@ -7,6 +7,14 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
+- Added `peter-evans/create-pull-request` automation to the `provider-coverage-buildout-report` CI job: when provider schema drift is detected, the workflow now opens or force-updates a PR on a date-stamped branch (`chore/provider-drift-<YYYY-MM-DD>`) with regenerated `modules/providers/` and `docs/providers/generated/` artifacts. PR body is sourced from `docs/providers/generated/refresh-diff-summary.md`. Empty-diff runs produce no PR.
+- Documented the schema drift PR automation workflow in `docs/PROVIDER-MODULE-BUILDOUT.md`.
+- Added Pester tests for drift detection logic: branch name pattern, drift/no-drift detection from git status output.
+
+### Changed
+- Updated `provider-coverage-buildout-report` job permissions to include `contents: write` and `pull-requests: write` (required for branch push and PR creation).
+
+### Added
 - Added `scripts/Test-ProviderParameterCoverage.ps1` and CI/report wiring to validate that reflected modules expose provider-schema parameters (top-level attributes and top-level nested blocks).
 - Added `examples/providers/multi-cloud-free-tier` with YAML-driven composition across AWS, Azure, and GCP plus provider-stack schema support.
 - Added `docs/YAML-TOKEN-REGISTRY.md` as the canonical implementation reference for provider-stack token resolution.

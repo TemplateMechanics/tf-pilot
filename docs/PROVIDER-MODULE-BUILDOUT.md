@@ -64,6 +64,31 @@ When provider major versions are released (for example, AWS 6.x), use a manual r
 3. Regenerated module PRs go through the same validation and approval gates as handwritten changes.
 4. If the change affects stable contracts, include migration notes before merge.
 
+## Schema Drift PR Automation
+
+The scheduled/manual `provider-coverage-buildout-report` CI job detects provider schema drift and automatically opens (or updates) a pull request with regenerated artifacts.
+
+### How it works
+
+1. `Invoke-AutonomousInfraSync.ps1` runs a full provider sync — catalog refresh, module generation, coverage stubs, formatting.
+2. `Test-ProviderParameterCoverage.ps1` regenerates coverage summaries.
+3. A drift-detection step runs `git status -- modules/providers/ docs/providers/generated/` to check for uncommitted changes.
+4. If changes exist, `peter-evans/create-pull-request` pushes them to a date-stamped branch (`chore/provider-drift-<YYYY-MM-DD>`) and opens a PR titled `chore(provider): refresh reflected modules — <date>`.
+5. The PR body is sourced from `docs/providers/generated/refresh-diff-summary.md`, which itemises added, removed, and changed resource/data-source types per provider.
+6. If the drift branch already exists (e.g., the job ran twice in one day), the action force-updates the existing branch and PR rather than opening a duplicate.
+7. If `git status` reports no changes, the PR step is skipped entirely — no empty PRs are created.
+
+### Reviewer workflow
+
+1. Receive the automated PR notification.
+2. Review the diff summary in the PR description and the file diff for `modules/providers/` and `docs/providers/generated/`.
+3. Approve and merge via the normal review gates.
+4. The `validate` and `mcp-sync-check` jobs run on the PR and must pass before merge.
+
+### Issue automation (parallel)
+
+The same job also opens or updates a GitHub issue labelled `provider-drift` with the drift table for awareness. The issue is advisory; the PR is the action item.
+
 ## Generated Artifacts Policy
 
 This repository uses a **commit-and-gate** policy for generated provider modules and provider catalog artifacts.

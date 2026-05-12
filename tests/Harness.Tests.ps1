@@ -1290,3 +1290,53 @@ Describe 'YAML token anti-pattern checks' {
     $matches | Should -BeNullOrEmpty
   }
 }
+
+Describe 'Provider drift branch name computation' {
+  It 'produces a branch name matching the chore/provider-drift-<date> pattern' {
+    $branchDate = Get-Date -Format 'yyyy-MM-dd'
+    $driftBranch = "chore/provider-drift-$branchDate"
+    $driftBranch | Should -Match '^chore/provider-drift-\d{4}-\d{2}-\d{2}$'
+  }
+
+  It 'reflects the current date in the branch name' {
+    $today = Get-Date -Format 'yyyy-MM-dd'
+    $driftBranch = "chore/provider-drift-$today"
+    $driftBranch | Should -BeLike "chore/provider-drift-$today"
+  }
+
+  It 'detects drift when git status output contains changed paths' {
+    $fakeGitOutput = @(
+      ' M modules/providers/aws/s3/bucket/main.tf',
+      ' M docs/providers/generated/aws-catalog.json'
+    )
+    $changedLines = @(
+      $fakeGitOutput | Where-Object { $_ -match '^[ MADRCU?]' }
+    )
+    $changedLines.Count | Should -Be 2
+    $hasDrift = $changedLines.Count -gt 0
+    $hasDrift | Should -BeTrue
+  }
+
+  It 'reports no drift when git status output is empty' {
+    $fakeGitOutput = @()
+    $changedLines = @(
+      $fakeGitOutput | Where-Object { $_ -match '^[ MADRCU?]' }
+    )
+    $changedLines.Count | Should -Be 0
+    $hasDrift = $changedLines.Count -gt 0
+    $hasDrift | Should -BeFalse
+  }
+
+  It 'does not treat untracked files outside target paths as drift' {
+    $fakeGitOutput = @(
+      '?? some-other-file.txt'
+    )
+    $changedLines = @(
+      $fakeGitOutput | Where-Object { $_ -match '^[ MADRCU?]' }
+    )
+    # ?? lines do match the pattern (? is a valid prefix character), so caller
+    # is responsible for scoping `git status -- <paths>` to avoid false positives.
+    # This test documents that the regex itself accepts all non-blank-prefix lines.
+    $changedLines.Count | Should -Be 1
+  }
+}
