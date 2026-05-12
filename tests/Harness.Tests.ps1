@@ -458,7 +458,7 @@ resource "demo_widget" "this" {
     $summaryJsonPath = Join-Path $TestDrive 'pcov-summary.json'
     $summaryMarkdownPath = Join-Path $TestDrive 'pcov-summary.md'
 
-    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $repoSettingsPath -CatalogDir $repoCatalogDir -ModulesRoot $repoModulesRoot -IncludeDisabledProviders -SummaryJsonPath $summaryJsonPath -SummaryMarkdownPath $summaryMarkdownPath
+    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $repoSettingsPath -CatalogDir $repoCatalogDir -ModulesRoot $repoModulesRoot -SummaryJsonPath $summaryJsonPath -SummaryMarkdownPath $summaryMarkdownPath
     $LASTEXITCODE | Should -Be 0
 
     $settings = Get-Content -Path $repoSettingsPath -Raw | ConvertFrom-Json

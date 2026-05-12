@@ -60,7 +60,10 @@ param(
   [switch]$SkipFormatting,
 
   [Parameter()]
-  [switch]$SkipValidation
+  [switch]$SkipValidation,
+
+  [Parameter()]
+  [switch]$SkipRefreshSummaryMerge
 )
 
 $ErrorActionPreference = 'Stop'
@@ -116,16 +119,16 @@ else {
   $refreshParams['Profile'] = $Profile
 }
 
+if ($SkipRefreshSummaryMerge) {
+  $refreshParams['AggregateRefreshSummary'] = $false
+}
+
 Invoke-Step -Name 'Refresh provider catalogs' -Action {
   & $refreshScript @refreshParams
 }
 
 Invoke-Step -Name 'Sync generated family modules' -Action {
   & $syncGeneratedModulesScript -IncludeDisabledModules:$IncludeDisabledModules
-
-  ,
-  [Parameter()]
-  [switch]$SkipRefreshSummaryMerge
 }
 
 $coverageParams = @{
