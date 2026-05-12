@@ -13,6 +13,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Changed
 - Updated `provider-coverage-buildout-report` job permissions to include `contents: write` and `pull-requests: write` (required for branch push and PR creation).
+- Tightened provider drift auto-PR scope to include provider schema-catalog `.terraform.lock.hcl` changes and avoid double-notification via both issue and PR when drift exists.
 
 ### Added
 - Added `scripts/Test-ProviderParameterCoverage.ps1` and CI/report wiring to validate that reflected modules expose provider-schema parameters (top-level attributes and top-level nested blocks).

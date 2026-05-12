@@ -239,7 +239,7 @@ jobs:
           $branchDate = Get-Date -Format 'yyyy-MM-dd'
           $driftBranch = "chore/provider-drift-$branchDate"
           $changedLines = @(
-            git status --short -- modules/providers/ docs/providers/generated/ 2>&1 |
+            git status --short -- modules/providers/ docs/providers/generated/ examples/providers/schema-catalog/*/.terraform.lock.hcl 2>&1 |
               Where-Object { $_ -match '^[ MADRCU?]' }
           )
           $hasDrift = $changedLines.Count -gt 0
@@ -247,9 +247,19 @@ jobs:
           "date=$branchDate" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           "has-drift=$($hasDrift.ToString().ToLower())" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           if ($hasDrift) {
-            Write-Host "Drift detected: $($changedLines.Count) files changed under modules/providers/ or docs/providers/generated/."
+            Write-Host "Drift detected: $($changedLines.Count) files changed under modules/providers/, docs/providers/generated/, or schema-catalog lock files."
           } else {
             Write-Host "No provider module drift detected."
+          }
+
+      - name: Ensure refresh-diff-summary exists
+        if: steps.drift.outputs.has-drift == 'true'
+        shell: pwsh
+        run: |
+          $summaryPath = 'docs/providers/generated/refresh-diff-summary.md'
+          if (-not (Test-Path -LiteralPath $summaryPath)) {
+            '_No drift summary generated; review the regenerated files manually._' |
+              Out-File -FilePath $summaryPath -Encoding utf8 -NoNewline
           }
 
       - name: Open or update provider drift PR
@@ -265,9 +275,10 @@ jobs:
           add-paths: |
             modules/providers/**
             docs/providers/generated/**
+            examples/providers/schema-catalog/*/.terraform.lock.hcl
 
       - name: Open or update provider drift issue
-        if: always()
+        if: steps.drift.outputs.has-drift == 'true'
         uses: actions/github-script@v7
         with:
           script: |

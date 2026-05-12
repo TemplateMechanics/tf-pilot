@@ -1339,4 +1339,19 @@ Describe 'Provider drift branch name computation' {
     # This test documents that the regex itself accepts all non-blank-prefix lines.
     $changedLines.Count | Should -Be 1
   }
+
+  It 'detects drift in provider schema-catalog lock files' {
+    $fakeGitOutput = @(
+      ' M examples/providers/schema-catalog/aws/.terraform.lock.hcl',
+      ' M examples/providers/schema-catalog/azurerm/.terraform.lock.hcl'
+    )
+    $changedLines = @(
+      $fakeGitOutput | Where-Object { $_ -match '^[ MADRCU?]' }
+    )
+    $changedLines.Count | Should -Be 2
+    $lockFileChanges = @(
+      $changedLines | Where-Object { $_ -like '*.terraform.lock.hcl' }
+    )
+    $lockFileChanges.Count | Should -Be 2
+  }
 }
