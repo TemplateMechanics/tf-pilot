@@ -6,6 +6,8 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-05-12
+
 ### Added
 - Added `peter-evans/create-pull-request` automation to the `provider-coverage-buildout-report` CI job: when provider schema drift is detected, the workflow now opens or force-updates a PR on a date-stamped branch (`chore/provider-drift-<YYYY-MM-DD>`) with regenerated `modules/providers/` and `docs/providers/generated/` artifacts. PR body is sourced from `docs/providers/generated/refresh-diff-summary.md`. Empty-diff runs produce no PR.
 - Documented the schema drift PR automation workflow in `docs/PROVIDER-MODULE-BUILDOUT.md`.
