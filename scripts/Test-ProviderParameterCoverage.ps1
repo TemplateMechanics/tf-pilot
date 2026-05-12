@@ -369,7 +369,17 @@ $summaryOutputDir = Split-Path -Parent $summaryJsonPath
 foreach ($providerResult in @($results)) {
   $providerCoveragePath = Join-Path $summaryOutputDir ("$($providerResult.provider)-parameter-coverage.json")
   $providerCoverageUnderRepo = $providerCoveragePath.StartsWith($repoRoot, [System.StringComparison]::OrdinalIgnoreCase)
-  Write-Utf8NoBom -Path $providerCoveragePath -Content ($providerResult | ConvertTo-Json -Depth 8) -CreateDirectory:$providerCoverageUnderRepo
+  $providerCoverageJson = $providerResult | ConvertTo-Json -Depth 8
+  Write-Utf8NoBom -Path $providerCoveragePath -Content $providerCoverageJson -CreateDirectory:$providerCoverageUnderRepo
+  
+  if (-not (Test-Path -LiteralPath $providerCoveragePath)) {
+    throw "Expected provider coverage artifact was not written: $providerCoveragePath"
+  }
+  
+  $writtenProviderCoverage = Get-Content -LiteralPath $providerCoveragePath -Raw | ConvertFrom-Json
+  if ($null -eq $writtenProviderCoverage -or $writtenProviderCoverage.provider -ne $providerResult.provider) {
+    throw "Provider coverage artifact validation failed for '$($providerResult.provider)' at '$providerCoveragePath'."
+  }
 }
 
 $summaryResults = @($results | Sort-Object provider)

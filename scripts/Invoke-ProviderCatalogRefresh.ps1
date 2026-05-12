@@ -671,7 +671,7 @@ if (-not (Test-Path $resolvedOutputDir)) {
 
 $summaryPath = Join-Path $resolvedOutputDir 'refresh-summary.json'
 $summaryRecords = @($results)
-if ($AggregateRefreshSummary -and (Test-Path $summaryPath)) {
+if ($AggregateRefreshSummary -and $PSBoundParameters.ContainsKey('Providers') -and (Test-Path $summaryPath)) {
   $existingSummary = Get-Content -Path $summaryPath -Raw | ConvertFrom-Json
   $existingRecords = ConvertTo-ProviderSummaryList -InputObject $existingSummary
   $summaryRecords = Merge-ProviderSummaryRecords -Existing $existingRecords -Incoming $summaryRecords
