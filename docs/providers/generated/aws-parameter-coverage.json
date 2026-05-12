@@ -1,0 +1,14 @@
+{
+    "provider":  "aws",
+    "resourceTypes":  1526,
+    "dataSourceTypes":  608,
+    "resourceTypesWithGaps":  0,
+    "dataSourceTypesWithGaps":  0,
+    "totalTypesWithGaps":  0,
+    "resources":  [
+
+                  ],
+    "dataSources":  [
+
+                    ]
+}

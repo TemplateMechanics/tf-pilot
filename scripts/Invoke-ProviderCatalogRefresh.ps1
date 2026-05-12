@@ -48,6 +48,10 @@ When set, skips the post-refresh generated module synchronization step.
 
 .PARAMETER SkipMcpSync
 When set, skips the post-refresh MCP enablement synchronization step.
+
+.PARAMETER AggregateRefreshSummary
+When true (default), merges refresh-summary.json entries by provider so
+repeated single-provider runs do not erase previously recorded providers.
 #>
 [CmdletBinding()]
 param(
@@ -86,7 +90,10 @@ param(
   [switch]$SkipGeneratedModuleSync,
 
   [Parameter()]
-  [switch]$SkipMcpSync
+  [switch]$SkipMcpSync,
+
+  [Parameter()]
+  [bool]$AggregateRefreshSummary = $true
 )
 
 $ErrorActionPreference = 'Stop'
@@ -121,6 +128,7 @@ function Get-HostTerraformPlatform {
 
   $arch = $null
   $rawOsArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture
+
   if ($rawOsArch) {
     $arch = switch ($rawOsArch.ToString()) {
       'X64' { 'amd64' }
@@ -359,6 +367,46 @@ function Add-DiffSection {
   }
 
   return @($sectionLines)
+}
+
+function ConvertTo-ProviderSummaryList {
+  param([Parameter()]$InputObject)
+
+  if ($null -eq $InputObject) {
+    return @()
+  }
+
+  if ($InputObject.PSObject.Properties['provider']) {
+    return @($InputObject)
+  }
+
+  if ($InputObject -is [System.Collections.IEnumerable] -and -not ($InputObject -is [string])) {
+    return @($InputObject)
+  }
+
+  return @()
+}
+
+function Merge-ProviderSummaryRecords {
+  param(
+    [Parameter()][object[]]$Existing,
+    [Parameter()][object[]]$Incoming
+  )
+
+  $byProvider = @{}
+  foreach ($item in @($Existing)) {
+    if ($item -and $item.PSObject.Properties['provider']) {
+      $byProvider[[string]$item.provider] = $item
+    }
+  }
+
+  foreach ($item in @($Incoming)) {
+    if ($item -and $item.PSObject.Properties['provider']) {
+      $byProvider[[string]$item.provider] = $item
+    }
+  }
+
+  return @($byProvider.GetEnumerator() | Sort-Object Name | ForEach-Object { $_.Value })
 }
 
 $terraform = Get-RequiredCommand -Name 'terraform'
@@ -622,7 +670,13 @@ if (-not (Test-Path $resolvedOutputDir)) {
 }
 
 $summaryPath = Join-Path $resolvedOutputDir 'refresh-summary.json'
-Write-Utf8NoBom -Path $summaryPath -Content (@($results) | ConvertTo-Json -Depth 16)
+$summaryRecords = @($results)
+if ($AggregateRefreshSummary -and $PSBoundParameters.ContainsKey('Providers') -and (Test-Path $summaryPath)) {
+  $existingSummary = Get-Content -Path $summaryPath -Raw | ConvertFrom-Json
+  $existingRecords = ConvertTo-ProviderSummaryList -InputObject $existingSummary
+  $summaryRecords = Merge-ProviderSummaryRecords -Existing $existingRecords -Incoming $summaryRecords
+}
+Write-Utf8NoBom -Path $summaryPath -Content (@($summaryRecords) | ConvertTo-Json -Depth 16)
 
 $diffSummaryPath = Join-Path $resolvedOutputDir 'refresh-diff-summary.json'
 Write-Utf8NoBom -Path $diffSummaryPath -Content (@($diffResults) | ConvertTo-Json -Depth 16)

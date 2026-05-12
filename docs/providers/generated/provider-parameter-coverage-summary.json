@@ -1,14 +1,128 @@
-{
-    "provider":  "aws",
-    "resourceTypes":  1526,
-    "dataSourceTypes":  608,
-    "resourceTypesWithGaps":  0,
-    "dataSourceTypesWithGaps":  0,
-    "totalTypesWithGaps":  0,
-    "resources":  [
+[
+    {
+        "provider":  "aws",
+        "resourceTypes":  1526,
+        "dataSourceTypes":  608,
+        "resourceTypesWithGaps":  0,
+        "dataSourceTypesWithGaps":  0,
+        "totalTypesWithGaps":  0,
+        "resources":  [
 
-                  ],
-    "dataSources":  [
+                      ],
+        "dataSources":  [
 
-                    ]
-}
+                        ]
+    },
+    {
+        "provider":  "azuredevops",
+        "resourceTypes":  130,
+        "dataSourceTypes":  44,
+        "resourceTypesWithGaps":  0,
+        "dataSourceTypesWithGaps":  0,
+        "totalTypesWithGaps":  0,
+        "resources":  [
+
+                      ],
+        "dataSources":  [
+
+                        ]
+    },
+    {
+        "provider":  "azurerm",
+        "resourceTypes":  1132,
+        "dataSourceTypes":  396,
+        "resourceTypesWithGaps":  0,
+        "dataSourceTypesWithGaps":  0,
+        "totalTypesWithGaps":  0,
+        "resources":  [
+
+                      ],
+        "dataSources":  [
+
+                        ]
+    },
+    {
+        "provider":  "dynatrace",
+        "resourceTypes":  431,
+        "dataSourceTypes":  57,
+        "resourceTypesWithGaps":  0,
+        "dataSourceTypesWithGaps":  0,
+        "totalTypesWithGaps":  0,
+        "resources":  [
+
+                      ],
+        "dataSources":  [
+
+                        ]
+    },
+    {
+        "provider":  "github",
+        "resourceTypes":  88,
+        "dataSourceTypes":  75,
+        "resourceTypesWithGaps":  0,
+        "dataSourceTypesWithGaps":  0,
+        "totalTypesWithGaps":  0,
+        "resources":  [
+
+                      ],
+        "dataSources":  [
+
+                        ]
+    },
+    {
+        "provider":  "gitlab",
+        "resourceTypes":  106,
+        "dataSourceTypes":  57,
+        "resourceTypesWithGaps":  0,
+        "dataSourceTypesWithGaps":  0,
+        "totalTypesWithGaps":  0,
+        "resources":  [
+
+                      ],
+        "dataSources":  [
+
+                        ]
+    },
+    {
+        "provider":  "google",
+        "resourceTypes":  1096,
+        "dataSourceTypes":  373,
+        "resourceTypesWithGaps":  0,
+        "dataSourceTypesWithGaps":  0,
+        "totalTypesWithGaps":  0,
+        "resources":  [
+
+                      ],
+        "dataSources":  [
+
+                        ]
+    },
+    {
+        "provider":  "helm",
+        "resourceTypes":  1,
+        "dataSourceTypes":  1,
+        "resourceTypesWithGaps":  0,
+        "dataSourceTypesWithGaps":  0,
+        "totalTypesWithGaps":  0,
+        "resources":  [
+
+                      ],
+        "dataSources":  [
+
+                        ]
+    },
+    {
+        "provider":  "kubernetes",
+        "resourceTypes":  82,
+        "dataSourceTypes":  26,
+        "resourceTypesWithGaps":  0,
+        "dataSourceTypesWithGaps":  0,
+        "totalTypesWithGaps":  0,
+        "resources":  [
+
+                      ],
+        "dataSources":  [
+
+                        ]
+    }
+]

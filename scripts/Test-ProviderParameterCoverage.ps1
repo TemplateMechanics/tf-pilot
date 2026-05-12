@@ -114,6 +114,46 @@ function Write-Utf8NoBom {
   [System.IO.File]::WriteAllText($Path, $normalized, $encoding)
 }
 
+function ConvertTo-ProviderResultList {
+  param([Parameter()]$InputObject)
+
+  if ($null -eq $InputObject) {
+    return @()
+  }
+
+  if ($InputObject.PSObject.Properties['provider']) {
+    return @($InputObject)
+  }
+
+  if ($InputObject -is [System.Collections.IEnumerable] -and -not ($InputObject -is [string])) {
+    return @($InputObject)
+  }
+
+  return @()
+}
+
+function Merge-ProviderResults {
+  param(
+    [Parameter()][object[]]$Existing,
+    [Parameter()][object[]]$Incoming
+  )
+
+  $byProvider = @{}
+  foreach ($item in @($Existing)) {
+    if ($item -and $item.PSObject.Properties['provider']) {
+      $byProvider[[string]$item.provider] = $item
+    }
+  }
+
+  foreach ($item in @($Incoming)) {
+    if ($item -and $item.PSObject.Properties['provider']) {
+      $byProvider[[string]$item.provider] = $item
+    }
+  }
+
+  return @($byProvider.GetEnumerator() | Sort-Object Name | ForEach-Object { $_.Value })
+}
+
 function Get-MainFileCoverage {
   param(
     [Parameter(Mandatory)][string]$MainFilePath
@@ -325,9 +365,33 @@ foreach ($providerName in $providerNames) {
   }
 }
 
+$summaryOutputDir = Split-Path -Parent $summaryJsonPath
+foreach ($providerResult in @($results)) {
+  $providerCoveragePath = Join-Path $summaryOutputDir ("$($providerResult.provider)-parameter-coverage.json")
+  $providerCoverageUnderRepo = $providerCoveragePath.StartsWith($repoRoot, [System.StringComparison]::OrdinalIgnoreCase)
+  $providerCoverageJson = $providerResult | ConvertTo-Json -Depth 8
+  Write-Utf8NoBom -Path $providerCoveragePath -Content $providerCoverageJson -CreateDirectory:$providerCoverageUnderRepo
+  
+  if (-not (Test-Path -LiteralPath $providerCoveragePath)) {
+    throw "Expected provider coverage artifact was not written: $providerCoveragePath"
+  }
+  
+  $writtenProviderCoverage = Get-Content -LiteralPath $providerCoveragePath -Raw | ConvertFrom-Json
+  if ($null -eq $writtenProviderCoverage -or $writtenProviderCoverage.provider -ne $providerResult.provider) {
+    throw "Provider coverage artifact validation failed for '$($providerResult.provider)' at '$providerCoveragePath'."
+  }
+}
+
+$summaryResults = @($results | Sort-Object provider)
+if ($Providers -and $Providers.Count -gt 0 -and (Test-Path $summaryJsonPath)) {
+  $existingSummary = Get-Content -Path $summaryJsonPath -Raw | ConvertFrom-Json
+  $existingResults = ConvertTo-ProviderResultList -InputObject $existingSummary
+  $summaryResults = Merge-ProviderResults -Existing $existingResults -Incoming $summaryResults
+}
+
 Write-Host "`nProvider Parameter Coverage Summary" -ForegroundColor Cyan
 $table = @(
-  $results | ForEach-Object {
+  $summaryResults | ForEach-Object {
     [pscustomobject]@{
       Provider = $_.provider
       ResourceTypes = $_.resourceTypes
@@ -345,7 +409,7 @@ else {
   Write-Host 'No providers selected for parameter coverage validation.' -ForegroundColor Yellow
 }
 
-Write-Utf8NoBom -Path $summaryJsonPath -Content ($results | ConvertTo-Json -Depth 8) -CreateDirectory:$summaryJsonUnderRepo
+Write-Utf8NoBom -Path $summaryJsonPath -Content ($summaryResults | ConvertTo-Json -Depth 8) -CreateDirectory:$summaryJsonUnderRepo
 
 $md = @()
 $md += '# Provider Parameter Coverage Summary'

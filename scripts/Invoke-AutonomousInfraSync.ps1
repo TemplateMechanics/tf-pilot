@@ -33,6 +33,10 @@ Skip terraform fmt step.
 
 .PARAMETER SkipValidation
 Skip full validation step.
+
+.PARAMETER SkipRefreshSummaryMerge
+Disables provider-keyed merge behavior for docs/providers/generated/refresh-summary.json
+during catalog refresh.
 #>
 [CmdletBinding()]
 param(
@@ -56,7 +60,10 @@ param(
   [switch]$SkipFormatting,
 
   [Parameter()]
-  [switch]$SkipValidation
+  [switch]$SkipValidation,
+
+  [Parameter()]
+  [switch]$SkipRefreshSummaryMerge
 )
 
 $ErrorActionPreference = 'Stop'
@@ -110,6 +117,10 @@ elseif ($Providers -and $Providers.Count -gt 0) {
 }
 else {
   $refreshParams['Profile'] = $Profile
+}
+
+if ($SkipRefreshSummaryMerge) {
+  $refreshParams['AggregateRefreshSummary'] = $false
 }
 
 Invoke-Step -Name 'Refresh provider catalogs' -Action {

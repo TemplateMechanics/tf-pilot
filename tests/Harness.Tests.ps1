@@ -450,6 +450,135 @@ resource "demo_widget" "this" {
     $summaryHashAfter = (Get-FileHash -Path $repoSummaryPath -Algorithm SHA256).Hash
     $summaryHashAfter | Should -Be $summaryHashBefore
   }
+
+  It 'writes aggregate summaries for all enabled providers from catalog settings' {
+    $repoSettingsPath = Join-Path $script:repoRoot 'examples/providers/schema-catalog/catalog.settings.json'
+    $repoCatalogDir = Join-Path $script:repoRoot 'docs/providers/generated'
+    $repoModulesRoot = Join-Path $script:repoRoot 'modules/providers'
+    $summaryJsonPath = Join-Path $TestDrive 'pcov-summary.json'
+    $summaryMarkdownPath = Join-Path $TestDrive 'pcov-summary.md'
+
+    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $repoSettingsPath -CatalogDir $repoCatalogDir -ModulesRoot $repoModulesRoot -SummaryJsonPath $summaryJsonPath -SummaryMarkdownPath $summaryMarkdownPath
+    $LASTEXITCODE | Should -Be 0
+
+    $settings = Get-Content -Path $repoSettingsPath -Raw | ConvertFrom-Json
+    $expectedProviders = @(
+      $settings.providers.PSObject.Properties |
+        Where-Object { $_.MemberType -eq 'NoteProperty' -and $_.Value.enabled -eq $true } |
+        ForEach-Object { [string]$_.Name }
+    ) | Sort-Object
+
+    $summary = Get-Content -Path $summaryJsonPath -Raw | ConvertFrom-Json
+    $actualProviders = @($summary | ForEach-Object { [string]$_.provider } | Sort-Object)
+
+    @($actualProviders) | Should -Be @($expectedProviders)
+  }
+
+  It 'preserves aggregate rows when rerun with a provider filter' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogDir = Join-Path $TestDrive 'catalogs'
+    $modulesRoot = Join-Path $TestDrive 'modules'
+
+    @'
+{
+  "providers": {
+    "demo": {
+      "enabled": true,
+      "workspace": "demo",
+      "mode": "all",
+      "modules": {
+        "core": {
+          "enabled": true,
+          "resourceTypePrefixes": ["demo_"],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    },
+    "demo2": {
+      "enabled": true,
+      "workspace": "demo2",
+      "mode": "all",
+      "modules": {
+        "core": {
+          "enabled": true,
+          "resourceTypePrefixes": ["demo2_"],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    New-Item -ItemType Directory -Path $catalogDir -Force | Out-Null
+    @'
+{
+  "provider": "demo",
+  "resources": [
+    {
+      "type": "demo_widget",
+      "options": {
+        "requiredAttributes": ["name"],
+        "optionalAttributes": ["enabled", "id"],
+        "computedAttributes": [],
+        "nestedBlocks": []
+      }
+    }
+  ],
+  "dataSources": []
+}
+'@ | Set-Content -Path (Join-Path $catalogDir 'demo-catalog.json') -Encoding utf8
+
+    @'
+{
+  "provider": "demo2",
+  "resources": [
+    {
+      "type": "demo2_widget",
+      "options": {
+        "requiredAttributes": ["name"],
+        "optionalAttributes": ["enabled", "id"],
+        "computedAttributes": [],
+        "nestedBlocks": []
+      }
+    }
+  ],
+  "dataSources": []
+}
+'@ | Set-Content -Path (Join-Path $catalogDir 'demo2-catalog.json') -Encoding utf8
+
+    $demoResourceDir = Join-Path $modulesRoot 'demo/core/resources/demo_widget'
+    New-Item -ItemType Directory -Path $demoResourceDir -Force | Out-Null
+    @'
+resource "demo_widget" "this" {
+  count = var.enabled ? 1 : 0
+  name  = var.name
+}
+'@ | Set-Content -Path (Join-Path $demoResourceDir 'main.tf') -Encoding utf8
+
+    $demo2ResourceDir = Join-Path $modulesRoot 'demo2/core/resources/demo2_widget'
+    New-Item -ItemType Directory -Path $demo2ResourceDir -Force | Out-Null
+    @'
+resource "demo2_widget" "this" {
+  count = var.enabled ? 1 : 0
+  name  = var.name
+}
+'@ | Set-Content -Path (Join-Path $demo2ResourceDir 'main.tf') -Encoding utf8
+
+    $summaryJsonPath = Join-Path $TestDrive 'pcov-summary.json'
+    $summaryMarkdownPath = Join-Path $TestDrive 'pcov-summary.md'
+
+    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot -SummaryJsonPath $summaryJsonPath -SummaryMarkdownPath $summaryMarkdownPath
+    $LASTEXITCODE | Should -Be 0
+
+    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot -Providers demo -SummaryJsonPath $summaryJsonPath -SummaryMarkdownPath $summaryMarkdownPath
+    $LASTEXITCODE | Should -Be 0
+
+    $summary = Get-Content -Path $summaryJsonPath -Raw | ConvertFrom-Json
+    $providers = @($summary | ForEach-Object { [string]$_.provider } | Sort-Object)
+
+    @($providers) | Should -Be @('demo', 'demo2')
+  }
 }
 
 Describe 'Sync-ProviderSettingsFromYaml.ps1' {
