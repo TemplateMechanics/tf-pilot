@@ -303,8 +303,18 @@ resource "demo_widget" "this" {
 }
 '@ | Set-Content -Path (Join-Path $resourceDir 'main.tf') -Encoding utf8
 
-    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot -Providers demo
+    $summaryJsonPath = Join-Path $TestDrive 'pcov-summary.json'
+    $summaryMarkdownPath = Join-Path $TestDrive 'pcov-summary.md'
+    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot -Providers demo -SummaryJsonPath $summaryJsonPath -SummaryMarkdownPath $summaryMarkdownPath
     $LASTEXITCODE | Should -Be 0
+
+    Test-Path $summaryJsonPath | Should -BeTrue
+    Test-Path $summaryMarkdownPath | Should -BeTrue
+
+    $summary = Get-Content -Path $summaryJsonPath -Raw | ConvertFrom-Json
+    @($summary).Count | Should -Be 1
+    @($summary)[0].provider | Should -Be 'demo'
+    @($summary)[0].resources[0].type | Should -Be 'demo_widget'
   }
 
   It 'fails in enforcement mode when gaps are present' {
@@ -359,8 +369,86 @@ resource "demo_widget" "this" {
 }
 '@ | Set-Content -Path (Join-Path $resourceDir 'main.tf') -Encoding utf8
 
-    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot -Providers demo -FailOnGaps
+    $summaryJsonPath = Join-Path $TestDrive 'pcov-summary.json'
+    $summaryMarkdownPath = Join-Path $TestDrive 'pcov-summary.md'
+    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot -Providers demo -FailOnGaps -SummaryJsonPath $summaryJsonPath -SummaryMarkdownPath $summaryMarkdownPath
     $LASTEXITCODE | Should -Be 1
+
+    Test-Path $summaryJsonPath | Should -BeTrue
+    Test-Path $summaryMarkdownPath | Should -BeTrue
+
+    $summary = Get-Content -Path $summaryJsonPath -Raw | ConvertFrom-Json
+    @($summary).Count | Should -Be 1
+    @($summary)[0].provider | Should -Be 'demo'
+    @($summary)[0].resources[0].type | Should -Be 'demo_widget'
+  }
+
+  It 'does not modify committed provider coverage summary artifacts' {
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogDir = Join-Path $TestDrive 'catalogs'
+    $modulesRoot = Join-Path $TestDrive 'modules'
+
+    @'
+{
+  "providers": {
+    "demo": {
+      "enabled": true,
+      "workspace": "demo",
+      "mode": "all",
+      "modules": {
+        "core": {
+          "enabled": true,
+          "resourceTypePrefixes": ["demo_"],
+          "dataSourceTypePrefixes": []
+        }
+      }
+    }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    New-Item -ItemType Directory -Path $catalogDir -Force | Out-Null
+    @'
+{
+  "provider": "demo",
+  "resources": [
+    {
+      "type": "demo_widget",
+      "options": {
+        "requiredAttributes": ["name"],
+        "optionalAttributes": ["enabled", "id"],
+        "computedAttributes": [],
+        "nestedBlocks": [{"name":"script","nesting":"list","min":1,"max":1}]
+      }
+    }
+  ],
+  "dataSources": []
+}
+'@ | Set-Content -Path (Join-Path $catalogDir 'demo-catalog.json') -Encoding utf8
+
+    $resourceDir = Join-Path $modulesRoot 'demo/core/resources/demo_widget'
+    New-Item -ItemType Directory -Path $resourceDir -Force | Out-Null
+    @'
+resource "demo_widget" "this" {
+  count = var.enabled ? 1 : 0
+  name  = var.name
+}
+'@ | Set-Content -Path (Join-Path $resourceDir 'main.tf') -Encoding utf8
+
+    $repoSummaryPath = Join-Path $script:repoRoot 'docs/providers/generated/provider-parameter-coverage-summary.json'
+    $summaryHashBefore = (Get-FileHash -Path $repoSummaryPath -Algorithm SHA256).Hash
+
+    $summaryJsonPath = Join-Path $TestDrive 'pcov-summary.json'
+    $summaryMarkdownPath = Join-Path $TestDrive 'pcov-summary.md'
+    & "$script:scriptsDir/Test-ProviderParameterCoverage.ps1" -SettingsFile $settingsPath -CatalogDir $catalogDir -ModulesRoot $modulesRoot -Providers demo -SummaryJsonPath $summaryJsonPath -SummaryMarkdownPath $summaryMarkdownPath
+    $LASTEXITCODE | Should -Be 0
+
+    Test-Path $summaryJsonPath | Should -BeTrue
+    $summary = Get-Content -Path $summaryJsonPath -Raw | ConvertFrom-Json
+    @($summary)[0].provider | Should -Be 'demo'
+
+    $summaryHashAfter = (Get-FileHash -Path $repoSummaryPath -Algorithm SHA256).Hash
+    $summaryHashAfter | Should -Be $summaryHashBefore
   }
 }
 

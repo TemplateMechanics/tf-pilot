@@ -100,11 +100,12 @@ function Get-JsonObjectPropertyNames {
 function Write-Utf8NoBom {
   param(
     [Parameter(Mandatory)][string]$Path,
-    [Parameter(Mandatory)][string]$Content
+    [Parameter(Mandatory)][string]$Content,
+    [Parameter()][bool]$CreateDirectory = $true
   )
 
   $directory = Split-Path -Parent $Path
-  if (-not (Test-Path $directory)) {
+  if ($CreateDirectory -and -not (Test-Path $directory)) {
     New-Item -ItemType Directory -Path $directory -Force | Out-Null
   }
 
@@ -197,6 +198,9 @@ $catalogDirPath = Resolve-RepoPath -Path $CatalogDir
 $modulesRootPath = Resolve-RepoPath -Path $ModulesRoot
 $summaryJsonPath = Resolve-RepoPath -Path $SummaryJsonPath
 $summaryMarkdownPath = Resolve-RepoPath -Path $SummaryMarkdownPath
+$repoRoot = (Resolve-Path -Path (Join-Path $PSScriptRoot '..')).Path
+$summaryJsonUnderRepo = $summaryJsonPath.StartsWith($repoRoot, [System.StringComparison]::OrdinalIgnoreCase)
+$summaryMarkdownUnderRepo = $summaryMarkdownPath.StartsWith($repoRoot, [System.StringComparison]::OrdinalIgnoreCase)
 
 if (-not (Test-Path $settingsPath)) {
   Write-Error "Settings file not found: $settingsPath"
@@ -341,7 +345,7 @@ else {
   Write-Host 'No providers selected for parameter coverage validation.' -ForegroundColor Yellow
 }
 
-Write-Utf8NoBom -Path $summaryJsonPath -Content ($results | ConvertTo-Json -Depth 8)
+Write-Utf8NoBom -Path $summaryJsonPath -Content ($results | ConvertTo-Json -Depth 8) -CreateDirectory:$summaryJsonUnderRepo
 
 $md = @()
 $md += '# Provider Parameter Coverage Summary'
@@ -353,7 +357,7 @@ foreach ($row in ($table | Sort-Object Provider)) {
 }
 $md += ''
 $md += 'A type is considered to have a gap if any expected top-level attributes or top-level nested blocks are missing from generated main.tf.'
-Write-Utf8NoBom -Path $summaryMarkdownPath -Content ($md -join "`n")
+Write-Utf8NoBom -Path $summaryMarkdownPath -Content ($md -join "`n") -CreateDirectory:$summaryMarkdownUnderRepo
 
 if ($totalGaps -gt 0) {
   Write-Warning "Detected parameter coverage gaps across $totalGaps types."
