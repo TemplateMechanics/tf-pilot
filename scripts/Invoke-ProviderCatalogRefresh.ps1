@@ -170,9 +170,6 @@ function Get-EnabledModuleNames {
   foreach ($moduleName in $moduleNames) {
     $moduleConfig = $ModulesNode.$moduleName
     if ($moduleConfig -and $moduleConfig.enabled -eq $true) {
-
-    [Parameter()]
-    [bool]$AggregateRefreshSummary = $true
       $enabledModules += $moduleName
     }
   }
