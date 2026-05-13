@@ -44,6 +44,12 @@ User request
 4. `docs/`: design references and operational playbooks
 5. `examples/`: executable examples that validate expected patterns
 
+## v0.3.0 highlights
+
+- **100% reflected coverage across 9 providers** - `aws`, `azurerm`, `google`, `helm`, `kubernetes`, `github`, `azuredevops`, `gitlab`, and `dynatrace` all generate complete module families for every resource and data source type. See [`docs/PROVIDER-COVERAGE-COMPLETION.md`](docs/PROVIDER-COVERAGE-COMPLETION.md).
+- **Multi-cloud free-tier example** — stack composition pattern spanning AWS, Azure, and GCP with YAML token registry resolution. See [`examples/providers/multi-cloud-free-tier/`](examples/providers/multi-cloud-free-tier/).
+- **YAML token registry resolver** — production pattern for provider-stack parameter references with anti-pattern enforcement. See [`docs/YAML-TOKEN-REGISTRY.md`](docs/YAML-TOKEN-REGISTRY.md).
+
 ## What's innovative here
 
 1. **YAML token references with enforced checks**

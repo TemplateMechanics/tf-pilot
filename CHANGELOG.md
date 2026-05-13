@@ -6,6 +6,8 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-05-12
+
 ### Added
 - Added `peter-evans/create-pull-request` automation to the `provider-coverage-buildout-report` CI job: when provider schema drift is detected, the workflow now opens or force-updates a PR on a date-stamped branch (`chore/provider-drift-<YYYY-MM-DD>`) with regenerated `modules/providers/` and `docs/providers/generated/` artifacts. PR body is sourced from `docs/providers/generated/refresh-diff-summary.md`. Empty-diff runs produce no PR.
 - Documented the schema drift PR automation workflow in `docs/PROVIDER-MODULE-BUILDOUT.md`.
@@ -31,21 +33,6 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Hardened `Invoke-TerraformPlan.ps1`, `Invoke-TerraformApply.ps1`, and `Invoke-TerraformDestroy.ps1` with multi-cloud preflight checks, AWS session-expiry guidance, and provider-process cleanup on destroy.
 - Added orphan-provider cleanup and terminal guidance in destroy workflows; updated `CLAUDE.md` and `.github/copilot-instructions.md` with destroy-cleanup expectations.
 - Tightened CI `validate.yml` cloud-readiness gating (Infracost only when API key configured).
-
-### Fixed
-- Isolated `Test-ProviderParameterCoverage.ps1` Pester runs to write summaries only under `TestDrive`, preventing test runs from mutating committed files in `docs/providers/generated/`.
-- Restored missing artifact `path` input in `.github/workflows/validate.yml` and removed stray YAML content from MCP sync step.
-- Updated `.gitignore` to exclude `.state-backups/`, `tfdestroy.plan`, `provider-schema.json`, and archived plan artifacts.
-- Corrected `Show-TerraformGraph.ps1` graph type validation to supported Terraform values.
-- Made `Backup-TerraformState.ps1` write UTF-8 state backups without BOM.
-- Removed `$args` automatic-variable shadowing in multiple Terraform wrapper scripts.
-- Updated `Test-TerraformConfig.ps1` to validate all initialized Terraform subdirectories.
-- Fixed provider/module JSON enumeration paths to avoid PSCustomObject member-name pollution in generated module trees.
-- Removed invalid pseudo-provider directories accidentally generated under `modules/providers/`.
-- Updated provider catalog and MCP sync writers to emit UTF-8 (no BOM) outputs for JSON/Markdown artifacts.
-- Made outputs drift-safe in `aws/identity`, `azurerm/foundation`, `helm/release`, and `kubernetes/namespace` so module outputs no longer error when their resources are absent.
-
-### Changed
 - `Invoke-TerraformApply.ps1` now archives consumed plan files instead of deleting them.
 - Replaced first-person AI marketing copy in README with neutral technical documentation.
 - Set non-Terraform MCP servers to disabled-by-default in `.vscode/mcp.json`.
@@ -66,6 +53,19 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Added `scripts/Validate-StackYaml.ps1` for programmatic `*.stack.yaml` schema validation.
 - Added `scripts/Pre-Commit.ps1` for local init/validate/schema pre-push checks.
 - Expanded CI example validation to include provider stack examples and stack YAML schema validation.
+
+### Fixed
+- Isolated `Test-ProviderParameterCoverage.ps1` Pester runs to write summaries only under `TestDrive`, preventing test runs from mutating committed files in `docs/providers/generated/`.
+- Restored missing artifact `path` input in `.github/workflows/validate.yml` and removed stray YAML content from MCP sync step.
+- Updated `.gitignore` to exclude `.state-backups/`, `tfdestroy.plan`, `provider-schema.json`, and archived plan artifacts.
+- Corrected `Show-TerraformGraph.ps1` graph type validation to supported Terraform values.
+- Made `Backup-TerraformState.ps1` write UTF-8 state backups without BOM.
+- Removed `$args` automatic-variable shadowing in multiple Terraform wrapper scripts.
+- Updated `Test-TerraformConfig.ps1` to validate all initialized Terraform subdirectories.
+- Fixed provider/module JSON enumeration paths to avoid PSCustomObject member-name pollution in generated module trees.
+- Removed invalid pseudo-provider directories accidentally generated under `modules/providers/`.
+- Updated provider catalog and MCP sync writers to emit UTF-8 (no BOM) outputs for JSON/Markdown artifacts.
+- Made outputs drift-safe in `aws/identity`, `azurerm/foundation`, `helm/release`, and `kubernetes/namespace` so module outputs no longer error when their resources are absent.
 
 ## [0.2.0-dev] - 2026-05-01
 

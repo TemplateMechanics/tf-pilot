@@ -1,37 +1,23 @@
 # Provider Coverage Completion — 100% Reflection Across All Providers
 
-> **Status:** In progress; Phase 0 engine landed. Remaining phases are per-provider migrations to full coverage.
-> **Audience:** GitHub Copilot / Claude Code, executing the plan one branch at a time.
-> **Goal:** Every reflected provider in this repo covers **100%** of its provider's resources and data sources, so that future provider releases produce *update-only* PRs (no "add the missing X family" work).
-> **Companion docs:** [`docs/PROVIDER-MODULE-BUILDOUT.md`](PROVIDER-MODULE-BUILDOUT.md) — original buildout doctrine. [`docs/YAML-TOKEN-REGISTRY.md`](YAML-TOKEN-REGISTRY.md) — registry resolver pattern. This doc focuses on **closing the catalog/coverage gap** and making coverage drift impossible from now on.
+> **Status:** Implemented in v0.3.0.
+> **Audience:** Maintainers and future contributors building on this foundation.
+> **Outcome:** Every reflected provider now covers **100%** of its provider's resources and data sources, and the automated drift workflow ensures coverage remains 100% as providers evolve.
+> **Companion docs:** [`docs/PROVIDER-MODULE-BUILDOUT.md`](PROVIDER-MODULE-BUILDOUT.md) — buildout doctrine. [`docs/YAML-TOKEN-REGISTRY.md`](YAML-TOKEN-REGISTRY.md) — registry resolver pattern.
 
 ---
 
-## 1. Goal and non-goals
+## 1. Coverage Overview
 
-**Goal.** After this work lands:
+All 9 providers are at 100% reflected coverage as of v0.3.0. Coverage is maintained automatically: when a provider releases new resources, the scheduled CI job detects the schema drift and opens a PR (see [§9](#9-maintenance-workflow-v030) for the full workflow).
 
-- Every provider listed in [`examples/providers/schema-catalog/catalog.settings.json`](../examples/providers/schema-catalog/catalog.settings.json) reflects **100%** of its provider's `resource_schemas` and `data_source_schemas` from `terraform providers schema -json`.
-- Every reflected resource and data source has a generated module under `modules/providers/<provider>/<family>/...` with a 1:1 mapping.
-- Adding new resources in future provider versions produces a non-empty diff in the existing scheduled drift workflow that auto-opens a PR; no human-side prefix-list maintenance is required.
+## Historical: Pre-v0.3.0 Planning
 
-**Non-goals.**
+The implementation plan outlined below (Sections 2–6) is now complete and archived for reference. All coverage branches from §4 have landed; all 9 providers reflect 100% of their schema. The automated drift workflow in §9 is now live and will flag any new provider versions automatically.
 
-- Hand-authoring "real" modules with rich opinionated defaults. Reflected modules stay reflection-shaped (single resource/data source per module, schema-derived variables/outputs). The opinionated stack examples in [`examples/providers/`](../examples/providers/) keep their current pattern and source from this generated fleet.
-- Changing the family taxonomy (`foundation`, `network`, `storage`, `compute`, `identity`, `observability`, `automation`, …) — see §5 for how the new mode places previously-unmatched resources.
-- Touching the YAML token registry pattern. That work is complete; this doc only references it for cross-link.
+## 2. Historical coverage gap snapshot (pre-v0.3.0)
 
-**Ongoing maintenance promise (the point of all this).** Once §3–§6 land:
-
-1. Provider releases a new version with a new resource → catalog refresh runs → diff workflow opens an "update modules" PR.
-2. The PR body is auto-generated from the schema diff.
-3. Reviewer confirms the generated modules look right, runs CI, merges.
-
-No human edits any prefix list ever again.
-
----
-
-## 2. Current coverage gap
+This section preserves the pre-implementation baseline used during planning. The figures below are historical only and do **not** represent the current post-v0.3.0 coverage state.
 
 Measured against `terraform providers schema -json` for each provider's pinned version (run from each `examples/providers/schema-catalog/<provider>/` workspace).
 
@@ -352,26 +338,26 @@ Get-ChildItem "modules/providers/$prov" -Directory | Where-Object { Test-Path "$
 
 ---
 
-## 9. Maintenance from v0.3.0 onward
+## 9. Maintenance workflow (v0.3.0+)
 
-After Phase 11 ships, the recurring obligation reduces to:
+With all phases complete, the recurring maintenance obligation is:
 
 - **Quarterly (or per provider release):** drift workflow opens an "update modules" PR. Reviewer eyeballs, runs CI, merges.
-- **No prefix-list edits.** If a contributor opens a PR to add resources by editing a prefix list, the reviewer redirects: "set the provider's `mode: \"all\"` instead." Doc updates in `PROVIDER-MODULE-BUILDOUT.md` should make this the default path.
+- **No prefix-list edits.** If a contributor opens a PR to add resources by editing a prefix list, the reviewer redirects: "set the provider's `mode: \"all\"` instead." Doc updates in `PROVIDER-MODULE-BUILDOUT.md` establish this as the default path.
 - **Curated family promotion.** If a `misc` resource family becomes important, an operator adds a prefix to the appropriate curated family's list and runs sync. The module moves to its new path; CI catches the move; consumers update if needed.
 
 The harness now sustains 100% coverage with an upper bound of one PR per provider release, and the PR is generated by CI.
 
 ---
 
-## 10. Done definition
+## 10. Implementation status (v0.3.0)
 
-This spec is complete when:
+All completion criteria have been met:
 
-- [ ] All 9 providers in `catalog.settings.json` have `mode: "all"`.
-- [ ] All 9 generated `<provider>-summary.md` files report `Resource schemas` count equal to the live schema's resource_schemas count, and same for data sources.
-- [ ] No prefix list changes are required to add a new resource type from a provider release.
-- [ ] CI workflow auto-opens a PR on schema drift (Phase 10).
-- [ ] `v0.3.0` tag exists on `main`.
-- [ ] `docs/PROVIDER-COVERAGE-COMPLETION.md` (this doc) status header reads "Implemented."
-- [ ] CHANGELOG has a `[0.3.0]` section enumerating the per-provider coverage PRs and the engine PR.
+- [x] All 9 providers in `catalog.settings.json` have `mode: "all"`.
+- [x] All 9 generated `<provider>-summary.md` files report `Resource schemas` count equal to the live schema's resource_schemas count, and same for data sources (100% coverage achieved).
+- [x] No prefix list changes are required to add a new resource type from a provider release; drift workflow handles it automatically.
+- [x] CI workflow auto-opens a PR on schema drift (drift automation complete in v0.3.0).
+- [ ] `v0.3.0` tag will be created on `main` upon release.
+- [x] This doc status header reads "Implemented in v0.3.0".
+- [x] CHANGELOG has a `[0.3.0]` section enumerating the provider coverage PRs and engine work.

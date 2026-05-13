@@ -10,7 +10,7 @@
 
 ## Status and Version Stream
 
-- **Current stream:** `v0.2.0-dev` (active development)
+- **Current stream:** `v0.3.0` (released)
 - **Historical baseline:** `v0.1.0` (original harness scope captured below)
 
 This document started as the original build contract for `v0.1.0`. The repository
@@ -20,19 +20,31 @@ provider module generation, policy automation, and additional CI/reporting jobs.
 Treat sections below as the **baseline contract** and use this addendum as the
 authoritative summary for current scope tracking.
 
-### v0.2.0-dev Scope Addendum
+### v0.3.0 — Implemented
 
-The active codebase now includes, in addition to baseline files:
+The v0.3.0 release closes the Provider Coverage Completion spec with:
 
-- Provider reflection and catalog-refresh automation scripts.
-- Autonomous infrastructure sync orchestration.
-- Generated provider module trees under `modules/providers/`.
-- Provider coverage/drift reports under `docs/providers/generated/`.
-- Provider parameter-coverage validation (`scripts/Test-ProviderParameterCoverage.ps1`) with CI/report integration for reflected module surface checks.
-- OPA policy checks and additional CI jobs for drift, contracts, cost, and SBOM.
-- MCP launch/install utilities and server enablement synchronization.
-- Multi-cloud free-tier provider stack example with YAML composition across AWS, Azure, and GCP.
-- Canonical YAML token registry resolver pattern (`token_scope` + `token_aware_field_raw` + `templatestring`) for provider stack token references.
+- 100% reflected coverage across all 9 configured providers (`aws`, `azurerm`, `google`, `helm`, `kubernetes`, `github`, `azuredevops`, `gitlab`, `dynatrace`).
+- `mode: "all"` coverage engine with automatic `misc` family scaffolding.
+- Multi-cloud free-tier example with YAML token registry resolver pattern.
+- Schema drift auto-PR automation (PR on date-stamped branch for provider lock/module changes).
+- Aggregate provider coverage reports with per-provider JSON artifacts.
+- Contract-enforced YAML token registry anti-pattern checks.
+
+### v0.2.0-dev Scope Addendum (superseded and complete)
+
+- ~~The active codebase now includes, in addition to baseline files:~~
+- ~~Provider reflection and catalog-refresh automation scripts.~~
+- ~~Autonomous infrastructure sync orchestration.~~
+- ~~Generated provider module trees under `modules/providers/`.~~
+- ~~Provider coverage/drift reports under `docs/providers/generated/`.~~
+- ~~Provider parameter-coverage validation (`scripts/Test-ProviderParameterCoverage.ps1`) with CI/report integration for reflected module surface checks.~~
+- ~~OPA policy checks and additional CI jobs for drift, contracts, cost, and SBOM.~~
+- ~~MCP launch/install utilities and server enablement synchronization.~~
+- ~~Multi-cloud free-tier provider stack example with YAML composition across AWS, Azure, and GCP.~~
+- ~~Canonical YAML token registry resolver pattern (`token_scope` + `token_aware_field_raw` + `templatestring`) for provider stack token references.~~
+
+(All v0.2.0-dev items are now complete and integrated into the v0.3.0 release.)
 
 ### Maintenance Rule
 
