@@ -1,6 +1,6 @@
 # Provider Coverage Completion — 100% Reflection Across All Providers
 
-> **Status:** ✅ Implemented in [v0.3.0](../CHANGELOG.md#030---2026-05-12).
+> **Status:** Implemented in [v0.3.0 release](https://github.com/TemplateMechanics/tf-pilot/releases/tag/v0.3.0).
 > **Audience:** Maintainers and future contributors building on this foundation.
 > **Outcome:** Every reflected provider now covers **100%** of its provider's resources and data sources, and the automated drift workflow ensures coverage remains 100% as providers evolve.
 > **Companion docs:** [`docs/PROVIDER-MODULE-BUILDOUT.md`](PROVIDER-MODULE-BUILDOUT.md) — buildout doctrine. [`docs/YAML-TOKEN-REGISTRY.md`](YAML-TOKEN-REGISTRY.md) — registry resolver pattern.

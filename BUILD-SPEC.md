@@ -24,7 +24,7 @@ authoritative summary for current scope tracking.
 
 The v0.3.0 release closes the Provider Coverage Completion spec with:
 
-- 100% reflected coverage across all 9 configured providers (\ws\, \zurerm\, \google\, \helm\, \kubernetes\, \github\, \zuredevops\, \gitlab\, \dynatrace\).
+- 100% reflected coverage across all 9 configured providers (`aws`, `azurerm`, `google`, `helm`, `kubernetes`, `github`, `azuredevops`, `gitlab`, `dynatrace`).
 - `mode: "all"` coverage engine with automatic `misc` family scaffolding.
 - Multi-cloud free-tier example with YAML token registry resolver pattern.
 - Schema drift auto-PR automation (PR on date-stamped branch for provider lock/module changes).
