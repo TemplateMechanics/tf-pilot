@@ -266,18 +266,7 @@ jobs:
               Out-File -FilePath $summaryPath -Encoding utf8 -NoNewline
           }
           if (-not (Test-Path -LiteralPath $summaryJsonPath)) {
-            @(
-              @{ 
-                provider = 'unknown'
-                status = 'changed'
-                resourceAddedCount = 0
-                resourceRemovedCount = 0
-                resourceChangedCount = 0
-                dataSourceAddedCount = 0
-                dataSourceRemovedCount = 0
-                dataSourceChangedCount = 0
-              }
-            ) | ConvertTo-Json -Depth 4 | Out-File -FilePath $summaryJsonPath -Encoding utf8
+            @() | ConvertTo-Json -Depth 4 | Out-File -FilePath $summaryJsonPath -Encoding utf8
           }
 
       - name: Open or update provider drift PR

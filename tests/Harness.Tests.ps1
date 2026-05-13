@@ -1291,17 +1291,11 @@ Describe 'YAML token anti-pattern checks' {
   }
 }
 
-Describe 'Provider drift branch name computation' {
+Describe 'Provider drift detection and branch naming' {
   It 'produces a branch name matching the chore/provider-drift-<date> pattern' {
     $branchDate = Get-Date -Format 'yyyy-MM-dd'
     $driftBranch = "chore/provider-drift-$branchDate"
     $driftBranch | Should -Match '^chore/provider-drift-\d{4}-\d{2}-\d{2}$'
-  }
-
-  It 'reflects the current date in the branch name' {
-    $today = Get-Date -Format 'yyyy-MM-dd'
-    $driftBranch = "chore/provider-drift-$today"
-    $driftBranch | Should -BeLike "chore/provider-drift-$today"
   }
 
   It 'detects drift when git status output contains changed paths' {
