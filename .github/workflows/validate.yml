@@ -266,7 +266,8 @@ jobs:
           }
 
       - name: Open or update provider drift PR
-        if: steps.drift.outputs.has-drift == 'true'
+        id: drift_pr
+        if: success() && steps.drift.outputs.has-drift == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -281,7 +282,7 @@ jobs:
             examples/providers/schema-catalog/*/.terraform.lock.hcl
 
       - name: Open or update provider drift issue
-        if: steps.drift.outputs.has-drift == 'true'
+        if: always() && steps.drift.outputs.has-drift == 'true' && (steps.drift_pr.outcome != 'success' || steps.drift_pr.outputs.pull-request-operation == 'none')
         uses: actions/github-script@v7
         with:
           script: |
