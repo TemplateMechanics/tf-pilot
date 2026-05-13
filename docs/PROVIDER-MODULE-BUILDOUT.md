@@ -64,6 +64,31 @@ When provider major versions are released (for example, AWS 6.x), use a manual r
 3. Regenerated module PRs go through the same validation and approval gates as handwritten changes.
 4. If the change affects stable contracts, include migration notes before merge.
 
+## Schema Drift PR Automation
+
+The scheduled/manual `provider-coverage-buildout-report` CI job detects provider schema drift and automatically opens (or updates) a pull request with regenerated artifacts.
+
+### How it works
+
+1. `Invoke-AutonomousInfraSync.ps1` runs a full provider sync — catalog refresh, module generation, coverage stubs, formatting.
+2. `Test-ProviderParameterCoverage.ps1` regenerates coverage summaries.
+3. A drift-detection step runs `git status --short` to check for uncommitted changes under `modules/providers/`, `docs/providers/generated/`, and `examples/providers/schema-catalog/*/.terraform.lock.hcl`.
+4. If changes exist, `peter-evans/create-pull-request` pushes them to a date-stamped branch (`chore/provider-drift-<YYYY-MM-DD>`) and opens a PR titled `chore(provider): refresh reflected modules — <date>`.
+5. The PR body is sourced from `docs/providers/generated/refresh-diff-summary.md`, which itemises added, removed, and changed resource/data-source types per provider.
+6. If the drift branch already exists (e.g., the job ran twice in one day), the action force-updates the existing branch and PR rather than opening a duplicate.
+7. If the drift-detection status check reports no changes, both the PR step and issue step are skipped entirely — no empty PRs or spurious issues are created.
+
+### Reviewer workflow
+
+1. Receive the automated PR notification.
+2. Review the diff summary in the PR description and the file diff for `modules/providers/`, `docs/providers/generated/`, and any `examples/providers/schema-catalog/*/.terraform.lock.hcl` lock-file changes.
+3. Approve and merge via the normal review gates.
+4. The `validate` and `mcp-sync-check` jobs run on the PR and must pass before merge.
+
+### Issue automation (fallback)
+
+If the drift PR step fails or does not create or update a PR, the same job opens or updates a GitHub issue labelled `provider-drift` with the drift table for awareness only when `refresh-diff-summary.json` contains at least one provider entry whose `status` is not `unchanged`. This fallback is keyed to summarised provider drift, not lockfile-only drift: changes limited to files such as `examples/providers/schema-catalog/*/.terraform.lock.hcl` are still part of drift detection and may appear in the PR diff when a PR is created, but on their own they do not trigger the advisory fallback issue. The issue is advisory; the PR remains the primary action item when available.
+
 ## Generated Artifacts Policy
 
 This repository uses a **commit-and-gate** policy for generated provider modules and provider catalog artifacts.

@@ -175,8 +175,9 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
-      contents: read
+      contents: write
       issues: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
@@ -230,8 +231,62 @@ jobs:
             docs/providers/generated/provider-parameter-coverage-summary.md
             docs/providers/generated/*-parameter-coverage.json
 
-      - name: Open or update provider drift issue
+      - name: Detect provider module drift
+        id: drift
         if: always()
+        shell: pwsh
+        run: |
+          $branchDate = Get-Date -Format 'yyyy-MM-dd'
+          $driftBranch = "chore/provider-drift-$branchDate"
+          $statusOutput = @(git status --short -- modules/providers/ docs/providers/generated/ examples/providers/schema-catalog/*/.terraform.lock.hcl)
+          if ($LASTEXITCODE -ne 0) {
+            throw "git status failed while detecting provider module drift (exit $LASTEXITCODE)."
+          }
+          $changedLines = @(
+            $statusOutput | Where-Object { $_ -match '^[ MADRCU?]' }
+          )
+          $hasDrift = $changedLines.Count -gt 0
+          "branch=$driftBranch" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "date=$branchDate" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "has-drift=$($hasDrift.ToString().ToLower())" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          if ($hasDrift) {
+            Write-Host "Drift detected: $($changedLines.Count) files changed under modules/providers/, docs/providers/generated/, or schema-catalog lock files."
+          } else {
+            Write-Host "No provider module drift detected."
+          }
+
+      - name: Ensure refresh-diff-summary exists
+        if: steps.drift.outputs['has-drift'] == 'true'
+        shell: pwsh
+        run: |
+          $summaryPath = 'docs/providers/generated/refresh-diff-summary.md'
+          $summaryJsonPath = 'docs/providers/generated/refresh-diff-summary.json'
+          if (-not (Test-Path -LiteralPath $summaryPath)) {
+            '_No drift summary generated; review the regenerated files manually._' |
+              Out-File -FilePath $summaryPath -Encoding utf8 -NoNewline
+          }
+          if (-not (Test-Path -LiteralPath $summaryJsonPath)) {
+            @() | ConvertTo-Json -Depth 4 | Out-File -FilePath $summaryJsonPath -Encoding utf8
+          }
+
+      - name: Open or update provider drift PR
+        id: drift_pr
+        if: success() && steps.drift.outputs['has-drift'] == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.drift.outputs.branch }}
+          title: "chore(provider): refresh reflected modules — ${{ steps.drift.outputs.date }}"
+          body-path: docs/providers/generated/refresh-diff-summary.md
+          commit-message: "chore(provider): refresh reflected modules — ${{ steps.drift.outputs.date }}"
+          labels: provider-drift
+          add-paths: |
+            modules/providers/**
+            docs/providers/generated/**
+            examples/providers/schema-catalog/*/.terraform.lock.hcl
+
+      - name: Open or update provider drift issue
+        if: always() && steps.drift.outputs['has-drift'] == 'true' && (steps.drift_pr.outcome != 'success' || steps.drift_pr.outputs['pull-request-operation'] == 'none')
         uses: actions/github-script@v7
         with:
           script: |
@@ -246,7 +301,7 @@ jobs:
             const entries = Array.isArray(diff) ? diff : [diff];
             const changed = entries.filter((x) => x.status !== 'unchanged');
             if (changed.length === 0) {
-              core.info('No provider schema drift detected.');
+              core.info('Provider summary is empty or unchanged. Skipping issue automation (drift may still be present in lock files or PR diff).');
               return;
             }
 

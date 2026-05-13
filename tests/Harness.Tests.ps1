@@ -1290,3 +1290,63 @@ Describe 'YAML token anti-pattern checks' {
     $matches | Should -BeNullOrEmpty
   }
 }
+
+Describe 'Provider drift detection and branch naming' {
+  It 'produces a branch name matching the chore/provider-drift-<date> pattern' {
+    $branchDate = Get-Date -Format 'yyyy-MM-dd'
+    $driftBranch = "chore/provider-drift-$branchDate"
+    $driftBranch | Should -Match '^chore/provider-drift-\d{4}-\d{2}-\d{2}$'
+  }
+
+  It 'detects drift when git status output contains changed paths' {
+    $fakeGitOutput = @(
+      ' M modules/providers/aws/s3/bucket/main.tf',
+      ' M docs/providers/generated/aws-catalog.json'
+    )
+    $changedLines = @(
+      $fakeGitOutput | Where-Object { $_ -match '^[ MADRCU?]' }
+    )
+    $changedLines.Count | Should -Be 2
+    $hasDrift = $changedLines.Count -gt 0
+    $hasDrift | Should -BeTrue
+  }
+
+  It 'reports no drift when git status output is empty' {
+    $fakeGitOutput = @()
+    $changedLines = @(
+      $fakeGitOutput | Where-Object { $_ -match '^[ MADRCU?]' }
+    )
+    $changedLines.Count | Should -Be 0
+    $hasDrift = $changedLines.Count -gt 0
+    $hasDrift | Should -BeFalse
+  }
+
+  It 'regex accepts ?? prefix lines; callers must scope git status paths to avoid false positives' {
+    $fakeGitOutput = @(
+      '?? some-other-file.txt'
+    )
+    $changedLines = @(
+      $fakeGitOutput | Where-Object { $_ -match '^[ MADRCU?]' }
+    )
+    # ?? lines match the prefix pattern (? is a valid prefix character).
+    # The step passes explicit path scopes to git status --short so that only
+    # files under modules/providers/, docs/providers/generated/, and
+    # examples/providers/schema-catalog/*/.terraform.lock.hcl are evaluated.
+    $changedLines.Count | Should -Be 1
+  }
+
+  It 'detects drift in provider schema-catalog lock files' {
+    $fakeGitOutput = @(
+      ' M examples/providers/schema-catalog/aws/.terraform.lock.hcl',
+      ' M examples/providers/schema-catalog/azurerm/.terraform.lock.hcl'
+    )
+    $changedLines = @(
+      $fakeGitOutput | Where-Object { $_ -match '^[ MADRCU?]' }
+    )
+    $changedLines.Count | Should -Be 2
+    $lockFileChanges = @(
+      $changedLines | Where-Object { $_ -like '*.terraform.lock.hcl' }
+    )
+    $lockFileChanges.Count | Should -Be 2
+  }
+}
