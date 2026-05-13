@@ -10,7 +10,7 @@
 
 ## Status and Version Stream
 
-- **Current stream:** `v0.3.0` (pending release)
+- **Current stream:** `v0.3.0` (in release PR)
 - **Historical baseline:** `v0.1.0` (original harness scope captured below)
 
 This document started as the original build contract for `v0.1.0`. The repository
@@ -24,7 +24,7 @@ authoritative summary for current scope tracking.
 
 The v0.3.0 release closes the Provider Coverage Completion spec with:
 
-- 100% reflected coverage across all 9 configured providers (AWS, Azure, Google, Helm, Kubernetes, and 4 others).
+- 100% reflected coverage across all 9 configured providers (\ws\, \zurerm\, \google\, \helm\, \kubernetes\, \github\, \zuredevops\, \gitlab\, \dynatrace\).
 - `mode: "all"` coverage engine with automatic `misc` family scaffolding.
 - Multi-cloud free-tier example with YAML token registry resolver pattern.
 - Schema drift auto-PR automation (PR on date-stamped branch for provider lock/module changes).

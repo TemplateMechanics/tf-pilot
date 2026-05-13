@@ -1,6 +1,6 @@
 # Provider Coverage Completion — 100% Reflection Across All Providers
 
-> **Status:** ✅ Implemented in [v0.3.0](../CHANGELOG.md#v030---2026-05-12).
+> **Status:** ✅ Implemented in [v0.3.0](../CHANGELOG.md#030---2026-05-12).
 > **Audience:** Maintainers and future contributors building on this foundation.
 > **Outcome:** Every reflected provider now covers **100%** of its provider's resources and data sources, and the automated drift workflow ensures coverage remains 100% as providers evolve.
 > **Companion docs:** [`docs/PROVIDER-MODULE-BUILDOUT.md`](PROVIDER-MODULE-BUILDOUT.md) — buildout doctrine. [`docs/YAML-TOKEN-REGISTRY.md`](YAML-TOKEN-REGISTRY.md) — registry resolver pattern.
@@ -366,6 +366,6 @@ All completion criteria have been met:
 - [x] All 9 generated `<provider>-summary.md` files report `Resource schemas` count equal to the live schema's resource_schemas count, and same for data sources (100% coverage achieved).
 - [x] No prefix list changes are required to add a new resource type from a provider release; drift workflow handles it automatically.
 - [x] CI workflow auto-opens a PR on schema drift (drift automation complete in v0.3.0).
-- [x] `v0.3.0` tag has been created on `main`.
-- [x] This doc status header reads "Implemented as of v0.3.0".
+- [ ] `v0.3.0` tag will be created on `main` upon release.
+- [x] This doc status header reads "Implemented in v0.3.0".
 - [x] CHANGELOG has a `[0.3.0]` section enumerating the provider coverage PRs and engine work.
