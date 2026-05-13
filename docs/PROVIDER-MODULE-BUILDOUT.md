@@ -87,7 +87,7 @@ The scheduled/manual `provider-coverage-buildout-report` CI job detects provider
 
 ### Issue automation (fallback)
 
-If the drift PR step fails or does not create or update a PR, the same job opens or updates a GitHub issue labelled `provider-drift` with the drift table for awareness. The issue is advisory; the PR remains the primary action item when available.
+If the drift PR step fails or does not create or update a PR, the same job opens or updates a GitHub issue labelled `provider-drift` with the drift table for awareness only when `refresh-diff-summary.json` contains at least one provider entry whose `status` is not `unchanged`. This fallback is keyed to summarised provider drift, not lockfile-only drift: changes limited to files such as `examples/providers/schema-catalog/*/.terraform.lock.hcl` are still part of drift detection and may appear in the PR diff when a PR is created, but on their own they do not trigger the advisory fallback issue. The issue is advisory; the PR remains the primary action item when available.
 
 ## Generated Artifacts Policy
 
