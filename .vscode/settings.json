@@ -26,9 +26,6 @@
   "terraform.experimentalFeatures.validateOnSave": true,
   "yaml.validate": true,
   "yaml.schemas": {
-    "./.vscode/schemas/mcp-servers-catalog.schema.json": [
-      ".vscode/mcp.servers.catalog.json"
-    ],
     "./.vscode/schemas/stack.schema.json": [
       "examples/multi-env-stack/envs/*.stack.yaml"
     ],
