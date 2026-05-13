@@ -301,7 +301,7 @@ jobs:
             const entries = Array.isArray(diff) ? diff : [diff];
             const changed = entries.filter((x) => x.status !== 'unchanged');
             if (changed.length === 0) {
-              core.info('No provider schema drift detected.');
+              core.info('Provider summary is empty or unchanged. Skipping issue automation (drift may still be present in lock files or PR diff).');
               return;
             }
 
