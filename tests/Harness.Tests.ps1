@@ -1327,16 +1327,17 @@ Describe 'Provider drift branch name computation' {
     $hasDrift | Should -BeFalse
   }
 
-  It 'does not treat untracked files outside target paths as drift' {
+  It 'regex accepts ?? prefix lines; callers must scope git status paths to avoid false positives' {
     $fakeGitOutput = @(
       '?? some-other-file.txt'
     )
     $changedLines = @(
       $fakeGitOutput | Where-Object { $_ -match '^[ MADRCU?]' }
     )
-    # ?? lines do match the pattern (? is a valid prefix character), so caller
-    # is responsible for scoping `git status -- <paths>` to avoid false positives.
-    # This test documents that the regex itself accepts all non-blank-prefix lines.
+    # ?? lines match the prefix pattern (? is a valid prefix character).
+    # The step passes explicit path scopes to git status --short so that only
+    # files under modules/providers/, docs/providers/generated/, and
+    # examples/providers/schema-catalog/*/.terraform.lock.hcl are evaluated.
     $changedLines.Count | Should -Be 1
   }
 

@@ -72,16 +72,16 @@ The scheduled/manual `provider-coverage-buildout-report` CI job detects provider
 
 1. `Invoke-AutonomousInfraSync.ps1` runs a full provider sync — catalog refresh, module generation, coverage stubs, formatting.
 2. `Test-ProviderParameterCoverage.ps1` regenerates coverage summaries.
-3. A drift-detection step runs `git status -- modules/providers/ docs/providers/generated/` to check for uncommitted changes.
+3. A drift-detection step runs `git status --short` to check for uncommitted changes under `modules/providers/`, `docs/providers/generated/`, and `examples/providers/schema-catalog/*/.terraform.lock.hcl`.
 4. If changes exist, `peter-evans/create-pull-request` pushes them to a date-stamped branch (`chore/provider-drift-<YYYY-MM-DD>`) and opens a PR titled `chore(provider): refresh reflected modules — <date>`.
 5. The PR body is sourced from `docs/providers/generated/refresh-diff-summary.md`, which itemises added, removed, and changed resource/data-source types per provider.
 6. If the drift branch already exists (e.g., the job ran twice in one day), the action force-updates the existing branch and PR rather than opening a duplicate.
-7. If `git status` reports no changes, the PR step is skipped entirely — no empty PRs are created.
+7. If the drift-detection status check reports no changes, both the PR step and issue step are skipped entirely — no empty PRs or spurious issues are created.
 
 ### Reviewer workflow
 
 1. Receive the automated PR notification.
-2. Review the diff summary in the PR description and the file diff for `modules/providers/` and `docs/providers/generated/`.
+2. Review the diff summary in the PR description and the file diff for `modules/providers/`, `docs/providers/generated/`, and any `examples/providers/schema-catalog/*/.terraform.lock.hcl` lock-file changes.
 3. Approve and merge via the normal review gates.
 4. The `validate` and `mcp-sync-check` jobs run on the PR and must pass before merge.
 

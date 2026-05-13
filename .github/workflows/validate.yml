@@ -238,9 +238,12 @@ jobs:
         run: |
           $branchDate = Get-Date -Format 'yyyy-MM-dd'
           $driftBranch = "chore/provider-drift-$branchDate"
+          $statusOutput = @(git status --short -- modules/providers/ docs/providers/generated/ examples/providers/schema-catalog/*/.terraform.lock.hcl)
+          if ($LASTEXITCODE -ne 0) {
+            throw "git status failed while detecting provider module drift (exit $LASTEXITCODE)."
+          }
           $changedLines = @(
-            git status --short -- modules/providers/ docs/providers/generated/ examples/providers/schema-catalog/*/.terraform.lock.hcl 2>&1 |
-              Where-Object { $_ -match '^[ MADRCU?]' }
+            $statusOutput | Where-Object { $_ -match '^[ MADRCU?]' }
           )
           $hasDrift = $changedLines.Count -gt 0
           "branch=$driftBranch" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
