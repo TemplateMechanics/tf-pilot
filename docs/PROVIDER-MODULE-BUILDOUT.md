@@ -85,9 +85,9 @@ The scheduled/manual `provider-coverage-buildout-report` CI job detects provider
 3. Approve and merge via the normal review gates.
 4. The `validate` and `mcp-sync-check` jobs run on the PR and must pass before merge.
 
-### Issue automation (parallel)
+### Issue automation (fallback)
 
-The same job also opens or updates a GitHub issue labelled `provider-drift` with the drift table for awareness. The issue is advisory; the PR is the action item.
+If the drift PR step fails or does not create or update a PR, the same job opens or updates a GitHub issue labelled `provider-drift` with the drift table for awareness. The issue is advisory; the PR remains the primary action item when available.
 
 ## Generated Artifacts Policy
 
