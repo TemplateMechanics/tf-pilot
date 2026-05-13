@@ -57,8 +57,8 @@ Pass criteria:
 
 - Sensitive-looking fields (`token`, `secret`, `password`, `api_key`, etc.) must use placeholders
 - Allowed placeholder forms:
-	- `${input:<id>}`
-	- `${env:<NAME>}`
+  - `${input:<id>}`
+  - `${env:<NAME>}`
 
 Failure remediation:
 

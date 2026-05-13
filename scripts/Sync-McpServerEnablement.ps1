@@ -200,9 +200,19 @@ function Get-ServerRulesFromCatalog {
 }
 
 $effectiveMcpFile = Resolve-PreferredMcpFile -Path $McpFile
+$McpFile = $effectiveMcpFile
 $mcpPath = Resolve-RepoPath -Path $effectiveMcpFile
 $settingsPath = Resolve-RepoPath -Path $SettingsFile
 $catalogPath = Resolve-RepoPath -Path $CatalogFile
+$repoRoot = Split-Path -Parent $PSScriptRoot
+$mcpDisplayPath = [System.IO.Path]::GetRelativePath($repoRoot, $mcpPath)
+$isSessionMcpFile = ([System.IO.Path]::GetFileName($mcpPath) -ieq 'mcp.session.json')
+$mcpCheckFollowUpInstruction = if ($isSessionMcpFile) {
+  "Review/update $mcpDisplayPath locally; this session-scoped file is typically gitignored and should not be committed."
+}
+else {
+  "Commit the updated $mcpDisplayPath if the change is expected."
+}
 
 if (-not (Test-Path $mcpPath)) {
   Write-Error "MCP file not found: $mcpPath"
@@ -297,8 +307,9 @@ foreach ($change in $changes) {
 if ($Check) {
   Write-Host "" 
   Write-Host "MCP enablement is out of sync with provider settings." -ForegroundColor Red
-  Write-Host "Run: ./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints" -ForegroundColor Yellow
-  Write-Host "Then commit the updated .vscode/mcp.json." -ForegroundColor Yellow
+  Write-Host "Target MCP file: $mcpDisplayPath" -ForegroundColor Yellow
+  Write-Host "Run: ./scripts/Sync-McpServerEnablement.ps1 -McpFile $effectiveMcpFile -UseModuleDirectoryHints" -ForegroundColor Yellow
+  Write-Host $mcpCheckFollowUpInstruction -ForegroundColor Yellow
   exit 1
 }
 
