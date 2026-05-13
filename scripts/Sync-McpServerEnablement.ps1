@@ -137,7 +137,7 @@ function Get-ServerRulesFromCatalog {
   param([Parameter(Mandatory)][string]$CatalogPath)
 
   $fallbackRules = [ordered]@{
-    terraform        = @()
+    terraform        = $null
     azure            = @("azurerm")
     aws              = @("aws")
     awsDocumentation = @("aws")
@@ -235,7 +235,6 @@ foreach ($serverName in $serverRules.Keys) {
     continue
   }
 
-  $requiredProviders = @($serverRules[$serverName])
   $ruleValue = $serverRules[$serverName]
   if ($null -eq $ruleValue) {
     # $null sentinel: alwaysEnabled — activate unconditionally

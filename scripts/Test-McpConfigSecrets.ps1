@@ -142,6 +142,7 @@ function Resolve-ScanFiles {
   $resolved = @()
 
   if ($Files) {
+    $skipped = @()
     foreach ($file in $Files) {
       if ([string]::IsNullOrWhiteSpace($file)) {
         continue
@@ -157,6 +158,13 @@ function Resolve-ScanFiles {
       if ($filePath -match '[\\/]\.vscode[\\/]mcp(\.session[^\\/]*)?\.json$') {
         $resolved += $filePath
       }
+      else {
+        $skipped += $filePath
+      }
+    }
+
+    if ($skipped.Count -gt 0) {
+      Write-Warning ("Skipping non-MCP config file(s) passed via -Files: {0}" -f ($skipped -join ', '))
     }
 
     return @($resolved | Sort-Object -Unique)
