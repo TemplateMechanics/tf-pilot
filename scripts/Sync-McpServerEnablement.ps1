@@ -184,7 +184,7 @@ function Get-ServerRulesFromCatalog {
     }
 
     if ($alwaysEnabled) {
-      $rules[$serverName] = @()
+      $rules[$serverName] = $null  # sentinel: always enable regardless of active providers
     }
     else {
       $rules[$serverName] = @($providersRequired | ForEach-Object { $_.ToLowerInvariant() })
@@ -236,10 +236,18 @@ foreach ($serverName in $serverRules.Keys) {
   }
 
   $requiredProviders = @($serverRules[$serverName])
-  $shouldEnable = $true
-  if ($requiredProviders.Count -gt 0) {
+  $ruleValue = $serverRules[$serverName]
+  if ($null -eq $ruleValue) {
+    # $null sentinel: alwaysEnabled — activate unconditionally
+    $shouldEnable = $true
+  }
+  elseif (@($ruleValue).Count -eq 0) {
+    # Empty list without alwaysEnabled: never auto-enable
     $shouldEnable = $false
-    foreach ($providerName in $requiredProviders) {
+  }
+  else {
+    $shouldEnable = $false
+    foreach ($providerName in @($ruleValue)) {
       if ($activeProviders.Contains($providerName)) {
         $shouldEnable = $true
         break

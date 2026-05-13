@@ -78,6 +78,22 @@ function Get-SensitiveValueFindings {
     return $findings
   }
 
+  if ($Node -is [string]) {
+    # Scan for NAME=VALUE patterns that appear in args arrays (e.g. -e AWS_SECRET_ACCESS_KEY=...)
+    $envMatches = [regex]::Matches($Node, '(?i)([A-Z][A-Z0-9_]{2,})=([^\s]+)')
+    foreach ($m in $envMatches) {
+      $varName  = $m.Groups[1].Value
+      $varValue = $m.Groups[2].Value
+      if ((Test-IsSensitivePropertyName -Name $varName) -and -not (Test-IsPlaceholderValue -Value $varValue)) {
+        $findings += [pscustomobject]@{
+          path  = if ([string]::IsNullOrWhiteSpace($CurrentPath)) { $varName } else { "$CurrentPath~$varName" }
+          value = $varValue
+        }
+      }
+    }
+    return $findings
+  }
+
   if ($Node -is [System.Collections.IEnumerable] -and -not ($Node -is [string])) {
     $index = 0
     foreach ($item in $Node) {
