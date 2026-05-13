@@ -18,6 +18,9 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Tightened provider drift auto-PR scope to include provider schema-catalog `.terraform.lock.hcl` changes and avoid double-notification via both issue and PR when drift exists.
 
 ### Added
+- Added `peter-evans/create-pull-request` automation to the `provider-coverage-buildout-report` CI job: when provider schema drift is detected, the workflow now opens or force-updates a PR on a date-stamped branch (`chore/provider-drift-<YYYY-MM-DD>`) with regenerated `modules/providers/` and `docs/providers/generated/` artifacts. PR body is sourced from `docs/providers/generated/refresh-diff-summary.md`. Empty-diff runs produce no PR.
+- Documented the schema drift PR automation workflow in `docs/PROVIDER-MODULE-BUILDOUT.md`.
+- Added Pester tests for drift detection logic: branch name pattern, drift/no-drift detection from git status output, lock-file path detection.
 - Added `scripts/Test-ProviderParameterCoverage.ps1` and CI/report wiring to validate that reflected modules expose provider-schema parameters (top-level attributes and top-level nested blocks).
 - Added `examples/providers/multi-cloud-free-tier` with YAML-driven composition across AWS, Azure, and GCP plus provider-stack schema support.
 - Added `docs/YAML-TOKEN-REGISTRY.md` as the canonical implementation reference for provider-stack token resolution.
@@ -27,6 +30,9 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Added nested-block reflected parameter generation for dynatrace modules so generated families mirror full top-level HCL surface, not only scalar attributes.
 
 ### Changed
+- Updated `provider-coverage-buildout-report` job permissions to include `contents: write` and `pull-requests: write` (required for branch push and PR creation).
+- Expanded provider drift detection scope to include `examples/providers/schema-catalog/*/.terraform.lock.hcl`; issue and PR steps now share the same `has-drift` gate so neither fires on empty-diff runs.
+- Drift detection step now checks `git status` exit code and throws on failure, preventing silent false-negatives.
 - Updated provider coverage reporting to emit aggregate multi-provider summaries plus per-provider `docs/providers/generated/*-parameter-coverage.json` artifacts, preserving existing rows on filtered reruns.
 - Switched `examples/providers/schema-catalog/catalog.settings.json` provider `dynatrace` to `mode: "all"`, delivering 100% dynatrace resource/data-source type coverage with engine-managed `misc` family auto-injection.
 - Migrated `examples/providers/aws-stack` and `examples/providers/multiprovider-stack` from regex/check token parsing to registry-based `templatestring` resolution (`token_scope`, `token_aware_field_raw`, `resolved_token_fields`).
