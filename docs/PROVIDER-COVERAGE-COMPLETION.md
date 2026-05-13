@@ -21,9 +21,7 @@ This closes the "coverage gap" permanently and makes coverage drift impossible t
 
 ## Historical: Pre-v0.3.0 Planning
 
-For reference, the original implementation plan (now complete) was documented in the Unreleased section of [`CHANGELOG.md`](../CHANGELOG.md).
-
----
+The implementation plan outlined below (Sections 2–6) is now complete and archived for reference. All coverage branches from §4 have landed; all 9 providers reflect 100% of their schema. The automated drift workflow in §10 is now live and will flag any new provider versions automatically.
 
 ## 2. Current coverage gap
 
