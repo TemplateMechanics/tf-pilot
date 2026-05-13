@@ -1,17 +1,15 @@
 # Provider Coverage Completion — 100% Reflection Across All Providers
 
-> **Status:** Implemented in v0.3.0 (tag pending).
+> **Status:** Implemented in v0.3.0.
 > **Audience:** Maintainers and future contributors building on this foundation.
 > **Outcome:** Every reflected provider now covers **100%** of its provider's resources and data sources, and the automated drift workflow ensures coverage remains 100% as providers evolve.
 > **Companion docs:** [`docs/PROVIDER-MODULE-BUILDOUT.md`](PROVIDER-MODULE-BUILDOUT.md) — buildout doctrine. [`docs/YAML-TOKEN-REGISTRY.md`](YAML-TOKEN-REGISTRY.md) — registry resolver pattern.
 
 ---
 
-## 1. Maintenance Workflow (v0.3.0+)
+## 1. Coverage Overview
 
-Maintenance workflow details are defined in [§9](#9-maintenance-workflow-v030).
-
-In short: coverage remains at 100% via automated schema-drift PRs plus reviewer validation/merge, with no manual prefix-list maintenance.
+All 9 providers are at 100% reflected coverage as of v0.3.0. Coverage is maintained automatically: when a provider releases new resources, the scheduled CI job detects the schema drift and opens a PR (see [§9](#9-maintenance-workflow-v030) for the full workflow).
 
 ## Historical: Pre-v0.3.0 Planning
 
