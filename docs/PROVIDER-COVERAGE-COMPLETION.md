@@ -1,13 +1,13 @@
 # Provider Coverage Completion — 100% Reflection Across All Providers
 
-> **Status:** ✅ Completed in v0.3.0 (see [v0.3.0 release](https://github.com/TemplateMechanics/tf-pilot/releases/tag/v0.3.0)).
+> **Status:** ✅ Implemented as of v0.3.0 (see [v0.3.0 release](https://github.com/TemplateMechanics/tf-pilot/releases/tag/v0.3.0)).
 > **Audience:** Maintainers and future contributors building on this foundation.
 > **Outcome:** Every reflected provider now covers **100%** of its provider's resources and data sources, and the automated drift workflow ensures coverage remains 100% as providers evolve.
 > **Companion docs:** [`docs/PROVIDER-MODULE-BUILDOUT.md`](PROVIDER-MODULE-BUILDOUT.md) — buildout doctrine. [`docs/YAML-TOKEN-REGISTRY.md`](YAML-TOKEN-REGISTRY.md) — registry resolver pattern.
 
 ---
 
-## Maintenance Workflow (v0.3.0+)
+## 1. Maintenance Workflow (v0.3.0+)
 
 With 100% coverage established, the ongoing workflow is:
 
@@ -21,7 +21,7 @@ This closes the "coverage gap" permanently and makes coverage drift impossible t
 
 ## Historical: Pre-v0.3.0 Planning
 
-The implementation plan outlined below (Sections 2–6) is now complete and archived for reference. All coverage branches from §4 have landed; all 9 providers reflect 100% of their schema. The automated drift workflow in §10 is now live and will flag any new provider versions automatically.
+The implementation plan outlined below (Sections 2–6) is now complete and archived for reference. All coverage branches from §4 have landed; all 9 providers reflect 100% of their schema. The automated drift workflow in §9 is now live and will flag any new provider versions automatically.
 
 ## 2. Current coverage gap
 
