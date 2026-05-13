@@ -10,7 +10,7 @@
 
 ## Status and Version Stream
 
-- **Current stream:** `v0.3.0` (in release PR)
+- **Current stream:** `v0.3.0` (released)
 - **Historical baseline:** `v0.1.0` (original harness scope captured below)
 
 This document started as the original build contract for `v0.1.0`. The repository
