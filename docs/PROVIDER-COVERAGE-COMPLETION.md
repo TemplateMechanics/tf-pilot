@@ -12,12 +12,12 @@
 With 100% coverage established, the ongoing workflow is:
 
 1. **Provider releases new version** with new resources/data sources.
-2. **Scheduled CI job** runs `Invoke-AutonomousInfraSync.ps1` → drift detection → auto-opens PR on `chore/provider-drift-<date>` branch.
+2. **Scheduled CI job** runs `Invoke-AutonomousInfraSync.ps1` → drift detection → auto-opens PR on `chore/provider-drift-<YYYY-MM-DD>` branch.
 3. **PR body** is auto-generated from schema diff summary; CI validates coverage completeness.
 4. **Reviewer** confirms generated modules, merges.
 5. **New coverage** is now part of the codebase; no human prefix-list edits required.
 
-This closes the "coverage gap" permanently and makes drift detection impossible—any schema evolution triggers automation.
+This closes the "coverage gap" permanently and makes coverage drift impossible to ignore—any schema evolution triggers automation.
 
 ## Historical: Pre-v0.3.0 Planning
 
