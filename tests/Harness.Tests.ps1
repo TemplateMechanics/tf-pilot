@@ -931,6 +931,7 @@ Describe 'Sync-McpServerEnablement.ps1' {
         servers = [ordered]@{
           terraform = [ordered]@{ command = 'node'; disabled = $false }
           azure = [ordered]@{ command = 'node'; disabled = $false }
+          aws = [ordered]@{ command = 'node'; disabled = $false }
           awsDocumentation = [ordered]@{ command = 'node'; disabled = $false }
           context7 = [ordered]@{ command = 'node'; disabled = $false }
         }
@@ -939,13 +940,88 @@ Describe 'Sync-McpServerEnablement.ps1' {
       $config | ConvertTo-Json -Depth 10 | Set-Content -Path $Path -Encoding utf8
     }
 
+    function script:New-TestMcpCatalog {
+      param([Parameter(Mandatory)][string]$Path)
+
+      @'
+{
+  "version": "1.0",
+  "defaults": {
+    "transport": "stdio",
+    "disabled": true
+  },
+  "servers": {
+    "terraform": {
+      "displayName": "Terraform Registry and Workspace",
+      "description": "First-party Terraform MCP server.",
+      "transport": "stdio",
+      "alwaysEnabled": true,
+      "providersRequired": [],
+      "package": "hashicorp/terraform-mcp-server",
+      "version": "v0.5.2"
+    },
+    "azure": {
+      "displayName": "Azure MCP",
+      "description": "Azure guidance server.",
+      "transport": "stdio",
+      "providersRequired": ["azurerm"],
+      "package": "@azure/mcp",
+      "version": "latest"
+    },
+    "aws": {
+      "displayName": "AWS MCP",
+      "description": "AWS API server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-api-mcp-server",
+      "version": "latest"
+    },
+    "awsDocumentation": {
+      "displayName": "AWS Documentation MCP",
+      "description": "AWS docs server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-documentation-mcp-server",
+      "version": "latest"
+    },
+    "context7": {
+      "displayName": "Context7 MCP",
+      "description": "Context retrieval server.",
+      "transport": "stdio",
+      "providersRequired": ["google", "kubernetes", "helm"],
+      "package": "@upstash/context7-mcp",
+      "version": "latest"
+    },
+    "dynatrace": {
+      "displayName": "Dynatrace MCP",
+      "description": "Dynatrace observability server.",
+      "transport": "stdio",
+      "providersRequired": ["dynatrace"],
+      "package": "@dynatrace-oss/dynatrace-mcp",
+      "version": "latest"
+    }
+  },
+  "routing": {
+    "byProvider": {
+      "aws": ["terraform", "aws", "awsDocumentation"],
+      "azurerm": ["terraform", "azure"],
+      "google": ["terraform", "context7"],
+      "kubernetes": ["terraform", "context7"],
+      "helm": ["terraform", "context7"],
+      "dynatrace": ["terraform", "dynatrace"]
+    }
+  }
+}
+'@ | Set-Content -Path $Path -Encoding utf8
+    }
+
     function script:New-TestSettings {
       param(
         [Parameter(Mandatory)][string]$Path,
         [Parameter(Mandatory)][string[]]$EnabledProviders
       )
 
-      $providerNames = @('aws', 'azurerm', 'google', 'kubernetes', 'helm', 'github', 'azuredevops', 'gitlab')
+      $providerNames = @('aws', 'azurerm', 'google', 'kubernetes', 'helm', 'github', 'azuredevops', 'gitlab', 'dynatrace')
       $providers = [ordered]@{}
       foreach ($providerName in $providerNames) {
         $providers[$providerName] = [ordered]@{
@@ -963,15 +1039,18 @@ Describe 'Sync-McpServerEnablement.ps1' {
   It 'disables context7 when only aws and azurerm are enabled' {
     $mcpPath = Join-Path $TestDrive 'mcp.json'
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
     New-TestMcpConfig -Path $mcpPath
     New-TestSettings -Path $settingsPath -EnabledProviders @('aws', 'azurerm')
+    New-TestMcpCatalog -Path $catalogPath
 
-    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath
     $LASTEXITCODE | Should -Be 0
 
     $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
     [bool]$mcp.servers.context7.disabled | Should -BeTrue
     [bool]$mcp.servers.azure.disabled | Should -BeFalse
+    [bool]$mcp.servers.aws.disabled | Should -BeFalse
     [bool]$mcp.servers.awsDocumentation.disabled | Should -BeFalse
     [bool]$mcp.servers.terraform.disabled | Should -BeFalse
   }
@@ -979,15 +1058,18 @@ Describe 'Sync-McpServerEnablement.ps1' {
   It 'enables context7 and disables azure/awsDocumentation when only helm is enabled' {
     $mcpPath = Join-Path $TestDrive 'mcp.json'
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
     New-TestMcpConfig -Path $mcpPath
     New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
+    New-TestMcpCatalog -Path $catalogPath
 
-    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath
     $LASTEXITCODE | Should -Be 0
 
     $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
     [bool]$mcp.servers.context7.disabled | Should -BeFalse
     [bool]$mcp.servers.azure.disabled | Should -BeTrue
+    [bool]$mcp.servers.aws.disabled | Should -BeTrue
     [bool]$mcp.servers.awsDocumentation.disabled | Should -BeTrue
     [bool]$mcp.servers.terraform.disabled | Should -BeFalse
   }
@@ -995,12 +1077,366 @@ Describe 'Sync-McpServerEnablement.ps1' {
   It 'returns non-zero in check mode when MCP file is out of sync' {
     $mcpPath = Join-Path $TestDrive 'mcp.json'
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
     New-TestMcpConfig -Path $mcpPath
     New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
+    New-TestMcpCatalog -Path $catalogPath
 
     # Check mode intentionally reports out-of-sync state; suppress expected console noise.
-    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -Check *> $null
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath -Check *> $null
     $LASTEXITCODE | Should -Be 1
+  }
+
+  It 'enables dynatrace when dynatrace provider is active via catalog rules' {
+    $mcpPath = Join-Path $TestDrive 'mcp.json'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+    New-TestMcpConfig -Path $mcpPath
+    New-TestSettings -Path $settingsPath -EnabledProviders @('dynatrace')
+    New-TestMcpCatalog -Path $catalogPath
+
+    # Add dynatrace server to MCP test config to validate catalog-driven toggling.
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    $mcp.servers | Add-Member -NotePropertyName 'dynatrace' -NotePropertyValue ([pscustomobject]@{ command = 'node'; disabled = $true })
+    $mcp | ConvertTo-Json -Depth 10 | Set-Content -Path $mcpPath -Encoding utf8
+
+    & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath
+    $LASTEXITCODE | Should -Be 0
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    [bool]$mcp.servers.dynatrace.disabled | Should -BeFalse
+  }
+}
+
+Describe 'Set-McpServerState.ps1' {
+  It 'enables and disables requested servers by name' {
+    $mcpPath = Join-Path $TestDrive 'mcp.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": false },
+    "aws": { "command": "node", "disabled": true },
+    "awsDocumentation": { "command": "node", "disabled": true },
+    "context7": { "command": "node", "disabled": false }
+  }
+}
+'@ | Set-Content -Path $mcpPath -Encoding utf8
+
+    @'
+{
+  "version": "1.0",
+  "defaults": {
+    "transport": "stdio",
+    "disabled": true
+  },
+  "servers": {
+    "terraform": {
+      "displayName": "Terraform Registry and Workspace",
+      "description": "First-party Terraform MCP server.",
+      "transport": "stdio",
+      "alwaysEnabled": true,
+      "providersRequired": [],
+      "package": "hashicorp/terraform-mcp-server",
+      "version": "v0.5.2"
+    },
+    "aws": {
+      "displayName": "AWS MCP",
+      "description": "AWS API server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-api-mcp-server",
+      "version": "latest"
+    },
+    "awsDocumentation": {
+      "displayName": "AWS Documentation MCP",
+      "description": "AWS docs server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-documentation-mcp-server",
+      "version": "latest"
+    },
+    "context7": {
+      "displayName": "Context7 MCP",
+      "description": "Context retrieval server.",
+      "transport": "stdio",
+      "providersRequired": ["google", "kubernetes", "helm"],
+      "package": "@upstash/context7-mcp",
+      "version": "latest"
+    }
+  },
+  "routing": {
+    "byProvider": {
+      "aws": ["terraform", "aws", "awsDocumentation"],
+      "google": ["terraform", "context7"]
+    }
+  }
+}
+'@ | Set-Content -Path $catalogPath -Encoding utf8
+
+    & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -CatalogFile $catalogPath -Server aws,awsDocumentation -Enable
+    $LASTEXITCODE | Should -Be 0
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    [bool]$mcp.servers.aws.disabled | Should -BeFalse
+    [bool]$mcp.servers.awsDocumentation.disabled | Should -BeFalse
+
+    & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -CatalogFile $catalogPath -Server context7 -Disable
+    $LASTEXITCODE | Should -Be 0
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    [bool]$mcp.servers.context7.disabled | Should -BeTrue
+  }
+
+  It 'fails when an unknown server name is provided' {
+    $mcpPath = Join-Path $TestDrive 'mcp.json'
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": false }
+  }
+}
+'@ | Set-Content -Path $mcpPath -Encoding utf8
+
+    { & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -Server doesNotExist -Enable } | Should -Throw
+  }
+
+  It 'refuses to disable always-enabled servers from catalog' {
+    $mcpPath = Join-Path $TestDrive 'mcp.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": false },
+    "aws": { "command": "node", "disabled": false }
+  }
+}
+'@ | Set-Content -Path $mcpPath -Encoding utf8
+
+    @'
+{
+  "version": "1.0",
+  "defaults": {
+    "transport": "stdio",
+    "disabled": true
+  },
+  "servers": {
+    "terraform": {
+      "displayName": "Terraform Registry and Workspace",
+      "description": "First-party Terraform MCP server.",
+      "transport": "stdio",
+      "alwaysEnabled": true,
+      "providersRequired": [],
+      "package": "hashicorp/terraform-mcp-server",
+      "version": "v0.5.2"
+    },
+    "aws": {
+      "displayName": "AWS MCP",
+      "description": "AWS API server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-api-mcp-server",
+      "version": "latest"
+    }
+  },
+  "routing": {
+    "byProvider": {
+      "aws": ["terraform", "aws"]
+    }
+  }
+}
+'@ | Set-Content -Path $catalogPath -Encoding utf8
+
+    { & "$script:scriptsDir/Set-McpServerState.ps1" -McpFile $mcpPath -CatalogFile $catalogPath -Server terraform -Disable } | Should -Throw
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    [bool]$mcp.servers.terraform.disabled | Should -BeFalse
+  }
+}
+
+Describe 'New-McpSessionConfig.ps1' {
+  It 'generates session-local MCP config from catalog and active providers' {
+    $templatePath = Join-Path $TestDrive 'mcp.template.json'
+    $outputPath = Join-Path $TestDrive 'mcp.session.json'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": true },
+    "aws": { "command": "node", "disabled": true },
+    "context7": { "command": "node", "disabled": true }
+  }
+}
+'@ | Set-Content -Path $templatePath -Encoding utf8
+
+    @'
+{
+  "providers": {
+    "aws": { "enabled": true, "workspace": "aws", "modules": {} },
+    "google": { "enabled": false, "workspace": "google", "modules": {} },
+    "helm": { "enabled": false, "workspace": "helm", "modules": {} }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    @'
+{
+  "version": "1.0",
+  "defaults": {
+    "transport": "stdio",
+    "disabled": true
+  },
+  "servers": {
+    "terraform": {
+      "displayName": "Terraform Registry and Workspace",
+      "description": "First-party Terraform MCP server.",
+      "transport": "stdio",
+      "alwaysEnabled": true,
+      "providersRequired": [],
+      "package": "hashicorp/terraform-mcp-server",
+      "version": "v0.5.2"
+    },
+    "aws": {
+      "displayName": "AWS MCP",
+      "description": "AWS API server.",
+      "transport": "stdio",
+      "providersRequired": ["aws"],
+      "package": "awslabs/aws-api-mcp-server",
+      "version": "latest"
+    },
+    "context7": {
+      "displayName": "Context7 MCP",
+      "description": "Context retrieval server.",
+      "transport": "stdio",
+      "providersRequired": ["google", "kubernetes", "helm"],
+      "package": "@upstash/context7-mcp",
+      "version": "latest"
+    }
+  },
+  "routing": {
+    "byProvider": {
+      "aws": ["terraform", "aws"],
+      "google": ["terraform", "context7"]
+    }
+  }
+}
+'@ | Set-Content -Path $catalogPath -Encoding utf8
+
+    & "$script:scriptsDir/New-McpSessionConfig.ps1" -TemplateFile $templatePath -OutputFile $outputPath -SettingsFile $settingsPath -CatalogFile $catalogPath
+    $LASTEXITCODE | Should -Be 0
+
+    Test-Path $outputPath | Should -BeTrue
+    $session = Get-Content -Path $outputPath -Raw | ConvertFrom-Json
+    [bool]$session.servers.terraform.disabled | Should -BeFalse
+    [bool]$session.servers.aws.disabled | Should -BeFalse
+    [bool]$session.servers.context7.disabled | Should -BeTrue
+  }
+
+  It 'fails without -Force when output file already exists' {
+    $templatePath = Join-Path $TestDrive 'mcp.template.json'
+    $outputPath = Join-Path $TestDrive 'mcp.session.json'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": false }
+  }
+}
+'@ | Set-Content -Path $templatePath -Encoding utf8
+
+    @'
+{
+  "providers": {
+    "aws": { "enabled": true, "workspace": "aws", "modules": {} }
+  }
+}
+'@ | Set-Content -Path $settingsPath -Encoding utf8
+
+    @'
+{
+  "version": "1.0",
+  "defaults": {
+    "transport": "stdio",
+    "disabled": true
+  },
+  "servers": {
+    "terraform": {
+      "displayName": "Terraform Registry and Workspace",
+      "description": "First-party Terraform MCP server.",
+      "transport": "stdio",
+      "alwaysEnabled": true,
+      "providersRequired": [],
+      "package": "hashicorp/terraform-mcp-server",
+      "version": "v0.5.2"
+    }
+  },
+  "routing": {
+    "byProvider": {
+      "aws": ["terraform"]
+    }
+  }
+}
+'@ | Set-Content -Path $catalogPath -Encoding utf8
+
+    @'
+{
+  "servers": {
+    "terraform": { "command": "node", "disabled": false }
+  }
+}
+'@ | Set-Content -Path $outputPath -Encoding utf8
+
+    {
+      & "$script:scriptsDir/New-McpSessionConfig.ps1" -TemplateFile $templatePath -OutputFile $outputPath -SettingsFile $settingsPath -CatalogFile $catalogPath
+    } | Should -Throw
+  }
+}
+
+Describe 'MCP catalog registry (phase 0)' {
+  It 'has a schema-valid catalog with required top-level keys' -Skip:(-not $script:hasTestJsonSchema) {
+    $catalogPath = Join-Path $script:repoRoot '.vscode/mcp.servers.catalog.json'
+    $schemaPath = Join-Path $script:repoRoot '.vscode/schemas/mcp-servers-catalog.schema.json'
+
+    Test-Path $catalogPath | Should -BeTrue
+    Test-Path $schemaPath | Should -BeTrue
+    Test-Json -Path $catalogPath -SchemaFile $schemaPath | Should -BeTrue
+  }
+
+  It 'contains entries for all servers present in .vscode/mcp.json' {
+    $mcpPath = Join-Path $script:repoRoot '.vscode/mcp.json'
+    $catalogPath = Join-Path $script:repoRoot '.vscode/mcp.servers.catalog.json'
+
+    $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
+    $catalog = Get-Content -Path $catalogPath -Raw | ConvertFrom-Json
+
+    $mcpServers = @(
+      $mcp.servers.PSObject.Properties |
+        Where-Object { $_.MemberType -eq 'NoteProperty' } |
+        ForEach-Object { $_.Name }
+    )
+
+    $catalogServers = @(
+      $catalog.servers.PSObject.Properties |
+        Where-Object { $_.MemberType -eq 'NoteProperty' } |
+        ForEach-Object { $_.Name }
+    )
+
+    foreach ($serverName in $mcpServers) {
+      $catalogServers | Should -Contain $serverName
+    }
+  }
+
+  It 'contains dynatrace server metadata' {
+    $catalogPath = Join-Path $script:repoRoot '.vscode/mcp.servers.catalog.json'
+    $catalog = Get-Content -Path $catalogPath -Raw | ConvertFrom-Json
+
+    $catalog.servers.dynatrace | Should -Not -BeNullOrEmpty
+    $catalog.routing.byProvider.dynatrace | Should -Contain 'dynatrace'
   }
 }
 
@@ -1248,6 +1684,79 @@ Describe 'Cloud readiness integration' {
     $content | Should -Match 'SkipCloudReadiness'
     $content | Should -Match 'StrictCloudReadiness'
     $content | Should -Match 'Test-CloudCliReadiness\.ps1'
+  }
+}
+
+Describe 'Test-McpConfigSecrets.ps1' {
+  It 'passes when sensitive fields use placeholders' {
+    $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'mcp-safe')
+    $vscodeDir = New-Item -ItemType Directory -Path (Join-Path $tmp.FullName '.vscode')
+
+    @'
+{
+  "servers": {
+    "context7": {
+      "command": "npx",
+      "env": {
+        "CONTEXT7_API_KEY": "${input:context7_api_key}"
+      }
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $vscodeDir.FullName 'mcp.json') -Encoding utf8
+
+    & "$script:scriptsDir/Test-McpConfigSecrets.ps1" -Path $tmp.FullName
+    $LASTEXITCODE | Should -Be 0
+  }
+
+  It 'fails when sensitive fields contain hardcoded values' {
+    $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'mcp-unsafe')
+    $vscodeDir = New-Item -ItemType Directory -Path (Join-Path $tmp.FullName '.vscode')
+
+    @'
+{
+  "servers": {
+    "context7": {
+      "command": "npx",
+      "env": {
+        "CONTEXT7_API_KEY": "super-secret-inline-value"
+      }
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $vscodeDir.FullName 'mcp.json') -Encoding utf8
+
+    & "$script:scriptsDir/Test-McpConfigSecrets.ps1" -Path $tmp.FullName
+    $LASTEXITCODE | Should -Be 1
+  }
+
+  It 'supports explicit file list scanning' {
+    $tmp = New-Item -ItemType Directory -Path (Join-Path $TestDrive 'mcp-files-mode')
+    $vscodeDir = New-Item -ItemType Directory -Path (Join-Path $tmp.FullName '.vscode')
+
+    @'
+{
+  "servers": {
+    "context7": {
+      "command": "npx",
+      "env": {
+        "CONTEXT7_API_KEY": "${env:CONTEXT7_API_KEY}"
+      }
+    }
+  }
+}
+'@ | Set-Content -Path (Join-Path $vscodeDir.FullName 'mcp.json') -Encoding utf8
+
+    & "$script:scriptsDir/Test-McpConfigSecrets.ps1" -Path $tmp.FullName -Files '.vscode/mcp.json'
+    $LASTEXITCODE | Should -Be 0
+  }
+}
+
+Describe 'Pre-Commit integration' {
+  It 'Pre-Commit.ps1 invokes MCP secret hygiene check' {
+    $content = Get-Content -Path (Join-Path $script:scriptsDir 'Pre-Commit.ps1') -Raw
+    $content | Should -Match 'Test-McpConfigSecrets\.ps1'
+    $content | Should -Match '-StagedOnly'
   }
 }
 

@@ -32,6 +32,7 @@ $repoRoot = (Resolve-Path -Path (Join-Path $PSScriptRoot '..')).Path
 $initializeScript = Join-Path $PSScriptRoot 'Initialize-Workspace.ps1'
 $validateScript = Join-Path $PSScriptRoot 'Validate-Terraform.ps1'
 $validateYamlScript = Join-Path $PSScriptRoot 'Validate-StackYaml.ps1'
+$validateMcpSecretsScript = Join-Path $PSScriptRoot 'Test-McpConfigSecrets.ps1'
 $testScript = Join-Path $PSScriptRoot 'Invoke-TerraformTest.ps1'
 
 $examples = @(
@@ -69,6 +70,13 @@ Write-Host "`nValidating stack YAML schemas" -ForegroundColor Cyan
 & $validateYamlScript -Path $repoRoot
 if ($LASTEXITCODE -ne 0) {
   Write-Error 'Validate-StackYaml failed.'
+  exit $LASTEXITCODE
+}
+
+Write-Host "`nValidating MCP secret hygiene" -ForegroundColor Cyan
+& $validateMcpSecretsScript -Path $repoRoot -StagedOnly
+if ($LASTEXITCODE -ne 0) {
+  Write-Error 'Test-McpConfigSecrets failed.'
   exit $LASTEXITCODE
 }
 

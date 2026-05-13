@@ -11,6 +11,7 @@ Then supplement with cloud-native docs based on provider usage.
 
 - `terraform`: `hashicorp/terraform-mcp-server` (schema, module, state-aware context)
 - `azure`: `@azure/mcp` (Azure resource and guidance tools)
+- `aws`: AWS MCP server (AWS APIs and service operations)
 - `awsDocumentation`: AWS Documentation MCP server (latest AWS docs and API references)
 - `context7`: provider/framework documentation retrieval for additional implementation knowledge
 
@@ -18,8 +19,13 @@ Then supplement with cloud-native docs based on provider usage.
 
 Provider-specific MCP servers are toggled through `disabled` flags in `.vscode/mcp.json`.
 
+For local/session operation, generate `.vscode/mcp.session.json` and use that as runtime state:
+
+`./scripts/New-McpSessionConfig.ps1 -UseModuleDirectoryHints -Force`
+
 - `terraform`: always enabled
 - `azure`: enabled when `azurerm` is active
+- `aws`: enabled when `aws` is active
 - `awsDocumentation`: enabled when `aws` is active
 - `context7`: enabled when `google`, `kubernetes`, or `helm` is active
 
@@ -29,13 +35,61 @@ Manual sync command:
 
 `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints`
 
+When `.vscode/mcp.session.json` exists, sync and set-state scripts automatically target the session file by default.
+
+## MCP Secret Hygiene Guidance
+
+Use the MCP secret hygiene script to prevent hardcoded credentials from being committed in MCP JSON files.
+
+Primary pre-commit behavior:
+
+- `./scripts/Pre-Commit.ps1` runs `./scripts/Test-McpConfigSecrets.ps1 -StagedOnly`
+- `-StagedOnly` scans only staged MCP JSON files (`.vscode/mcp.json`, optional `.vscode/mcp.session*.json` if staged)
+- If no staged MCP JSON files exist, the check is skipped with a success status
+
+Manual usage patterns:
+
+- Full tracked MCP scan: `./scripts/Test-McpConfigSecrets.ps1`
+- Include local session files in scan: `./scripts/Test-McpConfigSecrets.ps1 -IncludeSessionFiles`
+- Explicit file list scan: `./scripts/Test-McpConfigSecrets.ps1 -Files .vscode/mcp.json`
+
+Pass criteria:
+
+- Sensitive-looking fields (`token`, `secret`, `password`, `api_key`, etc.) must use placeholders
+- Allowed placeholder forms:
+  - `${input:<id>}`
+  - `${env:<NAME>}`
+
+Failure remediation:
+
+1. Replace inline secrets with `${input:...}` or `${env:...}` placeholders.
+2. Move real secret values to local prompt inputs or environment variables.
+3. Re-run `./scripts/Test-McpConfigSecrets.ps1` (or `./scripts/Pre-Commit.ps1`) before pushing.
+
 ## Provider-to-Docs Routing
 
-- `aws`: `terraform` + `awsDocumentation` + AWS Well-Architected and service docs
+- `aws`: `terraform` + `aws` + `awsDocumentation` + AWS Well-Architected and service docs
 - `azurerm`: `terraform` + `azure` + Azure CAF and service docs
 - `google`: `terraform` + `context7` + Google Cloud Architecture Framework and service docs
 - `kubernetes`: `terraform` + `context7` + Kubernetes upstream docs
 - `helm`: `terraform` + `context7` + Helm docs + chart documentation
+
+## Chat-Driven Server Toggling
+
+When users ask to enable or disable a specific MCP server in chat, use:
+
+`./scripts/Set-McpServerState.ps1 -Server <serverName> -Enable`
+
+or
+
+`./scripts/Set-McpServerState.ps1 -Server <serverName> -Disable`
+
+Server constraints are read from `.vscode/mcp.servers.catalog.json`.
+Always-enabled catalog entries (for example `terraform`) cannot be disabled by this command.
+
+Examples:
+- Enable AWS MCP servers: `./scripts/Set-McpServerState.ps1 -Server aws,awsDocumentation -Enable`
+- Disable Context7 temporarily: `./scripts/Set-McpServerState.ps1 -Server context7 -Disable`
 
 ## Mixed-Provider Routing Decision Table
 
