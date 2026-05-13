@@ -1,33 +1,27 @@
 # Provider Coverage Completion — 100% Reflection Across All Providers
 
-> **Status:** Implemented as of v0.3.0 (see [v0.3.0 release](https://github.com/TemplateMechanics/tf-pilot/releases/tag/v0.3.0)).
-> **Audience:** GitHub Copilot / Claude Code, executing the plan one branch at a time.
-> **Goal:** Every reflected provider in this repo covers **100%** of its provider's resources and data sources, so that future provider releases produce *update-only* PRs (no "add the missing X family" work).
-> **Companion docs:** [`docs/PROVIDER-MODULE-BUILDOUT.md`](PROVIDER-MODULE-BUILDOUT.md) — original buildout doctrine. [`docs/YAML-TOKEN-REGISTRY.md`](YAML-TOKEN-REGISTRY.md) — registry resolver pattern. This doc focuses on **closing the catalog/coverage gap** and making coverage drift impossible from now on.
+> **Status:** ✅ Completed in v0.3.0 (see [v0.3.0 release](https://github.com/TemplateMechanics/tf-pilot/releases/tag/v0.3.0)).
+> **Audience:** Maintainers and future contributors building on this foundation.
+> **Outcome:** Every reflected provider now covers **100%** of its provider's resources and data sources, and the automated drift workflow ensures coverage remains 100% as providers evolve.
+> **Companion docs:** [`docs/PROVIDER-MODULE-BUILDOUT.md`](PROVIDER-MODULE-BUILDOUT.md) — buildout doctrine. [`docs/YAML-TOKEN-REGISTRY.md`](YAML-TOKEN-REGISTRY.md) — registry resolver pattern.
 
 ---
 
-## 1. Goal and non-goals
+## Maintenance Workflow (v0.3.0+)
 
-**Goal.** After this work lands:
+With 100% coverage established, the ongoing workflow is:
 
-- Every provider listed in [`examples/providers/schema-catalog/catalog.settings.json`](../examples/providers/schema-catalog/catalog.settings.json) reflects **100%** of its provider's `resource_schemas` and `data_source_schemas` from `terraform providers schema -json`.
-- Every reflected resource and data source has a generated module under `modules/providers/<provider>/<family>/...` with a 1:1 mapping.
-- Adding new resources in future provider versions produces a non-empty diff in the existing scheduled drift workflow that auto-opens a PR; no human-side prefix-list maintenance is required.
+1. **Provider releases new version** with new resources/data sources.
+2. **Scheduled CI job** runs `Invoke-AutonomousInfraSync.ps1` → drift detection → auto-opens PR on `chore/provider-drift-<date>` branch.
+3. **PR body** is auto-generated from schema diff summary; CI validates coverage completeness.
+4. **Reviewer** confirms generated modules, merges.
+5. **New coverage** is now part of the codebase; no human prefix-list edits required.
 
-**Non-goals.**
+This closes the "coverage gap" permanently and makes drift detection impossible—any schema evolution triggers automation.
 
-- Hand-authoring "real" modules with rich opinionated defaults. Reflected modules stay reflection-shaped (single resource/data source per module, schema-derived variables/outputs). The opinionated stack examples in [`examples/providers/`](../examples/providers/) keep their current pattern and source from this generated fleet.
-- Changing the family taxonomy (`foundation`, `network`, `storage`, `compute`, `identity`, `observability`, `automation`, …) — see §5 for how the new mode places previously-unmatched resources.
-- Touching the YAML token registry pattern. That work is complete; this doc only references it for cross-link.
+## Historical: Pre-v0.3.0 Planning
 
-**Ongoing maintenance promise (the point of all this).** Once §3–§6 land:
-
-1. Provider releases a new version with a new resource → catalog refresh runs → diff workflow opens an "update modules" PR.
-2. The PR body is auto-generated from the schema diff.
-3. Reviewer confirms the generated modules look right, runs CI, merges.
-
-No human edits any prefix list ever again.
+For reference, the original implementation plan (now complete) was documented in the Unreleased section of [`CHANGELOG.md`](../CHANGELOG.md).
 
 ---
 

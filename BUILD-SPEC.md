@@ -31,7 +31,7 @@ The v0.3.0 release closes the Provider Coverage Completion spec with:
 - Aggregate provider coverage reports with per-provider JSON artifacts.
 - Contract-enforced YAML token registry anti-pattern checks.
 
-### v0.2.0-dev Scope Addendum (superseded)
+### v0.2.0-dev Scope Addendum (superseded and complete)
 
 ~~The active codebase now includes, in addition to baseline files:~~
 
@@ -39,11 +39,13 @@ The v0.3.0 release closes the Provider Coverage Completion spec with:
 ~~- Autonomous infrastructure sync orchestration.~~
 ~~- Generated provider module trees under `modules/providers/`.~~
 ~~- Provider coverage/drift reports under `docs/providers/generated/`.~~
-- Provider parameter-coverage validation (`scripts/Test-ProviderParameterCoverage.ps1`) with CI/report integration for reflected module surface checks.
-- OPA policy checks and additional CI jobs for drift, contracts, cost, and SBOM.
-- MCP launch/install utilities and server enablement synchronization.
-- Multi-cloud free-tier provider stack example with YAML composition across AWS, Azure, and GCP.
-- Canonical YAML token registry resolver pattern (`token_scope` + `token_aware_field_raw` + `templatestring`) for provider stack token references.
+~~- Provider parameter-coverage validation (`scripts/Test-ProviderParameterCoverage.ps1`) with CI/report integration for reflected module surface checks.~~
+~~- OPA policy checks and additional CI jobs for drift, contracts, cost, and SBOM.~~
+~~- MCP launch/install utilities and server enablement synchronization.~~
+~~- Multi-cloud free-tier provider stack example with YAML composition across AWS, Azure, and GCP.~~
+~~- Canonical YAML token registry resolver pattern (`token_scope` + `token_aware_field_raw` + `templatestring`) for provider stack token references.~~
+
+(All v0.2.0-dev items are now complete and integrated into the v0.3.0 release.)
 
 ### Maintenance Rule
 
