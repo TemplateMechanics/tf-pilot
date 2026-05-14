@@ -205,7 +205,8 @@ $mcpPath = Resolve-RepoPath -Path $effectiveMcpFile
 $settingsPath = Resolve-RepoPath -Path $SettingsFile
 $catalogPath = Resolve-RepoPath -Path $CatalogFile
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$mcpDisplayPath = [System.IO.Path]::GetRelativePath($repoRoot, $mcpPath)
+# [System.IO.Path]::GetRelativePath is .NET 5+ only; use string trimming for PS5.1 compatibility
+$mcpDisplayPath = $mcpPath.Substring(([System.IO.Path]::GetFullPath($repoRoot).TrimEnd('\', '/') + [System.IO.Path]::DirectorySeparatorChar).Length)
 $isSessionMcpFile = ([System.IO.Path]::GetFileName($mcpPath) -ieq 'mcp.session.json')
 $mcpCheckFollowUpInstruction = if ($isSessionMcpFile) {
   "Review/update $mcpDisplayPath locally; this session-scoped file is typically gitignored and should not be committed."
