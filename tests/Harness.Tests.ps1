@@ -1109,7 +1109,7 @@ Describe 'Sync-McpServerEnablement.ps1' {
 
   It 'prints repo-relative target path in check mode for MCP files under repo root' {
     $repoRoot = Split-Path -Parent $script:scriptsDir
-    $uniqueTestFile = ".mcp.session-test-$(New-Guid).json"
+    $uniqueTestFile = "mcp.session.test-$(New-Guid).json"
     $relativeMcpPath = ".vscode/$uniqueTestFile"
     $repoScopedMcpPath = Join-Path $repoRoot $relativeMcpPath
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
