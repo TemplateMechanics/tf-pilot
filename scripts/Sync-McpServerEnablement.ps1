@@ -85,6 +85,28 @@ function Resolve-PreferredMcpFile {
   return $Path
 }
 
+function Get-DisplayPathForRepo {
+  param(
+    [Parameter(Mandatory)][string]$RepoRoot,
+    [Parameter(Mandatory)][string]$TargetPath
+  )
+
+  $trimChars = @([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar)
+  $repoFull = [System.IO.Path]::GetFullPath($RepoRoot).TrimEnd($trimChars)
+  $targetFull = [System.IO.Path]::GetFullPath($TargetPath)
+
+  if ($targetFull.Equals($repoFull, [System.StringComparison]::OrdinalIgnoreCase)) {
+    return "."
+  }
+
+  $repoPrefix = $repoFull + [System.IO.Path]::DirectorySeparatorChar
+  if ($targetFull.StartsWith($repoPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+    return $targetFull.Substring($repoPrefix.Length)
+  }
+
+  return $targetFull
+}
+
 function Get-ActiveProvidersFromSettings {
   param([Parameter(Mandatory)][string]$SettingsPath)
 
@@ -205,8 +227,7 @@ $mcpPath = Resolve-RepoPath -Path $effectiveMcpFile
 $settingsPath = Resolve-RepoPath -Path $SettingsFile
 $catalogPath = Resolve-RepoPath -Path $CatalogFile
 $repoRoot = Split-Path -Parent $PSScriptRoot
-# [System.IO.Path]::GetRelativePath is .NET 5+ only; use string trimming for PS5.1 compatibility
-$mcpDisplayPath = $mcpPath.Substring(([System.IO.Path]::GetFullPath($repoRoot).TrimEnd('\', '/') + [System.IO.Path]::DirectorySeparatorChar).Length)
+$mcpDisplayPath = Get-DisplayPathForRepo -RepoRoot $repoRoot -TargetPath $mcpPath
 $isSessionMcpFile = ([System.IO.Path]::GetFileName($mcpPath) -ieq 'mcp.session.json')
 $mcpCheckFollowUpInstruction = if ($isSessionMcpFile) {
   "Review/update $mcpDisplayPath locally; this session-scoped file is typically gitignored and should not be committed."
