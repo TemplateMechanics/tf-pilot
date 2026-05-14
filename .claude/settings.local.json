@@ -4,9 +4,7 @@
       "WebFetch(domain:github.com)",
       "WebSearch",
       "Bash(terraform init *)",
-      "Bash(terraform validate *)",
-      "Bash(git fetch *)",
-      "Bash(git ls-remote *)"
+      "Bash(terraform validate *)"
     ]
   }
 }

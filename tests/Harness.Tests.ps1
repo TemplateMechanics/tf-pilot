@@ -1109,7 +1109,7 @@ Describe 'Sync-McpServerEnablement.ps1' {
 
   It 'prints repo-relative target path in check mode for MCP files under repo root' {
     $repoRoot = Split-Path -Parent $script:scriptsDir
-    $uniqueTestFile = "mcp.sync-test-$(New-Guid).json"
+    $uniqueTestFile = ".mcp.session-test-$(New-Guid).json"
     $relativeMcpPath = ".vscode/$uniqueTestFile"
     $repoScopedMcpPath = Join-Path $repoRoot $relativeMcpPath
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
@@ -1127,8 +1127,10 @@ Describe 'Sync-McpServerEnablement.ps1' {
 
       $output = & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $relativeMcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath -Check *>&1
       $LASTEXITCODE | Should -Be 1
-      ($output -join [Environment]::NewLine) | Should -Match 'Target MCP file:'
-      ($output -join [Environment]::NewLine) | Should -Match $uniqueTestFile
+      $outputText = $output -join [Environment]::NewLine
+      $escapedTestFile = [regex]::Escape($uniqueTestFile)
+      $outputText | Should -Match "Target MCP file:\s+\.vscode[\\/]$escapedTestFile"
+      $outputText | Should -Not -Match ([regex]::Escape($repoRoot))
     }
     finally {
       if ($hadExistingFile) {
