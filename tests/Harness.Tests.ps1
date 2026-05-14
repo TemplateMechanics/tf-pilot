@@ -1114,19 +1114,27 @@ Describe 'Sync-McpServerEnablement.ps1' {
     $repoScopedMcpPath = Join-Path $repoRoot $relativeMcpPath
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
     $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
-
-    New-TestMcpConfig -Path $repoScopedMcpPath
-    New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
-    New-TestMcpCatalog -Path $catalogPath
+    $hadExistingFile = Test-Path $repoScopedMcpPath
+    $originalContent = $null
+    if ($hadExistingFile) {
+      $originalContent = Get-Content -Path $repoScopedMcpPath -Raw
+    }
 
     try {
+      New-TestMcpConfig -Path $repoScopedMcpPath
+      New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
+      New-TestMcpCatalog -Path $catalogPath
+
       $output = & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $relativeMcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath -Check *>&1
       $LASTEXITCODE | Should -Be 1
       ($output -join [Environment]::NewLine) | Should -Match 'Target MCP file:'
       ($output -join [Environment]::NewLine) | Should -Match $uniqueTestFile
     }
     finally {
-      if (Test-Path $repoScopedMcpPath) {
+      if ($hadExistingFile) {
+        [System.IO.File]::WriteAllText($repoScopedMcpPath, $originalContent)
+      }
+      elseif (Test-Path $repoScopedMcpPath) {
         Remove-Item -Path $repoScopedMcpPath -Force
       }
     }
