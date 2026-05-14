@@ -1106,6 +1106,62 @@ Describe 'Sync-McpServerEnablement.ps1' {
     $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
     [bool]$mcp.servers.dynatrace.disabled | Should -BeFalse
   }
+
+  It 'prints repo-relative target path in check mode for MCP files under repo root' {
+    $repoRoot = Split-Path -Parent $script:scriptsDir
+    $uniqueTestFile = "mcp.session.test-$(New-Guid).json"
+    $relativeMcpPath = ".vscode/$uniqueTestFile"
+    $repoScopedMcpPath = Join-Path $repoRoot $relativeMcpPath
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+    $hadExistingFile = Test-Path $repoScopedMcpPath
+    $originalContent = $null
+    if ($hadExistingFile) {
+      $originalContent = Get-Content -Path $repoScopedMcpPath -Raw
+    }
+
+    try {
+      New-TestMcpConfig -Path $repoScopedMcpPath
+      New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
+      New-TestMcpCatalog -Path $catalogPath
+
+      $output = & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $relativeMcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath -Check *>&1
+      $LASTEXITCODE | Should -Be 1
+      $outputText = $output -join [Environment]::NewLine
+      $escapedTestFile = [regex]::Escape($uniqueTestFile)
+      $outputText | Should -Match "Target MCP file:\s+\.vscode[\\/]$escapedTestFile"
+      $outputText | Should -Not -Match ([regex]::Escape($repoRoot))
+    }
+    finally {
+      if ($hadExistingFile) {
+        [System.IO.File]::WriteAllText($repoScopedMcpPath, $originalContent)
+      }
+      elseif (Test-Path $repoScopedMcpPath) {
+        Remove-Item -Path $repoScopedMcpPath -Force
+      }
+    }
+  }
+
+  It 'Get-DisplayPathForRepo does not use unsupported PS5.1 APIs' {
+    # Verify the helper implementation avoids APIs unavailable in Windows PowerShell 5.1.
+    # This ensures compatibility when CI runs tests with pwsh on ubuntu-latest.
+    $scriptContent = Get-Content -Path "$script:scriptsDir/Sync-McpServerEnablement.ps1" -Raw
+    $scriptContent | Should -Not -Match 'GetRelativePath'
+    $scriptContent | Should -Not -Match 'Encoding.*utf8bom'
+  }
+
+  It 'prints session-specific follow-up guidance in check mode for session MCP targets' {
+    $mcpPath = Join-Path $TestDrive 'mcp.session.json'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+    New-TestMcpConfig -Path $mcpPath
+    New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
+    New-TestMcpCatalog -Path $catalogPath
+
+    $output = & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath -Check *>&1
+    $LASTEXITCODE | Should -Be 1
+    ($output -join [Environment]::NewLine) | Should -Match 'session-scoped file is typically gitignored and should not be committed\.'
+  }
 }
 
 Describe 'Set-McpServerState.ps1' {

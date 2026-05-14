@@ -85,6 +85,36 @@ function Resolve-PreferredMcpFile {
   return $Path
 }
 
+function Get-DisplayPathForRepo {
+  param(
+    [Parameter(Mandatory)][string]$RepoRoot,
+    [Parameter(Mandatory)][string]$TargetPath
+  )
+
+  $trimChars = @([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar)
+  $repoFull = [System.IO.Path]::GetFullPath($RepoRoot).TrimEnd($trimChars)
+  $targetFull = [System.IO.Path]::GetFullPath($TargetPath)
+
+  # Use case-insensitive comparison on Windows, case-sensitive on Unix (Linux/macOS).
+  $isWindowsPlatform = ($env:OS -eq 'Windows_NT')
+  $isWindowsVar = Get-Variable -Name IsWindows -ErrorAction SilentlyContinue
+  if ($null -ne $isWindowsVar) {
+    $isWindowsPlatform = [bool]$isWindowsVar.Value
+  }
+  $pathComparison = if ($isWindowsPlatform) { [System.StringComparison]::OrdinalIgnoreCase } else { [System.StringComparison]::Ordinal }
+
+  if ($targetFull.Equals($repoFull, $pathComparison)) {
+    return "."
+  }
+
+  $repoPrefix = $repoFull + [System.IO.Path]::DirectorySeparatorChar
+  if ($targetFull.StartsWith($repoPrefix, $pathComparison)) {
+    return $targetFull.Substring($repoPrefix.Length)
+  }
+
+  return $targetFull
+}
+
 function Get-ActiveProvidersFromSettings {
   param([Parameter(Mandatory)][string]$SettingsPath)
 
@@ -205,7 +235,7 @@ $mcpPath = Resolve-RepoPath -Path $effectiveMcpFile
 $settingsPath = Resolve-RepoPath -Path $SettingsFile
 $catalogPath = Resolve-RepoPath -Path $CatalogFile
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$mcpDisplayPath = [System.IO.Path]::GetRelativePath($repoRoot, $mcpPath)
+$mcpDisplayPath = Get-DisplayPathForRepo -RepoRoot $repoRoot -TargetPath $mcpPath
 $isSessionMcpFile = ([System.IO.Path]::GetFileName($mcpPath) -ieq 'mcp.session.json')
 $mcpCheckFollowUpInstruction = if ($isSessionMcpFile) {
   "Review/update $mcpDisplayPath locally; this session-scoped file is typically gitignored and should not be committed."
