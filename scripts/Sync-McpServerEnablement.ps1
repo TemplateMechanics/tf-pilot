@@ -95,12 +95,15 @@ function Get-DisplayPathForRepo {
   $repoFull = [System.IO.Path]::GetFullPath($RepoRoot).TrimEnd($trimChars)
   $targetFull = [System.IO.Path]::GetFullPath($TargetPath)
 
-  if ($targetFull.Equals($repoFull, [System.StringComparison]::OrdinalIgnoreCase)) {
+  # Use case-insensitive comparison on Windows, case-sensitive on Unix (Linux/macOS).
+  $pathComparison = if ($IsWindows) { [System.StringComparison]::OrdinalIgnoreCase } else { [System.StringComparison]::Ordinal }
+
+  if ($targetFull.Equals($repoFull, $pathComparison)) {
     return "."
   }
 
   $repoPrefix = $repoFull + [System.IO.Path]::DirectorySeparatorChar
-  if ($targetFull.StartsWith($repoPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+  if ($targetFull.StartsWith($repoPrefix, $pathComparison)) {
     return $targetFull.Substring($repoPrefix.Length)
   }
 

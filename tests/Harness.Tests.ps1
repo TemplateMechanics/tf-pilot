@@ -1109,7 +1109,8 @@ Describe 'Sync-McpServerEnablement.ps1' {
 
   It 'prints repo-relative target path in check mode for MCP files under repo root' {
     $repoRoot = Split-Path -Parent $script:scriptsDir
-    $relativeMcpPath = '.vscode/mcp.sync-test.json'
+    $uniqueTestFile = "mcp.sync-test-$(New-Guid).json"
+    $relativeMcpPath = ".vscode/$uniqueTestFile"
     $repoScopedMcpPath = Join-Path $repoRoot $relativeMcpPath
     $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
     $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
@@ -1121,13 +1122,22 @@ Describe 'Sync-McpServerEnablement.ps1' {
     try {
       $output = & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $relativeMcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath -Check *>&1
       $LASTEXITCODE | Should -Be 1
-      ($output -join [Environment]::NewLine) | Should -Match 'Target MCP file:\s+\.vscode[\\/]mcp\.sync-test\.json'
+      ($output -join [Environment]::NewLine) | Should -Match 'Target MCP file:'
+      ($output -join [Environment]::NewLine) | Should -Match $uniqueTestFile
     }
     finally {
       if (Test-Path $repoScopedMcpPath) {
         Remove-Item -Path $repoScopedMcpPath -Force
       }
     }
+  }
+
+  It 'Get-DisplayPathForRepo does not use unsupported PS5.1 APIs' {
+    # Verify the helper implementation avoids APIs unavailable in Windows PowerShell 5.1.
+    # This ensures compatibility when CI runs tests with pwsh on ubuntu-latest.
+    $scriptContent = Get-Content -Path "$script:scriptsDir/Sync-McpServerEnablement.ps1" -Raw
+    $scriptContent | Should -Not -Match 'GetRelativePath'
+    $scriptContent | Should -Not -Match 'Encoding.*utf8bom'
   }
 
   It 'prints session-specific follow-up guidance in check mode for session MCP targets' {
