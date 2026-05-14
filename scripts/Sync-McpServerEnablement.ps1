@@ -96,7 +96,12 @@ function Get-DisplayPathForRepo {
   $targetFull = [System.IO.Path]::GetFullPath($TargetPath)
 
   # Use case-insensitive comparison on Windows, case-sensitive on Unix (Linux/macOS).
-  $pathComparison = if ($IsWindows) { [System.StringComparison]::OrdinalIgnoreCase } else { [System.StringComparison]::Ordinal }
+  $isWindowsPlatform = ($env:OS -eq 'Windows_NT')
+  $isWindowsVar = Get-Variable -Name IsWindows -ErrorAction SilentlyContinue
+  if ($null -ne $isWindowsVar) {
+    $isWindowsPlatform = [bool]$isWindowsVar.Value
+  }
+  $pathComparison = if ($isWindowsPlatform) { [System.StringComparison]::OrdinalIgnoreCase } else { [System.StringComparison]::Ordinal }
 
   if ($targetFull.Equals($repoFull, $pathComparison)) {
     return "."
