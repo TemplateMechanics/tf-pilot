@@ -1106,6 +1106,42 @@ Describe 'Sync-McpServerEnablement.ps1' {
     $mcp = Get-Content -Path $mcpPath -Raw | ConvertFrom-Json
     [bool]$mcp.servers.dynatrace.disabled | Should -BeFalse
   }
+
+  It 'prints repo-relative target path in check mode for MCP files under repo root' {
+    $repoRoot = Split-Path -Parent $script:scriptsDir
+    $relativeMcpPath = '.vscode/mcp.sync-test.json'
+    $repoScopedMcpPath = Join-Path $repoRoot $relativeMcpPath
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+
+    New-TestMcpConfig -Path $repoScopedMcpPath
+    New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
+    New-TestMcpCatalog -Path $catalogPath
+
+    try {
+      $output = & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $relativeMcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath -Check *>&1
+      $LASTEXITCODE | Should -Be 1
+      ($output -join [Environment]::NewLine) | Should -Match 'Target MCP file:\s+\.vscode[\\/]mcp\.sync-test\.json'
+    }
+    finally {
+      if (Test-Path $repoScopedMcpPath) {
+        Remove-Item -Path $repoScopedMcpPath -Force
+      }
+    }
+  }
+
+  It 'prints session-specific follow-up guidance in check mode for session MCP targets' {
+    $mcpPath = Join-Path $TestDrive 'mcp.session.json'
+    $settingsPath = Join-Path $TestDrive 'catalog.settings.json'
+    $catalogPath = Join-Path $TestDrive 'mcp.servers.catalog.json'
+    New-TestMcpConfig -Path $mcpPath
+    New-TestSettings -Path $settingsPath -EnabledProviders @('helm')
+    New-TestMcpCatalog -Path $catalogPath
+
+    $output = & "$script:scriptsDir/Sync-McpServerEnablement.ps1" -McpFile $mcpPath -SettingsFile $settingsPath -CatalogFile $catalogPath -Check *>&1
+    $LASTEXITCODE | Should -Be 1
+    ($output -join [Environment]::NewLine) | Should -Match 'session-scoped file is typically gitignored and should not be committed\.'
+  }
 }
 
 Describe 'Set-McpServerState.ps1' {

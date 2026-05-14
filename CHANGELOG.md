@@ -7,12 +7,12 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Added
-- Added `.vscode/mcp.servers.catalog.json` — machine-readable MCP server catalog with `alwaysEnabled`, `providersRequired`, and `tokenRef` fields governing chat-driven server toggling.
-- Added `.vscode/schemas/mcp-servers-catalog.schema.json` — JSON Schema for the catalog file (validated via `$schema` self-reference).
+- Added `.vscode/mcp.servers.catalog.json` — machine-readable MCP server catalog with `alwaysEnabled` and `providersRequired` fields governing chat-driven server toggling.
+- Added `.vscode/schemas/mcp-servers-catalog.schema.json` — JSON Schema for the catalog file, used by the catalog via its `$schema` declaration for validation.
 - Added `scripts/Set-McpServerState.ps1` — chat-driven MCP server enable/disable with catalog-constraint enforcement and allowlist guard.
 - Added `scripts/New-McpSessionConfig.ps1` — generates a session-local `.vscode/mcp.session.json` from the template config and active providers, keeping shareable config in source and session state gitignored.
 - Added `scripts/Test-McpConfigSecrets.ps1` — scans tracked MCP JSON files for hardcoded secrets; supports `-StagedOnly`, `-Files`, and `-IncludeSessionFiles` modes; detects `NAME=VALUE` patterns in args arrays.
-- Added MCP secret-hygiene gate to `scripts/Pre-Commit.ps1` (runs `Test-McpConfigSecrets.ps1 -StagedOnly` on every commit).
+- Added MCP secret-hygiene gate to `scripts/Pre-Commit.ps1` (runs `Test-McpConfigSecrets.ps1 -StagedOnly` when invoked).
 - Added Pester test coverage for MCP catalog schema, catalog-constraint enforcement, session-config generation, and secret-hygiene scanning (~517 new lines).
 
 ### Changed
