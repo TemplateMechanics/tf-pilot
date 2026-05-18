@@ -5,6 +5,7 @@ provider "registry.terraform.io/microsoft/azuredevops" {
   version     = "1.15.1"
   constraints = "~> 1.0"
   hashes = [
+    "h1:fDPVNYh62JslRZICuo6n49C+zm0lSKE5hZlM/g/oWyU=",
     "h1:zj3pnp+SdLJ3pzwEJiGbP4WhcUPikrTJtXgWCzfFK8w=",
     "zh:22c74d85b4b893b0176e14263c9976b4f673645994ed5b580cf0f4441cef1ad6",
     "zh:29640fac6d8758dc4cf865721d342e5cee014740b3400457172925cb39500e1b",

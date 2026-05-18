@@ -1,5 +1,47 @@
-{
-    "provider":  "aws",
-    "resourcesGenerated":  1526,
-    "dataSourcesGenerated":  608
-}
+[
+  {
+    "provider": "aws",
+    "resourcesGenerated": 1526,
+    "dataSourcesGenerated": 608
+  },
+  {
+    "provider": "azurerm",
+    "resourcesGenerated": 1132,
+    "dataSourcesGenerated": 396
+  },
+  {
+    "provider": "google",
+    "resourcesGenerated": 1096,
+    "dataSourcesGenerated": 373
+  },
+  {
+    "provider": "kubernetes",
+    "resourcesGenerated": 82,
+    "dataSourcesGenerated": 26
+  },
+  {
+    "provider": "helm",
+    "resourcesGenerated": 1,
+    "dataSourcesGenerated": 1
+  },
+  {
+    "provider": "github",
+    "resourcesGenerated": 88,
+    "dataSourcesGenerated": 75
+  },
+  {
+    "provider": "azuredevops",
+    "resourcesGenerated": 130,
+    "dataSourcesGenerated": 44
+  },
+  {
+    "provider": "gitlab",
+    "resourcesGenerated": 106,
+    "dataSourcesGenerated": 57
+  },
+  {
+    "provider": "dynatrace",
+    "resourcesGenerated": 431,
+    "dataSourcesGenerated": 57
+  }
+]
