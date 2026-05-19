@@ -88,6 +88,7 @@ Use these scripts as the execution path after MCP-guided analysis.
 | **Generate session-local MCP config** | `New-McpSessionConfig.ps1` | `./scripts/New-McpSessionConfig.ps1` |
 | **Scan MCP configs for hardcoded secrets** | `Test-McpConfigSecrets.ps1` | `./scripts/Test-McpConfigSecrets.ps1 -StagedOnly` |
 | **Sync MCP server enablement** from catalog | `Sync-McpServerEnablement.ps1` | `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints -Check` |
+| **Regenerate v1 stability contract snapshots** | `Update-ContractSnapshots.ps1` | `./scripts/Update-ContractSnapshots.ps1 -Force` |
 
 ## Terminal Expectations
 

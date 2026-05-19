@@ -7,6 +7,8 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Changed
+- `CONTRIBUTING.md` "Backwards Compatibility" section expanded to enumerate the full v1 stability surface (script signatures, exit codes, generated module shape, JSON schemas, YAML stack syntax) and document the contract-test workflow with `scripts/Update-ContractSnapshots.ps1`.
+- `CLAUDE.md` Automation Scripts table: added `Update-ContractSnapshots.ps1`.
 - `SECURITY.md`: replaced placeholder `security@template-mechanics.local` contact with the GitHub Security Advisory URL (`https://github.com/TemplateMechanics/tf-pilot/security/advisories/new`). Updated Response Timeline to realistic OSS commitments (7-day ack, 14-day triage, 30-day fix for critical). Updated Supported Versions table: `v0.3.x` current, `v1.x` future, `v0.2.x` EOL, `v0.1.x` EOL.
 - `CONTRIBUTING.md`: rewrote "Version Tagging" to be version-agnostic and reference both `vX.Y.Z` and `modules-vX.Y.Z` tag streams; added a "Releases" section linking to `RELEASE.md`.
 - Added Key Rules 27 and 28 to `CLAUDE.md` codifying MCP Catalog Registry discipline (chat toggles via `Set-McpServerState.ps1`, session config via `New-McpSessionConfig.ps1`, secret-hygiene gate non-bypassable) and drift auto-PR review behavior (diffstat review, no hand-edits inside generated PRs).
@@ -16,6 +18,11 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Promoted `terraform-policy-check` and `module-contract-tests` from advisory to required CI checks (removed `continue-on-error: true`); extended `merge-readiness.needs` to require `validate`, `mcp-sync-check`, `terraform-policy-check`, `module-contract-tests`, and a new `actionlint` job. Updated `docs/BRANCH-WORKFLOW.md` to enumerate the canonical required-check list so branch-protection settings can be configured without guessing. `provider-catalog-drift-report`, `provider-coverage-buildout-report`, `cost-estimate`, and `sbom` remain advisory.
 
 ### Added
+- Added v1 stability contract snapshot tests (`tests/Contract.Tests.ps1`, Pester 5) plus a snapshot generator (`scripts/Update-ContractSnapshots.ps1`) and three committed snapshots under `tests/contracts/`:
+  - `script-signatures.json` - per-script `param()` block (name + type + Mandatory) extracted via AST, sorted.
+  - `module-shape.json` - required-file contract for every generated family directory (the *contract* is snapshotted, not a per-family list - new families produce no churn).
+  - `schema-hashes.json` - SHA256 of all five JSON schemas under `.vscode/schemas/`, computed against LF-normalised content (stable across CRLF/LF checkouts).
+  Contract failures point reviewers at `./scripts/Update-ContractSnapshots.ps1 -Force` with explicit guidance about when a regen is appropriate.
 - Added `RELEASE.md` documenting the maintainer release procedure (pre-tag checklist, tag commands, `Release Modules` workflow invocation, post-release verification, hotfix policy, retag-recovery worked example using the v0.3.0 case). Cross-linked from `CONTRIBUTING.md`.
 - Added `actionlint` job to `.github/workflows/validate.yml` (pinned to v1.7.7) lint-gating all GitHub Actions workflow files; required for merge.
 - Added `.vscode/mcp.servers.catalog.json` — machine-readable MCP server catalog with `alwaysEnabled` and `providersRequired` fields governing chat-driven server toggling.

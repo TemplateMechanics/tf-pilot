@@ -1,0 +1,22 @@
+{
+    "$schemaVersion":  1,
+    "description":  "Required-file contract for every generated provider family directory under modules/providers/\u003cprovider\u003e/\u003cfamily\u003e/. The Pester suite enforces this contract across every family found at runtime. Adding new families produces no snapshot churn - the contract is shape, not list.",
+    "requiredFiles":  [
+                          "main.tf",
+                          "variables.tf",
+                          "outputs.tf",
+                          "versions.tf",
+                          "tests/basic.tftest.hcl"
+                      ],
+    "requiredHeaderMarkers":  [
+                                  "# GENERATED FILE",
+                                  "# SPDX-License-Identifier: MIT"
+                              ],
+    "headerMarkerFiles":  [
+                              "main.tf",
+                              "variables.tf",
+                              "outputs.tf",
+                              "versions.tf"
+                          ],
+    "familyDirGlob":  "modules/providers/*/*"
+}
