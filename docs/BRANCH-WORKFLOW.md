@@ -18,17 +18,20 @@ Branch naming examples:
 Configure branch protection on `main` and require these status checks:
 
 1. `validate`
-2. `merge-readiness`
+2. `mcp-sync-check`
+3. `terraform-policy-check`
+4. `module-contract-tests`
+5. `actionlint`
+6. `merge-readiness`
 
-`merge-readiness` enforces that `validate` has succeeded and reports status for advisory checks.
+`merge-readiness` `needs:` all five upstream jobs and re-asserts each result so that branch protection can be satisfied by requiring just `merge-readiness`. Listing the individual jobs in branch protection alongside `merge-readiness` is recommended belt-and-braces, especially while protection rules are first being rolled out.
 
 ## Advisory (Non-Blocking) Checks
 
-These jobs should run and be reviewed, but do not block merges by default:
+These jobs run and surface artifacts/reports, but do not block merges:
 
 - `provider-catalog-drift-report`
-- `terraform-policy-check`
-- `module-contract-tests`
+- `provider-coverage-buildout-report` (scheduled / manual dispatch; can open auto-PRs on drift)
 - `cost-estimate`
 - `sbom`
 
@@ -40,7 +43,7 @@ In GitHub repository settings for `main`:
 2. Require approvals (recommendation: at least 1).
 3. Dismiss stale approvals when new commits are pushed.
 4. Require status checks to pass before merging.
-5. Select required checks: `validate`, `merge-readiness`.
+5. Select required checks: `validate`, `mcp-sync-check`, `terraform-policy-check`, `module-contract-tests`, `actionlint`, `merge-readiness`.
 6. Require branches to be up to date before merging.
 7. Restrict who can push to matching branches.
 8. Include administrators if governance requires strict enforcement.

@@ -366,7 +366,6 @@ jobs:
   terraform-policy-check:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
@@ -406,7 +405,6 @@ jobs:
   module-contract-tests:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
@@ -484,11 +482,35 @@ jobs:
           name: sbom
           path: sbom.spdx.json
 
+  actionlint:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install actionlint
+        shell: bash
+        run: |
+          set -euo pipefail
+          ACTIONLINT_VERSION="1.7.7"
+          curl -sL "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz" \
+            | tar -xz -C /usr/local/bin actionlint
+          actionlint --version
+
+      - name: Run actionlint
+        shell: bash
+        run: |
+          actionlint -color
+
   merge-readiness:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     needs:
       - validate
+      - mcp-sync-check
+      - terraform-policy-check
+      - module-contract-tests
+      - actionlint
     steps:
       - name: Enforce required pre-merge checks
         shell: bash
@@ -496,7 +518,28 @@ jobs:
           set -euo pipefail
 
           echo "validate result: ${{ needs.validate.result }}"
+          echo "mcp-sync-check result: ${{ needs.mcp-sync-check.result }}"
+          echo "terraform-policy-check result: ${{ needs.terraform-policy-check.result }}"
+          echo "module-contract-tests result: ${{ needs.module-contract-tests.result }}"
+          echo "actionlint result: ${{ needs.actionlint.result }}"
+
           if [ "${{ needs.validate.result }}" != "success" ]; then
             echo "validate job must pass before merge." >&2
+            exit 1
+          fi
+          if [ "${{ needs.mcp-sync-check.result }}" != "success" ]; then
+            echo "mcp-sync-check job must pass before merge." >&2
+            exit 1
+          fi
+          if [ "${{ needs.terraform-policy-check.result }}" != "success" ]; then
+            echo "terraform-policy-check job must pass before merge." >&2
+            exit 1
+          fi
+          if [ "${{ needs.module-contract-tests.result }}" != "success" ]; then
+            echo "module-contract-tests job must pass before merge." >&2
+            exit 1
+          fi
+          if [ "${{ needs.actionlint.result }}" != "success" ]; then
+            echo "actionlint job must pass before merge." >&2
             exit 1
           fi
