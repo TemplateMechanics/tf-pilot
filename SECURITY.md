@@ -2,9 +2,11 @@
 
 ## Reporting a Vulnerability
 
-**Please do NOT open a public GitHub issue for security vulnerabilities.** This allows attackers to exploit unpatched systems before fixes can be deployed.
+**Please do NOT open a public GitHub issue for security vulnerabilities.** That allows attackers to exploit unpatched systems before fixes can be deployed.
 
-Instead, please report security vulnerabilities privately to **security@template-mechanics.local** (or create a private security advisory on GitHub).
+Instead, please open a private GitHub Security Advisory:
+
+→ **<https://github.com/TemplateMechanics/tf-pilot/security/advisories/new>**
 
 Include:
 - A description of the vulnerability and its potential impact
@@ -12,25 +14,33 @@ Include:
 - Affected versions of tf-pilot
 - Any proposed fix or mitigation
 
+We will engage with you in the private advisory thread before any public disclosure.
+
 ## Response Timeline
 
-We aim to:
-- **Acknowledge** your report within 24 hours
-- **Confirm** the vulnerability within 48 hours
-- **Release a fix** within 7 days for critical issues
-- **Credit you** in the release notes if desired
+This is a small open-source project. We will make a best effort to:
+
+- **Acknowledge** your report within **7 calendar days**
+- **Triage and confirm** within **14 calendar days** of acknowledgement
+- **Release a fix** within **30 calendar days** for issues we confirm as critical, sooner if practical
+- **Credit you** in the release notes when the advisory is published (unless you ask to remain anonymous)
+
+If a report is time-sensitive (active exploitation, embargoed CVE, etc.), call that out in the advisory body so it can be prioritized.
 
 ## Scope
 
-Security issues in tf-pilot itself (PowerShell scripts, Terraform configurations, CI workflows) are in scope. Issues in third-party dependencies (Terraform, Helm, Kubernetes, etc.) should be reported directly to their project maintainers.
+Security issues in tf-pilot itself (PowerShell scripts, Terraform configurations, CI workflows, generated provider modules, MCP catalog) are in scope. Issues in third-party dependencies (Terraform, Helm, Kubernetes, provider plugins, etc.) should be reported directly to their project maintainers.
 
 ## Supported Versions
 
-| Version | Status | Security Updates |
-|---------|--------|------------------|
-| v1.x    | Future | TBD after v1.0 release |
-| v0.2.x  | Current | Yes (until v1.0) |
-| v0.1.x  | EOL | No |
+| Version  | Status   | Security Updates                |
+|----------|----------|---------------------------------|
+| v1.x     | Future   | Yes, once released              |
+| v0.3.x   | Current  | Yes                             |
+| v0.2.x   | EOL      | No — upgrade to v0.3.x or later |
+| v0.1.x   | EOL      | No                              |
+
+This table is updated each time a new minor or major version is tagged. See `RELEASE.md` for the maintainer release procedure.
 
 ## Known Security Considerations
 
@@ -88,9 +98,9 @@ If you discover a security issue in production infrastructure managed by tf-pilo
 4. **Report** privately if it affects tf-pilot generically
 
 If you believe a tf-pilot release version is compromised:
-- Report immediately to security@template-mechanics.local
+- Open a private GitHub Security Advisory immediately: <https://github.com/TemplateMechanics/tf-pilot/security/advisories/new>
 - Do not upgrade affected systems until a patch is available
-- We will audit the release and provide guidance
+- We will audit the release and provide guidance in the advisory thread
 
 ---
 
