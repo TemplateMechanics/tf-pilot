@@ -56,7 +56,7 @@ Describe 'Contract: snapshots exist' {
 }
 
 Describe 'Contract: Update-ContractSnapshots.ps1 is idempotent against the committed snapshots' {
-  It 'produces no diff when run without -Force against the current repo state' {
+  It 'produces snapshots identical to the committed snapshots when regenerated into a clean directory' {
     $tempDir = Join-Path $TestDrive 'contract-check'
     & $script:updateScript -OutputDir $tempDir -Force | Out-Null
     $LASTEXITCODE | Should -Be 0
@@ -92,11 +92,14 @@ Describe 'Contract: Update-ContractSnapshots.ps1 is idempotent against the commi
 Describe 'Contract: generated module shape' {
   BeforeAll {
     $script:shapeContract = Get-Content -Raw -LiteralPath (Join-Path $script:contractsDir 'module-shape.json') | ConvertFrom-Json
+    # Use the contract's familyDirGlob as the single source of truth for
+    # which directories the shape contract applies to. The glob is a
+    # repo-relative path with two-level wildcards (e.g.
+    # 'modules/providers/*/*'); resolve it and keep only directories.
+    $globPath = Join-Path $script:repoRoot $script:shapeContract.familyDirGlob
     $script:familyDirs = @(
-      Get-ChildItem -LiteralPath (Join-Path $script:repoRoot 'modules/providers') -Directory |
-        ForEach-Object {
-          Get-ChildItem -LiteralPath $_.FullName -Directory
-        }
+      Get-Item -Path $globPath -ErrorAction SilentlyContinue |
+        Where-Object { $_.PSIsContainer }
     )
   }
 

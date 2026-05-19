@@ -58,7 +58,10 @@ if (-not $OutputDir) {
 }
 
 if (-not (Test-Path -LiteralPath $OutputDir)) {
-  New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
+  # Use .NET directly: New-Item -Path expands wildcards; New-Item -LiteralPath
+  # is not supported on PowerShell 5.1 FileSystem provider. CreateDirectory is
+  # wildcard-safe and idempotent on both PS 5.1 and PS 7.
+  [System.IO.Directory]::CreateDirectory($OutputDir) | Out-Null
 }
 
 function ConvertTo-DeterministicJson {
