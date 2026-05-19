@@ -77,6 +77,15 @@ Use these scripts as the execution path after MCP-guided analysis.
 | **Sync provider lock** for all platforms | `Sync-ProviderLock.ps1` | `./scripts/Sync-ProviderLock.ps1 -Path .` |
 | **Render dependency graph** | `Show-TerraformGraph.ps1` | `./scripts/Show-TerraformGraph.ps1 -Path . -Output graph.png` |
 | **Print versions** of terraform + providers | `Get-TerraformVersion.ps1` | `./scripts/Get-TerraformVersion.ps1` |
+| **Pre-push gate** (init + validate + stack schema + MCP secret hygiene) | `Pre-Commit.ps1` | `./scripts/Pre-Commit.ps1` |
+| **Refresh provider catalog + sync modules + MCP enablement** | `Invoke-ProviderCatalogRefresh.ps1` | `./scripts/Invoke-ProviderCatalogRefresh.ps1 -Providers aws` |
+| **Regenerate reflected provider modules** | `Sync-ProviderGeneratedModules.ps1` | `./scripts/Sync-ProviderGeneratedModules.ps1 -IncludeDisabledModules -Check` |
+| **Validate YAML stack files** against schema | `Validate-StackYaml.ps1` | `./scripts/Validate-StackYaml.ps1 -Path ./examples` |
+| **Enforce YAML token anti-patterns** | `Test-YamlTokens.ps1` | `./scripts/Test-YamlTokens.ps1 -RootPath .` |
+| **Chat-driven MCP server toggle** | `Set-McpServerState.ps1` | `./scripts/Set-McpServerState.ps1 -Server aws -Enable` |
+| **Generate session-local MCP config** | `New-McpSessionConfig.ps1` | `./scripts/New-McpSessionConfig.ps1` |
+| **Scan MCP configs for hardcoded secrets** | `Test-McpConfigSecrets.ps1` | `./scripts/Test-McpConfigSecrets.ps1 -StagedOnly` |
+| **Sync MCP server enablement** from catalog | `Sync-McpServerEnablement.ps1` | `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints -Check` |
 
 ## Terminal Expectations
 

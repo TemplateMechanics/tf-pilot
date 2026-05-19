@@ -8,6 +8,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Changed
 - Added Key Rules 27 and 28 to `CLAUDE.md` codifying MCP Catalog Registry discipline (chat toggles via `Set-McpServerState.ps1`, session config via `New-McpSessionConfig.ps1`, secret-hygiene gate non-bypassable) and drift auto-PR review behavior (diffstat review, no hand-edits inside generated PRs).
+- Expanded the `CLAUDE.md` Automation Scripts table to surface user-facing scripts that shipped post-baseline: `Pre-Commit.ps1`, `Invoke-ProviderCatalogRefresh.ps1`, `Sync-ProviderGeneratedModules.ps1`, `Validate-StackYaml.ps1`, `Test-YamlTokens.ps1`, the three MCP scripts (`Set-McpServerState.ps1`, `New-McpSessionConfig.ps1`, `Test-McpConfigSecrets.ps1`), and `Sync-McpServerEnablement.ps1`.
 
 ### Added
 - Added `.vscode/mcp.servers.catalog.json` — machine-readable MCP server catalog with `alwaysEnabled` and `providersRequired` fields governing chat-driven server toggling.
