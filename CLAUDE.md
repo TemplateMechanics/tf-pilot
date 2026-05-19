@@ -82,7 +82,7 @@ Use these scripts as the execution path after MCP-guided analysis.
 | **Regenerate reflected provider modules** | `Sync-ProviderGeneratedModules.ps1` | `./scripts/Sync-ProviderGeneratedModules.ps1 -IncludeDisabledModules -Check` |
 | **Validate YAML stack files** against schema | `Validate-StackYaml.ps1` | `./scripts/Validate-StackYaml.ps1 -Path ./examples` |
 | **Enforce YAML token anti-patterns** | `Test-YamlTokens.ps1` | `./scripts/Test-YamlTokens.ps1 -RootPath .` |
-| **Chat-driven MCP server toggle** | `Set-McpServerState.ps1` | `./scripts/Set-McpServerState.ps1 -Name aws -Enable` |
+| **Chat-driven MCP server toggle** | `Set-McpServerState.ps1` | `./scripts/Set-McpServerState.ps1 -Server aws -Enable` |
 | **Generate session-local MCP config** | `New-McpSessionConfig.ps1` | `./scripts/New-McpSessionConfig.ps1` |
 | **Scan MCP configs for hardcoded secrets** | `Test-McpConfigSecrets.ps1` | `./scripts/Test-McpConfigSecrets.ps1 -StagedOnly` |
 | **Sync MCP server enablement** from catalog | `Sync-McpServerEnablement.ps1` | `./scripts/Sync-McpServerEnablement.ps1 -UseModuleDirectoryHints -Check` |
