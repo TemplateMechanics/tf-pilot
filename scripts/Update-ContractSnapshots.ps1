@@ -24,9 +24,10 @@ compares against the live repo state on every CI run:
 
 .PARAMETER Force
 Overwrite existing snapshots without confirmation. Required for
-non-interactive use (CI, scripts). Without -Force the script will
-print the would-be diff and exit with code 2 if any file would
-change.
+non-interactive use (CI, scripts). Without -Force the script reports
+which files would change ("Would update: <path>") and exits with code 2
+if any drift is detected, leaving the existing snapshots untouched.
+Run again with -Force to apply the regenerated content.
 
 .PARAMETER OutputDir
 Override the destination directory. Default: tests/contracts.

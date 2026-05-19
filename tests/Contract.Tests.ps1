@@ -1,7 +1,7 @@
 # tests/Contract.Tests.ps1
 # Pester 5 contract tests for tf-pilot v1 stability surface.
 #
-# These tests guard four contracts that v1.0.0 promises to keep stable
+# These tests guard three contracts that v1.0.0 promises to keep stable
 # across minor versions:
 #
 #   1. Script signatures  - The param() block of every script in scripts/.
