@@ -1,13 +1,13 @@
 {
-    "$schemaVersion":  1,
-    "description":  "SHA256 hashes of repo-managed JSON schemas, computed against LF-normalised content (stable across CRLF/LF checkouts). Update when a schema is intentionally changed.",
-    "algorithm":  "sha256",
-    "normalization":  "utf-8, LF line endings, BOM stripped",
-    "schemas":  {
-                    ".vscode/schemas/kind-smoke.stack.schema.json":  "12e9336d404603a935e2c17a68dbb5f7c8d92a694d34bda58290697a532e252a",
-                    ".vscode/schemas/mcp-servers-catalog.schema.json":  "b571508a87d60e7ced3ae19218d14f959fab389b8fc5fa850d5f289fc1068b4e",
-                    ".vscode/schemas/multi-cloud.schema.json":  "d31dfb0b07a36e3044f4344516d897d64c6328e2ee371c7d1c582f2500027eb3",
-                    ".vscode/schemas/provider-stack.schema.json":  "2f2f8d17930106611242dbaf806573cd12418e091d8253d4f2549ea4a5b284fa",
-                    ".vscode/schemas/stack.schema.json":  "0e480232a36da987bb438869c09439890619f7f08548693e7c35eba5582b9eef"
-                }
+  "$schemaVersion": 1,
+  "description": "SHA256 hashes of repo-managed JSON schemas, computed against LF-normalised content (stable across CRLF/LF checkouts). Update when a schema is intentionally changed.",
+  "algorithm": "sha256",
+  "normalization": "utf-8, LF line endings, BOM stripped",
+  "schemas": {
+    ".vscode/schemas/kind-smoke.stack.schema.json": "12e9336d404603a935e2c17a68dbb5f7c8d92a694d34bda58290697a532e252a",
+    ".vscode/schemas/mcp-servers-catalog.schema.json": "b571508a87d60e7ced3ae19218d14f959fab389b8fc5fa850d5f289fc1068b4e",
+    ".vscode/schemas/multi-cloud.schema.json": "d31dfb0b07a36e3044f4344516d897d64c6328e2ee371c7d1c582f2500027eb3",
+    ".vscode/schemas/provider-stack.schema.json": "2f2f8d17930106611242dbaf806573cd12418e091d8253d4f2549ea4a5b284fa",
+    ".vscode/schemas/stack.schema.json": "0e480232a36da987bb438869c09439890619f7f08548693e7c35eba5582b9eef"
+  }
 }
