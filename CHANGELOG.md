@@ -6,6 +6,9 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Changed
+- Added Key Rules 27 and 28 to `CLAUDE.md` codifying MCP Catalog Registry discipline (chat toggles via `Set-McpServerState.ps1`, session config via `New-McpSessionConfig.ps1`, secret-hygiene gate non-bypassable) and drift auto-PR review behavior (diffstat review, no hand-edits inside generated PRs).
+
 ### Added
 - Added `.vscode/mcp.servers.catalog.json` — machine-readable MCP server catalog with `alwaysEnabled` and `providersRequired` fields governing chat-driven server toggling.
 - Added `.vscode/schemas/mcp-servers-catalog.schema.json` — JSON Schema for the catalog file, used by the catalog via its `$schema` declaration for validation.
