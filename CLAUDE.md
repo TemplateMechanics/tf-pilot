@@ -145,9 +145,12 @@ Always run validation after making changes:
 
 Exit code is non-zero if any of fmt, validate, tflint, or trivy report errors.
 
-## Working Example
+## Working Examples
 
-`examples/multi-env-stack/` contains a complete working Terraform project with a remote backend, two environments (`dev`, `prod`) via tfvars files, pinned provider versions, a `moved {}` refactor example, and a `.tftest.hcl` test. Use it as the reference shape when scaffolding a new project.
+Two reference projects to copy from:
+
+- `examples/multi-env-stack/` — simple two-environment (`dev`/`prod`) stack with a remote backend, pinned provider versions, a `moved {}` refactor example, a `.tftest.hcl` test, and basic YAML reference-token wiring. Use as the starting shape for a new project.
+- `examples/providers/multi-cloud-free-tier/` — YAML-driven composition across AWS, Azure, and GCP using the provider stack schema and the canonical token registry resolver pattern (`token_scope` + `token_aware_field_raw` + `templatestring`). Use as the reference for multi-cloud or token-heavy compositions; see `docs/YAML-TOKEN-REGISTRY.md`.
 
 ## Provider knowledge boundaries
 
