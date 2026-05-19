@@ -15,6 +15,8 @@ Read `skills/terraform/SKILL.md` — it contains the complete reference for HCL 
 Use the official Terraform MCP server first when available (`hashicorp/terraform-mcp-server`). Prefer MCP for provider/module discovery, registry lookups, workspace context, and state-oriented Q&A. Use project scripts for guarded execution workflows (validate, plan, apply, destroy, import, tests).
 If MCP is unavailable, continue with repository docs plus `Get-TerraformVersion.ps1 -Schema` for schema truth, then proceed with the same script-guarded workflow.
 
+When touching reflected provider modules, `examples/providers/schema-catalog/catalog.settings.json`, or anything under `modules/providers/`, read `docs/PROVIDER-COVERAGE-COMPLETION.md` — it is the canonical doctrine (Implemented in v0.3.0) for `mode: "all"` semantics, the `misc` family fallback, the bare-form prefix rule, and the per-PR coverage verification template.
+
 ## Key Rules
 
 1. **HCL uses 2-space indentation** — never tabs in `.tf` files. `terraform fmt` is canonical.
