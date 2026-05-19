@@ -7,6 +7,8 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Changed
+- `SECURITY.md`: replaced placeholder `security@template-mechanics.local` contact with the GitHub Security Advisory URL (`https://github.com/TemplateMechanics/tf-pilot/security/advisories/new`). Updated Response Timeline to realistic OSS commitments (7-day ack, 14-day triage, 30-day fix for critical). Updated Supported Versions table: `v0.3.x` current, `v1.x` future, `v0.2.x` EOL, `v0.1.x` EOL.
+- `CONTRIBUTING.md`: rewrote "Version Tagging" to be version-agnostic and reference both `vX.Y.Z` and `modules-vX.Y.Z` tag streams; added a "Releases" section linking to `RELEASE.md`.
 - Added Key Rules 27 and 28 to `CLAUDE.md` codifying MCP Catalog Registry discipline (chat toggles via `Set-McpServerState.ps1`, session config via `New-McpSessionConfig.ps1`, secret-hygiene gate non-bypassable) and drift auto-PR review behavior (diffstat review, no hand-edits inside generated PRs).
 - Expanded the `CLAUDE.md` Automation Scripts table to surface user-facing scripts that shipped post-baseline: `Pre-Commit.ps1`, `Invoke-ProviderCatalogRefresh.ps1`, `Sync-ProviderGeneratedModules.ps1`, `Validate-StackYaml.ps1`, `Test-YamlTokens.ps1`, the three MCP scripts (`Set-McpServerState.ps1`, `New-McpSessionConfig.ps1`, `Test-McpConfigSecrets.ps1`), and `Sync-McpServerEnablement.ps1`.
 - Replaced the `CLAUDE.md` "Working Example" section with a "Working Examples" section listing both `examples/multi-env-stack/` (simple two-env baseline) and `examples/providers/multi-cloud-free-tier/` (multi-cloud YAML composition with the token registry resolver). Documented when to use which. Corrected the multi-env-stack description: it uses a partial-backend pattern (init-time `-backend-config=` files), not a fully-configured remote backend, and contains no `moved {}` block.
@@ -14,6 +16,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Promoted `terraform-policy-check` and `module-contract-tests` from advisory to required CI checks (removed `continue-on-error: true`); extended `merge-readiness.needs` to require `validate`, `mcp-sync-check`, `terraform-policy-check`, `module-contract-tests`, and a new `actionlint` job. Updated `docs/BRANCH-WORKFLOW.md` to enumerate the canonical required-check list so branch-protection settings can be configured without guessing. `provider-catalog-drift-report`, `provider-coverage-buildout-report`, `cost-estimate`, and `sbom` remain advisory.
 
 ### Added
+- Added `RELEASE.md` documenting the maintainer release procedure (pre-tag checklist, tag commands, `Release Modules` workflow invocation, post-release verification, hotfix policy, retag-recovery worked example using the v0.3.0 case). Cross-linked from `CONTRIBUTING.md`.
 - Added `actionlint` job to `.github/workflows/validate.yml` (pinned to v1.7.7) lint-gating all GitHub Actions workflow files; required for merge.
 - Added `.vscode/mcp.servers.catalog.json` — machine-readable MCP server catalog with `alwaysEnabled` and `providersRequired` fields governing chat-driven server toggling.
 - Added `.vscode/schemas/mcp-servers-catalog.schema.json` — JSON Schema for the catalog file, used by the catalog via its `$schema` declaration for validation.
