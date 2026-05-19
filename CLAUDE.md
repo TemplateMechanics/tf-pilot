@@ -149,7 +149,7 @@ Exit code is non-zero if any of fmt, validate, tflint, or trivy report errors.
 
 Two reference projects to copy from:
 
-- `examples/multi-env-stack/` — simple two-environment (`dev`/`prod`) stack with a remote backend, pinned provider versions, a `moved {}` refactor example, a `.tftest.hcl` test, and basic YAML reference-token wiring. Use it as the starting shape for a new project.
+- `examples/multi-env-stack/` — simple two-environment (`dev`/`prod`) stack with pinned provider versions, a partial-backend pattern (init-time `-backend-config=` files), a `.tftest.hcl` test, and basic YAML reference-token wiring. Use it as the starting shape for a new project.
 - `examples/providers/multi-cloud-free-tier/` — YAML-driven composition across AWS, Azure, and GCP using the provider stack schema and the canonical token registry resolver pattern (`token_scope`, `token_aware_field_raw`, and `resolved_token_fields = templatestring(...)`). Use it as the reference for multi-cloud or token-heavy compositions; see `docs/YAML-TOKEN-REGISTRY.md`.
 
 ## Provider knowledge boundaries
