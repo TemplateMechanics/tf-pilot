@@ -41,9 +41,16 @@ jobs:
       - name: Setup conftest
         shell: bash
         run: |
+          set -euo pipefail
           CONFTEST_VERSION="0.57.0"
-          curl -sL "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz" \
-            | tar -xz -C /usr/local/bin conftest
+          CONFTEST_SHA256="db1018a7e301cada4d4bd8a70880a13314daae27b3f4d409c7ffba1847718392"
+          TARBALL="conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          curl -sL --fail \
+            "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/${TARBALL}" \
+            -o "${TARBALL}"
+          echo "${CONFTEST_SHA256}  ${TARBALL}" | sha256sum -c -
+          tar -xz -C /usr/local/bin -f "${TARBALL}" conftest
+          rm -f "${TARBALL}"
           conftest --version
 
       - name: Setup PowerShell
@@ -366,7 +373,6 @@ jobs:
   terraform-policy-check:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
@@ -380,8 +386,14 @@ jobs:
         run: |
           set -euo pipefail
           CONFTEST_VERSION="0.57.0"
-          curl -sL "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz" \
-            | tar -xz -C /usr/local/bin conftest
+          CONFTEST_SHA256="db1018a7e301cada4d4bd8a70880a13314daae27b3f4d409c7ffba1847718392"
+          TARBALL="conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          curl -sL --fail \
+            "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/${TARBALL}" \
+            -o "${TARBALL}"
+          echo "${CONFTEST_SHA256}  ${TARBALL}" | sha256sum -c -
+          tar -xz -C /usr/local/bin -f "${TARBALL}" conftest
+          rm -f "${TARBALL}"
           conftest --version
 
       - name: Create plan JSON for policy check
@@ -406,7 +418,6 @@ jobs:
   module-contract-tests:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
@@ -484,11 +495,41 @@ jobs:
           name: sbom
           path: sbom.spdx.json
 
+  actionlint:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install actionlint
+        shell: bash
+        run: |
+          set -euo pipefail
+          ACTIONLINT_VERSION="1.7.7"
+          ACTIONLINT_SHA256="023070a287cd8cccd71515fedc843f1985bf96c436b7effaecce67290e7e0757"
+          TARBALL="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          curl -sL --fail \
+            "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/${TARBALL}" \
+            -o "${TARBALL}"
+          echo "${ACTIONLINT_SHA256}  ${TARBALL}" | sha256sum -c -
+          tar -xz -C /usr/local/bin -f "${TARBALL}" actionlint
+          rm -f "${TARBALL}"
+          actionlint --version
+
+      - name: Run actionlint
+        shell: bash
+        run: |
+          actionlint -color
+
   merge-readiness:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     needs:
       - validate
+      - mcp-sync-check
+      - terraform-policy-check
+      - module-contract-tests
+      - actionlint
     steps:
       - name: Enforce required pre-merge checks
         shell: bash
@@ -496,7 +537,28 @@ jobs:
           set -euo pipefail
 
           echo "validate result: ${{ needs.validate.result }}"
+          echo "mcp-sync-check result: ${{ needs.mcp-sync-check.result }}"
+          echo "terraform-policy-check result: ${{ needs.terraform-policy-check.result }}"
+          echo "module-contract-tests result: ${{ needs.module-contract-tests.result }}"
+          echo "actionlint result: ${{ needs.actionlint.result }}"
+
           if [ "${{ needs.validate.result }}" != "success" ]; then
             echo "validate job must pass before merge." >&2
+            exit 1
+          fi
+          if [ "${{ needs.mcp-sync-check.result }}" != "success" ]; then
+            echo "mcp-sync-check job must pass before merge." >&2
+            exit 1
+          fi
+          if [ "${{ needs.terraform-policy-check.result }}" != "success" ]; then
+            echo "terraform-policy-check job must pass before merge." >&2
+            exit 1
+          fi
+          if [ "${{ needs.module-contract-tests.result }}" != "success" ]; then
+            echo "module-contract-tests job must pass before merge." >&2
+            exit 1
+          fi
+          if [ "${{ needs.actionlint.result }}" != "success" ]; then
+            echo "actionlint job must pass before merge." >&2
             exit 1
           fi

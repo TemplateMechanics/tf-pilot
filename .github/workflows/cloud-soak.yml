@@ -98,10 +98,18 @@ jobs:
         shell: bash
         working-directory: ${{ env.EXAMPLE_PATH }}
         run: |
-          echo "## Terraform Plan Summary" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          jq -r '.resource_changes[] | select(.change.actions != ["no-op"]) | "\(.type).\(.name): \(.change.actions | join(","))"' tfplan.json >> $GITHUB_STEP_SUMMARY || echo "(no changes)" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+          set -euo pipefail
+          {
+            echo "## Terraform Plan Summary"
+            echo '```'
+            jq -r '
+              [ .resource_changes[]
+                | select(.change.actions != ["no-op"])
+                | "\(.type).\(.name): \(.change.actions | join(","))" ]
+              | if length == 0 then "(no changes)" else .[] end
+            ' tfplan.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Apply infrastructure
         shell: pwsh
@@ -151,34 +159,46 @@ jobs:
         shell: bash
         working-directory: ${{ env.EXAMPLE_PATH }}
         run: |
-          remaining="$(jq -r '.resource_changes[] | select(.change.actions != ["no-op"]) | "⚠️ Resource still planned: \(.type).\(.name)"' verify-destroy-tfplan.json | head -5)"
-          if [ -n "$remaining" ]; then
-            echo "$remaining" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "✅ No outstanding resources detected after destroy verification" >> $GITHUB_STEP_SUMMARY
+          set -euo pipefail
+          if [ ! -f verify-destroy-tfplan.json ]; then
+            {
+              echo "⚠️ verify-destroy-tfplan.json not found; cleanup verification cannot be summarised."
+              echo "This usually means the Verify cleanup step did not produce a plan JSON (init/plan failure)."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
           fi
+          remaining="$(jq -r '.resource_changes[] | select(.change.actions != ["no-op"]) | "⚠️ Resource still planned: \(.type).\(.name)"' verify-destroy-tfplan.json | head -5)"
+          {
+            if [ -n "$remaining" ]; then
+              echo "$remaining"
+            else
+              echo "✅ No outstanding resources detected after destroy verification"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Report soak test result
         if: always()
         shell: bash
         run: |
-          if [ "${{ job.status }}" == "success" ]; then
-            echo "## ✅ Cloud Soak Test Passed" >> $GITHUB_STEP_SUMMARY
-            echo "- Initialized: ✅" >> $GITHUB_STEP_SUMMARY
-            echo "- Validated: ✅" >> $GITHUB_STEP_SUMMARY
-            echo "- Planned: ✅" >> $GITHUB_STEP_SUMMARY
-            echo "- Applied: ✅" >> $GITHUB_STEP_SUMMARY
-            echo "- Destroyed: ✅" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "The v0.2.0 harness maintains end-to-end discipline against real infrastructure." >> $GITHUB_STEP_SUMMARY
-          else
-            echo "## ❌ Cloud Soak Test Failed" >> $GITHUB_STEP_SUMMARY
-            echo "See logs above for root cause. Likely issues:" >> $GITHUB_STEP_SUMMARY
-            echo "- AWS credentials or OIDC role misconfigured" >> $GITHUB_STEP_SUMMARY
-            echo "- Provider version incompatibility" >> $GITHUB_STEP_SUMMARY
-            echo "- Resource quota exceeded" >> $GITHUB_STEP_SUMMARY
-            echo "- Resource cleanup failed (manual intervention may be needed)" >> $GITHUB_STEP_SUMMARY
-          fi
+          {
+            if [ "${{ job.status }}" == "success" ]; then
+              echo "## ✅ Cloud Soak Test Passed"
+              echo "- Initialized: ✅"
+              echo "- Validated: ✅"
+              echo "- Planned: ✅"
+              echo "- Applied: ✅"
+              echo "- Destroyed: ✅"
+              echo ""
+              echo "The v0.2.0 harness maintains end-to-end discipline against real infrastructure."
+            else
+              echo "## ❌ Cloud Soak Test Failed"
+              echo "See logs above for root cause. Likely issues:"
+              echo "- AWS credentials or OIDC role misconfigured"
+              echo "- Provider version incompatibility"
+              echo "- Resource quota exceeded"
+              echo "- Resource cleanup failed (manual intervention may be needed)"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload plan artifacts
         if: always()
