@@ -141,13 +141,19 @@ Naming example:
 
 Versions follow [Semantic Versioning](https://semver.org/):
 
-- **v0.2.0**: Stable release (tagged from `chore/v0.2.0-prep`)
-- **v0.2.0-rc1**: Release candidate (soaked for ~1 week before promoting to v0.2.0)
-- **v0.2.1**: Patch release (backwards-compatible fixes)
-- **v0.3.0**: Minor release (new features, backwards-compatible)
-- **v1.0.0**: Major release (breaking changes)
+- **vX.Y.Z**: Stable release tagged from `main`.
+- **vX.Y.Z-rcN**: Release candidate (soaked before promoting).
+- **vX.Y.(Z+1)**: Patch release (backwards-compatible fixes).
+- **vX.(Y+1).0**: Minor release (new features, backwards-compatible).
+- **v(X+1).0.0**: Major release (breaking changes).
+
+Two tag streams are pushed per release: `vX.Y.Z` (the harness tag) and `modules-vX.Y.Z` (the provider-modules release artifact tag produced by the `Release Modules` workflow).
 
 Tags are created and pushed by maintainers after CI passes and review is complete.
+
+## Releases
+
+Maintainers cutting a release: see [RELEASE.md](RELEASE.md) for the full procedure (pre-tag checklist, tag commands, `Release Modules` workflow invocation, post-release verification, hotfix policy, and retag-recovery worked example).
 
 ## Backwards Compatibility
 
