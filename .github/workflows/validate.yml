@@ -41,9 +41,16 @@ jobs:
       - name: Setup conftest
         shell: bash
         run: |
+          set -euo pipefail
           CONFTEST_VERSION="0.57.0"
-          curl -sL "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz" \
-            | tar -xz -C /usr/local/bin conftest
+          CONFTEST_SHA256="db1018a7e301cada4d4bd8a70880a13314daae27b3f4d409c7ffba1847718392"
+          TARBALL="conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          curl -sL --fail \
+            "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/${TARBALL}" \
+            -o "${TARBALL}"
+          echo "${CONFTEST_SHA256}  ${TARBALL}" | sha256sum -c -
+          tar -xz -C /usr/local/bin -f "${TARBALL}" conftest
+          rm -f "${TARBALL}"
           conftest --version
 
       - name: Setup PowerShell
@@ -379,8 +386,14 @@ jobs:
         run: |
           set -euo pipefail
           CONFTEST_VERSION="0.57.0"
-          curl -sL "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz" \
-            | tar -xz -C /usr/local/bin conftest
+          CONFTEST_SHA256="db1018a7e301cada4d4bd8a70880a13314daae27b3f4d409c7ffba1847718392"
+          TARBALL="conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          curl -sL --fail \
+            "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/${TARBALL}" \
+            -o "${TARBALL}"
+          echo "${CONFTEST_SHA256}  ${TARBALL}" | sha256sum -c -
+          tar -xz -C /usr/local/bin -f "${TARBALL}" conftest
+          rm -f "${TARBALL}"
           conftest --version
 
       - name: Create plan JSON for policy check
