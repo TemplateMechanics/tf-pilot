@@ -98,10 +98,16 @@ jobs:
         shell: bash
         working-directory: ${{ env.EXAMPLE_PATH }}
         run: |
+          set -euo pipefail
           {
             echo "## Terraform Plan Summary"
             echo '```'
-            jq -r '.resource_changes[] | select(.change.actions != ["no-op"]) | "\(.type).\(.name): \(.change.actions | join(","))"' tfplan.json || echo "(no changes)"
+            jq -r '
+              [ .resource_changes[]
+                | select(.change.actions != ["no-op"])
+                | "\(.type).\(.name): \(.change.actions | join(","))" ]
+              | if length == 0 then "(no changes)" else .[] end
+            ' tfplan.json
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -153,6 +159,14 @@ jobs:
         shell: bash
         working-directory: ${{ env.EXAMPLE_PATH }}
         run: |
+          set -euo pipefail
+          if [ ! -f verify-destroy-tfplan.json ]; then
+            {
+              echo "⚠️ verify-destroy-tfplan.json not found; cleanup verification cannot be summarised."
+              echo "This usually means the Verify cleanup step did not produce a plan JSON (init/plan failure)."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
           remaining="$(jq -r '.resource_changes[] | select(.change.actions != ["no-op"]) | "⚠️ Resource still planned: \(.type).\(.name)"' verify-destroy-tfplan.json | head -5)"
           {
             if [ -n "$remaining" ]; then
