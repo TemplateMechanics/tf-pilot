@@ -58,7 +58,10 @@ Describe 'Contract: snapshots exist' {
 Describe 'Contract: Update-ContractSnapshots.ps1 is idempotent against the committed snapshots' {
   It 'produces snapshots identical to the committed snapshots when regenerated into a clean directory' {
     $tempDir = Join-Path $TestDrive 'contract-check'
-    & $script:updateScript -OutputDir $tempDir -Force | Out-Null
+    # 6>$null silences the script's Write-Host progress messages (Information
+    # stream); piping to Out-Null does not — Write-Host bypasses the success
+    # stream. Keeps Pester output clean.
+    & $script:updateScript -OutputDir $tempDir -Force 6>$null | Out-Null
     $LASTEXITCODE | Should -Be 0
 
     foreach ($name in @('script-signatures.json', 'module-shape.json', 'schema-hashes.json')) {
@@ -72,12 +75,14 @@ Describe 'Contract: Update-ContractSnapshots.ps1 is idempotent against the commi
           "The committed snapshot does not match what Update-ContractSnapshots.ps1"
           "produces against the current repo state. This means one of:"
           ""
-          "  (a) A script's param() block changed - re-run"
-          "      './scripts/Update-ContractSnapshots.ps1 -Force' and commit the"
-          "      updated snapshot alongside the script change. Note in the"
-          "      PR body that the change is intentional and what it affects."
+          "  (a) A script in scripts/ was added, removed, or had its param()"
+          "      block changed - re-run './scripts/Update-ContractSnapshots.ps1"
+          "      -Force' and commit the updated snapshot alongside the script"
+          "      change. Note in the PR body that the change is intentional and"
+          "      what it affects."
           ""
-          "  (b) A .vscode/schemas/*.schema.json file changed - same procedure."
+          "  (b) A .vscode/schemas/*.schema.json file was added, removed, or"
+          "      edited - same procedure."
           ""
           "  (c) The module-shape contract changed - same procedure."
           ""
@@ -125,8 +130,13 @@ Describe 'Contract: generated module shape' {
     }
   }
 
-  It 'every required .tf file carries both header markers' {
+  It 'every required .tf file carries both header markers in the first 10 lines' {
     $missing = @()
+    # Header markers are required at the top of the file, not anywhere in
+    # the content. Restrict the scan to the first 10 lines and use a
+    # case-sensitive comparison (-cnotmatch) so a future hand-edit like
+    # '# generated file' would also fail.
+    $headerLineCount = 10
     foreach ($family in $script:familyDirs) {
       foreach ($filename in $script:shapeContract.headerMarkerFiles) {
         $path = Join-Path $family.FullName $filename
@@ -134,11 +144,11 @@ Describe 'Contract: generated module shape' {
           # Already reported by the required-files test above; skip.
           continue
         }
-        $content = Get-Content -Raw -LiteralPath $path
+        $header = (Get-Content -LiteralPath $path -TotalCount $headerLineCount) -join "`n"
         foreach ($marker in $script:shapeContract.requiredHeaderMarkers) {
-          if ($content -notmatch [regex]::Escape($marker)) {
+          if ($header -cnotmatch [regex]::Escape($marker)) {
             $relative = ($path.Substring($script:repoRoot.Length + 1)) -replace '\\', '/'
-            $missing += "$relative is missing header marker '$marker'"
+            $missing += "$relative is missing header marker '$marker' in the first $headerLineCount lines"
           }
         }
       }
