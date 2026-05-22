@@ -157,14 +157,30 @@ Maintainers cutting a release: see [RELEASE.md](RELEASE.md) for the full procedu
 
 ## Backwards Compatibility
 
-Before v1.0, the following are considered stable (do not break without a major version bump):
+The following surfaces are considered stable. Breaking changes to any of them require a major version bump (`vX.Y.Z` → `v(X+1).0.0`):
 
-- **Script signatures**: The `-Path`, `-VarFile`, `-Out` parameters of harness scripts
-- **Exit codes**: 0 for success, non-zero for failure
-- **Generated module shapes**: HCL inputs/outputs of regenerated modules
-- **YAML stack syntax**: The structure of `*.stack.yaml` files
+- **Script signatures.** The `param()` blocks of every script in `scripts/` — parameter names, types, and `Mandatory` flags.
+- **Exit codes.** 0 for success, non-zero for failure. Specific non-zero codes that callers may rely on (e.g., `Update-ContractSnapshots.ps1` exits 2 when drift is detected without `-Force`) are also stable.
+- **Generated module shape.** Every directory under `modules/providers/<provider>/<family>/` contains `main.tf`, `variables.tf`, `outputs.tf`, `versions.tf`, and `tests/basic.tftest.hcl`; the four `.tf` files carry both `# GENERATED FILE` and `# SPDX-License-Identifier: MIT` header markers. HCL inputs/outputs of regenerated modules remain compatible across minor versions.
+- **JSON Schemas under `.vscode/schemas/`.** `stack.schema.json`, `kind-smoke.stack.schema.json`, `mcp-servers-catalog.schema.json`, `multi-cloud.schema.json`, `provider-stack.schema.json`. Field renames, type changes, or new required fields are breaking.
+- **YAML stack syntax.** The structure of `*.stack.yaml` files (governed by the schemas above).
 
-Changes to `CLAUDE.md` or internal function names are NOT breaking and can happen in minor versions.
+Changes to `CLAUDE.md` content or internal PowerShell function names are NOT breaking and can happen in minor versions.
+
+### How the contracts are enforced
+
+`tests/Contract.Tests.ps1` (Pester 5) runs on every CI build and asserts:
+
+1. Snapshots under `tests/contracts/` (`script-signatures.json`, `module-shape.json`, `schema-hashes.json`) match what `scripts/Update-ContractSnapshots.ps1` would produce against the current repo state.
+2. Every generated family directory satisfies the module-shape contract.
+
+If a contract test fails after an intentional change, regenerate the snapshots:
+
+```powershell
+./scripts/Update-ContractSnapshots.ps1 -Force
+```
+
+Commit the updated snapshot file in the same PR as the change that produced the drift. Note the breaking nature in the PR body and CHANGELOG. Major version implications (see [RELEASE.md](RELEASE.md)) are the maintainer's call at merge time.
 
 ## Reporting Issues
 
