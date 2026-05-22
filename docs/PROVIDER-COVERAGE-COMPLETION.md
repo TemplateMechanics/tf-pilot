@@ -358,6 +358,6 @@ All completion criteria have been met:
 - [x] All 9 generated `<provider>-summary.md` files report `Resource schemas` count equal to the live schema's resource_schemas count, and same for data sources (100% coverage achieved).
 - [x] No prefix list changes are required to add a new resource type from a provider release; drift workflow handles it automatically.
 - [x] CI workflow auto-opens a PR on schema drift (drift automation complete in v0.3.0).
-- [ ] `v0.3.0` tag will be created on `main` upon release.
+- [x] `v0.3.0` tag created on `main` (`git ls-remote --tags origin` shows both `v0.3.0` and `modules-v0.3.0`).
 - [x] This doc status header reads "Implemented in v0.3.0".
 - [x] CHANGELOG has a `[0.3.0]` section enumerating the provider coverage PRs and engine work.
