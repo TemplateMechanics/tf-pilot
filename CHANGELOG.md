@@ -7,6 +7,9 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 
 ### Changed
+- `README.md` "What's innovative here" expanded with two new bullets covering the MCP Catalog Registry (with secret-hygiene gate) and the v1 stability contract tests. Added a new "Versioning and stability" section linking to `CONTRIBUTING.md` "Backwards Compatibility" and `RELEASE.md`, enumerating the stable surfaces guarded by `tests/Contract.Tests.ps1`.
+- `BUILD-SPEC.md` "Status and Version Stream" updated to `Current stream: v1.0.0 prep` with a new "Post-v0.3.0 / v1.0.0 prep — Implemented" addendum enumerating MCP Catalog Registry, required-CI promotion, security/release docs, contract snapshot tests, and CLAUDE.md additions.
+- `docs/PROVIDER-COVERAGE-COMPLETION.md` §10: checked the previously-unchecked `v0.3.0` tag box; tag is live on origin (`v0.3.0` and `modules-v0.3.0`).
 - `CONTRIBUTING.md` "Backwards Compatibility" section expanded to enumerate the full v1 stability surface (script signatures, exit codes, generated module shape, JSON schemas, YAML stack syntax) and document the contract-test workflow with `scripts/Update-ContractSnapshots.ps1`.
 - `CLAUDE.md` Automation Scripts table: added `Update-ContractSnapshots.ps1`.
 - `SECURITY.md`: replaced placeholder `security@template-mechanics.local` contact with the GitHub Security Advisory URL (`https://github.com/TemplateMechanics/tf-pilot/security/advisories/new`). Updated Response Timeline to realistic OSS commitments (7-day ack, 14-day triage, 30-day fix for critical). Updated Supported Versions table: `v0.3.x` current, `v1.x` future, `v0.2.x` EOL, `v0.1.x` EOL.
