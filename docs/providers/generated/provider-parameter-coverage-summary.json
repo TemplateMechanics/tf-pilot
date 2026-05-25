@@ -1,128 +1,141 @@
 [
-    {
-        "provider":  "aws",
-        "resourceTypes":  1526,
-        "dataSourceTypes":  608,
-        "resourceTypesWithGaps":  0,
-        "dataSourceTypesWithGaps":  0,
-        "totalTypesWithGaps":  0,
-        "resources":  [
-
-                      ],
-        "dataSources":  [
-
-                        ]
-    },
-    {
-        "provider":  "azuredevops",
-        "resourceTypes":  130,
-        "dataSourceTypes":  44,
-        "resourceTypesWithGaps":  0,
-        "dataSourceTypesWithGaps":  0,
-        "totalTypesWithGaps":  0,
-        "resources":  [
-
-                      ],
-        "dataSources":  [
-
-                        ]
-    },
-    {
-        "provider":  "azurerm",
-        "resourceTypes":  1132,
-        "dataSourceTypes":  396,
-        "resourceTypesWithGaps":  0,
-        "dataSourceTypesWithGaps":  0,
-        "totalTypesWithGaps":  0,
-        "resources":  [
-
-                      ],
-        "dataSources":  [
-
-                        ]
-    },
-    {
-        "provider":  "dynatrace",
-        "resourceTypes":  431,
-        "dataSourceTypes":  57,
-        "resourceTypesWithGaps":  0,
-        "dataSourceTypesWithGaps":  0,
-        "totalTypesWithGaps":  0,
-        "resources":  [
-
-                      ],
-        "dataSources":  [
-
-                        ]
-    },
-    {
-        "provider":  "github",
-        "resourceTypes":  88,
-        "dataSourceTypes":  75,
-        "resourceTypesWithGaps":  0,
-        "dataSourceTypesWithGaps":  0,
-        "totalTypesWithGaps":  0,
-        "resources":  [
-
-                      ],
-        "dataSources":  [
-
-                        ]
-    },
-    {
-        "provider":  "gitlab",
-        "resourceTypes":  106,
-        "dataSourceTypes":  57,
-        "resourceTypesWithGaps":  0,
-        "dataSourceTypesWithGaps":  0,
-        "totalTypesWithGaps":  0,
-        "resources":  [
-
-                      ],
-        "dataSources":  [
-
-                        ]
-    },
-    {
-        "provider":  "google",
-        "resourceTypes":  1096,
-        "dataSourceTypes":  373,
-        "resourceTypesWithGaps":  0,
-        "dataSourceTypesWithGaps":  0,
-        "totalTypesWithGaps":  0,
-        "resources":  [
-
-                      ],
-        "dataSources":  [
-
-                        ]
-    },
-    {
-        "provider":  "helm",
-        "resourceTypes":  1,
-        "dataSourceTypes":  1,
-        "resourceTypesWithGaps":  0,
-        "dataSourceTypesWithGaps":  0,
-        "totalTypesWithGaps":  0,
-        "resources":  [
-
-                      ],
-        "dataSources":  [
-
-                        ]
-    },
-    {
-        "provider":  "kubernetes",
-        "resourceTypes":  82,
-        "dataSourceTypes":  26,
-        "resourceTypesWithGaps":  0,
-        "dataSourceTypesWithGaps":  0,
-        "totalTypesWithGaps":  0,
-        "resources":  [
-
-                      ],
-        "dataSources":  [
-
-                        ]
-    }
+  {
+    "provider": "aws",
+    "resourceTypes": 1526,
+    "dataSourceTypes": 608,
+    "resourceTypesWithGaps": 0,
+    "dataSourceTypesWithGaps": 0,
+    "totalTypesWithGaps": 0,
+    "resources": [],
+    "dataSources": []
+  },
+  {
+    "provider": "azuredevops",
+    "resourceTypes": 130,
+    "dataSourceTypes": 44,
+    "resourceTypesWithGaps": 0,
+    "dataSourceTypesWithGaps": 0,
+    "totalTypesWithGaps": 0,
+    "resources": [],
+    "dataSources": []
+  },
+  {
+    "provider": "azurerm",
+    "resourceTypes": 1132,
+    "dataSourceTypes": 396,
+    "resourceTypesWithGaps": 0,
+    "dataSourceTypesWithGaps": 1,
+    "totalTypesWithGaps": 1,
+    "resources": [],
+    "dataSources": [
+      {
+        "type": "azurerm_client_config",
+        "missingType": false,
+        "missingArguments": [],
+        "missingBlocks": [
+          "timeouts"
+        ]
+      }
+    ]
+  },
+  {
+    "provider": "dynatrace",
+    "resourceTypes": 431,
+    "dataSourceTypes": 57,
+    "resourceTypesWithGaps": 0,
+    "dataSourceTypesWithGaps": 0,
+    "totalTypesWithGaps": 0,
+    "resources": [],
+    "dataSources": []
+  },
+  {
+    "provider": "github",
+    "resourceTypes": 88,
+    "dataSourceTypes": 75,
+    "resourceTypesWithGaps": 0,
+    "dataSourceTypesWithGaps": 0,
+    "totalTypesWithGaps": 0,
+    "resources": [],
+    "dataSources": []
+  },
+  {
+    "provider": "gitlab",
+    "resourceTypes": 106,
+    "dataSourceTypes": 57,
+    "resourceTypesWithGaps": 0,
+    "dataSourceTypesWithGaps": 0,
+    "totalTypesWithGaps": 0,
+    "resources": [],
+    "dataSources": []
+  },
+  {
+    "provider": "google",
+    "resourceTypes": 1096,
+    "dataSourceTypes": 373,
+    "resourceTypesWithGaps": 0,
+    "dataSourceTypesWithGaps": 0,
+    "totalTypesWithGaps": 0,
+    "resources": [],
+    "dataSources": []
+  },
+  {
+    "provider": "helm",
+    "resourceTypes": 1,
+    "dataSourceTypes": 1,
+    "resourceTypesWithGaps": 0,
+    "dataSourceTypesWithGaps": 0,
+    "totalTypesWithGaps": 0,
+    "resources": [],
+    "dataSources": []
+  },
+  {
+    "provider": "kubernetes",
+    "resourceTypes": 82,
+    "dataSourceTypes": 26,
+    "resourceTypesWithGaps": 2,
+    "dataSourceTypesWithGaps": 2,
+    "totalTypesWithGaps": 4,
+    "resources": [
+      {
+        "type": "kubernetes_service_account",
+        "missingType": false,
+        "missingArguments": [],
+        "missingBlocks": [
+          "image_pull_secret",
+          "metadata",
+          "secret",
+          "timeouts"
+        ]
+      },
+      {
+        "type": "kubernetes_service_account_v1",
+        "missingType": false,
+        "missingArguments": [],
+        "missingBlocks": [
+          "image_pull_secret",
+          "metadata",
+          "secret",
+          "timeouts"
+        ]
+      }
+    ],
+    "dataSources": [
+      {
+        "type": "kubernetes_service_account",
+        "missingType": false,
+        "missingArguments": [],
+        "missingBlocks": [
+          "metadata"
+        ]
+      },
+      {
+        "type": "kubernetes_service_account_v1",
+        "missingType": false,
+        "missingArguments": [],
+        "missingBlocks": [
+          "metadata"
+        ]
+      }
+    ]
+  }
 ]
