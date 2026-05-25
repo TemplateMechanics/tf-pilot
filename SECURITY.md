@@ -35,9 +35,9 @@ Security issues in tf-pilot itself (PowerShell scripts, Terraform configurations
 
 | Version  | Status   | Security Updates                |
 |----------|----------|---------------------------------|
-| v1.x     | Future   | Yes, once released              |
-| v0.3.x   | Current  | Yes                             |
-| v0.2.x   | EOL      | No — upgrade to v0.3.x or later |
+| v1.x     | Current  | Yes                             |
+| v0.3.x   | EOL      | No — upgrade to v1.x or later   |
+| v0.2.x   | EOL      | No — upgrade to v1.x or later   |
 | v0.1.x   | EOL      | No                              |
 
 This table is updated each time a new minor or major version is tagged. See `RELEASE.md` for the maintainer release procedure.

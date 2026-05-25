@@ -6,6 +6,15 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-05-25
+
+This is the first stable release. The v1 stability surface — script signatures,
+exit codes, generated module shape, JSON schemas, YAML stack syntax — is now
+guarded by `tests/Contract.Tests.ps1` (Pester 5). Breaking changes to any of
+these surfaces require a major version bump per the contract documented in
+`CONTRIBUTING.md` "Backwards Compatibility" and the release procedure in
+`RELEASE.md`.
+
 ### Changed
 - `README.md` "What's innovative here" expanded with two new bullets covering the MCP Catalog Registry (with secret-hygiene gate) and the v1 stability contract tests. Added a new "Versioning and stability" section linking to `CONTRIBUTING.md` "Backwards Compatibility" and `RELEASE.md`, enumerating the stable surfaces guarded by `tests/Contract.Tests.ps1`.
 - `BUILD-SPEC.md` "Status and Version Stream" updated to `Current stream: v1.0.0 prep` with a new "Post-v0.3.0 / v1.0.0 prep — Implemented" addendum enumerating MCP Catalog Registry, required-CI promotion, security/release docs, contract snapshot tests, and CLAUDE.md additions.
