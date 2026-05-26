@@ -8,12 +8,13 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [1.0.0] - 2026-05-25
 
-This is the first stable release. The v1 stability surface — script signatures,
-exit codes, generated module shape, JSON schemas, YAML stack syntax — is now
-guarded by `tests/Contract.Tests.ps1` (Pester 5). Breaking changes to any of
-these surfaces require a major version bump per the contract documented in
-`CONTRIBUTING.md` "Backwards Compatibility" and the release procedure in
-`RELEASE.md`.
+This is the first stable release. `tests/Contract.Tests.ps1` (Pester 5) now
+pins the script-signatures, generated-module-shape, and JSON-schema portions
+of the v1 stability surface via committed snapshots under `tests/contracts/`.
+The broader v1 contract (exit codes, YAML stack syntax) is covered by the
+rest of the Pester suite and documented in `CONTRIBUTING.md` "Backwards
+Compatibility"; breaking changes to any of these surfaces require a major
+version bump per the release procedure in `RELEASE.md`.
 
 ### Changed
 - `README.md` "What's innovative here" expanded with two new bullets covering the MCP Catalog Registry (with secret-hygiene gate) and the v1 stability contract tests. Added a new "Versioning and stability" section linking to `CONTRIBUTING.md` "Backwards Compatibility" and `RELEASE.md`, enumerating the stable surfaces guarded by `tests/Contract.Tests.ps1`.
@@ -21,7 +22,7 @@ these surfaces require a major version bump per the contract documented in
 - `docs/PROVIDER-COVERAGE-COMPLETION.md` §10: checked the previously-unchecked `v0.3.0` tag box; tag is live on origin (`v0.3.0` and `modules-v0.3.0`).
 - `CONTRIBUTING.md` "Backwards Compatibility" section expanded to enumerate the full v1 stability surface (script signatures, exit codes, generated module shape, JSON schemas, YAML stack syntax) and document the contract-test workflow with `scripts/Update-ContractSnapshots.ps1`.
 - `CLAUDE.md` Automation Scripts table: added `Update-ContractSnapshots.ps1`.
-- `SECURITY.md`: replaced placeholder `security@template-mechanics.local` contact with the GitHub Security Advisory URL (`https://github.com/TemplateMechanics/tf-pilot/security/advisories/new`). Updated Response Timeline to realistic OSS commitments (7-day ack, 14-day triage, 30-day fix for critical). Updated Supported Versions table: `v0.3.x` current, `v1.x` future, `v0.2.x` EOL, `v0.1.x` EOL.
+- `SECURITY.md`: replaced placeholder `security@template-mechanics.local` contact with the GitHub Security Advisory URL (`https://github.com/TemplateMechanics/tf-pilot/security/advisories/new`). Updated Response Timeline to realistic OSS commitments (7-day ack, 14-day triage, 30-day fix for critical). Updated Supported Versions table for the v1 cut: `v1.x` Current, `v0.3.x` EOL, `v0.2.x` EOL, `v0.1.x` EOL.
 - `CONTRIBUTING.md`: rewrote "Version Tagging" to be version-agnostic and reference both `vX.Y.Z` and `modules-vX.Y.Z` tag streams; added a "Releases" section linking to `RELEASE.md`.
 - Added Key Rules 27 and 28 to `CLAUDE.md` codifying MCP Catalog Registry discipline (chat toggles via `Set-McpServerState.ps1`, session config via `New-McpSessionConfig.ps1`, secret-hygiene gate non-bypassable) and drift auto-PR review behavior (diffstat review, no hand-edits inside generated PRs).
 - Expanded the `CLAUDE.md` Automation Scripts table to surface user-facing scripts that shipped post-baseline: `Pre-Commit.ps1`, `Invoke-ProviderCatalogRefresh.ps1`, `Sync-ProviderGeneratedModules.ps1`, `Validate-StackYaml.ps1`, `Test-YamlTokens.ps1`, the three MCP scripts (`Set-McpServerState.ps1`, `New-McpSessionConfig.ps1`, `Test-McpConfigSecrets.ps1`), and `Sync-McpServerEnablement.ps1`.
