@@ -6,19 +6,35 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-05-25
+
+This is the first stable release. `tests/Contract.Tests.ps1` (Pester 5) now
+pins the script-signatures, generated-module-shape, and JSON-schema portions
+of the v1 stability surface via committed snapshots under `tests/contracts/`.
+The broader v1 contract (exit codes, YAML stack syntax) is covered by the
+rest of the Pester suite and documented in `CONTRIBUTING.md` "Backwards
+Compatibility"; breaking changes to any of these surfaces require a major
+version bump per the release procedure in `RELEASE.md`.
+
 ### Changed
 - `README.md` "What's innovative here" expanded with two new bullets covering the MCP Catalog Registry (with secret-hygiene gate) and the v1 stability contract tests. Added a new "Versioning and stability" section linking to `CONTRIBUTING.md` "Backwards Compatibility" and `RELEASE.md`, enumerating the stable surfaces guarded by `tests/Contract.Tests.ps1`.
-- `BUILD-SPEC.md` "Status and Version Stream" updated to `Current stream: v1.0.0 prep` with a new "Post-v0.3.0 / v1.0.0 prep — Implemented" addendum enumerating MCP Catalog Registry, required-CI promotion, security/release docs, contract snapshot tests, and CLAUDE.md additions.
+- `BUILD-SPEC.md` "Status and Version Stream" updated to `Current stream: v1.0.0` and `Last release: v1.0.0` with a new "v1.0.0 — Implemented (shipped 2026-05-25)" addendum enumerating MCP Catalog Registry, required-CI promotion, security/release docs, contract snapshot tests, and CLAUDE.md additions.
 - `docs/PROVIDER-COVERAGE-COMPLETION.md` §10: checked the previously-unchecked `v0.3.0` tag box; tag is live on origin (`v0.3.0` and `modules-v0.3.0`).
 - `CONTRIBUTING.md` "Backwards Compatibility" section expanded to enumerate the full v1 stability surface (script signatures, exit codes, generated module shape, JSON schemas, YAML stack syntax) and document the contract-test workflow with `scripts/Update-ContractSnapshots.ps1`.
 - `CLAUDE.md` Automation Scripts table: added `Update-ContractSnapshots.ps1`.
-- `SECURITY.md`: replaced placeholder `security@template-mechanics.local` contact with the GitHub Security Advisory URL (`https://github.com/TemplateMechanics/tf-pilot/security/advisories/new`). Updated Response Timeline to realistic OSS commitments (7-day ack, 14-day triage, 30-day fix for critical). Updated Supported Versions table: `v0.3.x` current, `v1.x` future, `v0.2.x` EOL, `v0.1.x` EOL.
+- `SECURITY.md`: replaced placeholder `security@template-mechanics.local` contact with the GitHub Security Advisory URL (`https://github.com/TemplateMechanics/tf-pilot/security/advisories/new`). Updated Response Timeline to realistic OSS commitments (7-day ack, 14-day triage, 30-day fix for critical). Updated Supported Versions table for the v1 cut: `v1.x` Current, `v0.3.x` EOL, `v0.2.x` EOL, `v0.1.x` EOL.
 - `CONTRIBUTING.md`: rewrote "Version Tagging" to be version-agnostic and reference both `vX.Y.Z` and `modules-vX.Y.Z` tag streams; added a "Releases" section linking to `RELEASE.md`.
 - Added Key Rules 27 and 28 to `CLAUDE.md` codifying MCP Catalog Registry discipline (chat toggles via `Set-McpServerState.ps1`, session config via `New-McpSessionConfig.ps1`, secret-hygiene gate non-bypassable) and drift auto-PR review behavior (diffstat review, no hand-edits inside generated PRs).
 - Expanded the `CLAUDE.md` Automation Scripts table to surface user-facing scripts that shipped post-baseline: `Pre-Commit.ps1`, `Invoke-ProviderCatalogRefresh.ps1`, `Sync-ProviderGeneratedModules.ps1`, `Validate-StackYaml.ps1`, `Test-YamlTokens.ps1`, the three MCP scripts (`Set-McpServerState.ps1`, `New-McpSessionConfig.ps1`, `Test-McpConfigSecrets.ps1`), and `Sync-McpServerEnablement.ps1`.
 - Replaced the `CLAUDE.md` "Working Example" section with a "Working Examples" section listing both `examples/multi-env-stack/` (simple two-env baseline) and `examples/providers/multi-cloud-free-tier/` (multi-cloud YAML composition with the token registry resolver). Documented when to use which. Corrected the multi-env-stack description: it uses a partial-backend pattern (init-time `-backend-config=` files), not a fully-configured remote backend, and contains no `moved {}` block.
 - Cross-linked `docs/PROVIDER-COVERAGE-COMPLETION.md` from `CLAUDE.md` "Before Making Any Edits" — agents touching reflected provider modules, `catalog.settings.json`, or `modules/providers/` should read it for `mode: "all"` semantics, the `misc` family fallback, the bare-form prefix rule, and the per-PR coverage verification template.
 - Promoted `terraform-policy-check` and `module-contract-tests` from advisory to required CI checks (removed `continue-on-error: true`); extended `merge-readiness.needs` to require `validate`, `mcp-sync-check`, `terraform-policy-check`, `module-contract-tests`, and a new `actionlint` job. Updated `docs/BRANCH-WORKFLOW.md` to enumerate the canonical required-check list so branch-protection settings can be configured without guessing. `provider-catalog-drift-report`, `provider-coverage-buildout-report`, `cost-estimate`, and `sbom` remain advisory.
+- `Sync-McpServerEnablement.ps1` now uses a `$null` sentinel for `alwaysEnabled` servers so an empty `providersRequired` list unambiguously means "never auto-enable"; fallback rules use `$null` for `terraform` to preserve always-on behaviour.
+- `Sync-McpServerEnablement.ps1` `-Check` mode now references the effective MCP target file in all output messages and avoids instructing users to commit session-scoped files.
+- `Test-McpConfigSecrets.ps1` `-Files` mode now emits a warning for any input that does not match the MCP config path pattern instead of silently skipping it.
+- `Test-McpConfigSecrets.ps1` string nodes (including items inside args arrays) are now scanned for `NAME=VALUE` patterns so Docker `-e` style secrets are caught.
+- Expanded `docs/MCP-CLOUD-DOC-ROUTING.md` with secret-hygiene gate usage documentation; fixed tab-indented Markdown sub-list so allowed placeholder forms render correctly.
+- Moved MCP catalog schema association out of `yaml.schemas` (wrong language) in `.vscode/settings.json`; catalog JSON relies on its `$schema` field for validation.
 
 ### Added
 - Added v1 stability contract snapshot tests (`tests/Contract.Tests.ps1`, Pester 5) plus a snapshot generator (`scripts/Update-ContractSnapshots.ps1`) and three committed snapshots under `tests/contracts/`:
@@ -35,14 +51,6 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Added `scripts/Test-McpConfigSecrets.ps1` — scans tracked MCP JSON files for hardcoded secrets; supports `-StagedOnly`, `-Files`, and `-IncludeSessionFiles` modes; detects `NAME=VALUE` patterns in args arrays.
 - Added MCP secret-hygiene gate to `scripts/Pre-Commit.ps1` (runs `Test-McpConfigSecrets.ps1 -StagedOnly` when invoked).
 - Added Pester test coverage for MCP catalog schema, catalog-constraint enforcement, session-config generation, and secret-hygiene scanning (~517 new lines).
-
-### Changed
-- `Sync-McpServerEnablement.ps1` now uses a `$null` sentinel for `alwaysEnabled` servers so an empty `providersRequired` list unambiguously means "never auto-enable"; fallback rules use `$null` for `terraform` to preserve always-on behaviour.
-- `Sync-McpServerEnablement.ps1` `-Check` mode now references the effective MCP target file in all output messages and avoids instructing users to commit session-scoped files.
-- `Test-McpConfigSecrets.ps1` `-Files` mode now emits a warning for any input that does not match the MCP config path pattern instead of silently skipping it.
-- `Test-McpConfigSecrets.ps1` string nodes (including items inside args arrays) are now scanned for `NAME=VALUE` patterns so Docker `-e` style secrets are caught.
-- Expanded `docs/MCP-CLOUD-DOC-ROUTING.md` with secret-hygiene gate usage documentation; fixed tab-indented Markdown sub-list so allowed placeholder forms render correctly.
-- Moved MCP catalog schema association out of `yaml.schemas` (wrong language) in `.vscode/settings.json`; catalog JSON relies on its `$schema` field for validation.
 
 ## [0.3.0] - 2026-05-12
 
