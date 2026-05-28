@@ -30,12 +30,15 @@ Terraform MCP runtime selection follows this order:
 
 ## Backwards Compatibility Guarantees
 
-Until v1.0, treat these interfaces as stable unless a major release note says otherwise:
+As of v1.0.0 (the first stable release), the following interfaces are stable. Breaking changes require a major version bump per [CONTRIBUTING.md](../CONTRIBUTING.md#backwards-compatibility) and the procedure in [RELEASE.md](../RELEASE.md):
 
-- Wrapper script parameter contracts: `-Path`, `-VarFile`, `-Out`, `-PlanFile`
+- Wrapper script parameter contracts: `-Path`, `-VarFile`, `-Out`, `-PlanFile` (pinned by `tests/contracts/script-signatures.json`)
 - Wrapper script success/failure exit code semantics
-- Generated provider module shape expectations for standard files
+- Generated provider module shape expectations for standard files (pinned by `tests/contracts/module-shape.json`)
 - YAML stack composition contract and schema validation behavior
+- JSON schemas under `.vscode/schemas/` (pinned by `tests/contracts/schema-hashes.json`)
+
+The first three contract-pinned surfaces are asserted on every CI run by `tests/Contract.Tests.ps1`; drift fails the build.
 
 ## Compatibility Change Process
 
@@ -48,7 +51,7 @@ If a change would break the stable interfaces above:
 
 ## Non-Guaranteed Surfaces
 
-The following may evolve without a compatibility guarantee before v1.0:
+The following are explicitly out of scope for the v1 stability contract and may evolve in a minor or patch release without a major version bump:
 
 - Internal helper function names in scripts
 - Internal implementation details in instruction files
