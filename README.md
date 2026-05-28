@@ -44,11 +44,16 @@ User request
 4. `docs/`: design references and operational playbooks
 5. `examples/`: executable examples that validate expected patterns
 
-## v0.3.0 highlights
+## v1.0.0 highlights
 
-- **100% reflected coverage across 9 providers** - `aws`, `azurerm`, `google`, `helm`, `kubernetes`, `github`, `azuredevops`, `gitlab`, and `dynatrace` all generate complete module families for every resource and data source type. See [`docs/PROVIDER-COVERAGE-COMPLETION.md`](docs/PROVIDER-COVERAGE-COMPLETION.md).
-- **Multi-cloud free-tier example** — stack composition pattern spanning AWS, Azure, and GCP with YAML token registry resolution. See [`examples/providers/multi-cloud-free-tier/`](examples/providers/multi-cloud-free-tier/).
-- **YAML token registry resolver** — production pattern for provider-stack parameter references with anti-pattern enforcement. See [`docs/YAML-TOKEN-REGISTRY.md`](docs/YAML-TOKEN-REGISTRY.md).
+**Status:** first stable release (shipped 2026-05-25). The v1 stability surface is pinned by snapshot tests under `tests/contracts/` and the broader Pester suite — see "Versioning and stability" below and [RELEASE.md](RELEASE.md).
+
+- **v1 stability contracts under Pester** — every script's `param()` block, every generated module's required-file shape, and every JSON schema hash is snapshotted and asserted on every CI run. Regenerate with `Update-ContractSnapshots.ps1 -Force` when a contract change is intentional.
+- **MCP Catalog Registry with secret-hygiene gate** — `.vscode/mcp.servers.catalog.json` governs chat-driven MCP server toggles via `Set-McpServerState.ps1`; session-local config (`.vscode/mcp.session.json`) is gitignored; the pre-commit hook scans staged MCP configs for hardcoded secrets.
+- **Required CI gates promoted** — `terraform-policy-check`, `module-contract-tests`, and a new `actionlint` job are no longer advisory; `merge-readiness` requires them all.
+- **100% reflected coverage across 9 providers** (continuing from v0.3.0) - `aws`, `azurerm`, `google`, `helm`, `kubernetes`, `github`, `azuredevops`, `gitlab`, and `dynatrace` all generate complete module families for every resource and data source type. See [`docs/PROVIDER-COVERAGE-COMPLETION.md`](docs/PROVIDER-COVERAGE-COMPLETION.md).
+- **Multi-cloud free-tier example** (continuing from v0.3.0) — stack composition pattern spanning AWS, Azure, and GCP with YAML token registry resolution. See [`examples/providers/multi-cloud-free-tier/`](examples/providers/multi-cloud-free-tier/).
+- **YAML token registry resolver** (continuing from v0.3.0) — production pattern for provider-stack parameter references with anti-pattern enforcement. See [`docs/YAML-TOKEN-REGISTRY.md`](docs/YAML-TOKEN-REGISTRY.md).
 
 ## What's innovative here
 

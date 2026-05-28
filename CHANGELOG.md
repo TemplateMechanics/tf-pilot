@@ -18,7 +18,7 @@ version bump per the release procedure in `RELEASE.md`.
 
 ### Changed
 - `README.md` "What's innovative here" expanded with two new bullets covering the MCP Catalog Registry (with secret-hygiene gate) and the v1 stability contract tests. Added a new "Versioning and stability" section linking to `CONTRIBUTING.md` "Backwards Compatibility" and `RELEASE.md`, enumerating the stable surfaces guarded by `tests/Contract.Tests.ps1`.
-- `BUILD-SPEC.md` "Status and Version Stream" updated to `Current stream: v1.0.0 prep` with a new "Post-v0.3.0 / v1.0.0 prep — Implemented" addendum enumerating MCP Catalog Registry, required-CI promotion, security/release docs, contract snapshot tests, and CLAUDE.md additions.
+- `BUILD-SPEC.md` "Status and Version Stream" updated to `Current stream: v1.0.0` and `Last release: v1.0.0` with a new "v1.0.0 — Implemented (shipped 2026-05-25)" addendum enumerating MCP Catalog Registry, required-CI promotion, security/release docs, contract snapshot tests, and CLAUDE.md additions.
 - `docs/PROVIDER-COVERAGE-COMPLETION.md` §10: checked the previously-unchecked `v0.3.0` tag box; tag is live on origin (`v0.3.0` and `modules-v0.3.0`).
 - `CONTRIBUTING.md` "Backwards Compatibility" section expanded to enumerate the full v1 stability surface (script signatures, exit codes, generated module shape, JSON schemas, YAML stack syntax) and document the contract-test workflow with `scripts/Update-ContractSnapshots.ps1`.
 - `CLAUDE.md` Automation Scripts table: added `Update-ContractSnapshots.ps1`.
