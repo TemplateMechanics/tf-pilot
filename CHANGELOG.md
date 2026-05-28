@@ -29,6 +29,12 @@ version bump per the release procedure in `RELEASE.md`.
 - Replaced the `CLAUDE.md` "Working Example" section with a "Working Examples" section listing both `examples/multi-env-stack/` (simple two-env baseline) and `examples/providers/multi-cloud-free-tier/` (multi-cloud YAML composition with the token registry resolver). Documented when to use which. Corrected the multi-env-stack description: it uses a partial-backend pattern (init-time `-backend-config=` files), not a fully-configured remote backend, and contains no `moved {}` block.
 - Cross-linked `docs/PROVIDER-COVERAGE-COMPLETION.md` from `CLAUDE.md` "Before Making Any Edits" — agents touching reflected provider modules, `catalog.settings.json`, or `modules/providers/` should read it for `mode: "all"` semantics, the `misc` family fallback, the bare-form prefix rule, and the per-PR coverage verification template.
 - Promoted `terraform-policy-check` and `module-contract-tests` from advisory to required CI checks (removed `continue-on-error: true`); extended `merge-readiness.needs` to require `validate`, `mcp-sync-check`, `terraform-policy-check`, `module-contract-tests`, and a new `actionlint` job. Updated `docs/BRANCH-WORKFLOW.md` to enumerate the canonical required-check list so branch-protection settings can be configured without guessing. `provider-catalog-drift-report`, `provider-coverage-buildout-report`, `cost-estimate`, and `sbom` remain advisory.
+- `Sync-McpServerEnablement.ps1` now uses a `$null` sentinel for `alwaysEnabled` servers so an empty `providersRequired` list unambiguously means "never auto-enable"; fallback rules use `$null` for `terraform` to preserve always-on behaviour.
+- `Sync-McpServerEnablement.ps1` `-Check` mode now references the effective MCP target file in all output messages and avoids instructing users to commit session-scoped files.
+- `Test-McpConfigSecrets.ps1` `-Files` mode now emits a warning for any input that does not match the MCP config path pattern instead of silently skipping it.
+- `Test-McpConfigSecrets.ps1` string nodes (including items inside args arrays) are now scanned for `NAME=VALUE` patterns so Docker `-e` style secrets are caught.
+- Expanded `docs/MCP-CLOUD-DOC-ROUTING.md` with secret-hygiene gate usage documentation; fixed tab-indented Markdown sub-list so allowed placeholder forms render correctly.
+- Moved MCP catalog schema association out of `yaml.schemas` (wrong language) in `.vscode/settings.json`; catalog JSON relies on its `$schema` field for validation.
 
 ### Added
 - Added v1 stability contract snapshot tests (`tests/Contract.Tests.ps1`, Pester 5) plus a snapshot generator (`scripts/Update-ContractSnapshots.ps1`) and three committed snapshots under `tests/contracts/`:
@@ -45,14 +51,6 @@ version bump per the release procedure in `RELEASE.md`.
 - Added `scripts/Test-McpConfigSecrets.ps1` — scans tracked MCP JSON files for hardcoded secrets; supports `-StagedOnly`, `-Files`, and `-IncludeSessionFiles` modes; detects `NAME=VALUE` patterns in args arrays.
 - Added MCP secret-hygiene gate to `scripts/Pre-Commit.ps1` (runs `Test-McpConfigSecrets.ps1 -StagedOnly` when invoked).
 - Added Pester test coverage for MCP catalog schema, catalog-constraint enforcement, session-config generation, and secret-hygiene scanning (~517 new lines).
-
-### Changed
-- `Sync-McpServerEnablement.ps1` now uses a `$null` sentinel for `alwaysEnabled` servers so an empty `providersRequired` list unambiguously means "never auto-enable"; fallback rules use `$null` for `terraform` to preserve always-on behaviour.
-- `Sync-McpServerEnablement.ps1` `-Check` mode now references the effective MCP target file in all output messages and avoids instructing users to commit session-scoped files.
-- `Test-McpConfigSecrets.ps1` `-Files` mode now emits a warning for any input that does not match the MCP config path pattern instead of silently skipping it.
-- `Test-McpConfigSecrets.ps1` string nodes (including items inside args arrays) are now scanned for `NAME=VALUE` patterns so Docker `-e` style secrets are caught.
-- Expanded `docs/MCP-CLOUD-DOC-ROUTING.md` with secret-hygiene gate usage documentation; fixed tab-indented Markdown sub-list so allowed placeholder forms render correctly.
-- Moved MCP catalog schema association out of `yaml.schemas` (wrong language) in `.vscode/settings.json`; catalog JSON relies on its `$schema` field for validation.
 
 ## [0.3.0] - 2026-05-12
 
