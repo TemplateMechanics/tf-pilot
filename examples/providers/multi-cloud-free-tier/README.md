@@ -31,6 +31,21 @@ export AWS_SECRET_ACCESS_KEY="..."
 export AWS_DEFAULT_REGION="us-east-1"
 ```
 
+> **AWS IAM permissions:** `AdministratorAccess` is sufficient. `PowerUserAccess` alone is **not** — this example creates an IAM role (`aws/identity` module), so the caller also needs IAM role/instance-profile management actions. For a least-privilege automation user on top of `PowerUserAccess`, attach an additional inline policy granting these actions, scoped to `arn:aws:iam::<account-id>:role/tf-pilot-*` and `arn:aws:iam::<account-id>:instance-profile/tf-pilot-*`:
+>
+> ```
+> iam:CreateRole, iam:DeleteRole, iam:GetRole, iam:UpdateRole, iam:UpdateRoleDescription,
+> iam:UpdateAssumeRolePolicy, iam:TagRole, iam:UntagRole, iam:ListRoleTags, iam:PassRole,
+> iam:PutRolePolicy, iam:DeleteRolePolicy, iam:GetRolePolicy, iam:ListRolePolicies,
+> iam:AttachRolePolicy, iam:DetachRolePolicy, iam:ListAttachedRolePolicies,
+> iam:ListInstanceProfilesForRole,
+> iam:CreateInstanceProfile, iam:DeleteInstanceProfile, iam:GetInstanceProfile,
+> iam:AddRoleToInstanceProfile, iam:RemoveRoleFromInstanceProfile,
+> iam:TagInstanceProfile, iam:UntagInstanceProfile
+> ```
+>
+> `iam:ListInstanceProfilesForRole` (closing the first group above) is needed by `terraform destroy` (AWS provider safety check) — omitting it produces an `AccessDenied` only on tear-down, after the apply has already created live resources.
+
 **Azure** - service principal (or managed identity for CI):
 ```sh
 export ARM_CLIENT_ID="..."

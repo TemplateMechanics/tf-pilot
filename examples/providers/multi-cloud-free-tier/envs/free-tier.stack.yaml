@@ -14,7 +14,10 @@ $schema: "../../../../.vscode/schemas/multi-cloud.schema.json"
 #   GCP   - Service account, VPC/subnet/firewall, logging metric, GCS bucket
 #
 # Prerequisites (fill in before deploying):
-#   - AWS credentials:   AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY (or OIDC)
+#   - AWS credentials:   AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY (or OIDC).
+#                        Non-admin IAM users: PowerUserAccess is NOT sufficient.
+#                        See README.md "AWS IAM permissions" for the required iam:* actions
+#                        (the aws/identity module creates an IAM role).
 #   - Azure credentials: ARM_CLIENT_ID + ARM_CLIENT_SECRET + ARM_TENANT_ID + ARM_SUBSCRIPTION_ID
 #   - GCP credentials:   GOOGLE_CREDENTIALS or gcloud auth application-default login
 #                        Set clouds.gcp.project_id to your GCP project ID below.
