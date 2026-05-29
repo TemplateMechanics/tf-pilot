@@ -97,6 +97,18 @@ Describe 'Invoke-TerraformApply.ps1' {
     $content | Should -Not -Match '\$args\s*='
     $content | Should -Match '\$applyArgs\s*=\s*@\('
   }
+
+  # Regression guard for the v1 non-interactive-PS fix. With ConfirmImpact='High'
+  # plus the default $ConfirmPreference='High', ShouldProcess would prompt the
+  # host, which throws "Read and Prompt functionality is not available" in CI,
+  # Claude Code, and scheduled tasks. 'Medium' makes ShouldProcess return $true
+  # silently while leaving -WhatIf and explicit -Confirm functional. The saved
+  # plan file is the explicit consent; a second host-level prompt is redundant.
+  It 'uses ConfirmImpact=Medium so apply works under non-interactive PowerShell' {
+    $content = Get-Content -Path (Join-Path $script:scriptsDir 'Invoke-TerraformApply.ps1') -Raw
+    $content | Should -Match "ConfirmImpact\s*=\s*'Medium'"
+    $content | Should -Not -Match "ConfirmImpact\s*=\s*'High'"
+  }
 }
 
 Describe 'Invoke-TerraformDestroy.ps1' {

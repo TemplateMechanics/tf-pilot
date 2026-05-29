@@ -44,7 +44,7 @@ export AWS_DEFAULT_REGION="us-east-1"
 > iam:TagInstanceProfile, iam:UntagInstanceProfile
 > ```
 >
-> The last one (`iam:ListInstanceProfilesForRole`) is needed by `terraform destroy` (AWS provider safety check) — omitting it produces an `AccessDenied` only on tear-down, after the apply has already created live resources.
+> `iam:ListInstanceProfilesForRole` (closing the first group above) is needed by `terraform destroy` (AWS provider safety check) — omitting it produces an `AccessDenied` only on tear-down, after the apply has already created live resources.
 
 **Azure** - service principal (or managed identity for CI):
 ```sh
