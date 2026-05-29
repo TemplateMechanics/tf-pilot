@@ -25,7 +25,12 @@ Skips cloud CLI/auth readiness checks before apply.
 .PARAMETER StrictCloudReadiness
 Fails apply when any detected cloud is not ready.
 #>
-[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+# ConfirmImpact = 'Medium' so default -ConfirmPreference = 'High' makes ShouldProcess
+# return true silently. The saved plan file is the explicit consent for this apply;
+# adding a host prompt on top makes the wrapper unusable under non-interactive shells
+# (CI, Claude Code, scheduled tasks) where Read/Prompt throws. -WhatIf and explicit
+# -Confirm still work for interactive callers who want a second-stop sanity check.
+[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
 param(
   [Parameter(Mandatory)]
   [string]$PlanFile,
