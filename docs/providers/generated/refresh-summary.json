@@ -1,21 +1,137 @@
-{
-    "provider":  "aws",
-    "workspace":  "C:\\LocalCode\\systechs\\tf-pilot\\examples\\providers\\schema-catalog\\aws",
-    "modules":  [
-                    "compute",
-                    "foundation",
-                    "identity",
-                    "misc",
-                    "network",
-                    "observability",
-                    "storage"
-                ],
-    "resourcePrefixes":  [
-
-                         ],
-    "dataSourcePrefixes":  [
-
-                           ],
-    "lockMode":  "host-only:windows_amd64",
-    "writeMode":  "changed-only"
-}
+[
+  {
+    "provider": "aws",
+    "workspace": "/home/runner/work/tf-pilot/tf-pilot/examples/providers/schema-catalog/aws",
+    "modules": [
+      "compute",
+      "foundation",
+      "identity",
+      "misc",
+      "network",
+      "observability",
+      "storage"
+    ],
+    "resourcePrefixes": [],
+    "dataSourcePrefixes": [],
+    "lockMode": "host-only:linux_amd64",
+    "writeMode": "changed-only"
+  },
+  {
+    "provider": "azuredevops",
+    "workspace": "/home/runner/work/tf-pilot/tf-pilot/examples/providers/schema-catalog/azuredevops",
+    "modules": [
+      "foundation",
+      "misc",
+      "pipeline",
+      "repository"
+    ],
+    "resourcePrefixes": [],
+    "dataSourcePrefixes": [],
+    "lockMode": "host-only:linux_amd64",
+    "writeMode": "changed-only"
+  },
+  {
+    "provider": "azurerm",
+    "workspace": "/home/runner/work/tf-pilot/tf-pilot/examples/providers/schema-catalog/azurerm",
+    "modules": [
+      "compute",
+      "foundation",
+      "identity",
+      "misc",
+      "network",
+      "observability",
+      "storage"
+    ],
+    "resourcePrefixes": [],
+    "dataSourcePrefixes": [],
+    "lockMode": "host-only:linux_amd64",
+    "writeMode": "changed-only"
+  },
+  {
+    "provider": "dynatrace",
+    "workspace": "/home/runner/work/tf-pilot/tf-pilot/examples/providers/schema-catalog/dynatrace",
+    "modules": [
+      "automation",
+      "foundation",
+      "misc",
+      "observability"
+    ],
+    "resourcePrefixes": [],
+    "dataSourcePrefixes": [],
+    "lockMode": "host-only:linux_amd64",
+    "writeMode": "changed-only"
+  },
+  {
+    "provider": "github",
+    "workspace": "/home/runner/work/tf-pilot/tf-pilot/examples/providers/schema-catalog/github",
+    "modules": [
+      "automation",
+      "foundation",
+      "misc",
+      "repository"
+    ],
+    "resourcePrefixes": [],
+    "dataSourcePrefixes": [],
+    "lockMode": "host-only:linux_amd64",
+    "writeMode": "changed-only"
+  },
+  {
+    "provider": "gitlab",
+    "workspace": "/home/runner/work/tf-pilot/tf-pilot/examples/providers/schema-catalog/gitlab",
+    "modules": [
+      "automation",
+      "foundation",
+      "misc",
+      "repository"
+    ],
+    "resourcePrefixes": [],
+    "dataSourcePrefixes": [],
+    "lockMode": "host-only:linux_amd64",
+    "writeMode": "changed-only"
+  },
+  {
+    "provider": "google",
+    "workspace": "/home/runner/work/tf-pilot/tf-pilot/examples/providers/schema-catalog/google",
+    "modules": [
+      "compute",
+      "foundation",
+      "identity",
+      "misc",
+      "network",
+      "observability",
+      "storage"
+    ],
+    "resourcePrefixes": [],
+    "dataSourcePrefixes": [],
+    "lockMode": "host-only:linux_amd64",
+    "writeMode": "changed-only"
+  },
+  {
+    "provider": "helm",
+    "workspace": "/home/runner/work/tf-pilot/tf-pilot/examples/providers/schema-catalog/helm",
+    "modules": [
+      "misc",
+      "release",
+      "repository"
+    ],
+    "resourcePrefixes": [],
+    "dataSourcePrefixes": [],
+    "lockMode": "host-only:linux_amd64",
+    "writeMode": "changed-only"
+  },
+  {
+    "provider": "kubernetes",
+    "workspace": "/home/runner/work/tf-pilot/tf-pilot/examples/providers/schema-catalog/kubernetes",
+    "modules": [
+      "config",
+      "misc",
+      "namespace",
+      "service_account",
+      "workload"
+    ],
+    "resourcePrefixes": [],
+    "dataSourcePrefixes": [],
+    "lockMode": "host-only:linux_amd64",
+    "writeMode": "changed-only"
+  }
+]
