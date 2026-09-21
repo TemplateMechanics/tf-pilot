@@ -1,9 +1,9 @@
 # dynatrace Provider Catalog Summary
 
-Generated: 2026-05-07T02:46:49.0315182Z
+Generated: 2026-09-21T08:53:57.6080995Z
 
 - Provider schema key: registry.terraform.io/dynatrace-oss/dynatrace
-- Modules reflected: foundation, observability, automation, misc
+- Modules reflected: automation, foundation, misc, observability
 - Resource type prefixes: 
 - Data source prefixes: 
 - Resource schemas: 431
