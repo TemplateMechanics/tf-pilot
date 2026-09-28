@@ -1,14 +1,10 @@
 {
-    "provider":  "github",
-    "resourceTypes":  88,
-    "dataSourceTypes":  75,
-    "resourceTypesWithGaps":  0,
-    "dataSourceTypesWithGaps":  0,
-    "totalTypesWithGaps":  0,
-    "resources":  [
-
-                  ],
-    "dataSources":  [
-
-                    ]
+  "provider": "github",
+  "resourceTypes": 88,
+  "dataSourceTypes": 75,
+  "resourceTypesWithGaps": 0,
+  "dataSourceTypesWithGaps": 0,
+  "totalTypesWithGaps": 0,
+  "resources": [],
+  "dataSources": []
 }
