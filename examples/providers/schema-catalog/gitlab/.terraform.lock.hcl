@@ -6,6 +6,7 @@ provider "registry.terraform.io/gitlabhq/gitlab" {
   constraints = "~> 17.0"
   hashes = [
     "h1:8I+mIoBBnrKs/RK6IA8eKugvYrnhpRE3W0rDIP0lc6Q=",
+    "h1:C6L0kmdF3GaKliAsWiHDgITTJvnSTw/925dIHtT3its=",
     "zh:04e483fecac9dc38ef68acbf5e14f0a0d564b7393f7496b4209de05c21135270",
     "zh:11564bb7e2a0100b035a0b155f6601dd77add833fa7ecd058b43041abde829e7",
     "zh:1545df0ae5255691ef260e61acb8f165702eceda1b2fd9206756c3dcb18ecc9d",
